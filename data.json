@@ -1,10 +1,13 @@
 [
- {
-  "barkod":"...",
-  "stokKodu":"...",
-  "urun":"...",
-  "renk":"...",
-  "beden":"...",
-  "stok":0
- }
+  {
+    "barkod": "4070034269274",
+    "stokKodu": "2570000000099",
+    "urun": "PALERMO LEATHER",
+    "renk": "WHITE",
+    "beden": "42",
+    "stok": 6,
+    "kategori": "FTW",
+    "cinsiyet": "UNISEX",
+    "sezon": "2026"
+  }
 ]
