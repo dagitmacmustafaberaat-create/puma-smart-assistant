@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PUMA SMART ASSISTANT</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+
+background:#111;
+color:white;
+
+}
+
+header{
+
+background:#d5001c;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+
+}
+
+.container{
+
+padding:20px;
+
+}
+
+input{
+
+width:100%;
+padding:18px;
+font-size:18px;
+border-radius:12px;
+border:none;
+outline:none;
+margin-bottom:20px;
+
+}
+
+.card{
+
+background:#1d1d1d;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+border-left:6px solid #d5001c;
+
+}
+
+.title{
+
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+
+}
+
+.green{
+
+color:#00d26a;
+font-size:18px;
+font-weight:bold;
+
+}
+
+.red{
+
+color:#ff3b30;
+font-size:18px;
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+🐆 PUMA SMART ASSISTANT
+
+</header>
+
+<div class="container">
+
+<input
+type="text"
+placeholder="Ürün Ara..."
+id="search"
+onkeyup="searchProduct()">
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const products=[
+
+{
+
+urun:"PALERMO LEATHER",
+
+kod:"397845-01",
+
+renk:"WHITE",
+
+beden:"42",
+
+stok:6
+
+},
+
+{
+
+urun:"SPEEDCAT",
+
+kod:"398846-01",
+
+renk:"BLACK",
+
+beden:"41",
+
+stok:3
+
+},
+
+{
+
+urun:"EASY RIDER",
+
+kod:"399921-02",
+
+renk:"BLUE",
+
+beden:"40",
+
+stok:0
+
+}
+
+];
+
+function searchProduct(){
+
+let arama=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+let html="";
+
+products.forEach(function(item){
+
+if(
+
+item.urun.toLowerCase().includes(arama)
+
+||
+
+item.kod.toLowerCase().includes(arama)
+
+){
+
+html+=`
+
+<div class="card">
+
+<div class="title">
+
+${item.urun}
+
+</div>
+
+Kod : ${item.kod}<br><br>
+
+Renk : ${item.renk}<br><br>
+
+Beden : ${item.beden}<br><br>
+
+${
+item.stok>0
+
+?
+
+'<div class="green">STOK : '+item.stok+' ADET</div>'
+
+:
+
+'<div class="red">STOK YOK</div>'
+
+}
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById("result").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>
