@@ -1,23 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PUMA SMART ASSISTANT</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:#111;
+color:white;
+padding:20px;
+}
+
+header{
+background:#d6001c;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+text-align:center;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+input{
+
+width:100%;
+padding:16px;
+font-size:18px;
+border-radius:8px;
+border:none;
+margin-bottom:20px;
+
+}
+
+.card{
+
+background:#1f1f1f;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+border-left:6px solid #d6001c;
+
+}
+
+.card h2{
+
+margin-bottom:10px;
+
+}
+
+.item{
+
+margin:8px 0;
+font-size:18px;
+
+}
+
+.yok{
+
+text-align:center;
+font-size:22px;
+padding:30px;
+background:#222;
+border-radius:12px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+PUMA SMART ASSISTANT
+</header>
+
+
+<input 
+type="text"
+id="arama"
+placeholder="Barkod • Stok Kodu • Ürün Adı"
+onkeyup="ara()"
+/>
+
+
+<div id="sonuc"></div>
+
+
+
+<script>
+
+
+let urunler=[];
+
+
+// GERÇEK STOK DOSYASI
+
+fetch("veri.json")
+
+.then(response=>response.json())
+
+.then(data=>{
+
+urunler=data;
+
+console.log("Stok yüklendi:",urunler.length);
+
+})
+
+.catch(error=>{
+
+console.log("JSON Hatası:",error);
+
+});
+
+
+
+
+function ara(){
+
+
+let kelime=document
+.getElementById("arama")
+.value
+.toLowerCase()
+.trim();
+
+
+
+let alan=document.getElementById("sonuc");
+
+
+
+if(kelime==""){
+
+alan.innerHTML="";
+
+return;
+
+}
+
+
+
 let bulunan=urunler.filter(x=>
 
-String(x["BARKOD"]).toLowerCase().includes(kelime)
+
+String(x["BARKOD"] || "")
+.toLowerCase()
+.includes(kelime)
+
 
 ||
 
-String(x["STOK KODU"]).toLowerCase().includes(kelime)
+String(x["STOK KODU"] || "")
+.toLowerCase()
+.includes(kelime)
+
 
 ||
 
-String(x["URUN"]).toLowerCase().includes(kelime)
+String(x["URUN"] || "")
+.toLowerCase()
+.includes(kelime)
 
-);<h2>${u["URUN"]}</h2>
 
-<div class="item"><b>Barkod :</b> ${u["BARKOD"]}</div>
+);
 
-<div class="item"><b>Stok Kodu :</b> ${u["STOK KODU"]}</div>
 
-<div class="item"><b>Renk :</b> ${u["RENK KODU"]}</div>
 
-<div class="item"><b>Beden :</b> ${u["BEDEN NO"]}</div>
+if(bulunan.length==0){
 
-<div class="item"><b>Stok :</b> ${u["FIILI STOK ADEDI"]}</div>
+
+alan.innerHTML=
+`
+<div class="yok">
+Ürün Bulunamadı
+</div>
+`;
+
+return;
+
+}
+
+
+
+alan.innerHTML="";
+
+
+
+bulunan.forEach(u=>{
+
+
+alan.innerHTML+=
+
+
+`
+
+<div class="card">
+
+
+<h2>
+${u["URUN"]}
+</h2>
+
+
+<div class="item">
+<b>Barkod:</b> ${u["BARKOD"]}
+</div>
+
+
+<div class="item">
+<b>Stok Kodu:</b> ${u["STOK KODU"]}
+</div>
+
+
+<div class="item">
+<b>Renk:</b> ${u["RENK KODU"]}
+</div>
+
+
+<div class="item">
+<b>Beden:</b> ${u["BEDEN NO"]}
+</div>
+
+
+<div class="item">
+<b>Stok:</b> ${u["FIILI STOK ADEDI"]}
+</div>
+
+
+<div class="item">
+<b>Kategori:</b> ${u["CATEGORY"]}
+</div>
+
+
+<div class="item">
+<b>Cinsiyet:</b> ${u["CINSIYET"]}
+</div>
+
+
+<div class="item">
+<b>Sezon:</b> ${u["SEZON"]}
+</div>
+
+
+</div>
+
+`;
+
+});
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
