@@ -1,18 +1,10 @@
 [
-  {
-    "barkod":"4070034269274",
-    "stokKodu":"2570000000099",
-    "urun":"PALERMO LEATHER",
-    "renk":"WHITE",
-    "beden":"42",
-    "stok":6
-  },
-  {
-    "barkod":"4070033283141",
-    "stokKodu":"2570000000075",
-    "urun":"SPEEDCAT",
-    "renk":"BLACK",
-    "beden":"41",
-    "stok":3
-  }
+ {
+  "barkod":"...",
+  "stokKodu":"...",
+  "urun":"...",
+  "renk":"...",
+  "beden":"...",
+  "stok":0
+ }
 ]
