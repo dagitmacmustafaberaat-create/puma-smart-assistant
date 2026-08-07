@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>PUMA SMART ASSISTANT</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -17,74 +14,55 @@ font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-
 background:#111;
 color:white;
-
+padding:20px;
 }
 
 header{
-
-background:#d5001c;
+background:#d6001c;
 padding:20px;
-text-align:center;
 font-size:28px;
 font-weight:bold;
-
-}
-
-.container{
-
-padding:20px;
-
+text-align:center;
+border-radius:10px;
+margin-bottom:20px;
 }
 
 input{
-
 width:100%;
-padding:18px;
+padding:16px;
 font-size:18px;
-border-radius:12px;
+border-radius:8px;
 border:none;
-outline:none;
 margin-bottom:20px;
-
 }
 
 .card{
-
-background:#1d1d1d;
+background:#1f1f1f;
 padding:20px;
 border-radius:12px;
 margin-bottom:15px;
-border-left:6px solid #d5001c;
-
+border-left:6px solid #d6001c;
 }
 
-.title{
-
-font-size:22px;
-font-weight:bold;
+.card h2{
 margin-bottom:10px;
-
+color:#fff;
 }
 
-.green{
-
-color:#00d26a;
+.item{
+margin:8px 0;
 font-size:18px;
-font-weight:bold;
-
 }
 
-.red{
-
-color:#ff3b30;
-font-size:18px;
-font-weight:bold;
-
+.yok{
+text-align:center;
+font-size:22px;
+padding:30px;
+background:#222;
+border-radius:12px;
 }
-
 </style>
 
 </head>
@@ -92,130 +70,85 @@ font-weight:bold;
 <body>
 
 <header>
-
-🐆 PUMA SMART ASSISTANT
-
+PUMA SMART ASSISTANT
 </header>
-
-<div class="container">
 
 <input
 type="text"
-placeholder="Ürün Ara..."
-id="search"
-onkeyup="searchProduct()">
+id="arama"
+placeholder="Barkod • Stok Kodu • Ürün Adı"
+onkeyup="ara()"
+/>
 
-<div id="result"></div>
-
-</div>
+<div id="sonuc"></div>
 
 <script>
 
-const products=[
+let urunler=[];
 
-{
+fetch("data.json")
+.then(x=>x.json())
+.then(veri=>{
+urunler=veri;
+});
 
-urun:"PALERMO LEATHER",
+function ara(){
 
-kod:"397845-01",
-
-renk:"WHITE",
-
-beden:"42",
-
-stok:6
-
-},
-
-{
-
-urun:"SPEEDCAT",
-
-kod:"398846-01",
-
-renk:"BLACK",
-
-beden:"41",
-
-stok:3
-
-},
-
-{
-
-urun:"EASY RIDER",
-
-kod:"399921-02",
-
-renk:"BLUE",
-
-beden:"40",
-
-stok:0
-
-}
-
-];
-
-function searchProduct(){
-
-let arama=document
-.getElementById("search")
+let kelime=document
+.getElementById("arama")
 .value
-.toLowerCase();
+.toLowerCase()
+.trim();
 
-let html="";
+let bulunan=urunler.filter(x=>
 
-products.forEach(function(item){
-
-if(
-
-item.urun.toLowerCase().includes(arama)
+String(x.barkod).toLowerCase().includes(kelime)
 
 ||
 
-item.kod.toLowerCase().includes(arama)
+String(x.stokKodu).toLowerCase().includes(kelime)
 
-){
+||
 
-html+=`
+String(x.urun).toLowerCase().includes(kelime)
+
+);
+
+let alan=document.getElementById("sonuc");
+
+if(bulunan.length==0){
+
+alan.innerHTML='<div class="yok">Ürün Bulunamadı</div>';
+
+return;
+
+}
+
+alan.innerHTML="";
+
+bulunan.forEach(u=>{
+
+alan.innerHTML+=`
 
 <div class="card">
 
-<div class="title">
+<h2>${u.urun}</h2>
 
-${item.urun}
+<div class="item"><b>Barkod :</b> ${u.barkod}</div>
 
-</div>
+<div class="item"><b>Stok Kodu :</b> ${u.stokKodu}</div>
 
-Kod : ${item.kod}<br><br>
+<div class="item"><b>Renk :</b> ${u.renk}</div>
 
-Renk : ${item.renk}<br><br>
+<div class="item"><b>Beden :</b> ${u.beden}</div>
 
-Beden : ${item.beden}<br><br>
-
-${
-item.stok>0
-
-?
-
-'<div class="green">STOK : '+item.stok+' ADET</div>'
-
-:
-
-'<div class="red">STOK YOK</div>'
-
-}
+<div class="item"><b>Stok :</b> ${u.stok}</div>
 
 </div>
 
 `;
 
-}
-
 });
-
-document.getElementById("result").innerHTML=html;
 
 }
 
