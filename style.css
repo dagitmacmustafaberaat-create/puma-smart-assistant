@@ -1,0 +1,212 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #0d0d0d;
+    color: white;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* BAŞLIK */
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+}
+
+.subtitle {
+    text-align: center;
+    color: #999;
+    margin-top: 8px;
+    margin-bottom: 25px;
+}
+
+/* ARAMA */
+
+#searchInput {
+    width: 100%;
+    padding: 17px 20px;
+    border: 2px solid #333;
+    border-radius: 12px;
+    font-size: 17px;
+    outline: none;
+    margin-bottom: 20px;
+    background: #ffffff;
+    color: #111;
+}
+
+#searchInput:focus {
+    border-color: #d5001c;
+}
+
+/* ÜRÜN KARTI */
+
+.product-card {
+    background: #1b1b1b;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    padding: 18px;
+    border-left: 5px solid #d5001c;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+}
+
+/* ÜRÜN ADI */
+
+.product-card .product-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 14px;
+    color: white;
+}
+
+/* BİLGİ SATIRLARI */
+
+.product-card div {
+    margin-top: 7px;
+    line-height: 1.35;
+}
+
+.product-card strong {
+    color: #bdbdbd;
+}
+
+/* STOK */
+
+.stock {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 4px 9px;
+    border-radius: 7px;
+    background: #073d24;
+    color: #00e676;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+/* BEDEN ALANI */
+
+.size-title {
+    margin-top: 18px !important;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* BEDENLER */
+
+.sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px !important;
+}
+
+.size-box {
+    min-width: 58px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    background: #292929;
+    text-align: center;
+    border: 1px solid #444;
+}
+
+.size-box .size {
+    display: block;
+    font-size: 15px;
+    color: #ccc;
+}
+
+.size-box .quantity {
+    display: block;
+    margin-top: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #00e676;
+}
+
+/* AZ STOK */
+
+.low-stock {
+    background: #4a3300;
+    border-color: #806000;
+}
+
+.low-stock .quantity {
+    color: #ffca28;
+}
+
+/* STOK YOK */
+
+.out-of-stock {
+    background: #3a1717;
+    border-color: #672020;
+}
+
+.out-of-stock .quantity {
+    color: #ff5252;
+}
+
+/* ÜRÜN BİLGİLERİ */
+
+.product-info {
+    margin-top: 15px !important;
+    padding-top: 12px;
+    border-top: 1px solid #333;
+    color: #ddd;
+}
+
+/* BULUNAMADI */
+
+.notfound {
+    text-align: center;
+    padding: 40px 20px;
+    background: #1b1b1b;
+    border-radius: 12px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* MOBİL */
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 27px;
+    }
+
+    #searchInput {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .product-card {
+        padding: 15px;
+    }
+
+    .product-card .product-name {
+        font-size: 20px;
+    }
+
+    .size-box {
+        min-width: 55px;
+    }
+}
