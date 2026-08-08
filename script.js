@@ -91,12 +91,18 @@ function searchProducts(text) {
 
         }
 
-        /* Çok fazla sonuç gelirse telefonu yormasın */
+
+        /* Telefonu yormamak için maksimum 300 satır */
+
         if (filtered.length >= 300) {
             break;
         }
     }
 
+
+    /* =========================
+       ÜRÜN BULUNAMADI
+    ========================= */
 
     if (filtered.length === 0) {
 
@@ -113,25 +119,41 @@ function searchProducts(text) {
 
     const grouped = {};
 
+
     filtered.forEach(item => {
 
         const key =
-            String(item.stokKodu || item.urun || item.barkod);
+            String(
+                item.stokKodu ||
+                item.urun ||
+                item.barkod
+            );
+
 
         if (!grouped[key]) {
 
             grouped[key] = {
+
                 urun: item.urun || "-",
+
                 stokKodu: item.stokKodu || "-",
+
                 kategori: item.kategori || "-",
+
                 cinsiyet: item.cinsiyet || "-",
+
                 sezon: item.sezon || "-",
+
                 renk: item.renk || "-",
+
                 barkod: item.barkod || "-",
+
                 sizes: []
+
             };
 
         }
+
 
         grouped[key].sizes.push({
 
@@ -152,39 +174,61 @@ function searchProducts(text) {
 
     let html = "";
 
+
     Object.values(grouped).forEach(product => {
 
-        /* Bedenleri sırala */
+
+        /* =========================
+           BEDENLERİ SIRALA
+        ========================= */
 
         product.sizes.sort((a, b) => {
 
             const aNum = parseFloat(a.beden);
+
             const bNum = parseFloat(b.beden);
 
+
             if (!isNaN(aNum) && !isNaN(bNum)) {
+
                 return aNum - bNum;
+
             }
 
+
             return String(a.beden)
-                .localeCompare(String(b.beden), "tr-TR");
+                .localeCompare(
+                    String(b.beden),
+                    "tr-TR"
+                );
 
         });
 
 
-        /* Beden kutuları */
+        /* =========================
+           BEDEN KUTULARI
+        ========================= */
 
         let sizeHTML = "";
+
 
         product.sizes.forEach(size => {
 
             let stockClass = "";
 
+
             if (size.stok === 0) {
+
                 stockClass = "out-of-stock";
+
             }
+
             else if (size.stok <= 2) {
+
                 stockClass = "low-stock";
+
             }
+
 
             sizeHTML += `
 
@@ -205,7 +249,9 @@ function searchProducts(text) {
         });
 
 
-        /* Ürün kartı */
+        /* =========================
+           ÜRÜN KARTI
+        ========================= */
 
         html += `
 
@@ -301,7 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         clearTimeout(timer);
 
+
         const value = this.value;
+
 
         timer = setTimeout(() => {
 
