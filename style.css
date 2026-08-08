@@ -1,3 +1,4 @@
+```css
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +7,13 @@
 }
 
 body {
-    background: #0d0d0d;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.88)
+        ),
+        url("puma-bg.jpg.jpg") center center / cover fixed;
+
     color: white;
     min-height: 100vh;
 }
@@ -16,55 +23,95 @@ body {
     max-width: 700px;
     margin: auto;
     padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
-/* BAŞLIK */
+/* =========================
+   BAŞLIK
+========================= */
 
 .logo {
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 34px;
+    font-weight: 800;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
     color: white;
+    letter-spacing: 2px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+}
+
+.assistant-title {
+    text-align: center;
+    margin-top: 6px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.red-line {
+    width: 55px;
+    height: 3px;
+    background: #d5001c;
+    margin: 12px auto 10px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(213,0,28,0.5);
 }
 
 .subtitle {
     text-align: center;
-    color: #999;
+    color: #d0d0d0;
     margin-top: 8px;
-    margin-bottom: 25px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
 
-/* ARAMA */
+/* =========================
+   ARAMA
+========================= */
 
 #searchInput {
     width: 100%;
     padding: 17px 20px;
-    border: 2px solid #333;
+    border: 2px solid rgba(255,255,255,0.15);
     border-radius: 12px;
     font-size: 17px;
     outline: none;
     margin-bottom: 20px;
-    background: #ffffff;
+    background: rgba(255,255,255,0.96);
     color: #111;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    transition: all 0.2s ease;
+}
+
+#searchInput::placeholder {
+    color: #777;
 }
 
 #searchInput:focus {
     border-color: #d5001c;
+
+    box-shadow:
+        0 0 0 3px rgba(213,0,28,0.20),
+        0 8px 30px rgba(0,0,0,0.45);
 }
 
-/* ÜRÜN KARTI */
+/* =========================
+   ÜRÜN KARTI
+========================= */
 
 .product-card {
-    background: #1b1b1b;
+    background: rgba(27,27,27,0.95);
     border-radius: 14px;
     margin-bottom: 16px;
     padding: 18px;
     border-left: 5px solid #d5001c;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
 }
-
-/* ÜRÜN ADI */
 
 .product-card .product-name {
     font-size: 22px;
@@ -72,8 +119,6 @@ body {
     margin-bottom: 14px;
     color: white;
 }
-
-/* BİLGİ SATIRLARI */
 
 .product-card div {
     margin-top: 7px;
@@ -84,7 +129,9 @@ body {
     color: #bdbdbd;
 }
 
-/* STOK */
+/* =========================
+   STOK
+========================= */
 
 .stock {
     display: inline-block;
@@ -97,17 +144,17 @@ body {
     font-size: 17px;
 }
 
-/* BEDEN ALANI */
+/* =========================
+   BEDEN
+========================= */
 
 .size-title {
     margin-top: 18px !important;
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: bold;
-    color: #ffffff;
+    color: white;
 }
-
-/* BEDENLER */
 
 .sizes {
     display: flex;
@@ -139,7 +186,9 @@ body {
     color: #00e676;
 }
 
-/* AZ STOK */
+/* =========================
+   AZ STOK
+========================= */
 
 .low-stock {
     background: #4a3300;
@@ -150,7 +199,9 @@ body {
     color: #ffca28;
 }
 
-/* STOK YOK */
+/* =========================
+   STOK YOK
+========================= */
 
 .out-of-stock {
     background: #3a1717;
@@ -161,7 +212,9 @@ body {
     color: #ff5252;
 }
 
-/* ÜRÜN BİLGİLERİ */
+/* =========================
+   ÜRÜN BİLGİLERİ
+========================= */
 
 .product-info {
     margin-top: 15px !important;
@@ -170,18 +223,23 @@ body {
     color: #ddd;
 }
 
-/* BULUNAMADI */
+/* =========================
+   BULUNAMADI
+========================= */
 
 .notfound {
     text-align: center;
     padding: 40px 20px;
-    background: #1b1b1b;
+    background: rgba(27,27,27,0.95);
     border-radius: 12px;
     color: #999;
     font-size: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
 
-/* MOBİL */
+/* =========================
+   MOBİL
+========================= */
 
 @media (max-width: 600px) {
 
@@ -191,6 +249,11 @@ body {
 
     .logo {
         font-size: 27px;
+    }
+
+    .assistant-title {
+        font-size: 16px;
+        letter-spacing: 3px;
     }
 
     #searchInput {
@@ -210,3 +273,4 @@ body {
         min-width: 55px;
     }
 }
+```
