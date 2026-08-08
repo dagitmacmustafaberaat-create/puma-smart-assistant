@@ -1,35 +1,48 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PUMA SMART ASSISTANT</title>
+
+    <title>Buyaka Puma Smart Assistant</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <div class="logo">
-        🐆 PUMA SMART ASSISTANT
+        <div class="logo">
+            BUYAKA PUMA
+        </div>
+
+        <div class="assistant-title">
+            SMART STOCK ASSISTANT
+        </div>
+
+        <div class="red-line"></div>
+
+        <div class="subtitle">
+            Anlık Stok & Ürün Sorgulama
+        </div>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Barkod • Ürün • Stok Kodu"
+            autocomplete="off"
+        >
+
+        <div id="results"></div>
+
     </div>
 
-    <div class="subtitle">
-        Anlık Stok Sorgulama
-    </div>
-
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Barkod • Ürün • Stok Kodu">
-
-    <div id="results"></div>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
+```
