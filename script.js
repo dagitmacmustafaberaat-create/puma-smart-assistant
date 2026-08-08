@@ -1,3 +1,4 @@
+```javascript
 let products = [];
 
 /* =========================
@@ -88,11 +89,10 @@ function searchProducts(text) {
         ) {
 
             filtered.push(item);
-
         }
 
 
-        /* Telefonu yormamak için maksimum 300 satır */
+        /* Maksimum 300 sonuç */
 
         if (filtered.length >= 300) {
             break;
@@ -114,7 +114,7 @@ function searchProducts(text) {
 
 
     /* =========================
-       AYNI ÜRÜNLERİ BİRLEŞTİR
+       ÜRÜNLERİ GRUPLA
     ========================= */
 
     const grouped = {};
@@ -122,12 +122,13 @@ function searchProducts(text) {
 
     filtered.forEach(item => {
 
+        /*
+         * Aynı stok kodundaki farklı bedenleri
+         * aynı ürün kartında gösteriyoruz.
+         */
+
         const key =
-            String(
-                item.stokKodu ||
-                item.urun ||
-                item.barkod
-            );
+            String(item.stokKodu || item.urun || item.barkod);
 
 
         if (!grouped[key]) {
@@ -151,9 +152,14 @@ function searchProducts(text) {
                 sizes: []
 
             };
-
         }
 
+
+        /*
+         * ÖNEMLİ:
+         * Excel'deki stok değeri aynen alınır.
+         * Toplama yapılmaz.
+         */
 
         grouped[key].sizes.push({
 
@@ -185,7 +191,6 @@ function searchProducts(text) {
         product.sizes.sort((a, b) => {
 
             const aNum = parseFloat(a.beden);
-
             const bNum = parseFloat(b.beden);
 
 
@@ -336,7 +341,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Arama kutusu bulunamadı.");
 
         return;
-
     }
 
 
@@ -360,3 +364,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+```
