@@ -1,522 +1,160 @@
-```css
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    color: white;
-    background:
-        linear-gradient(
-            rgba(0, 0, 0, 0.58),
-            rgba(0, 0, 0, 0.82)
-        ),
-        url("puma-bg.jpg.jpg") center center / cover fixed;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.08);
-    pointer-events: none;
-    z-index: -1;
-}
-
-/* ANA KONTEYNER */
-
-body > * {
-    width: 100%;
-    max-width: 850px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.logo {
-    padding-top: 42px;
-    text-align: center;
-    font-size: 34px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    color: #ffffff;
-    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.8);
-}
-
-.assistant-title {
-    margin-top: 7px;
-    text-align: center;
-    font-size: 25px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #ffffff;
-}
-
-.red-line {
-    width: 85px;
-    height: 4px;
-    margin: 14px auto 12px;
-    background: #d5001c;
-    border-radius: 10px;
-    box-shadow: 0 0 12px rgba(213, 0, 28, 0.55);
-}
-
-.subtitle {
-    text-align: center;
-    color: #d8d8d8;
-    font-size: 14px;
-    margin-bottom: 34px;
-}
-
-/* ANA MENÜ */
-
-.main-menu {
-    width: calc(100% - 30px);
-    max-width: 720px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.menu-button {
-    width: 100%;
-    min-height: 118px;
-
-    display: flex;
-    align-items: center;
-
-    padding: 20px 24px;
-
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 18px;
-
-    background: rgba(12, 12, 12, 0.88);
-    color: white;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
 
-    transition: 0.2s ease;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-.menu-button:hover {
-    transform: translateY(-3px);
-    border-color: #d5001c;
-    background: rgba(22, 22, 22, 0.96);
-    box-shadow:
-        0 15px 38px rgba(0, 0, 0, 0.55),
-        0 0 18px rgba(213, 0, 28, 0.12);
-}
+    <title>Buyaka Puma Smart Stock Assistant</title>
 
-.menu-button:active {
-    transform: translateY(0);
-}
+    <link rel="stylesheet" href="style.css">
+</head>
 
-.menu-icon {
-    width: 58px;
-    height: 58px;
+<body>
 
-    flex-shrink: 0;
+    <!-- BAŞLIK -->
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    <div class="logo">
+        BUYAKA PUMA
+    </div>
 
-    margin-right: 18px;
+    <div class="assistant-title">
+        SMART STOCK ASSISTANT
+    </div>
 
-    border-radius: 14px;
+    <div class="red-line"></div>
 
-    background: rgba(213, 0, 28, 0.14);
-    border: 1px solid rgba(213, 0, 28, 0.35);
+    <div class="subtitle">
+        Anlık Stok & Ürün Sorgulama
+    </div>
 
-    font-size: 30px;
-}
 
-.menu-text {
-    flex: 1;
-    text-align: left;
-}
+    <!-- ANA MENÜ -->
 
-.menu-text strong {
-    display: block;
-    font-size: 18px;
-    letter-spacing: 0.5px;
-    margin-bottom: 7px;
-}
+    <div id="mainMenu" class="main-menu">
 
-.menu-text small {
-    display: block;
-    color: #aaa;
-    font-size: 13px;
-    line-height: 1.45;
-}
+        <button
+            class="menu-button"
+            onclick="showProductSearch()"
+        >
 
-.menu-arrow {
-    margin-left: 15px;
-    font-size: 36px;
-    font-weight: 300;
-    color: #d5001c;
-}
+            <span class="menu-icon">⌕</span>
 
-/* ARAMA ALANLARI */
+            <span class="menu-text">
+                <strong>ÜRÜN SORGULAMA</strong>
 
-.search-area {
-    width: calc(100% - 30px);
-    max-width: 720px;
-    margin: 0 auto 30px;
-}
+                <small>
+                    Ürün, barkod veya stok kodu ile arama yapın.
+                </small>
+            </span>
 
-.back-button {
-    display: inline-block;
+            <span class="menu-arrow">›</span>
 
-    margin-bottom: 18px;
+        </button>
 
-    padding: 10px 16px;
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 9px;
+        <button
+            class="menu-button"
+            onclick="showSizeSearch()"
+        >
 
-    background: rgba(10, 10, 10, 0.85);
-    color: white;
+            <span class="menu-icon">👟</span>
 
-    cursor: pointer;
+            <span class="menu-text">
+                <strong>BEDEN BAZLI SORGULAMA</strong>
 
-    font-size: 13px;
-    font-weight: bold;
+                <small>
+                    Beden seçerek stokta bulunan ürünleri görüntüleyin.
+                </small>
+            </span>
 
-    transition: 0.2s ease;
-}
+            <span class="menu-arrow">›</span>
 
-.back-button:hover {
-    background: #d5001c;
-    border-color: #d5001c;
-}
+        </button>
 
-/* ÜRÜN ARAMA */
+    </div>
 
-#searchInput {
-    width: 100%;
 
-    padding: 18px 20px;
+    <!-- ÜRÜN SORGULAMA -->
 
-    border: 2px solid rgba(255, 255, 255, 0.12);
-    border-radius: 13px;
+    <div
+        id="productSearchArea"
+        class="search-area"
+        style="display:none;"
+    >
 
-    outline: none;
+        <button
+            class="back-button"
+            onclick="showMainMenu()"
+        >
+            ‹ ANA MENÜ
+        </button>
 
-    background: rgba(255, 255, 255, 0.96);
-    color: #111;
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Barkod • Ürün • Stok Kodu"
+            autocomplete="off"
+        >
 
-    font-size: 17px;
+        <div id="results"></div>
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    </div>
 
-    transition: 0.2s ease;
-}
 
-#searchInput:focus {
-    border-color: #d5001c;
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 12px rgba(213, 0, 28, 0.2);
-}
+    <!-- BEDEN BAZLI SORGULAMA -->
 
-#results {
-    margin-top: 20px;
-}
+    <div
+        id="sizeSearchArea"
+        class="search-area"
+        style="display:none;"
+    >
 
-/* BEDEN SORGULAMA */
+        <button
+            class="back-button"
+            onclick="showMainMenu()"
+        >
+            ‹ ANA MENÜ
+        </button>
 
-.size-search-title {
-    font-size: 22px;
-    font-weight: 800;
+        <div class="size-search-title">
+            BEDEN BAZLI SORGULAMA
+        </div>
 
-    margin-bottom: 6px;
+        <div class="size-filter-info">
+            Stokta bulunan bir bedeni seçin
+        </div>
 
-    color: white;
-}
+        <select
+            id="sizeFilter"
+            class="size-filter"
+            onchange="searchBySize(this.value)"
+        >
 
-.size-filter-info {
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 14px;
-}
+            <option value="">
+                Beden seçiniz
+            </option>
 
-.size-filter,
-#sizeFilter {
-    width: 100%;
-    height: 58px;
+        </select>
 
-    padding: 0 18px;
+        <div
+            id="selectedSizeLabel"
+            class="selected-size-label"
+        ></div>
 
-    border: 2px solid rgba(213, 0, 28, 0.45);
-    border-radius: 12px;
+        <div id="sizeResults"></div>
 
-    background: rgba(15, 15, 15, 0.96);
-    color: white;
+    </div>
 
-    outline: none;
 
-    font-size: 17px;
-    font-weight: bold;
+    <!-- JAVASCRIPT -->
 
-    cursor: pointer;
+    <script src="script.js"></script>
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-
-.size-filter:focus,
-#sizeFilter:focus {
-    border-color: #d5001c;
-}
-
-.size-filter option,
-#sizeFilter option {
-    background: #202020;
-    color: white;
-}
-
-/* SEÇİLEN BEDEN */
-
-.selected-size-label {
-    min-height: 20px;
-
-    margin: 14px 0;
-
-    padding: 12px 15px;
-
-    border-radius: 10px;
-
-    background: rgba(213, 0, 28, 0.12);
-    border: 1px solid rgba(213, 0, 28, 0.35);
-
-    color: #eee;
-
-    text-align: center;
-    font-size: 14px;
-}
-
-/* ÜRÜN KARTLARI */
-
-.product-card {
-    margin-bottom: 16px;
-    padding: 20px;
-
-    background: rgba(20, 20, 20, 0.94);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-left: 5px solid #d5001c;
-
-    border-radius: 14px;
-
-    color: white;
-
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
-}
-
-.product-name {
-    font-size: 20px;
-    font-weight: 800;
-
-    margin-bottom: 12px;
-
-    color: white;
-}
-
-.product-card strong {
-    color: #cfcfcf;
-}
-
-.product-card > div {
-    margin-top: 7px;
-}
-
-/* ÜRÜN GÖRSELİ */
-
-.product-image {
-    width: 150px;
-    height: 150px;
-
-    margin: 0 auto 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-
-    background: white;
-
-    border-radius: 12px;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    display: block;
-}
-
-/* BEDENLER */
-
-.size-title {
-    margin-top: 18px !important;
-    margin-bottom: 8px;
-
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.sizes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    margin-top: 10px !important;
-}
-
-.size-box {
-    min-width: 60px;
-
-    padding: 9px 8px;
-
-    text-align: center;
-
-    border-radius: 8px;
-
-    background: #292929;
-    border: 1px solid #444;
-}
-
-.size-box .size {
-    display: block;
-
-    color: #ccc;
-
-    font-size: 14px;
-}
-
-.size-box .quantity {
-    display: block;
-
-    margin-top: 3px;
-
-    color: #00e676;
-
-    font-size: 17px;
-    font-weight: 800;
-}
-
-.low-stock {
-    background: #403000;
-    border-color: #735800;
-}
-
-.low-stock .quantity {
-    color: #ffca28;
-}
-
-.out-of-stock {
-    background: #381818;
-    border-color: #642222;
-}
-
-.out-of-stock .quantity {
-    color: #ff5252;
-}
-
-/* BULUNAMADI */
-
-.notfound {
-    padding: 35px 20px;
-
-    margin-top: 20px;
-
-    text-align: center;
-
-    border-radius: 12px;
-
-    background: rgba(20, 20, 20, 0.92);
-
-    color: #aaa;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-
-/* MOBİL */
-
-@media (max-width: 600px) {
-
-    .logo {
-        padding-top: 30px;
-        font-size: 27px;
-        letter-spacing: 3px;
-    }
-
-    .assistant-title {
-        font-size: 21px;
-    }
-
-    .subtitle {
-        font-size: 13px;
-        margin-bottom: 25px;
-    }
-
-    .main-menu,
-    .search-area {
-        width: calc(100% - 24px);
-    }
-
-    .menu-button {
-        min-height: 105px;
-        padding: 17px;
-    }
-
-    .menu-icon {
-        width: 50px;
-        height: 50px;
-        margin-right: 13px;
-        font-size: 25px;
-    }
-
-    .menu-text strong {
-        font-size: 16px;
-    }
-
-    .menu-text small {
-        font-size: 12px;
-    }
-
-    .menu-arrow {
-        font-size: 30px;
-    }
-
-    #searchInput {
-        font-size: 16px;
-        padding: 16px;
-    }
-
-    .product-card {
-        padding: 16px;
-    }
-
-    .product-image {
-        width: 135px;
-        height: 135px;
-    }
-
-    .size-filter,
-    #sizeFilter {
-        height: 55px;
-        font-size: 16px;
-    }
-}
+</body>
+</html>
 ```
