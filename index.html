@@ -1,538 +1,522 @@
-<!DOCTYPE html>
-<html lang="tr">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Buyaka Puma Smart Stock Assistant</title>
-
-    <link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <!-- BAŞLIK -->
-
-    <div class="logo">
-        BUYAKA PUMA
-    </div>
-
-    <div class="assistant-title">
-        SMART STOCK ASSISTANT
-    </div>
-
-    <div class="red-line"></div>
-
-    <div class="subtitle">
-        Anlık Stok & Ürün Sorgulama
-    </div>
-
-
-    <!-- ANA MENÜ -->
-
-    <div id="mainMenu" class="main-menu">
-
-        <button
-            class="menu-button"
-            onclick="showProductSearch()"
-        >
-
-            <span class="menu-icon">⌕</span>
-
-            <span class="menu-text">
-
-                <strong>ÜRÜN SORGULAMA</strong>
-
-                <small>
-                    Ürün, barkod veya stok kodu ile arama yapın.
-                </small>
-
-            </span>
-
-            <span class="menu-arrow">›</span>
-
-        </button>
-
-
-        <button
-            class="menu-button"
-            onclick="showSizeSearch()"
-        >
-
-            <span class="menu-icon">👟</span>
-
-            <span class="menu-text">
-
-                <strong>BEDEN BAZLI SORGULAMA</strong>
-
-                <small>
-                    Beden seçerek stokta bulunan ürünleri görüntüleyin.
-                </small>
-
-            </span>
-
-            <span class="menu-arrow">›</span>
-
-        </button>
-
-    </div>
-
-
-    <!-- ÜRÜN SORGULAMA -->
-
-    <div
-        id="productSearchArea"
-        class="search-area"
-        style="display:none;"
-    >
-
-        <button
-            class="back-button"
-            onclick="showMainMenu()"
-        >
-            ‹ ANA MENÜ
-        </button>
-
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Barkod • Ürün • Stok Kodu"
-            autocomplete="off"
-        >
-
-        <div id="results"></div>
-
-    </div>
-
-
-    <!-- BEDEN BAZLI SORGULAMA -->
-
-    <div
-        id="sizeSearchArea"
-        class="search-area"
-        style="display:none;"
-    >
-
-        <button
-            class="back-button"
-            onclick="showMainMenu()"
-        >
-            ‹ ANA MENÜ
-        </button>
-
-
-        <div class="size-search-title">
-            BEDEN BAZLI SORGULAMA
-        </div>
-
-
-        <div class="size-filter-info">
-            Stokta bulunan bir bedeni seçin
-        </div>
-
-
-        <!-- BEDEN FİLTRESİ -->
-
-        <select
-            id="sizeFilter"
-            class="size-filter"
-            onchange="searchBySize(this.value)"
-        >
-
-            <option value="">
-                Beden seçiniz
-            </option>
-
-        </select>
-
-
-        <!-- SEÇİLEN BEDEN -->
-
-        <div
-            id="selectedSizeLabel"
-            class="selected-size-label"
-        ></div>
-
-
-        <!-- BEDEN SONUÇLARI -->
-
-        <div id="sizeResults"></div>
-
-    </div>
-
-</div>
-
-
-<script src="script.js"></script>
-
-
-<script>
-
-/* =========================
-   ANA MENÜ
-========================= */
-
-function showMainMenu() {
-
-    document.getElementById("mainMenu").style.display = "block";
-
-    document.getElementById("productSearchArea").style.display = "none";
-
-    document.getElementById("sizeSearchArea").style.display = "none";
-
-
-    const results =
-        document.getElementById("sizeResults");
-
-    if (results) {
-        results.innerHTML = "";
-    }
-
-
-    const label =
-        document.getElementById("selectedSizeLabel");
-
-    if (label) {
-        label.innerHTML = "";
-    }
-
-
-    const filter =
-        document.getElementById("sizeFilter");
-
-    if (filter) {
-        filter.value = "";
-    }
-
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* =========================
-   ÜRÜN SORGULAMA
-========================= */
-
-function showProductSearch() {
-
-    document.getElementById("mainMenu").style.display = "none";
-
-    document.getElementById("productSearchArea").style.display = "block";
-
-    document.getElementById("sizeSearchArea").style.display = "none";
-
-
-    setTimeout(() => {
-
-        const input =
-            document.getElementById("searchInput");
-
-        if (input) {
-            input.focus();
-        }
-
-    }, 100);
-
+body {
+    min-height: 100vh;
+    color: white;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.58),
+            rgba(0, 0, 0, 0.82)
+        ),
+        url("puma-bg.jpg.jpg") center center / cover fixed;
 }
 
-
-/* =========================
-   BEDEN SORGULAMA
-========================= */
-
-function showSizeSearch() {
-
-    document.getElementById("mainMenu").style.display = "none";
-
-    document.getElementById("productSearchArea").style.display = "none";
-
-    document.getElementById("sizeSearchArea").style.display = "block";
-
-    createSizeFilter();
-
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+    z-index: -1;
 }
 
+/* ANA KONTEYNER */
 
-/* =========================
-   BEDEN FİLTRESİNİ OLUŞTUR
-========================= */
-
-function createSizeFilter() {
-
-    const filter =
-        document.getElementById("sizeFilter");
-
-    if (!filter) return;
-
-
-    filter.innerHTML = `
-        <option value="">
-            Beden seçiniz
-        </option>
-    `;
-
-
-    if (
-        typeof products === "undefined" ||
-        !Array.isArray(products) ||
-        products.length === 0
-    ) {
-
-        setTimeout(() => {
-            createSizeFilter();
-        }, 500);
-
-        return;
-    }
-
-
-    const sizes = new Set();
-
-
-    products.forEach(item => {
-
-        const size =
-            String(item.beden || "").trim();
-
-        const stock =
-            Number(item.stok) || 0;
-
-
-        /*
-           SADECE STOKTA OLAN
-           BEDENLER
-        */
-
-        if (
-            size &&
-            stock > 0
-        ) {
-
-            sizes.add(size);
-
-        }
-
-    });
-
-
-    const sortedSizes =
-        Array.from(sizes).sort((a, b) => {
-
-            const aNum = parseFloat(a);
-
-            const bNum = parseFloat(b);
-
-
-            if (
-                !isNaN(aNum) &&
-                !isNaN(bNum)
-            ) {
-
-                return aNum - bNum;
-
-            }
-
-
-            return a.localeCompare(
-                b,
-                "tr-TR"
-            );
-
-        });
-
-
-    sortedSizes.forEach(size => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = size;
-
-        option.textContent =
-            `${size} BEDEN`;
-
-        filter.appendChild(option);
-
-    });
-
+body > * {
+    width: 100%;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-
-/* =========================
-   BEDENE GÖRE SORGULA
-========================= */
-
-function searchBySize(size) {
-
-    const results =
-        document.getElementById("sizeResults");
-
-    const label =
-        document.getElementById("selectedSizeLabel");
-
-
-    if (!results) return;
-
-
-    if (!size) {
-
-        results.innerHTML = "";
-
-        if (label) {
-            label.innerHTML = "";
-        }
-
-        return;
-
-    }
-
-
-    const selectedSize =
-        String(size)
-            .trim()
-            .toLocaleLowerCase("tr-TR");
-
-
-    if (label) {
-
-        label.innerHTML = `
-            SEÇİLEN BEDEN:
-            <strong>${size}</strong>
-        `;
-
-    }
-
-
-    /*
-       BEDEN AYNI
-       VE
-       STOK 0'DAN BÜYÜK
-    */
-
-    const filtered =
-        products.filter(item => {
-
-            const itemSize =
-                String(item.beden || "")
-                    .trim()
-                    .toLocaleLowerCase("tr-TR");
-
-            const stock =
-                Number(item.stok) || 0;
-
-
-            return (
-                itemSize === selectedSize &&
-                stock > 0
-            );
-
-        });
-
-
-    if (filtered.length === 0) {
-
-        results.innerHTML = `
-            <div class="notfound">
-                ❌ ${size} bedeninde stokta ürün bulunamadı.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    let html = "";
-
-
-    filtered.forEach(item => {
-
-        html += `
-
-            <div class="product-card">
-
-                <div class="product-name">
-                    ${item.urun || "-"}
-                </div>
-
-
-                <div>
-                    <strong>Stok Kodu:</strong>
-                    ${item.stokKodu || "-"}
-                </div>
-
-
-                <div>
-                    <strong>Barkod:</strong>
-                    ${item.barkod || "-"}
-                </div>
-
-
-                <div>
-                    <strong>Renk:</strong>
-                    ${item.renk || "-"}
-                </div>
-
-
-                <div>
-                    <strong>Kategori:</strong>
-                    ${item.kategori || "-"}
-                </div>
-
-
-                <div>
-                    <strong>Cinsiyet:</strong>
-                    ${item.cinsiyet || "-"}
-                </div>
-
-
-                <div>
-                    <strong>Sezon:</strong>
-                    ${item.sezon || "-"}
-                </div>
-
-
-                <div class="size-title">
-                    BEDEN / STOK
-                </div>
-
-
-                <div class="sizes">
-
-                    <div class="size-box">
-
-                        <span class="size">
-                            ${item.beden || "-"}
-                        </span>
-
-                        <span class="quantity">
-                            ${Number(item.stok) || 0}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
-
-
-    results.innerHTML = html;
-
+.logo {
+    padding-top: 42px;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.8);
 }
 
-</script>
+.assistant-title {
+    margin-top: 7px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
 
-</body>
+.red-line {
+    width: 85px;
+    height: 4px;
+    margin: 14px auto 12px;
+    background: #d5001c;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(213, 0, 28, 0.55);
+}
 
-</html>
+.subtitle {
+    text-align: center;
+    color: #d8d8d8;
+    font-size: 14px;
+    margin-bottom: 34px;
+}
+
+/* ANA MENÜ */
+
+.main-menu {
+    width: calc(100% - 30px);
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.menu-button {
+    width: 100%;
+    min-height: 118px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 20px 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+
+    background: rgba(12, 12, 12, 0.88);
+    color: white;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    transition: 0.2s ease;
+}
+
+.menu-button:hover {
+    transform: translateY(-3px);
+    border-color: #d5001c;
+    background: rgba(22, 22, 22, 0.96);
+    box-shadow:
+        0 15px 38px rgba(0, 0, 0, 0.55),
+        0 0 18px rgba(213, 0, 28, 0.12);
+}
+
+.menu-button:active {
+    transform: translateY(0);
+}
+
+.menu-icon {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 18px;
+
+    border-radius: 14px;
+
+    background: rgba(213, 0, 28, 0.14);
+    border: 1px solid rgba(213, 0, 28, 0.35);
+
+    font-size: 30px;
+}
+
+.menu-text {
+    flex: 1;
+    text-align: left;
+}
+
+.menu-text strong {
+    display: block;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    margin-bottom: 7px;
+}
+
+.menu-text small {
+    display: block;
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.menu-arrow {
+    margin-left: 15px;
+    font-size: 36px;
+    font-weight: 300;
+    color: #d5001c;
+}
+
+/* ARAMA ALANLARI */
+
+.search-area {
+    width: calc(100% - 30px);
+    max-width: 720px;
+    margin: 0 auto 30px;
+}
+
+.back-button {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    padding: 10px 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9px;
+
+    background: rgba(10, 10, 10, 0.85);
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    background: #d5001c;
+    border-color: #d5001c;
+}
+
+/* ÜRÜN ARAMA */
+
+#searchInput {
+    width: 100%;
+
+    padding: 18px 20px;
+
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 13px;
+
+    outline: none;
+
+    background: rgba(255, 255, 255, 0.96);
+    color: #111;
+
+    font-size: 17px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+    transition: 0.2s ease;
+}
+
+#searchInput:focus {
+    border-color: #d5001c;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 12px rgba(213, 0, 28, 0.2);
+}
+
+#results {
+    margin-top: 20px;
+}
+
+/* BEDEN SORGULAMA */
+
+.size-search-title {
+    font-size: 22px;
+    font-weight: 800;
+
+    margin-bottom: 6px;
+
+    color: white;
+}
+
+.size-filter-info {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.size-filter,
+#sizeFilter {
+    width: 100%;
+    height: 58px;
+
+    padding: 0 18px;
+
+    border: 2px solid rgba(213, 0, 28, 0.45);
+    border-radius: 12px;
+
+    background: rgba(15, 15, 15, 0.96);
+    color: white;
+
+    outline: none;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.size-filter:focus,
+#sizeFilter:focus {
+    border-color: #d5001c;
+}
+
+.size-filter option,
+#sizeFilter option {
+    background: #202020;
+    color: white;
+}
+
+/* SEÇİLEN BEDEN */
+
+.selected-size-label {
+    min-height: 20px;
+
+    margin: 14px 0;
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    background: rgba(213, 0, 28, 0.12);
+    border: 1px solid rgba(213, 0, 28, 0.35);
+
+    color: #eee;
+
+    text-align: center;
+    font-size: 14px;
+}
+
+/* ÜRÜN KARTLARI */
+
+.product-card {
+    margin-bottom: 16px;
+    padding: 20px;
+
+    background: rgba(20, 20, 20, 0.94);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 5px solid #d5001c;
+
+    border-radius: 14px;
+
+    color: white;
+
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+.product-name {
+    font-size: 20px;
+    font-weight: 800;
+
+    margin-bottom: 12px;
+
+    color: white;
+}
+
+.product-card strong {
+    color: #cfcfcf;
+}
+
+.product-card > div {
+    margin-top: 7px;
+}
+
+/* ÜRÜN GÖRSELİ */
+
+.product-image {
+    width: 150px;
+    height: 150px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: white;
+
+    border-radius: 12px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+/* BEDENLER */
+
+.size-title {
+    margin-top: 18px !important;
+    margin-bottom: 8px;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 10px !important;
+}
+
+.size-box {
+    min-width: 60px;
+
+    padding: 9px 8px;
+
+    text-align: center;
+
+    border-radius: 8px;
+
+    background: #292929;
+    border: 1px solid #444;
+}
+
+.size-box .size {
+    display: block;
+
+    color: #ccc;
+
+    font-size: 14px;
+}
+
+.size-box .quantity {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #00e676;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.low-stock {
+    background: #403000;
+    border-color: #735800;
+}
+
+.low-stock .quantity {
+    color: #ffca28;
+}
+
+.out-of-stock {
+    background: #381818;
+    border-color: #642222;
+}
+
+.out-of-stock .quantity {
+    color: #ff5252;
+}
+
+/* BULUNAMADI */
+
+.notfound {
+    padding: 35px 20px;
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    background: rgba(20, 20, 20, 0.92);
+
+    color: #aaa;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* MOBİL */
+
+@media (max-width: 600px) {
+
+    .logo {
+        padding-top: 30px;
+        font-size: 27px;
+        letter-spacing: 3px;
+    }
+
+    .assistant-title {
+        font-size: 21px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+
+    .main-menu,
+    .search-area {
+        width: calc(100% - 24px);
+    }
+
+    .menu-button {
+        min-height: 105px;
+        padding: 17px;
+    }
+
+    .menu-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 13px;
+        font-size: 25px;
+    }
+
+    .menu-text strong {
+        font-size: 16px;
+    }
+
+    .menu-text small {
+        font-size: 12px;
+    }
+
+    .menu-arrow {
+        font-size: 30px;
+    }
+
+    #searchInput {
+        font-size: 16px;
+        padding: 16px;
+    }
+
+    .product-card {
+        padding: 16px;
+    }
+
+    .product-image {
+        width: 135px;
+        height: 135px;
+    }
+
+    .size-filter,
+    #sizeFilter {
+        height: 55px;
+        font-size: 16px;
+    }
+}
+```
