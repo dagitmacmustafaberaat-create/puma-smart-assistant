@@ -5,9 +5,7 @@ let products = [];
 // ======================================================
 
 async function loadProducts() {
-
     try {
-
         const response = await fetch("./data.json");
 
         if (!response.ok) {
@@ -18,10 +16,7 @@ async function loadProducts() {
 
         console.log("Toplam ürün:", products.length);
 
-        populateSizeFilter();
-
     } catch (error) {
-
         console.error("VERİ HATASI:", error);
 
         const results = document.getElementById("results");
@@ -46,9 +41,6 @@ function getImageUrl(value) {
 
     let url = String(value).trim();
 
-    // Markdown formatı:
-    // [https://site.com/resim.png](https://site.com/resim.png)
-
     const markdownMatch = url.match(
         /\]\((https?:\/\/[^)]+)\)/
     );
@@ -56,8 +48,6 @@ function getImageUrl(value) {
     if (markdownMatch) {
         url = markdownMatch[1];
     }
-
-    // Eğer hâlâ [ ] varsa temizle
 
     if (
         url.startsWith("[") &&
@@ -71,21 +61,16 @@ function getImageUrl(value) {
 
 
 // ======================================================
-// ÜRÜNÜN GÖRSELİNİ BUL
+// ÜRÜN GÖRSELİNİ BUL
 // ======================================================
 
 function findProductImage(item) {
-
-    // 1. Önce mevcut satır
 
     let image = getImageUrl(item.gorsel);
 
     if (image) {
         return image;
     }
-
-
-    // 2. Aynı stok kodundaki başka beden
 
     const stokKodu =
         String(item.stokKodu || "").trim();
@@ -113,9 +98,6 @@ function findProductImage(item) {
         }
     }
 
-
-    // 3. Aynı ürün adına bak
-
     const urun =
         String(item.urun || "").trim();
 
@@ -142,7 +124,6 @@ function findProductImage(item) {
         }
     }
 
-
     return "";
 }
 
@@ -153,136 +134,103 @@ function findProductImage(item) {
 
 function showMainMenu() {
 
-    document.getElementById(
-        "mainMenu"
-    ).style.display = "block";
+    const mainMenu =
+        document.getElementById("mainMenu");
 
-    document.getElementById(
-        "productSearchArea"
-    ).style.display = "none";
+    const productSearchArea =
+        document.getElementById("productSearchArea");
 
-    document.getElementById(
-        "sizeSearchArea"
-    ).style.display = "none";
+    const sizeSearchArea =
+        document.getElementById("sizeSearchArea");
+
+    if (mainMenu) {
+        mainMenu.style.display = "block";
+    }
+
+    if (productSearchArea) {
+        productSearchArea.style.display = "none";
+    }
+
+    if (sizeSearchArea) {
+        sizeSearchArea.style.display = "none";
+    }
 }
 
 
 // ======================================================
-// ÜRÜN SORGULAMA EKRANI
+// ÜRÜN SORGULAMA
 // ======================================================
 
 function showProductSearch() {
 
-    document.getElementById(
-        "mainMenu"
-    ).style.display = "none";
+    const mainMenu =
+        document.getElementById("mainMenu");
 
-    document.getElementById(
-        "productSearchArea"
-    ).style.display = "block";
+    const productSearchArea =
+        document.getElementById("productSearchArea");
 
-    document.getElementById(
-        "sizeSearchArea"
-    ).style.display = "none";
+    const sizeSearchArea =
+        document.getElementById("sizeSearchArea");
+
+    if (mainMenu) {
+        mainMenu.style.display = "none";
+    }
+
+    if (productSearchArea) {
+        productSearchArea.style.display = "block";
+    }
+
+    if (sizeSearchArea) {
+        sizeSearchArea.style.display = "none";
+    }
+
+    const input =
+        document.getElementById("searchInput");
+
+    if (input) {
+        setTimeout(function () {
+            input.focus();
+        }, 100);
+    }
 }
 
 
 // ======================================================
-// BEDEN SORGULAMA EKRANI
+// BEDEN BUTONU
+// ŞİMDİLİK DEVRE DIŞI
 // ======================================================
 
 function showSizeSearch() {
 
-    document.getElementById(
-        "mainMenu"
-    ).style.display = "none";
+    const mainMenu =
+        document.getElementById("mainMenu");
 
-    document.getElementById(
-        "productSearchArea"
-    ).style.display = "none";
+    const productSearchArea =
+        document.getElementById("productSearchArea");
 
-    document.getElementById(
-        "sizeSearchArea"
-    ).style.display = "block";
+    const sizeSearchArea =
+        document.getElementById("sizeSearchArea");
 
-    populateSizeFilter();
+    if (mainMenu) {
+        mainMenu.style.display = "none";
+    }
+
+    if (productSearchArea) {
+        productSearchArea.style.display = "none";
+    }
+
+    if (sizeSearchArea) {
+        sizeSearchArea.style.display = "block";
+    }
 }
 
 
 // ======================================================
-// BEDEN LİSTESİNİ OLUŞTUR
+// BEDEN ARAMASI
 // ======================================================
 
-function populateSizeFilter() {
-
-    const sizeFilter =
-        document.getElementById("sizeFilter");
-
-    if (
-        !sizeFilter ||
-        products.length === 0
-    ) {
-        return;
-    }
-
-
-    const sizes = [];
-
-
-    products.forEach(item => {
-
-        const size =
-            String(item.beden || "").trim();
-
-        const stock =
-            Number(item.stok) || 0;
-
-
-        if (
-            size &&
-            stock > 0 &&
-            !sizes.includes(size)
-        ) {
-
-            sizes.push(size);
-        }
-
-    });
-
-
-    sizes.sort((a, b) => {
-
-        const aNum = parseFloat(a);
-        const bNum = parseFloat(b);
-
-        if (
-            !isNaN(aNum) &&
-            !isNaN(bNum)
-        ) {
-            return aNum - bNum;
-        }
-
-        return String(a).localeCompare(
-            String(b),
-            "tr-TR"
-        );
-    });
-
-
-    sizeFilter.innerHTML =
-        '<option value="">Beden seçiniz</option>';
-
-
-    sizes.forEach(size => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = size;
-        option.textContent = size;
-
-        sizeFilter.appendChild(option);
-    });
+function searchBySize(selectedSize) {
+    console.log("Beden araması devre dışı:", selectedSize);
 }
 
 
@@ -299,11 +247,9 @@ function searchProducts(text) {
         return;
     }
 
-
     text = String(text || "")
         .trim()
         .toLocaleLowerCase("tr-TR");
-
 
     if (!text) {
 
@@ -312,9 +258,8 @@ function searchProducts(text) {
         return;
     }
 
-
     const filtered =
-        products.filter(item => {
+        products.filter(function (item) {
 
             const barkod =
                 String(item.barkod || "")
@@ -336,7 +281,6 @@ function searchProducts(text) {
                 String(item.renk || "")
                     .toLocaleLowerCase("tr-TR");
 
-
             return (
                 barkod.includes(text) ||
                 stokKodu.includes(text) ||
@@ -344,7 +288,6 @@ function searchProducts(text) {
                 beden.includes(text) ||
                 renk.includes(text)
             );
-
         });
 
 
@@ -360,7 +303,7 @@ function searchProducts(text) {
     const grouped = {};
 
 
-    filtered.forEach(item => {
+    filtered.forEach(function (item) {
 
         const key =
             String(
@@ -420,145 +363,6 @@ function searchProducts(text) {
 
 
 // ======================================================
-// BEDEN BAZLI ARAMA
-// ======================================================
-
-function searchBySize(selectedSize) {
-
-    const sizeResults =
-        document.getElementById("sizeResults");
-
-    const selectedSizeLabel =
-        document.getElementById(
-            "selectedSizeLabel"
-        );
-
-
-    if (!sizeResults) {
-        return;
-    }
-
-
-    selectedSize =
-        String(selectedSize || "").trim();
-
-
-    if (!selectedSize) {
-
-        sizeResults.innerHTML = "";
-
-        if (selectedSizeLabel) {
-            selectedSizeLabel.innerHTML = "";
-        }
-
-        return;
-    }
-
-
-    if (selectedSizeLabel) {
-
-        selectedSizeLabel.innerHTML =
-            "SEÇİLEN BEDEN: <strong>" +
-            selectedSize +
-            "</strong>";
-    }
-
-
-    // SADECE SEÇİLEN BEDENDE STOK OLANLAR
-
-    const filtered =
-        products.filter(item => {
-
-            const beden =
-                String(item.beden || "").trim();
-
-            const stok =
-                Number(item.stok) || 0;
-
-
-            return (
-                beden === selectedSize &&
-                stok > 0
-            );
-        });
-
-
-    if (filtered.length === 0) {
-
-        sizeResults.innerHTML =
-            "<div class='notfound'>❌ Bu bedende stokta ürün bulunamadı.</div>";
-
-        return;
-    }
-
-
-    const grouped = {};
-
-
-    filtered.forEach(item => {
-
-        const key =
-            String(
-                item.stokKodu ||
-                item.urun ||
-                item.barkod
-            );
-
-
-        if (!grouped[key]) {
-
-            grouped[key] = {
-
-                urun:
-                    item.urun || "-",
-
-                stokKodu:
-                    item.stokKodu || "-",
-
-                renk:
-                    item.renk || "-",
-
-                kategori:
-                    item.kategori || "-",
-
-                cinsiyet:
-                    item.cinsiyet || "-",
-
-                sezon:
-                    item.sezon || "-",
-
-                // EN ÖNEMLİ KISIM
-                // Seçilen bedenin görseli yoksa
-                // aynı ürünün başka bedenindeki görseli bulur.
-
-                gorsel:
-                    findProductImage(item),
-
-                sizes: [
-
-                    {
-                        beden:
-                            item.beden || selectedSize,
-
-                        stok:
-                            Number(item.stok) || 0
-                    }
-
-                ]
-            };
-        }
-
-    });
-
-
-    renderProductCards(
-        Object.values(grouped),
-        sizeResults
-    );
-}
-
-
-// ======================================================
 // ÜRÜN KARTLARINI OLUŞTUR
 // ======================================================
 
@@ -570,12 +374,9 @@ function renderProductCards(
     let html = "";
 
 
-    productList.forEach(product => {
+    productList.forEach(function (product) {
 
-
-        // BEDENLERİ SIRALA
-
-        product.sizes.sort((a, b) => {
+        product.sizes.sort(function (a, b) {
 
             const aNum =
                 parseFloat(a.beden);
@@ -583,15 +384,12 @@ function renderProductCards(
             const bNum =
                 parseFloat(b.beden);
 
-
             if (
                 !isNaN(aNum) &&
                 !isNaN(bNum)
             ) {
-
                 return aNum - bNum;
             }
-
 
             return String(a.beden)
                 .localeCompare(
@@ -601,15 +399,12 @@ function renderProductCards(
         });
 
 
-        // BEDEN HTML
-
         let sizeHTML = "";
 
 
-        product.sizes.forEach(size => {
+        product.sizes.forEach(function (size) {
 
             let stockClass = "";
-
 
             if (size.stok === 0) {
 
@@ -624,7 +419,6 @@ function renderProductCards(
 
 
             sizeHTML +=
-
                 '<div class="size-box ' +
                 stockClass +
                 '">' +
@@ -641,10 +435,6 @@ function renderProductCards(
         });
 
 
-        // ==================================================
-        // GÖRSEL
-        // ==================================================
-
         let imageHTML = "";
 
 
@@ -655,78 +445,67 @@ function renderProductCards(
         if (imageUrl) {
 
             imageHTML =
-
                 '<div class="product-image">' +
 
                 '<img ' +
-
                 'src="' +
                 imageUrl +
                 '" ' +
-
                 'alt="' +
                 product.urun +
                 '" ' +
-
                 'loading="lazy" ' +
-
                 'onerror="this.parentElement.style.display=\'none\';"' +
-
                 '>' +
 
                 '</div>';
         }
 
 
-        // ==================================================
-        // KART
-        // ==================================================
-
         html +=
 
             '<div class="product-card">' +
 
-                imageHTML +
+            imageHTML +
 
-                '<div class="product-name">' +
-                product.urun +
-                '</div>' +
+            '<div class="product-name">' +
+            product.urun +
+            '</div>' +
 
-                '<div>' +
-                '<strong>Stok Kodu:</strong> ' +
-                product.stokKodu +
-                '</div>' +
+            '<div>' +
+            '<strong>Stok Kodu:</strong> ' +
+            product.stokKodu +
+            '</div>' +
 
-                '<div>' +
-                '<strong>Renk:</strong> ' +
-                product.renk +
-                '</div>' +
+            '<div>' +
+            '<strong>Renk:</strong> ' +
+            product.renk +
+            '</div>' +
 
-                '<div>' +
-                '<strong>Kategori:</strong> ' +
-                product.kategori +
-                '</div>' +
+            '<div>' +
+            '<strong>Kategori:</strong> ' +
+            product.kategori +
+            '</div>' +
 
-                '<div>' +
-                '<strong>Cinsiyet:</strong> ' +
-                product.cinsiyet +
-                '</div>' +
+            '<div>' +
+            '<strong>Cinsiyet:</strong> ' +
+            product.cinsiyet +
+            '</div>' +
 
-                '<div>' +
-                '<strong>Sezon:</strong> ' +
-                product.sezon +
-                '</div>' +
+            '<div>' +
+            '<strong>Sezon:</strong> ' +
+            product.sezon +
+            '</div>' +
 
-                '<div class="size-title">' +
-                'BEDEN / STOK' +
-                '</div>' +
+            '<div class="size-title">' +
+            'BEDEN / STOK' +
+            '</div>' +
 
-                '<div class="sizes">' +
-                sizeHTML +
-                '</div>' +
+            '<div class="sizes">' +
+            sizeHTML +
+            '</div>' +
 
             '</div>';
-
     });
 
 
@@ -746,15 +525,7 @@ document.addEventListener(
 
 
         const input =
-            document.querySelector(
-                "#searchInput"
-            ) ||
-            document.querySelector(
-                "#search"
-            ) ||
-            document.querySelector(
-                "input"
-            );
+            document.getElementById("searchInput");
 
 
         if (!input) {
@@ -775,7 +546,6 @@ document.addEventListener(
             function () {
 
                 clearTimeout(timer);
-
 
                 const value =
                     this.value;
