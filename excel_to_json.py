@@ -1,297 +1,581 @@
+import pandas as pd
 import json
 import os
-import sys
-
-try:
-    import pandas as pd
-except ImportError:
-    print("pandas kurulu değil.")
-    print("Terminalde şu komutu çalıştır:")
-    print("pip install pandas openpyxl")
-    input("\nKapatmak için Enter'a bas...")
-    sys.exit()
+import re
+import urllib.request
+import urllib.error
+from urllib.parse import urlparse
 
 
 # ============================================================
-# PUMA SMART ASSISTANT
-# GPOS EXCEL -> JSON DONUSTURUCU
+# AYARLAR
 # ============================================================
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUTPUT_FILE = os.path.join(BASE_DIR, "data.json")
+excel_file = "Güncel Stok.xlsx"
+json_file = "data.json"
+image_folder = "images"
 
 
-def clean_value(value):
-    """Excel hücrelerindeki boş/NaN değerleri temizler."""
-    if pd.isna(value):
+# ============================================================
+# GÖRSEL URL'SİNİ TEMİZLE
+# ============================================================
+
+def clean_image_url(value):
+
+    if value is None:
         return ""
 
-    if isinstance(value, float) and value.is_integer():
-        return str(int(value))
+    url = str(value).strip()
 
-    return str(value).strip()
+    if not url or url.lower() == "nan":
+        return ""
+
+    # Markdown formatı:
+    # [https://site.com/resim.png](https://site.com/resim.png)
+    match = re.search(r"\]\((https?://[^)]+)\)", url)
+
+    if match:
+        url = match.group(1)
+
+    # Direkt parantezli format
+    match = re.search(r"\((https?://[^)]+)\)", url)
+
+    if match:
+        url = match.group(1)
+
+    # Köşeli parantezleri temizle
+    url = url.strip("[]")
+
+    # Tırnakları temizle
+    url = url.strip("\"' ")
+
+    if not (
+        url.startswith("http://")
+        or url.startswith("https://")
+    ):
+        return ""
+
+    return url
 
 
-def find_column(df, possible_names):
-    """Excel sütun adını güvenli şekilde bulur."""
+# ============================================================
+# DOSYA UZANTISINI BUL
+# ============================================================
 
-    normalized = {}
+def get_extension(url, content_type=""):
 
-    for column in df.columns:
-        key = str(column).strip().lower()
-        normalized[key] = column
+    # Önce URL'den uzantı bul
+    path = urlparse(url).path.lower()
 
-    for name in possible_names:
-        key = name.strip().lower()
-
-        if key in normalized:
-            return normalized[key]
-
-    return None
-
-
-def main():
-
-    print("=" * 55)
-    print("      PUMA SMART ASSISTANT")
-    print("      GPOS EXCEL -> JSON")
-    print("=" * 55)
-
-    print()
-
-    excel_path = input(
-        "GPOS Excel dosyasının yolunu yaz veya dosyayı buraya sürükle:\n> "
-    ).strip()
-
-    # Windows'ta dosya sürüklenince tırnak gelebilir
-    excel_path = excel_path.strip('"').strip("'")
-
-    if not os.path.exists(excel_path):
-
-        print()
-        print("❌ Dosya bulunamadı.")
-        print("Dosya yolunu kontrol et.")
-
-        input("\nKapatmak için Enter'a bas...")
-        return
-
-    try:
-
-        print()
-        print("Excel okunuyor...")
-
-        df = pd.read_excel(excel_path)
-
-    except Exception as e:
-
-        print()
-        print("❌ Excel okunamadı.")
-        print(e)
-
-        input("\nKapatmak için Enter'a bas...")
-        return
-
-    # --------------------------------------------------------
-    # SÜTUNLARI BUL
-    # --------------------------------------------------------
-
-    barkod_col = find_column(
-        df,
-        [
-            "Barkod",
-            "Barcode",
-            "EAN",
-            "EAN13"
-        ]
-    )
-
-    stok_kodu_col = find_column(
-        df,
-        [
-            "Stok Kodu",
-            "Stock Code",
-            "Style",
-            "Style Number"
-        ]
-    )
-
-    urun_col = find_column(
-        df,
-        [
-            "Ürün Adı",
-            "Urun Adi",
-            "Product Name",
-            "Product"
-        ]
-    )
-
-    beden_col = find_column(
-        df,
-        [
-            "Beden",
-            "Size"
-        ]
-    )
-
-    stok_col = find_column(
-        df,
-        [
-            "Stok Adedi",
-            "Fiili Stok Adedi",
-            "Stok",
-            "Stock"
-        ]
-    )
-
-    kategori_col = find_column(
-        df,
-        [
-            "Kategori",
-            "Category"
-        ]
-    )
-
-    cinsiyet_col = find_column(
-        df,
-        [
-            "Cinsiyet",
-            "Gender"
-        ]
-    )
-
-    sezon_col = find_column(
-        df,
-        [
-            "Sezon",
-            "Season"
-        ]
-    )
-
-    columns = {
-        "Barkod": barkod_col,
-        "Stok Kodu": stok_kodu_col,
-        "Ürün Adı": urun_col,
-        "Beden": beden_col,
-        "Stok Adedi": stok_col,
-        "Kategori": kategori_col,
-        "Cinsiyet": cinsiyet_col,
-        "Sezon": sezon_col
-    }
-
-    missing = [
-        name
-        for name, column in columns.items()
-        if column is None
+    extensions = [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".webp",
+        ".gif"
     ]
 
-    if missing:
+    for ext in extensions:
 
-        print()
-        print("❌ Excel'de şu sütunlar bulunamadı:")
+        if path.endswith(ext):
+            return ext
 
-        for item in missing:
-            print("   -", item)
+    # Content-Type kontrolü
+    content_type = content_type.lower()
 
-        print()
-        print("Excel'deki mevcut sütunlar:")
+    if "png" in content_type:
+        return ".png"
 
-        for column in df.columns:
-            print("   -", column)
+    if "jpeg" in content_type:
+        return ".jpg"
 
-        input("\nKapatmak için Enter'a bas...")
-        return
+    if "jpg" in content_type:
+        return ".jpg"
 
-    # --------------------------------------------------------
-    # JSON OLUŞTUR
-    # --------------------------------------------------------
+    if "webp" in content_type:
+        return ".webp"
 
-    products = []
+    if "gif" in content_type:
+        return ".gif"
 
-    for _, row in df.iterrows():
+    return ".jpg"
 
-        product = {
 
-            "barkod": clean_value(
-                row[barkod_col]
-            ),
+# ============================================================
+# GÖRSELİ İNDİR
+# ============================================================
 
-            "stokKodu": clean_value(
-                row[stok_kodu_col]
-            ),
-
-            "urun": clean_value(
-                row[urun_col]
-            ),
-
-            "beden": clean_value(
-                row[beden_col]
-            ),
-
-            "stok": clean_value(
-                row[stok_col]
-            ),
-
-            "kategori": clean_value(
-                row[kategori_col]
-            ),
-
-            "cinsiyet": clean_value(
-                row[cinsiyet_col]
-            ),
-
-            "sezon": clean_value(
-                row[sezon_col]
-            )
-        }
-
-        products.append(product)
-
-    # --------------------------------------------------------
-    # JSON KAYDET
-    # --------------------------------------------------------
+def download_image(url, filename):
 
     try:
 
-        with open(
-            OUTPUT_FILE,
-            "w",
-            encoding="utf-8"
-        ) as file:
+        filepath = os.path.join(
+            image_folder,
+            filename
+        )
 
-            json.dump(
-                products,
-                file,
-                ensure_ascii=False,
-                indent=2
+        # Daha önce indirilmişse tekrar indirme
+        if os.path.exists(filepath):
+            return "images/" + filename
+
+
+        request = urllib.request.Request(
+            url,
+            headers={
+                "User-Agent":
+                    "Mozilla/5.0"
+            }
+        )
+
+
+        with urllib.request.urlopen(
+            request,
+            timeout=20
+        ) as response:
+
+            content_type = response.headers.get(
+                "Content-Type",
+                ""
             )
+
+
+            data = response.read()
+
+
+        # Çok küçük / boş dosyaları kabul etme
+        if len(data) < 100:
+
+            print(
+                "  ! Görsel boş veya geçersiz:",
+                url
+            )
+
+            return ""
+
+
+        with open(
+            filepath,
+            "wb"
+        ) as f:
+
+            f.write(data)
+
+
+        return "images/" + filename
+
 
     except Exception as e:
 
-        print()
-        print("❌ data.json oluşturulamadı.")
-        print(e)
+        print(
+            "  ! Görsel indirilemedi:",
+            url
+        )
 
-        input("\nKapatmak için Enter'a bas...")
-        return
+        print(
+            "    Hata:",
+            e
+        )
 
-    # --------------------------------------------------------
+        return ""
+
+
+# ============================================================
+# BAŞLANGIÇ
+# ============================================================
+
+try:
+
+    print("")
+    print("========================================")
+    print("PUMA SMART ASSISTANT")
+    print("STOK + GÖRSEL GÜNCELLEME")
+    print("========================================")
+    print("")
+
+
+    # ========================================================
+    # IMAGES KLASÖRÜ
+    # ========================================================
+
+    os.makedirs(
+        image_folder,
+        exist_ok=True
+    )
+
+
+    # ========================================================
+    # EXCEL OKU
+    # ========================================================
+
+    print(
+        "Excel okunuyor..."
+    )
+
+
+    df = pd.read_excel(
+        excel_file
+    )
+
+
+    print(
+        "Excel başarıyla okundu."
+    )
+
+
+    print(
+        "Toplam satır:",
+        len(df)
+    )
+
+
+    # ========================================================
+    # SÜTUNLARI KONTROL ET
+    # ========================================================
+
+    print("")
+    print(
+        "Excel sütunları kontrol ediliyor..."
+    )
+
+
+    required_columns = [
+        "Barkod",
+        "Ürün Kodu",
+        "Ürün Adı",
+        "Beden No",
+        "Stok Adedi",
+        "Kategori",
+        "Cinsiyet",
+        "Sezon",
+        "Ürün Görseli"
+    ]
+
+
+    missing_columns = [
+        column
+        for column in required_columns
+        if column not in df.columns
+    ]
+
+
+    if missing_columns:
+
+        print("")
+        print(
+            "HATA: Excel'de şu sütunlar bulunamadı:"
+        )
+
+        for column in missing_columns:
+            print(
+                " -",
+                column
+            )
+
+        raise Exception(
+            "Excel sütunları eksik."
+        )
+
+
+    print(
+        "Tüm gerekli sütunlar bulundu."
+    )
+
+
+    # ========================================================
+    # JSON ALANLARINA ÇEVİR
+    # ========================================================
+
+    df = df.rename(
+        columns={
+
+            "Barkod":
+                "barkod",
+
+            "Ürün Kodu":
+                "stokKodu",
+
+            "Ürün Adı":
+                "urun",
+
+            "Beden No":
+                "beden",
+
+            "Stok Adedi":
+                "stok",
+
+            "Kategori":
+                "kategori",
+
+            "Cinsiyet":
+                "cinsiyet",
+
+            "Sezon":
+                "sezon",
+
+            "Ürün Görseli":
+                "gorsel"
+        }
+    )
+
+
+    # ========================================================
+    # BOŞ HÜCRELER
+    # ========================================================
+
+    df = df.fillna("")
+
+
+    # ========================================================
+    # GÖRSEL URL'LERİNİ TEMİZLE
+    # ========================================================
+
+    df["gorsel"] = (
+        df["gorsel"]
+        .astype(str)
+        .apply(clean_image_url)
+    )
+
+
+    # ========================================================
+    # GÖRSELLERİ İNDİR
+    # ========================================================
+
+    print("")
+    print("========================================")
+    print("GÖRSELLER İNDİRİLİYOR")
+    print("========================================")
+    print("")
+
+
+    downloaded = 0
+    failed = 0
+    no_image = 0
+
+
+    # Aynı görsel URL'sini tekrar indirmemek için
+    downloaded_urls = {}
+
+
+    for index, row in df.iterrows():
+
+        url = row["gorsel"]
+
+
+        if not url:
+
+            no_image += 1
+            continue
+
+
+        # Daha önce aynı URL işlendi mi?
+        if url in downloaded_urls:
+
+            df.at[
+                index,
+                "gorsel"
+            ] = downloaded_urls[url]
+
+            continue
+
+
+        # ====================================================
+        # DOSYA ADI
+        # ====================================================
+
+        stock_code = str(
+            row["stokKodu"]
+        ).strip()
+
+
+        if (
+            not stock_code
+            or stock_code.lower() == "nan"
+        ):
+
+            stock_code = "urun_" + str(
+                index
+            )
+
+
+        # Güvenli dosya adı
+        safe_stock_code = re.sub(
+            r"[^a-zA-Z0-9_-]",
+            "_",
+            stock_code
+        )
+
+
+        extension = get_extension(url)
+
+
+        filename = (
+            safe_stock_code +
+            extension
+        )
+
+
+        print(
+            f"[{index + 1}/{len(df)}] "
+            f"{row['urun']}"
+        )
+
+
+        local_path = download_image(
+            url,
+            filename
+        )
+
+
+        if local_path:
+
+            df.at[
+                index,
+                "gorsel"
+            ] = local_path
+
+
+            downloaded_urls[url] = (
+                local_path
+            )
+
+
+            downloaded += 1
+
+
+        else:
+
+            # İndirilemezse boş bırak
+            df.at[
+                index,
+                "gorsel"
+            ] = ""
+
+
+            failed += 1
+
+
+    # ========================================================
+    # JSON OLUŞTUR
+    # ========================================================
+
+    print("")
+    print(
+        "JSON oluşturuluyor..."
+    )
+
+
+    records = df.to_dict(
+        orient="records"
+    )
+
+
+    # ========================================================
+    # DATA.JSON YAZ
+    # ========================================================
+
+    with open(
+        json_file,
+        "w",
+        encoding="utf-8"
+    ) as f:
+
+        json.dump(
+            records,
+            f,
+            ensure_ascii=False,
+            indent=2
+        )
+
+
+    # ========================================================
     # SONUÇ
-    # --------------------------------------------------------
+    # ========================================================
 
-    print()
-    print("=" * 55)
-    print("✅ İŞLEM TAMAMLANDI")
-    print("=" * 55)
-
-    print()
-    print("Ürün satırı :", len(products))
-    print("Oluşturulan :", OUTPUT_FILE)
-
-    print()
-    print("Artık data.json dosyan güncellendi.")
-
-    input("\nKapatmak için Enter'a bas...")
+    image_count = sum(
+        1
+        for item in records
+        if item.get("gorsel")
+    )
 
 
-if __name__ == "__main__":
-    main()
+    print("")
+    print("========================================")
+    print("STOK GÜNCELLEME TAMAMLANDI")
+    print("========================================")
+    print("")
+
+
+    print(
+        "Toplam ürün satırı:",
+        len(records)
+    )
+
+
+    print(
+        "İndirilen görsel:",
+        downloaded
+    )
+
+
+    print(
+        "Daha önce indirilen/tekrar kullanılan:",
+        len(downloaded_urls) - downloaded
+        if len(downloaded_urls) > downloaded
+        else 0
+    )
+
+
+    print(
+        "Görsel bulunmayan satır:",
+        no_image
+    )
+
+
+    print(
+        "İndirilemeyen görsel:",
+        failed
+    )
+
+
+    print(
+        "JSON'da görsel bulunan satır:",
+        image_count
+    )
+
+
+    print("")
+    print(
+        "data.json başarıyla oluşturuldu."
+    )
+
+
+    print(
+        "images klasörü oluşturuldu."
+    )
+
+
+    print("")
+    print(
+        "Şimdi GitHub/Vercel'e yüklemeye hazır."
+    )
+
+
+    print("")
+
+
+except Exception as e:
+
+    print("")
+    print("========================================")
+    print("HATA OLUŞTU")
+    print("========================================")
+    print("")
+
+    print(e)
+
+    print("")
+
+
+input(
+    "Kapatmak için ENTER'a bas..."
+)
