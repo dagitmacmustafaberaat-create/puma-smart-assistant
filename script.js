@@ -99,8 +99,16 @@ function searchProducts(text) {
                 cinsiyet: item.cinsiyet || "-",
                 sezon: item.sezon || "-",
                 renk: item.renk || "-",
+                gorsel: item.gorsel || "",
                 sizes: []
             };
+        }
+
+
+        // Eğer ilk satırda görsel yoksa,
+        // aynı üründeki başka satırın görselini kullan
+        if (!grouped[key].gorsel && item.gorsel) {
+            grouped[key].gorsel = item.gorsel;
         }
 
 
@@ -156,8 +164,28 @@ function searchProducts(text) {
         });
 
 
+        // Görsel varsa göster
+        let imageHTML = "";
+
+        if (product.gorsel) {
+
+            imageHTML = `
+                <div class="product-image">
+                    <img 
+                        src="${product.gorsel}" 
+                        alt="${product.urun}"
+                        loading="lazy"
+                        onerror="this.style.display='none';"
+                    >
+                </div>
+            `;
+        }
+
+
         html += `
             <div class="product-card">
+
+                ${imageHTML}
 
                 <div class="product-name">
                     ${product.urun}
