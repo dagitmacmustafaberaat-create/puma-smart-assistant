@@ -1,276 +1,210 @@
-```css
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-    background:
-        linear-gradient(
-            rgba(0, 0, 0, 0.72),
-            rgba(0, 0, 0, 0.88)
-        ),
-        url("puma-bg.jpg.jpg") center center / cover fixed;
-
-    color: white;
-    min-height: 100vh;
-}
-
-.container {
-    width: 100%;
-    max-width: 700px;
-    margin: auto;
-    padding: 20px;
-    position: relative;
-    z-index: 2;
-}
-
 /* =========================
-   BAŞLIK
+   ANA MENÜ
 ========================= */
 
-.logo {
-    font-size: 34px;
-    font-weight: 800;
-    text-align: center;
-    margin-top: 25px;
-    color: white;
-    letter-spacing: 2px;
-    text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
 }
 
-.assistant-title {
-    text-align: center;
-    margin-top: 6px;
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-}
-
-.red-line {
-    width: 55px;
-    height: 3px;
-    background: #d5001c;
-    margin: 12px auto 10px;
-    border-radius: 3px;
-    box-shadow: 0 0 10px rgba(213,0,28,0.5);
-}
-
-.subtitle {
-    text-align: center;
-    color: #d0d0d0;
-    margin-top: 8px;
-    margin-bottom: 28px;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-}
-
-/* =========================
-   ARAMA
-========================= */
-
-#searchInput {
+.menu-button {
     width: 100%;
-    padding: 17px 20px;
-    border: 2px solid rgba(255,255,255,0.15);
-    border-radius: 12px;
-    font-size: 17px;
-    outline: none;
-    margin-bottom: 20px;
-    background: rgba(255,255,255,0.96);
-    color: #111;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    min-height: 105px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 18px 20px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+
+    background: rgba(10,10,10,0.82);
+    color: white;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.45);
+
     transition: all 0.2s ease;
 }
 
-#searchInput::placeholder {
-    color: #777;
-}
+.menu-button:hover {
+    transform: translateY(-2px);
 
-#searchInput:focus {
+    background: rgba(20,20,20,0.94);
+
     border-color: #d5001c;
-
-    box-shadow:
-        0 0 0 3px rgba(213,0,28,0.20),
-        0 8px 30px rgba(0,0,0,0.45);
 }
 
-/* =========================
-   ÜRÜN KARTI
-========================= */
+.menu-icon {
+    width: 58px;
+    height: 58px;
 
-.product-card {
-    background: rgba(27,27,27,0.95);
-    border-radius: 14px;
-    margin-bottom: 16px;
-    padding: 18px;
-    border-left: 5px solid #d5001c;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
-}
-
-.product-card .product-name {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 14px;
-    color: white;
-}
-
-.product-card div {
-    margin-top: 7px;
-    line-height: 1.35;
-}
-
-.product-card strong {
-    color: #bdbdbd;
-}
-
-/* =========================
-   STOK
-========================= */
-
-.stock {
-    display: inline-block;
-    margin-left: 5px;
-    padding: 4px 9px;
-    border-radius: 7px;
-    background: #073d24;
-    color: #00e676;
-    font-weight: bold;
-    font-size: 17px;
-}
-
-/* =========================
-   BEDEN
-========================= */
-
-.size-title {
-    margin-top: 18px !important;
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-}
-
-.sizes {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px !important;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #151515;
+
+    border: 1px solid rgba(213,0,28,0.45);
+
+    color: #d5001c;
+
+    font-size: 32px;
 }
 
-.size-box {
-    min-width: 58px;
-    padding: 9px 10px;
-    border-radius: 8px;
-    background: #292929;
-    text-align: center;
-    border: 1px solid #444;
+.menu-text {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 18px;
+
+    flex: 1;
 }
 
-.size-box .size {
-    display: block;
-    font-size: 15px;
-    color: #ccc;
-}
-
-.size-box .quantity {
-    display: block;
-    margin-top: 3px;
+.menu-text strong {
     font-size: 18px;
-    font-weight: bold;
-    color: #00e676;
+    letter-spacing: 1px;
 }
+
+.menu-text small {
+    margin-top: 7px;
+
+    color: #bdbdbd;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+.menu-arrow {
+    font-size: 38px;
+    color: white;
+    font-weight: 200;
+}
+
 
 /* =========================
-   AZ STOK
+   GERİ BUTONU
 ========================= */
 
-.low-stock {
-    background: #4a3300;
-    border-color: #806000;
+.back-button {
+    border: none;
+
+    background: rgba(0,0,0,0.7);
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 9px;
+
+    margin-bottom: 15px;
+
+    cursor: pointer;
+
+    font-size: 14px;
 }
 
-.low-stock .quantity {
-    color: #ffca28;
+.back-button:hover {
+    background: #d5001c;
 }
+
 
 /* =========================
-   STOK YOK
+   BEDEN SORGULAMA
 ========================= */
 
-.out-of-stock {
-    background: #3a1717;
-    border-color: #672020;
-}
-
-.out-of-stock .quantity {
-    color: #ff5252;
-}
-
-/* =========================
-   ÜRÜN BİLGİLERİ
-========================= */
-
-.product-info {
-    margin-top: 15px !important;
-    padding-top: 12px;
-    border-top: 1px solid #333;
-    color: #ddd;
-}
-
-/* =========================
-   BULUNAMADI
-========================= */
-
-.notfound {
+.size-search-title {
     text-align: center;
-    padding: 40px 20px;
-    background: rgba(27,27,27,0.95);
-    border-radius: 12px;
-    color: #999;
-    font-size: 16px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    letter-spacing: 1px;
 }
 
-/* =========================
-   MOBİL
-========================= */
+.size-buttons {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.size-select-button {
+    min-height: 50px;
+
+    border-radius: 10px;
+
+    border: 1px solid #444;
+
+    background: rgba(20,20,20,0.9);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.size-select-button:hover {
+    background: #d5001c;
+
+    border-color: #d5001c;
+}
+
+
+/* MOBİL */
 
 @media (max-width: 600px) {
 
-    .container {
+    .menu-button {
+        min-height: 95px;
+
         padding: 15px;
     }
 
-    .logo {
-        font-size: 27px;
+    .menu-icon {
+        width: 50px;
+        height: 50px;
     }
 
-    .assistant-title {
-        font-size: 16px;
-        letter-spacing: 3px;
+    .menu-text {
+        margin-left: 13px;
     }
 
-    #searchInput {
-        padding: 15px;
-        font-size: 16px;
+    .menu-text strong {
+        font-size: 15px;
     }
 
-    .product-card {
-        padding: 15px;
+    .menu-text small {
+        font-size: 12px;
     }
 
-    .product-card .product-name {
-        font-size: 20px;
+    .size-buttons {
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 8px;
     }
 
-    .size-box {
-        min-width: 55px;
-    }
 }
-```

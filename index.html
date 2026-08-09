@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -6,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Buyaka Puma Smart Assistant</title>
+    <title>Buyaka Puma Smart Stock Assistant</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,6 +13,8 @@
 <body>
 
     <div class="container">
+
+        <!-- BAŞLIK -->
 
         <div class="logo">
             BUYAKA PUMA
@@ -29,20 +30,322 @@
             Anlık Stok & Ürün Sorgulama
         </div>
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Barkod • Ürün • Stok Kodu"
-            autocomplete="off"
+
+        <!-- ANA MENÜ -->
+
+        <div id="mainMenu" class="main-menu">
+
+            <button
+                class="menu-button"
+                onclick="showProductSearch()"
+            >
+                <span class="menu-icon">⌕</span>
+
+                <span class="menu-text">
+                    <strong>ÜRÜN SORGULAMA</strong>
+                    <small>
+                        Ürün, barkod veya stok kodu ile arama yapın.
+                    </small>
+                </span>
+
+                <span class="menu-arrow">›</span>
+            </button>
+
+
+            <button
+                class="menu-button"
+                onclick="showSizeSearch()"
+            >
+                <span class="menu-icon">👟</span>
+
+                <span class="menu-text">
+                    <strong>BEDEN BAZLI SORGULAMA</strong>
+                    <small>
+                        Belirli bir bedende bulunan ürünleri görüntüleyin.
+                    </small>
+                </span>
+
+                <span class="menu-arrow">›</span>
+            </button>
+
+        </div>
+
+
+        <!-- ÜRÜN SORGULAMA -->
+
+        <div
+            id="productSearchArea"
+            class="search-area"
+            style="display:none;"
         >
 
-        <div id="results"></div>
+            <button
+                class="back-button"
+                onclick="showMainMenu()"
+            >
+                ‹ ANA MENÜ
+            </button>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Barkod • Ürün • Stok Kodu"
+                autocomplete="off"
+            >
+
+            <div id="results"></div>
+
+        </div>
+
+
+        <!-- BEDEN BAZLI SORGULAMA -->
+
+        <div
+            id="sizeSearchArea"
+            class="search-area"
+            style="display:none;"
+        >
+
+            <button
+                class="back-button"
+                onclick="showMainMenu()"
+            >
+                ‹ ANA MENÜ
+            </button>
+
+            <div class="size-search-title">
+                BEDEN SEÇİN
+            </div>
+
+            <div
+                id="sizeButtons"
+                class="size-buttons"
+            ></div>
+
+            <div id="sizeResults"></div>
+
+        </div>
 
     </div>
 
+
     <script src="script.js"></script>
+
+
+    <!-- MENÜ KONTROLLERİ -->
+
+    <script>
+
+        function showMainMenu() {
+
+            document.getElementById("mainMenu").style.display = "block";
+
+            document.getElementById("productSearchArea").style.display = "none";
+
+            document.getElementById("sizeSearchArea").style.display = "none";
+
+        }
+
+
+        function showProductSearch() {
+
+            document.getElementById("mainMenu").style.display = "none";
+
+            document.getElementById("productSearchArea").style.display = "block";
+
+            document.getElementById("sizeSearchArea").style.display = "none";
+
+            setTimeout(() => {
+
+                const input = document.getElementById("searchInput");
+
+                if (input) {
+                    input.focus();
+                }
+
+            }, 100);
+
+        }
+
+
+        function showSizeSearch() {
+
+            document.getElementById("mainMenu").style.display = "none";
+
+            document.getElementById("productSearchArea").style.display = "none";
+
+            document.getElementById("sizeSearchArea").style.display = "block";
+
+            createSizeButtons();
+
+        }
+
+
+        function createSizeButtons() {
+
+            const container = document.getElementById("sizeButtons");
+
+            if (!container) return;
+
+            container.innerHTML = "";
+
+            const sizes = new Set();
+
+            if (typeof products !== "undefined") {
+
+                products.forEach(item => {
+
+                    const size = String(item.beden || "").trim();
+
+                    if (size) {
+                        sizes.add(size);
+                    }
+
+                });
+
+            }
+
+            const sortedSizes = Array.from(sizes).sort((a, b) => {
+
+                const aNum = parseFloat(a);
+                const bNum = parseFloat(b);
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return aNum - bNum;
+                }
+
+                return a.localeCompare(b, "tr-TR");
+
+            });
+
+
+            sortedSizes.forEach(size => {
+
+                const button = document.createElement("button");
+
+                button.className = "size-select-button";
+
+                button.textContent = size;
+
+                button.onclick = function () {
+
+                    searchBySize(size);
+
+                };
+
+                container.appendChild(button);
+
+            });
+
+        }
+
+
+        function searchBySize(size) {
+
+            const results =
+                document.getElementById("sizeResults");
+
+            if (!results) return;
+
+            const selectedSize =
+                String(size)
+                    .trim()
+                    .toLocaleLowerCase("tr-TR");
+
+
+            const filtered = products.filter(item => {
+
+                const itemSize =
+                    String(item.beden || "")
+                        .trim()
+                        .toLocaleLowerCase("tr-TR");
+
+                return itemSize === selectedSize;
+
+            });
+
+
+            if (filtered.length === 0) {
+
+                results.innerHTML =
+                    "<div class='notfound'>❌ Bu bedende ürün bulunamadı.</div>";
+
+                return;
+
+            }
+
+
+            let html = "";
+
+
+            filtered.forEach(item => {
+
+                html += `
+
+                    <div class="product-card">
+
+                        <div class="product-name">
+                            ${item.urun || "-"}
+                        </div>
+
+                        <div>
+                            <strong>Stok Kodu:</strong>
+                            ${item.stokKodu || "-"}
+                        </div>
+
+                        <div>
+                            <strong>Barkod:</strong>
+                            ${item.barkod || "-"}
+                        </div>
+
+                        <div>
+                            <strong>Kategori:</strong>
+                            ${item.kategori || "-"}
+                        </div>
+
+                        <div>
+                            <strong>Cinsiyet:</strong>
+                            ${item.cinsiyet || "-"}
+                        </div>
+
+                        <div>
+                            <strong>Sezon:</strong>
+                            ${item.sezon || "-"}
+                        </div>
+
+                        <div class="size-title">
+                            BEDEN / STOK
+                        </div>
+
+                        <div class="sizes">
+
+                            <div class="size-box">
+
+                                <span class="size">
+                                    ${item.beden || "-"}
+                                </span>
+
+                                <span class="quantity">
+                                    ${Number(item.stok) || 0}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+
+            results.innerHTML = html;
+
+        }
+
+    </script>
 
 </body>
 
 </html>
-```
