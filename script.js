@@ -1,3 +1,4 @@
+```javascript
 let products = [];
 
 // ======================================================
@@ -28,105 +29,92 @@ async function loadProducts() {
     }
 }
 
-
 // ======================================================
-// GÖRSEL URL'SİNİ TEMİZLE
-// ======================================================
-
-function getImageUrl(value) {
-
-    if (!value) {
-        return "";
-    }
-
-    let url = String(value).trim();
-
-    const markdownMatch = url.match(
-        /\]\((https?:\/\/[^)]+)\)/
-    );
-
-    if (markdownMatch) {
-        url = markdownMatch[1];
-    }
-
-    if (
-        url.startsWith("[") &&
-        url.endsWith("]")
-    ) {
-        url = url.substring(1, url.length - 1);
-    }
-
-    return url.trim();
-}
-
-
-// ======================================================
-// ÜRÜN GÖRSELİNİ BUL
+// GÖRSEL YOLUNU OLUŞTUR
 // ======================================================
 
 function findProductImage(item) {
 
-    let image = getImageUrl(item.gorsel);
+    const stokKodu = String(
+        item.stokKodu ||
+        item.barkod ||
+        ""
+    ).trim();
 
-    if (image) {
-        return image;
+    const gorsel = String(
+        item.gorsel ||
+        ""
+    ).trim();
+
+    // data.json içinde gerçek bir görsel URL'si varsa kullan
+    if (
+        gorsel &&
+        (
+            gorsel.startsWith("http://") ||
+            gorsel.startsWith("https://") ||
+            gorsel.startsWith("./") ||
+            gorsel.startsWith("/")
+        )
+    ) {
+        return gorsel;
     }
 
-    const stokKodu =
-        String(item.stokKodu || "").trim();
-
+    // images klasöründeki dosyaları stok koduna göre ara
     if (stokKodu) {
 
-        for (const product of products) {
-
-            const productStockCode =
-                String(product.stokKodu || "").trim();
-
-            if (
-                productStockCode === stokKodu &&
-                product.gorsel
-            ) {
-
-                image = getImageUrl(
-                    product.gorsel
-                );
-
-                if (image) {
-                    return image;
-                }
-            }
-        }
-    }
-
-    const urun =
-        String(item.urun || "").trim();
-
-    if (urun) {
-
-        for (const product of products) {
-
-            const productName =
-                String(product.urun || "").trim();
-
-            if (
-                productName === urun &&
-                product.gorsel
-            ) {
-
-                image = getImageUrl(
-                    product.gorsel
-                );
-
-                if (image) {
-                    return image;
-                }
-            }
-        }
+        return "./images/" + stokKodu + ".png";
     }
 
     return "";
 }
 
+// ======================================================
+// GÖRSEL HATA KONTROLÜ
+// PNG yoksa JPG/JPEG denenecek
+// ======================================================
+
+function createImageHTML(product) {
+
+    const stokKodu = String(
+        product.stokKodu || ""
+    ).trim();
+
+    if (!stokKodu) {
+        return "";
+    }
+
+    const png =
+        "./images/" + stokKodu + ".png";
+
+    const jpg =
+        "./images/" + stokKodu + ".jpg";
+
+    const jpeg =
+        "./images/" + stokKodu + ".jpeg";
+
+    return `
+        <div class="product-image">
+            <img
+                src="${png}"
+                alt="${product.urun || "PUMA Ürün"}"
+                loading="lazy"
+                onerror="
+                    if (this.dataset.try === 'jpg') {
+                        this.dataset.try = 'jpeg';
+                        this.src = '${jpeg}';
+                    }
+                    else if (this.dataset.try === 'jpeg') {
+                        this.parentElement.style.display = 'none';
+                    }
+                    else {
+                        this.dataset.try = 'jpg';
+                        this.src = '${jpg}';
+                    }
+                "
+            >
+        </div>
+    `;
+}
 
 // ======================================================
 // ANA MENÜ
@@ -155,7 +143,6 @@ function showMainMenu() {
         sizeSearchArea.style.display = "none";
     }
 }
-
 
 // ======================================================
 // ÜRÜN SORGULAMA
@@ -194,10 +181,8 @@ function showProductSearch() {
     }
 }
 
-
 // ======================================================
-// BEDEN BUTONU
-// ŞİMDİLİK DEVRE DIŞI
+// BEDEN SORGULAMA
 // ======================================================
 
 function showSizeSearch() {
@@ -224,15 +209,17 @@ function showSizeSearch() {
     }
 }
 
-
 // ======================================================
 // BEDEN ARAMASI
 // ======================================================
 
 function searchBySize(selectedSize) {
-    console.log("Beden araması devre dışı:", selectedSize);
-}
 
+    console.log(
+        "Beden araması:",
+        selectedSize
+    );
+}
 
 // ======================================================
 // ÜRÜN ARAMA
@@ -252,9 +239,7 @@ function searchProducts(text) {
         .toLocaleLowerCase("tr-TR");
 
     if (!text) {
-
         results.innerHTML = "";
-
         return;
     }
 
@@ -290,7 +275,6 @@ function searchProducts(text) {
             );
         });
 
-
     if (filtered.length === 0) {
 
         results.innerHTML =
@@ -299,9 +283,7 @@ function searchProducts(text) {
         return;
     }
 
-
     const grouped = {};
-
 
     filtered.forEach(function (item) {
 
@@ -312,7 +294,6 @@ function searchProducts(text) {
                 item.barkod
             );
 
-
         if (!grouped[key]) {
 
             grouped[key] = {
@@ -321,7 +302,7 @@ function searchProducts(text) {
                     item.urun || "-",
 
                 stokKodu:
-                    item.stokKodu || "-",
+                    item.stokKodu || item.barkod || "-",
 
                 renk:
                     item.renk || "-",
@@ -335,13 +316,9 @@ function searchProducts(text) {
                 sezon:
                     item.sezon || "-",
 
-                gorsel:
-                    findProductImage(item),
-
                 sizes: []
             };
         }
-
 
         grouped[key].sizes.push({
 
@@ -351,9 +328,7 @@ function searchProducts(text) {
             stok:
                 Number(item.stok) || 0
         });
-
     });
-
 
     renderProductCards(
         Object.values(grouped),
@@ -361,9 +336,8 @@ function searchProducts(text) {
     );
 }
 
-
 // ======================================================
-// ÜRÜN KARTLARINI OLUŞTUR
+// ÜRÜN KARTLARI
 // ======================================================
 
 function renderProductCards(
@@ -372,7 +346,6 @@ function renderProductCards(
 ) {
 
     let html = "";
-
 
     productList.forEach(function (product) {
 
@@ -398,9 +371,7 @@ function renderProductCards(
                 );
         });
 
-
         let sizeHTML = "";
-
 
         product.sizes.forEach(function (size) {
 
@@ -416,7 +387,6 @@ function renderProductCards(
                 stockClass =
                     "low-stock";
             }
-
 
             sizeHTML +=
                 '<div class="size-box ' +
@@ -434,33 +404,16 @@ function renderProductCards(
                 '</div>';
         });
 
+        // ==================================================
+        // GÖRSEL
+        // ==================================================
 
-        let imageHTML = "";
+        const imageHTML =
+            createImageHTML(product);
 
-
-        const imageUrl =
-            getImageUrl(product.gorsel);
-
-
-        if (imageUrl) {
-
-            imageHTML =
-                '<div class="product-image">' +
-
-                '<img ' +
-                'src="' +
-                imageUrl +
-                '" ' +
-                'alt="' +
-                product.urun +
-                '" ' +
-                'loading="lazy" ' +
-                'onerror="this.parentElement.style.display=\'none\';"' +
-                '>' +
-
-                '</div>';
-        }
-
+        // ==================================================
+        // KART
+        // ==================================================
 
         html +=
 
@@ -508,10 +461,8 @@ function renderProductCards(
             '</div>';
     });
 
-
     container.innerHTML = html;
 }
-
 
 // ======================================================
 // SAYFA AÇILDIĞINDA
@@ -523,10 +474,8 @@ document.addEventListener(
 
         loadProducts();
 
-
         const input =
             document.getElementById("searchInput");
-
 
         if (!input) {
 
@@ -537,9 +486,7 @@ document.addEventListener(
             return;
         }
 
-
         let timer;
-
 
         input.addEventListener(
             "input",
@@ -549,7 +496,6 @@ document.addEventListener(
 
                 const value =
                     this.value;
-
 
                 timer =
                     setTimeout(
@@ -567,3 +513,4 @@ document.addEventListener(
 
     }
 );
+```
