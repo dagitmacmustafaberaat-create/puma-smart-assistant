@@ -3,25 +3,16 @@ import json
 import os
 import re
 import urllib.request
-import urllib.error
 from urllib.parse import urlparse
-
-
-# ============================================================
-# AYARLAR
-# ============================================================
 
 excel_file = "Güncel Stok.xlsx"
 json_file = "data.json"
 image_folder = "images"
 
+IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"]
 
-# ============================================================
-# GÖRSEL URL'SİNİ TEMİZLE
-# ============================================================
 
 def clean_image_url(value):
-
     if value is None:
         return ""
 
@@ -30,213 +21,176 @@ def clean_image_url(value):
     if not url or url.lower() == "nan":
         return ""
 
-    # Markdown formatı:
-    # [https://site.com/resim.png](https://site.com/resim.png)
     match = re.search(r"\]\((https?://[^)]+)\)", url)
 
     if match:
         url = match.group(1)
 
-    # Direkt parantezli format
     match = re.search(r"\((https?://[^)]+)\)", url)
 
     if match:
         url = match.group(1)
 
-    # Köşeli parantezleri temizle
     url = url.strip("[]")
-
-    # Tırnakları temizle
     url = url.strip("\"' ")
 
-    if not (
-        url.startswith("http://")
-        or url.startswith("https://")
-    ):
+    if not url.startswith(("http://", "https://")):
         return ""
 
     return url
 
 
-# ============================================================
-# DOSYA UZANTISINI BUL
-# ============================================================
+def clean_stock_code(value):
+    if value is None:
+        return ""
 
-def get_extension(url, content_type=""):
+    value = str(value).strip()
 
-    # Önce URL'den uzantı bul
+    if value.lower() == "nan":
+        return ""
+
+    if value.endswith(".0"):
+        value = value[:-2]
+
+    return value
+
+
+def find_existing_image(stock_code):
+    stock_code = clean_stock_code(stock_code)
+
+    if not stock_code:
+        return ""
+
+    for ext in IMAGE_EXTENSIONS:
+        filepath = os.path.join(
+            image_folder,
+            stock_code + ext
+        )
+
+        if os.path.isfile(filepath):
+            return (
+                image_folder
+                + "/"
+                + stock_code
+                + ext
+            )
+
+    try:
+        for filename in os.listdir(image_folder):
+            name, ext = os.path.splitext(filename)
+
+            if (
+                name.strip() == stock_code
+                and ext.lower() in IMAGE_EXTENSIONS
+            ):
+                return (
+                    image_folder
+                    + "/"
+                    + filename
+                )
+    except Exception:
+        pass
+
+    return ""
+
+
+def get_extension(url):
     path = urlparse(url).path.lower()
 
-    extensions = [
-        ".jpg",
-        ".jpeg",
-        ".png",
-        ".webp",
-        ".gif"
-    ]
-
-    for ext in extensions:
-
+    for ext in IMAGE_EXTENSIONS:
         if path.endswith(ext):
             return ext
-
-    # Content-Type kontrolü
-    content_type = content_type.lower()
-
-    if "png" in content_type:
-        return ".png"
-
-    if "jpeg" in content_type:
-        return ".jpg"
-
-    if "jpg" in content_type:
-        return ".jpg"
-
-    if "webp" in content_type:
-        return ".webp"
-
-    if "gif" in content_type:
-        return ".gif"
 
     return ".jpg"
 
 
-# ============================================================
-# GÖRSELİ İNDİR
-# ============================================================
+def download_image(url, stock_code):
+    if not url:
+        return ""
 
-def download_image(url, filename):
+    stock_code = clean_stock_code(stock_code)
+
+    if not stock_code:
+        return ""
 
     try:
+        extension = get_extension(url)
+
+        filename = stock_code + extension
 
         filepath = os.path.join(
             image_folder,
             filename
         )
 
-        # Daha önce indirilmişse tekrar indirme
-        if os.path.exists(filepath):
-            return "images/" + filename
-
+        if os.path.isfile(filepath):
+            return (
+                image_folder
+                + "/"
+                + filename
+            )
 
         request = urllib.request.Request(
             url,
             headers={
-                "User-Agent":
-                    "Mozilla/5.0"
+                "User-Agent": "Mozilla/5.0"
             }
         )
-
 
         with urllib.request.urlopen(
             request,
             timeout=20
         ) as response:
-
-            content_type = response.headers.get(
-                "Content-Type",
-                ""
-            )
-
-
             data = response.read()
 
-
-        # Çok küçük / boş dosyaları kabul etme
         if len(data) < 100:
-
-            print(
-                "  ! Görsel boş veya geçersiz:",
-                url
-            )
-
             return ""
 
-
-        with open(
-            filepath,
-            "wb"
-        ) as f:
-
+        with open(filepath, "wb") as f:
             f.write(data)
 
-
-        return "images/" + filename
-
+        return (
+            image_folder
+            + "/"
+            + filename
+        )
 
     except Exception as e:
-
         print(
-            "  ! Görsel indirilemedi:",
-            url
-        )
-
-        print(
-            "    Hata:",
+            "Görsel indirilemedi:",
+            stock_code,
             e
         )
-
         return ""
 
 
-# ============================================================
-# BAŞLANGIÇ
-# ============================================================
+print("")
+print("========================================")
+print("PUMA SMART ASSISTANT")
+print("STOK + GÖRSEL EŞLEŞTİRME")
+print("========================================")
+print("")
 
 try:
-
-    print("")
-    print("========================================")
-    print("PUMA SMART ASSISTANT")
-    print("STOK + GÖRSEL GÜNCELLEME")
-    print("========================================")
-    print("")
-
-
-    # ========================================================
-    # IMAGES KLASÖRÜ
-    # ========================================================
-
     os.makedirs(
         image_folder,
         exist_ok=True
     )
 
-
-    # ========================================================
-    # EXCEL OKU
-    # ========================================================
-
-    print(
-        "Excel okunuyor..."
-    )
-
+    print("Excel okunuyor...")
 
     df = pd.read_excel(
         excel_file
     )
 
-
     print(
         "Excel başarıyla okundu."
     )
-
 
     print(
         "Toplam satır:",
         len(df)
     )
-
-
-    # ========================================================
-    # SÜTUNLARI KONTROL ET
-    # ========================================================
-
-    print("")
-    print(
-        "Excel sütunları kontrol ediliyor..."
-    )
-
 
     required_columns = [
         "Barkod",
@@ -250,235 +204,130 @@ try:
         "Ürün Görseli"
     ]
 
-
     missing_columns = [
         column
         for column in required_columns
         if column not in df.columns
     ]
 
-
     if missing_columns:
-
         print("")
-        print(
-            "HATA: Excel'de şu sütunlar bulunamadı:"
-        )
+        print("EKSİK EXCEL SÜTUNLARI:")
 
         for column in missing_columns:
-            print(
-                " -",
-                column
-            )
+            print("-", column)
 
         raise Exception(
             "Excel sütunları eksik."
         )
 
-
-    print(
-        "Tüm gerekli sütunlar bulundu."
-    )
-
-
-    # ========================================================
-    # JSON ALANLARINA ÇEVİR
-    # ========================================================
-
     df = df.rename(
         columns={
-
-            "Barkod":
-                "barkod",
-
-            "Ürün Kodu":
-                "stokKodu",
-
-            "Ürün Adı":
-                "urun",
-
-            "Beden No":
-                "beden",
-
-            "Stok Adedi":
-                "stok",
-
-            "Kategori":
-                "kategori",
-
-            "Cinsiyet":
-                "cinsiyet",
-
-            "Sezon":
-                "sezon",
-
-            "Ürün Görseli":
-                "gorsel"
+            "Barkod": "barkod",
+            "Ürün Kodu": "stokKodu",
+            "Ürün Adı": "urun",
+            "Beden No": "beden",
+            "Stok Adedi": "stok",
+            "Kategori": "kategori",
+            "Cinsiyet": "cinsiyet",
+            "Sezon": "sezon",
+            "Ürün Görseli": "gorsel"
         }
     )
 
-
-    # ========================================================
-    # BOŞ HÜCRELER
-    # ========================================================
-
     df = df.fillna("")
 
-
-    # ========================================================
-    # GÖRSEL URL'LERİNİ TEMİZLE
-    # ========================================================
-
-    df["gorsel"] = (
-        df["gorsel"]
-        .astype(str)
-        .apply(clean_image_url)
+    df["stokKodu"] = df["stokKodu"].apply(
+        clean_stock_code
     )
 
-
-    # ========================================================
-    # GÖRSELLERİ İNDİR
-    # ========================================================
+    df["gorsel"] = df["gorsel"].apply(
+        clean_image_url
+    )
 
     print("")
-    print("========================================")
-    print("GÖRSELLER İNDİRİLİYOR")
-    print("========================================")
+    print("Görseller eşleştiriliyor...")
     print("")
 
+    existing_count = 0
+    downloaded_count = 0
+    failed_count = 0
+    empty_count = 0
 
-    downloaded = 0
-    failed = 0
-    no_image = 0
-
-
-    # Aynı görsel URL'sini tekrar indirmemek için
-    downloaded_urls = {}
-
+    image_cache = {}
 
     for index, row in df.iterrows():
 
-        url = row["gorsel"]
-
-
-        if not url:
-
-            no_image += 1
-            continue
-
-
-        # Daha önce aynı URL işlendi mi?
-        if url in downloaded_urls:
-
-            df.at[
-                index,
-                "gorsel"
-            ] = downloaded_urls[url]
-
-            continue
-
-
-        # ====================================================
-        # DOSYA ADI
-        # ====================================================
-
-        stock_code = str(
+        stock_code = clean_stock_code(
             row["stokKodu"]
-        ).strip()
-
-
-        if (
-            not stock_code
-            or stock_code.lower() == "nan"
-        ):
-
-            stock_code = "urun_" + str(
-                index
-            )
-
-
-        # Güvenli dosya adı
-        safe_stock_code = re.sub(
-            r"[^a-zA-Z0-9_-]",
-            "_",
-            stock_code
         )
 
-
-        extension = get_extension(url)
-
-
-        filename = (
-            safe_stock_code +
-            extension
+        excel_url = clean_image_url(
+            row["gorsel"]
         )
 
+        if not stock_code:
+            df.at[index, "gorsel"] = ""
+            empty_count += 1
+            continue
+
+        if stock_code in image_cache:
+            df.at[index, "gorsel"] = image_cache[stock_code]
+            continue
 
         print(
             f"[{index + 1}/{len(df)}] "
+            f"{stock_code} - "
             f"{row['urun']}"
         )
 
-
-        local_path = download_image(
-            url,
-            filename
+        local_image = find_existing_image(
+            stock_code
         )
 
+        if local_image:
+            df.at[index, "gorsel"] = local_image
+            image_cache[stock_code] = local_image
+            existing_count += 1
 
-        if local_path:
-
-            df.at[
-                index,
-                "gorsel"
-            ] = local_path
-
-
-            downloaded_urls[url] = (
-                local_path
+            print(
+                "  ✓ Mevcut:",
+                local_image
             )
 
+            continue
 
-            downloaded += 1
+        if excel_url:
+            downloaded_image = download_image(
+                excel_url,
+                stock_code
+            )
 
+            if downloaded_image:
+                df.at[index, "gorsel"] = downloaded_image
+                image_cache[stock_code] = downloaded_image
+                downloaded_count += 1
 
-        else:
+                print(
+                    "  ✓ İndirildi:",
+                    downloaded_image
+                )
 
-            # İndirilemezse boş bırak
-            df.at[
-                index,
-                "gorsel"
-            ] = ""
+                continue
 
-
-            failed += 1
-
-
-    # ========================================================
-    # JSON OLUŞTUR
-    # ========================================================
-
-    print("")
-    print(
-        "JSON oluşturuluyor..."
-    )
-
+        df.at[index, "gorsel"] = ""
+        image_cache[stock_code] = ""
+        failed_count += 1
 
     records = df.to_dict(
         orient="records"
     )
-
-
-    # ========================================================
-    # DATA.JSON YAZ
-    # ========================================================
 
     with open(
         json_file,
         "w",
         encoding="utf-8"
     ) as f:
-
         json.dump(
             records,
             f,
@@ -486,95 +335,83 @@ try:
             indent=2
         )
 
-
-    # ========================================================
-    # SONUÇ
-    # ========================================================
-
     image_count = sum(
         1
         for item in records
         if item.get("gorsel")
     )
 
-
     print("")
     print("========================================")
-    print("STOK GÜNCELLEME TAMAMLANDI")
+    print("TAMAMLANDI")
     print("========================================")
     print("")
-
 
     print(
-        "Toplam ürün satırı:",
+        "Toplam satır:",
         len(records)
     )
 
-
     print(
-        "İndirilen görsel:",
-        downloaded
+        "Mevcut images klasöründen eşleşen:",
+        existing_count
     )
 
-
     print(
-        "Daha önce indirilen/tekrar kullanılan:",
-        len(downloaded_urls) - downloaded
-        if len(downloaded_urls) > downloaded
-        else 0
+        "Yeni indirilen:",
+        downloaded_count
     )
 
-
     print(
-        "Görsel bulunmayan satır:",
-        no_image
+        "Görsel bulunamayan:",
+        failed_count
     )
 
-
     print(
-        "İndirilemeyen görsel:",
-        failed
+        "Boş stok kodu:",
+        empty_count
     )
 
-
     print(
-        "JSON'da görsel bulunan satır:",
+        "JSON'da görsel bulunan:",
         image_count
     )
 
-
-    print("")
-    print(
-        "data.json başarıyla oluşturuldu."
-    )
-
-
-    print(
-        "images klasörü oluşturuldu."
-    )
-
-
-    print("")
-    print(
-        "Şimdi GitHub/Vercel'e yüklemeye hazır."
-    )
-
-
     print("")
 
+    test_code = "31015230"
+
+    test_image = find_existing_image(
+        test_code
+    )
+
+    print(
+        "31015230 görsel kontrolü:"
+    )
+
+    if test_image:
+        print(
+            "✓ BULUNDU:",
+            test_image
+        )
+    else:
+        print(
+            "✗ BULUNAMADI"
+        )
+
+    print("")
+    print("data.json hazır.")
+    print("GitHub'a yüklemeye hazır.")
+    print("")
 
 except Exception as e:
-
     print("")
     print("========================================")
-    print("HATA OLUŞTU")
+    print("HATA")
     print("========================================")
     print("")
-
     print(e)
-
     print("")
-
 
 input(
     "Kapatmak için ENTER'a bas..."
