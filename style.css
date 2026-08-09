@@ -1,425 +1,187 @@
+```css
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-
 body {
-
     background:
-
         linear-gradient(
             rgba(0, 0, 0, 0.55),
             rgba(0, 0, 0, 0.78)
         ),
-
-        url("puma-bg.jpg.jpg")
-        center center / cover fixed;
-
+        url("puma-bg.jpg.jpg") center center / cover fixed;
     color: white;
-
     min-height: 100vh;
 }
 
-
 .container {
-
     width: 100%;
-
     max-width: 700px;
-
     margin: auto;
-
     padding: 20px;
-
     position: relative;
-
     z-index: 2;
 }
 
-
-/* =========================
-   BAŞLIK
-========================= */
+/* BAŞLIK */
 
 .logo {
-
     font-size: 34px;
-
     font-weight: 800;
-
     text-align: center;
-
     margin-top: 25px;
-
     color: white;
-
     letter-spacing: 2px;
-
-    text-shadow:
-        0 3px 10px rgba(0,0,0,0.8);
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
 }
-
-
-.assistant-title {
-
-    text-align: center;
-
-    margin-top: 6px;
-
-    color: white;
-
-    font-size: 20px;
-
-    font-weight: 600;
-
-    letter-spacing: 4px;
-
-    text-shadow:
-        0 2px 8px rgba(0,0,0,0.8);
-}
-
-
-.red-line {
-
-    width: 55px;
-
-    height: 3px;
-
-    background: #d5001c;
-
-    margin:
-        12px auto 10px;
-
-    border-radius: 3px;
-
-    box-shadow:
-        0 0 10px
-        rgba(213,0,28,0.5);
-}
-
 
 .subtitle {
-
     text-align: center;
-
     color: #e0e0e0;
-
     margin-top: 8px;
-
     margin-bottom: 28px;
-
     font-size: 14px;
-
-    text-shadow:
-        0 2px 6px rgba(0,0,0,0.8);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
 
+/* ANA MENÜ */
 
-/* =========================
-   ANA MENÜ
-========================= */
-
-.main-menu {
-
+.menu {
     display: flex;
-
     flex-direction: column;
-
     gap: 16px;
-
     margin-top: 20px;
 }
 
-
 .menu-button {
-
     width: 100%;
-
     min-height: 105px;
-
     display: flex;
-
     align-items: center;
-
+    justify-content: center;
     padding: 18px 20px;
 
-    border:
-        1px solid
-        rgba(255,255,255,0.15);
-
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 16px;
 
-    background:
-        rgba(10,10,10,0.82);
-
+    background: rgba(10, 10, 10, 0.82);
     color: white;
 
     cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
 
-    text-align: left;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,0.45);
-
-    transition:
-        all 0.2s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    transition: all 0.2s ease;
 }
-
 
 .menu-button:hover {
-
-    transform:
-        translateY(-2px);
-
-    background:
-        rgba(20,20,20,0.94);
-
-    border-color:
-        #d5001c;
+    transform: translateY(-2px);
+    background: rgba(20, 20, 20, 0.94);
+    border-color: #d5001c;
 }
 
+/* ARAMA */
 
-.menu-icon {
-
-    width: 58px;
-
-    height: 58px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-
-    background: #151515;
-
-    border:
-        1px solid
-        rgba(213,0,28,0.45);
-
-    color: #d5001c;
-
-    font-size: 32px;
+.search-area {
+    margin-top: 20px;
 }
 
-
-.menu-text {
-
-    display: flex;
-
-    flex-direction: column;
-
-    margin-left: 18px;
-
-    flex: 1;
-}
-
-
-.menu-text strong {
-
-    font-size: 18px;
-
-    letter-spacing: 1px;
-}
-
-
-.menu-text small {
-
-    margin-top: 7px;
-
-    color: #bdbdbd;
-
-    font-size: 13px;
-
-    line-height: 1.4;
-}
-
-
-.menu-arrow {
-
-    font-size: 38px;
-
-    color: white;
-
-    font-weight: 200;
-}
-
-
-/* =========================
-   ARAMA
-========================= */
-
+.search-input,
 #searchInput {
-
     width: 100%;
-
     padding: 17px 20px;
 
-    border:
-        2px solid
-        rgba(255,255,255,0.15);
-
+    border: 2px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
 
     font-size: 17px;
-
     outline: none;
 
     margin-bottom: 20px;
 
-    background:
-        rgba(255,255,255,0.96);
-
+    background: rgba(255, 255, 255, 0.96);
     color: #111;
 
-    box-shadow:
-        0 8px 30px
-        rgba(0,0,0,0.45);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
-
+.search-input:focus,
 #searchInput:focus {
-
-    border-color:
-        #d5001c;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(213,0,28,0.20);
+    border-color: #d5001c;
 }
 
+/* BEDEN */
 
-/* =========================
-   BEDEN FİLTRESİ
-========================= */
-
-.size-filter-info {
-
-    text-align: center;
-
-    color: #bdbdbd;
-
-    font-size: 13px;
-
-    margin-bottom: 14px;
-}
-
-
-.size-filter {
-
+.size-select,
+#sizeFilter {
     width: 100%;
-
     height: 58px;
 
-    padding:
-        0 18px;
+    padding: 0 18px;
 
-    border:
-        2px solid
-        rgba(213,0,28,0.55);
-
+    border: 2px solid rgba(213, 0, 28, 0.55);
     border-radius: 12px;
 
-    background:
-        rgba(20,20,20,0.95);
-
+    background: rgba(20, 20, 20, 0.95);
     color: white;
 
     font-size: 17px;
-
     font-weight: bold;
 
     outline: none;
-
     cursor: pointer;
 
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.45);
-
     margin-bottom: 18px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
 }
 
-
-.size-filter:focus {
-
-    border-color:
-        #d5001c;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(213,0,28,0.20);
-}
-
-
-.size-filter option {
-
+.size-select option,
+#sizeFilter option {
     background: #222;
-
     color: white;
-
-    padding: 10px;
 }
 
+/* SEÇİLİ BEDEN */
 
-/* =========================
-   SEÇİLEN BEDEN
-========================= */
-
+.selected-size,
 .selected-size-label {
-
     text-align: center;
 
-    margin:
-        5px 0 18px;
+    margin: 5px 0 18px;
 
     padding: 12px;
 
     border-radius: 9px;
 
-    background:
-        rgba(213,0,28,0.18);
+    background: rgba(213, 0, 28, 0.18);
 
-    border:
-        1px solid
-        rgba(213,0,28,0.45);
+    border: 1px solid rgba(213, 0, 28, 0.45);
 
     color: white;
-
     font-size: 14px;
 }
 
-
+.selected-size strong,
 .selected-size-label strong {
-
     color: #ff3045;
-
     font-size: 19px;
-
-    margin-left: 4px;
 }
 
+/* SONUÇLAR */
 
-/* =========================
-   ÜRÜN KARTI
-========================= */
+.results {
+    margin-top: 20px;
+}
+
+/* ÜRÜN KARTI */
 
 .product-card {
-
-    background:
-        rgba(27,27,27,0.95);
+    background: rgba(27, 27, 27, 0.95);
 
     border-radius: 14px;
 
@@ -427,20 +189,15 @@ body {
 
     padding: 18px;
 
-    border-left:
-        5px solid
-        #d5001c;
+    border-left: 5px solid #d5001c;
 
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.45);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+
+    color: white;
 }
 
-
 .product-card .product-name {
-
     font-size: 22px;
-
     font-weight: bold;
 
     margin-bottom: 14px;
@@ -448,43 +205,57 @@ body {
     color: white;
 }
 
-
-.product-card div {
-
+.product-card > div {
     margin-top: 7px;
-
     line-height: 1.35;
 }
 
-
 .product-card strong {
-
     color: #bdbdbd;
 }
 
+/* GÖRSEL */
 
-/* =========================
-   BEDEN / STOK
-========================= */
+.product-image {
+    width: 140px;
+    height: 140px;
+
+    margin: 0 auto 15px auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border-radius: 10px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+/* BEDEN / STOK */
 
 .size-title {
-
     margin-top: 18px !important;
-
     margin-bottom: 8px;
 
     font-size: 16px;
-
     font-weight: bold;
 
     color: white;
 }
 
-
 .sizes {
-
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 8px;
@@ -492,9 +263,7 @@ body {
     margin-top: 10px !important;
 }
 
-
 .size-box {
-
     min-width: 58px;
 
     padding: 9px 10px;
@@ -505,13 +274,10 @@ body {
 
     text-align: center;
 
-    border:
-        1px solid #444;
+    border: 1px solid #444;
 }
 
-
 .size-box .size {
-
     display: block;
 
     font-size: 15px;
@@ -519,64 +285,45 @@ body {
     color: #ccc;
 }
 
-
 .size-box .quantity {
-
     display: block;
 
     margin-top: 3px;
 
     font-size: 18px;
-
     font-weight: bold;
 
     color: #00e676;
 }
 
-
 .low-stock {
-
     background: #4a3300;
-
     border-color: #806000;
 }
 
-
 .low-stock .quantity {
-
     color: #ffca28;
 }
 
-
 .out-of-stock {
-
     background: #3a1717;
-
     border-color: #672020;
 }
 
-
 .out-of-stock .quantity {
-
     color: #ff5252;
 }
 
-
-/* =========================
-   GERİ
-========================= */
+/* GERİ */
 
 .back-button {
-
     border: none;
 
-    background:
-        rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
 
     color: white;
 
-    padding:
-        10px 16px;
+    padding: 10px 16px;
 
     border-radius: 9px;
 
@@ -587,26 +334,18 @@ body {
     font-size: 14px;
 }
 
-
 .back-button:hover {
-
-    background:
-        #d5001c;
+    background: #d5001c;
 }
 
-
-/* =========================
-   BULUNAMADI
-========================= */
+/* BULUNAMADI */
 
 .notfound {
-
     text-align: center;
 
     padding: 40px 20px;
 
-    background:
-        rgba(27,27,27,0.95);
+    background: rgba(27, 27, 27, 0.95);
 
     border-radius: 12px;
 
@@ -614,113 +353,48 @@ body {
 
     font-size: 16px;
 
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
-
-/* =========================
-   MOBİL
-========================= */
+/* MOBİL */
 
 @media (max-width: 600px) {
 
     .container {
-
         padding: 15px;
     }
 
-
     .logo {
-
         font-size: 27px;
     }
 
-
-    .assistant-title {
-
-        font-size: 16px;
-
-        letter-spacing: 3px;
-    }
-
-
     .menu-button {
-
         min-height: 95px;
-
         padding: 15px;
     }
-
-
-    .menu-icon {
-
-        width: 50px;
-
-        height: 50px;
-    }
-
-
-    .menu-text {
-
-        margin-left: 13px;
-    }
-
-
-    .menu-text strong {
-
-        font-size: 15px;
-    }
-
-
-    .menu-text small {
-
-        font-size: 12px;
-    }
-
 
     #searchInput {
-
         padding: 15px;
-
         font-size: 16px;
     }
 
-
     .product-card {
-
         padding: 15px;
     }
 
-
     .product-card .product-name {
-
         font-size: 20px;
     }
 
-
-    .size-filter {
-
-        height: 55px;
-
-        font-size: 16px;
+    .product-image {
+        width: 140px;
+        height: 140px;
     }
 
-}.product-image {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 15px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    .size-select,
+    #sizeFilter {
+        height: 55px;
+        font-size: 16px;
+    }
 }
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    border-radius: 10px;
-}
+```
