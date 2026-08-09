@@ -35,7 +35,7 @@ body {
     margin-top: 25px;
     color: white;
     letter-spacing: 2px;
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 3px 10px rgba(0,0,0,0.8);
 }
 
 .subtitle {
@@ -44,7 +44,7 @@ body {
     margin-top: 8px;
     margin-bottom: 28px;
     font-size: 14px;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
 
 /* ANA MENÜ */
@@ -64,24 +64,23 @@ body {
     justify-content: center;
     padding: 18px 20px;
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255,255,255,0.15);
     border-radius: 16px;
 
-    background: rgba(10, 10, 10, 0.82);
+    background: rgba(10,10,10,0.82);
     color: white;
 
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
     transition: all 0.2s ease;
 }
 
 .menu-button:hover {
     transform: translateY(-2px);
-    background: rgba(20, 20, 20, 0.94);
+    background: rgba(20,20,20,0.94);
     border-color: #d5001c;
 }
 
@@ -96,7 +95,7 @@ body {
     width: 100%;
     padding: 17px 20px;
 
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255,255,255,0.15);
     border-radius: 12px;
 
     font-size: 17px;
@@ -104,10 +103,10 @@ body {
 
     margin-bottom: 20px;
 
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(255,255,255,0.96);
     color: #111;
 
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
 }
 
 .search-input:focus,
@@ -124,10 +123,10 @@ body {
 
     padding: 0 18px;
 
-    border: 2px solid rgba(213, 0, 28, 0.55);
+    border: 2px solid rgba(213,0,28,0.55);
     border-radius: 12px;
 
-    background: rgba(20, 20, 20, 0.95);
+    background: rgba(20,20,20,0.95);
     color: white;
 
     font-size: 17px;
@@ -138,7 +137,7 @@ body {
 
     margin-bottom: 18px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
 }
 
 .size-select option,
@@ -152,14 +151,13 @@ body {
 .selected-size,
 .selected-size-label {
     text-align: center;
-
     margin: 5px 0 18px;
     padding: 12px;
 
     border-radius: 9px;
 
-    background: rgba(213, 0, 28, 0.18);
-    border: 1px solid rgba(213, 0, 28, 0.45);
+    background: rgba(213,0,28,0.18);
+    border: 1px solid rgba(213,0,28,0.45);
 
     color: white;
     font-size: 14px;
@@ -180,16 +178,17 @@ body {
 /* ÜRÜN KARTI */
 
 .product-card {
-    background: rgba(27, 27, 27, 0.95);
+    background: rgba(27,27,27,0.95);
 
     border-radius: 14px;
 
     margin-bottom: 16px;
+
     padding: 18px;
 
     border-left: 5px solid #d5001c;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
 
     color: white;
 }
@@ -197,9 +196,7 @@ body {
 .product-card .product-name {
     font-size: 22px;
     font-weight: bold;
-
     margin-bottom: 14px;
-
     color: white;
 }
 
@@ -215,10 +212,10 @@ body {
 /* GÖRSEL */
 
 .product-image {
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
 
-    margin: 0 auto 15px auto;
+    margin: 0 auto 18px auto;
 
     display: flex;
     align-items: center;
@@ -228,7 +225,7 @@ body {
 
     background: #ffffff;
 
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .product-image img {
@@ -317,7 +314,7 @@ body {
 .back-button {
     border: none;
 
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0,0,0,0.75);
 
     color: white;
 
@@ -343,7 +340,7 @@ body {
 
     padding: 40px 20px;
 
-    background: rgba(27, 27, 27, 0.95);
+    background: rgba(27,27,27,0.95);
 
     border-radius: 12px;
 
@@ -351,7 +348,7 @@ body {
 
     font-size: 16px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
 
 /* MOBİL */
@@ -385,8 +382,8 @@ body {
     }
 
     .product-image {
-        width: 140px;
-        height: 140px;
+        width: 160px;
+        height: 160px;
     }
 
     .size-select,
