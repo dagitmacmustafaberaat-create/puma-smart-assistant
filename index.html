@@ -2,158 +2,388 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Buyaka Puma Smart Stock Assistant</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buyaka Puma Smart Stock Assistant</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- BAŞLIK -->
+<div class="logo">BUYAKA PUMA</div>
 
-    <div class="logo">
-        BUYAKA PUMA
-    </div>
+<div class="assistant-title">
+    SMART STOCK ASSISTANT
+</div>
 
-    <div class="assistant-title">
-        SMART STOCK ASSISTANT
-    </div>
+<div class="red-line"></div>
 
-    <div class="red-line"></div>
+<div class="subtitle">
+    Anlık Stok & Ürün Sorgulama
+</div>
 
-    <div class="subtitle">
-        Anlık Stok & Ürün Sorgulama
-    </div>
+<div id="mainMenu" class="main-menu">
 
+    <button class="menu-button" id="productButton">
+        <span class="menu-icon">⌕</span>
+        <span class="menu-text">
+            <strong>ÜRÜN SORGULAMA</strong>
+            <small>Ürün, barkod veya stok kodu ile arama yapın.</small>
+        </span>
+        <span class="menu-arrow">›</span>
+    </button>
 
-    <!-- ANA MENÜ -->
+    <button class="menu-button" id="sizeButton">
+        <span class="menu-icon">👟</span>
+        <span class="menu-text">
+            <strong>BEDEN BAZLI SORGULAMA</strong>
+            <small>Bu özellik daha sonra eklenecek.</small>
+        </span>
+        <span class="menu-arrow">›</span>
+    </button>
 
-    <div id="mainMenu" class="main-menu">
+</div>
 
-        <button
-            class="menu-button"
-            onclick="showProductSearch()"
-        >
+<div id="productSearchArea" class="search-area" style="display:none;">
 
-            <span class="menu-icon">⌕</span>
+    <button class="back-button" id="backButton">
+        ‹ ANA MENÜ
+    </button>
 
-            <span class="menu-text">
-                <strong>ÜRÜN SORGULAMA</strong>
-
-                <small>
-                    Ürün, barkod veya stok kodu ile arama yapın.
-                </small>
-            </span>
-
-            <span class="menu-arrow">›</span>
-
-        </button>
-
-
-        <button
-            class="menu-button"
-            onclick="showSizeSearch()"
-        >
-
-            <span class="menu-icon">👟</span>
-
-            <span class="menu-text">
-                <strong>BEDEN BAZLI SORGULAMA</strong>
-
-                <small>
-                    Beden seçerek stokta bulunan ürünleri görüntüleyin.
-                </small>
-            </span>
-
-            <span class="menu-arrow">›</span>
-
-        </button>
-
-    </div>
-
-
-    <!-- ÜRÜN SORGULAMA -->
-
-    <div
-        id="productSearchArea"
-        class="search-area"
-        style="display:none;"
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Barkod • Ürün • Stok Kodu"
+        autocomplete="off"
     >
 
-        <button
-            class="back-button"
-            onclick="showMainMenu()"
-        >
-            ‹ ANA MENÜ
-        </button>
+    <div id="results"></div>
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Barkod • Ürün • Stok Kodu"
-            autocomplete="off"
-        >
+</div>
 
-        <div id="results"></div>
+<script>
 
-    </div>
+let products = [];
 
 
-    <!-- BEDEN BAZLI SORGULAMA -->
+// ANA MENÜ
+function showMainMenu() {
 
-    <div
-        id="sizeSearchArea"
-        class="search-area"
-        style="display:none;"
-    >
+    document.getElementById("mainMenu").style.display = "flex";
 
-        <button
-            class="back-button"
-            onclick="showMainMenu()"
-        >
-            ‹ ANA MENÜ
-        </button>
+    document.getElementById("productSearchArea").style.display = "none";
 
-        <div class="size-search-title">
-            BEDEN BAZLI SORGULAMA
-        </div>
-
-        <div class="size-filter-info">
-            Stokta bulunan bir bedeni seçin
-        </div>
-
-        <select
-            id="sizeFilter"
-            class="size-filter"
-            onchange="searchBySize(this.value)"
-        >
-
-            <option value="">
-                Beden seçiniz
-            </option>
-
-        </select>
-
-        <div
-            id="selectedSizeLabel"
-            class="selected-size-label"
-        ></div>
-
-        <div id="sizeResults"></div>
-
-    </div>
+}
 
 
-    <!-- JAVASCRIPT -->
+// ÜRÜN SORGULAMA
+function showProductSearch() {
 
-    <script src="script.js"></script>
+    document.getElementById("mainMenu").style.display = "none";
+
+    document.getElementById("productSearchArea").style.display = "block";
+
+    document.getElementById("searchInput").focus();
+
+}
+
+
+// VERİLERİ YÜKLE
+async function loadProducts() {
+
+    try {
+
+        const response = await fetch("./data.json");
+
+        if (!response.ok) {
+            throw new Error("data.json bulunamadı");
+        }
+
+        products = await response.json();
+
+        console.log("Ürün sayısı:", products.length);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("results").innerHTML =
+            "<div class='notfound'>❌ Stok verisi okunamadı.</div>";
+
+    }
+
+}
+
+
+// GÖRSEL
+function getImage(item) {
+
+    let value = item.gorsel || "";
+
+    if (!value) return "";
+
+    value = String(value).trim();
+
+    const match = value.match(/\]\((https?:\/\/[^)]+)\)/);
+
+    if (match) {
+        return match[1];
+    }
+
+    return value;
+}
+
+
+// ÜRÜN ARAMA
+function searchProducts(text) {
+
+    const results = document.getElementById("results");
+
+    text = String(text || "")
+        .trim()
+        .toLocaleLowerCase("tr-TR");
+
+    if (!text) {
+
+        results.innerHTML = "";
+
+        return;
+    }
+
+
+    const found = products.filter(function(item) {
+
+        return (
+
+            String(item.barkod || "")
+                .toLocaleLowerCase("tr-TR")
+                .includes(text)
+
+            ||
+
+            String(item.stokKodu || "")
+                .toLocaleLowerCase("tr-TR")
+                .includes(text)
+
+            ||
+
+            String(item.urun || "")
+                .toLocaleLowerCase("tr-TR")
+                .includes(text)
+
+            ||
+
+            String(item.renk || "")
+                .toLocaleLowerCase("tr-TR")
+                .includes(text)
+
+            ||
+
+            String(item.beden || "")
+                .toLocaleLowerCase("tr-TR")
+                .includes(text)
+
+        );
+
+    });
+
+
+    if (found.length === 0) {
+
+        results.innerHTML =
+            "<div class='notfound'>❌ Ürün bulunamadı.</div>";
+
+        return;
+
+    }
+
+
+    const grouped = {};
+
+
+    found.forEach(function(item) {
+
+        const key =
+            item.stokKodu ||
+            item.urun ||
+            item.barkod;
+
+
+        if (!grouped[key]) {
+
+            grouped[key] = {
+
+                urun: item.urun || "-",
+
+                stokKodu: item.stokKodu || "-",
+
+                renk: item.renk || "-",
+
+                kategori: item.kategori || "-",
+
+                cinsiyet: item.cinsiyet || "-",
+
+                sezon: item.sezon || "-",
+
+                gorsel: getImage(item),
+
+                sizes: []
+
+            };
+
+        }
+
+
+        grouped[key].sizes.push({
+
+            beden: item.beden || "-",
+
+            stok: Number(item.stok) || 0
+
+        });
+
+    });
+
+
+    let html = "";
+
+
+    Object.values(grouped).forEach(function(product) {
+
+
+        let imageHTML = "";
+
+
+        if (product.gorsel) {
+
+            imageHTML =
+
+                '<div class="product-image">' +
+
+                '<img src="' +
+                product.gorsel +
+                '" alt="' +
+                product.urun +
+                '">' +
+
+                '</div>';
+
+        }
+
+
+        let sizesHTML = "";
+
+
+        product.sizes.forEach(function(size) {
+
+            let className = "";
+
+            if (size.stok <= 2 && size.stok > 0) {
+                className = "low-stock";
+            }
+
+            if (size.stok === 0) {
+                className = "out-of-stock";
+            }
+
+
+            sizesHTML +=
+
+                '<div class="size-box ' +
+                className +
+                '">' +
+
+                '<span class="size">' +
+                size.beden +
+                '</span>' +
+
+                '<span class="quantity">' +
+                size.stok +
+                '</span>' +
+
+                '</div>';
+
+        });
+
+
+        html +=
+
+            '<div class="product-card">' +
+
+            imageHTML +
+
+            '<div class="product-name">' +
+            product.urun +
+            '</div>' +
+
+            '<div><strong>Stok Kodu:</strong> ' +
+            product.stokKodu +
+            '</div>' +
+
+            '<div><strong>Renk:</strong> ' +
+            product.renk +
+            '</div>' +
+
+            '<div><strong>Kategori:</strong> ' +
+            product.kategori +
+            '</div>' +
+
+            '<div><strong>Cinsiyet:</strong> ' +
+            product.cinsiyet +
+            '</div>' +
+
+            '<div><strong>Sezon:</strong> ' +
+            product.sezon +
+            '</div>' +
+
+            '<div class="size-title">BEDEN / STOK</div>' +
+
+            '<div class="sizes">' +
+            sizesHTML +
+            '</div>' +
+
+            '</div>';
+
+    });
+
+
+    results.innerHTML = html;
+
+}
+
+
+// BUTONLAR
+document.getElementById("productButton")
+    .addEventListener("click", showProductSearch);
+
+
+document.getElementById("sizeButton")
+    .addEventListener("click", function() {
+
+        alert("Beden bazlı sorgulama daha sonra eklenecek.");
+
+    });
+
+
+document.getElementById("backButton")
+    .addEventListener("click", showMainMenu);
+
+
+// ARAMA
+document.getElementById("searchInput")
+    .addEventListener("input", function() {
+
+        searchProducts(this.value);
+
+    });
+
+
+// SAYFA AÇILINCA VERİLERİ GETİR
+loadProducts();
+
+</script>
 
 </body>
 </html>
