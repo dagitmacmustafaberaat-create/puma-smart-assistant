@@ -41,6 +41,7 @@ function searchProducts(text) {
     }
 
 
+    // Arama sonucunu bul
     const filtered = products.filter(item => {
 
         const barkod = String(item.barkod || "")
@@ -92,6 +93,27 @@ function searchProducts(text) {
 
         if (!grouped[key]) {
 
+            // Aynı ürünün TÜM satırlarını bul
+            const allProductRows = products.filter(product => {
+
+                const productKey = String(
+                    product.stokKodu ||
+                    product.urun ||
+                    product.barkod ||
+                    "ürün"
+                );
+
+                return productKey === key;
+            });
+
+
+            // Aynı ürünün herhangi bir bedeninde
+            // görsel varsa onu kullan
+            const imageRow = allProductRows.find(
+                product => product.gorsel
+            );
+
+
             grouped[key] = {
                 urun: item.urun || "-",
                 stokKodu: item.stokKodu || "-",
@@ -99,19 +121,15 @@ function searchProducts(text) {
                 cinsiyet: item.cinsiyet || "-",
                 sezon: item.sezon || "-",
                 renk: item.renk || "-",
-                gorsel: item.gorsel || "",
+                gorsel: imageRow
+                    ? imageRow.gorsel
+                    : "",
                 sizes: []
             };
         }
 
 
-        // Eğer ilk satırda görsel yoksa,
-        // aynı üründeki başka satırın görselini kullan
-        if (!grouped[key].gorsel && item.gorsel) {
-            grouped[key].gorsel = item.gorsel;
-        }
-
-
+        // Aramada eşleşen bedenleri ekle
         grouped[key].sizes.push({
             beden: item.beden || "-",
             stok: Number(item.stok) || 0
@@ -164,15 +182,15 @@ function searchProducts(text) {
         });
 
 
-        // Görsel varsa göster
+        // Ürün görseli
         let imageHTML = "";
 
         if (product.gorsel) {
 
             imageHTML = `
                 <div class="product-image">
-                    <img 
-                        src="${product.gorsel}" 
+                    <img
+                        src="${product.gorsel}"
                         alt="${product.urun}"
                         loading="lazy"
                         onerror="this.style.display='none';"
