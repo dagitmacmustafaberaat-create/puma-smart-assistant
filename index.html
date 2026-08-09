@@ -2,349 +2,859 @@
 <html lang="tr">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Buyaka Puma Smart Stock Assistant</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <div class="container">
 
-        <!-- BAŞLIK -->
-
-        <div class="logo">
-            BUYAKA PUMA
-        </div>
-
-        <div class="assistant-title">
-            SMART STOCK ASSISTANT
-        </div>
-
-        <div class="red-line"></div>
-
-        <div class="subtitle">
-            Anlık Stok & Ürün Sorgulama
-        </div>
+<div class="container">
 
 
-        <!-- ANA MENÜ -->
+    <!-- =========================
+         BAŞLIK
+    ========================== -->
 
-        <div id="mainMenu" class="main-menu">
-
-            <button
-                class="menu-button"
-                onclick="showProductSearch()"
-            >
-                <span class="menu-icon">⌕</span>
-
-                <span class="menu-text">
-                    <strong>ÜRÜN SORGULAMA</strong>
-                    <small>
-                        Ürün, barkod veya stok kodu ile arama yapın.
-                    </small>
-                </span>
-
-                <span class="menu-arrow">›</span>
-            </button>
+    <div class="logo">
+        BUYAKA PUMA
+    </div>
 
 
-            <button
-                class="menu-button"
-                onclick="showSizeSearch()"
-            >
-                <span class="menu-icon">👟</span>
+    <div class="assistant-title">
+        SMART STOCK ASSISTANT
+    </div>
 
-                <span class="menu-text">
-                    <strong>BEDEN BAZLI SORGULAMA</strong>
-                    <small>
-                        Belirli bir bedende bulunan ürünleri görüntüleyin.
-                    </small>
-                </span>
 
-                <span class="menu-arrow">›</span>
-            </button>
+    <div class="red-line"></div>
 
-        </div>
+
+    <div class="subtitle">
+        Anlık Stok & Ürün Sorgulama
+    </div>
+
+
+
+    <!-- =========================
+         ANA MENÜ
+    ========================== -->
+
+    <div
+        id="mainMenu"
+        class="main-menu"
+    >
 
 
         <!-- ÜRÜN SORGULAMA -->
 
-        <div
-            id="productSearchArea"
-            class="search-area"
-            style="display:none;"
+        <button
+            class="menu-button"
+            onclick="showProductSearch()"
         >
 
-            <button
-                class="back-button"
-                onclick="showMainMenu()"
-            >
-                ‹ ANA MENÜ
-            </button>
+            <span class="menu-icon">
+                ⌕
+            </span>
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Barkod • Ürün • Stok Kodu"
-                autocomplete="off"
-            >
 
-            <div id="results"></div>
+            <span class="menu-text">
 
-        </div>
+                <strong>
+                    ÜRÜN SORGULAMA
+                </strong>
+
+                <small>
+                    Ürün, barkod veya stok kodu ile arama yapın.
+                </small>
+
+            </span>
+
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
 
 
         <!-- BEDEN BAZLI SORGULAMA -->
 
-        <div
-            id="sizeSearchArea"
-            class="search-area"
-            style="display:none;"
+        <button
+            class="menu-button"
+            onclick="showSizeSearch()"
         >
 
-            <button
-                class="back-button"
-                onclick="showMainMenu()"
-            >
-                ‹ ANA MENÜ
-            </button>
+            <span class="menu-icon">
+                👟
+            </span>
 
-            <div class="size-search-title">
-                BEDEN SEÇİN
-            </div>
 
-            <div
-                id="sizeButtons"
-                class="size-buttons"
-            ></div>
+            <span class="menu-text">
 
-            <div id="sizeResults"></div>
+                <strong>
+                    BEDEN BAZLI SORGULAMA
+                </strong>
 
-        </div>
+                <small>
+                    Bir beden seçerek stokta bulunan ürünleri görüntüleyin.
+                </small>
+
+            </span>
+
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
 
     </div>
 
 
-    <script src="script.js"></script>
+
+    <!-- =========================
+         ÜRÜN SORGULAMA
+    ========================== -->
+
+    <div
+        id="productSearchArea"
+        class="search-area"
+        style="display:none;"
+    >
 
 
-    <!-- MENÜ KONTROLLERİ -->
+        <button
+            class="back-button"
+            onclick="showMainMenu()"
+        >
+            ‹ ANA MENÜ
+        </button>
 
-    <script>
 
-        function showMainMenu() {
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Barkod • Ürün • Stok Kodu"
+            autocomplete="off"
+        >
 
-            document.getElementById("mainMenu").style.display = "block";
 
-            document.getElementById("productSearchArea").style.display = "none";
+        <div id="results"></div>
 
-            document.getElementById("sizeSearchArea").style.display = "none";
+
+    </div>
+
+
+
+    <!-- =========================
+         BEDEN BAZLI SORGULAMA
+    ========================== -->
+
+    <div
+        id="sizeSearchArea"
+        class="search-area"
+        style="display:none;"
+    >
+
+
+        <button
+            class="back-button"
+            onclick="showMainMenu()"
+        >
+            ‹ ANA MENÜ
+        </button>
+
+
+
+        <div class="size-search-title">
+
+            BEDEN BAZLI SORGULAMA
+
+        </div>
+
+
+
+        <div class="size-filter-info">
+
+            Stokta bulunan bir bedeni seçin
+
+        </div>
+
+
+
+        <!-- BEDEN BUTONLARI -->
+
+        <div
+            id="sizeButtons"
+            class="size-buttons"
+        ></div>
+
+
+
+        <!-- SEÇİLEN BEDEN -->
+
+        <div
+            id="selectedSizeLabel"
+            class="selected-size-label"
+        ></div>
+
+
+
+        <!-- SONUÇLAR -->
+
+        <div id="sizeResults"></div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     ANA SCRIPT
+========================== -->
+
+<script src="script.js"></script>
+
+
+
+<!-- =========================
+     MENÜ VE BEDEN SORGULAMA
+========================== -->
+
+<script>
+
+
+/* =========================
+   ANA MENÜ
+========================= */
+
+function showMainMenu() {
+
+
+    document.getElementById(
+        "mainMenu"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "productSearchArea"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "sizeSearchArea"
+    ).style.display = "none";
+
+
+    /* Eski beden seçimini temizle */
+
+    const results =
+        document.getElementById("sizeResults");
+
+    if (results) {
+        results.innerHTML = "";
+    }
+
+
+    const label =
+        document.getElementById("selectedSizeLabel");
+
+    if (label) {
+        label.innerHTML = "";
+    }
+
+}
+
+
+
+/* =========================
+   ÜRÜN SORGULAMA
+========================= */
+
+function showProductSearch() {
+
+
+    document.getElementById(
+        "mainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "productSearchArea"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "sizeSearchArea"
+    ).style.display = "none";
+
+
+    setTimeout(() => {
+
+
+        const input =
+            document.getElementById(
+                "searchInput"
+            );
+
+
+        if (input) {
+
+            input.focus();
 
         }
 
 
-        function showProductSearch() {
+    }, 100);
 
-            document.getElementById("mainMenu").style.display = "none";
-
-            document.getElementById("productSearchArea").style.display = "block";
-
-            document.getElementById("sizeSearchArea").style.display = "none";
-
-            setTimeout(() => {
-
-                const input = document.getElementById("searchInput");
-
-                if (input) {
-                    input.focus();
-                }
-
-            }, 100);
-
-        }
+}
 
 
-        function showSizeSearch() {
 
-            document.getElementById("mainMenu").style.display = "none";
+/* =========================
+   BEDEN SORGULAMA
+========================= */
 
-            document.getElementById("productSearchArea").style.display = "none";
+function showSizeSearch() {
 
-            document.getElementById("sizeSearchArea").style.display = "block";
+
+    document.getElementById(
+        "mainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "productSearchArea"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "sizeSearchArea"
+    ).style.display = "block";
+
+
+    createSizeButtons();
+
+}
+
+
+
+/* =========================
+   BEDENLERİ OLUŞTUR
+========================= */
+
+function createSizeButtons() {
+
+
+    const container =
+        document.getElementById(
+            "sizeButtons"
+        );
+
+
+    if (!container) return;
+
+
+    container.innerHTML = "";
+
+
+    /*
+       data.json henüz yüklenmediyse
+    */
+
+    if (
+        typeof products === "undefined" ||
+        !Array.isArray(products) ||
+        products.length === 0
+    ) {
+
+
+        container.innerHTML = `
+
+            <div class="notfound">
+
+                ⏳ Stok verileri yükleniyor...
+
+            </div>
+
+        `;
+
+
+        /*
+           Biraz sonra tekrar dene
+        */
+
+        setTimeout(() => {
 
             createSizeButtons();
 
-        }
+        }, 500);
 
 
-        function createSizeButtons() {
+        return;
 
-            const container = document.getElementById("sizeButtons");
-
-            if (!container) return;
-
-            container.innerHTML = "";
-
-            const sizes = new Set();
-
-            if (typeof products !== "undefined") {
-
-                products.forEach(item => {
-
-                    const size = String(item.beden || "").trim();
-
-                    if (size) {
-                        sizes.add(size);
-                    }
-
-                });
-
-            }
-
-            const sortedSizes = Array.from(sizes).sort((a, b) => {
-
-                const aNum = parseFloat(a);
-                const bNum = parseFloat(b);
-
-                if (!isNaN(aNum) && !isNaN(bNum)) {
-                    return aNum - bNum;
-                }
-
-                return a.localeCompare(b, "tr-TR");
-
-            });
+    }
 
 
-            sortedSizes.forEach(size => {
 
-                const button = document.createElement("button");
+    /* =========================
+       STOKTA OLAN BEDENLER
+    ========================== */
 
-                button.className = "size-select-button";
+    const sizes = new Set();
 
-                button.textContent = size;
 
-                button.onclick = function () {
+    products.forEach(item => {
 
-                    searchBySize(size);
 
-                };
+        const size =
+            String(
+                item.beden || ""
+            ).trim();
 
-                container.appendChild(button);
 
-            });
+        const stock =
+            Number(
+                item.stok
+            ) || 0;
+
+
+        /*
+           SADECE STOK > 0
+        */
+
+        if (
+            size &&
+            stock > 0
+        ) {
+
+            sizes.add(size);
 
         }
 
-
-        function searchBySize(size) {
-
-            const results =
-                document.getElementById("sizeResults");
-
-            if (!results) return;
-
-            const selectedSize =
-                String(size)
-                    .trim()
-                    .toLocaleLowerCase("tr-TR");
+    });
 
 
-            const filtered = products.filter(item => {
 
-                const itemSize =
-                    String(item.beden || "")
-                        .trim()
-                        .toLocaleLowerCase("tr-TR");
+    /* =========================
+       BEDENLERİ SIRALA
+    ========================== */
 
-                return itemSize === selectedSize;
+    const sortedSizes =
+        Array.from(
+            sizes
+        ).sort((a, b) => {
 
-            });
+
+            const aNum =
+                parseFloat(a);
 
 
-            if (filtered.length === 0) {
+            const bNum =
+                parseFloat(b);
 
-                results.innerHTML =
-                    "<div class='notfound'>❌ Bu bedende ürün bulunamadı.</div>";
 
-                return;
+            if (
+                !isNaN(aNum) &&
+                !isNaN(bNum)
+            ) {
+
+                return aNum - bNum;
 
             }
 
 
-            let html = "";
+            return a.localeCompare(
+                b,
+                "tr-TR"
+            );
+
+        });
 
 
-            filtered.forEach(item => {
 
-                html += `
+    /* Hiç beden yoksa */
 
-                    <div class="product-card">
+    if (
+        sortedSizes.length === 0
+    ) {
 
-                        <div class="product-name">
-                            ${item.urun || "-"}
-                        </div>
 
-                        <div>
-                            <strong>Stok Kodu:</strong>
-                            ${item.stokKodu || "-"}
-                        </div>
+        container.innerHTML = `
 
-                        <div>
-                            <strong>Barkod:</strong>
-                            ${item.barkod || "-"}
-                        </div>
+            <div class="notfound">
 
-                        <div>
-                            <strong>Kategori:</strong>
-                            ${item.kategori || "-"}
-                        </div>
+                ❌ Stokta beden bulunamadı.
 
-                        <div>
-                            <strong>Cinsiyet:</strong>
-                            ${item.cinsiyet || "-"}
-                        </div>
+            </div>
 
-                        <div>
-                            <strong>Sezon:</strong>
-                            ${item.sezon || "-"}
-                        </div>
+        `;
 
-                        <div class="size-title">
-                            BEDEN / STOK
-                        </div>
 
-                        <div class="sizes">
+        return;
 
-                            <div class="size-box">
+    }
 
-                                <span class="size">
-                                    ${item.beden || "-"}
-                                </span>
 
-                                <span class="quantity">
-                                    ${Number(item.stok) || 0}
-                                </span>
 
-                            </div>
+    /* =========================
+       BEDEN BUTONLARI
+    ========================== */
 
-                        </div>
+    sortedSizes.forEach(size => {
+
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+
+        button.className =
+            "size-select-button";
+
+
+        button.textContent =
+            size;
+
+
+        button.onclick =
+            function () {
+
+
+                /*
+                   Önce bütün
+                   butonlardan seçimi kaldır
+                */
+
+                document
+                    .querySelectorAll(
+                        ".size-select-button"
+                    )
+                    .forEach(btn => {
+
+                        btn.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                /*
+                   Tıklanan bedeni
+                   seçili yap
+                */
+
+                button.classList.add(
+                    "selected"
+                );
+
+
+                searchBySize(size);
+
+            };
+
+
+        container.appendChild(
+            button
+        );
+
+    });
+
+}
+
+
+
+/* =========================
+   BEDENE GÖRE ÜRÜN ARA
+========================= */
+
+function searchBySize(size) {
+
+
+    const results =
+        document.getElementById(
+            "sizeResults"
+        );
+
+
+    const label =
+        document.getElementById(
+            "selectedSizeLabel"
+        );
+
+
+    if (!results) return;
+
+
+
+    /* =========================
+       SEÇİLEN BEDEN
+    ========================== */
+
+    const selectedSize =
+        String(size)
+            .trim()
+            .toLocaleLowerCase(
+                "tr-TR"
+            );
+
+
+
+    /* =========================
+       SEÇİLEN BEDENİ GÖSTER
+    ========================== */
+
+    if (label) {
+
+
+        label.innerHTML = `
+
+            SEÇİLEN BEDEN:
+
+            <strong>
+                ${size}
+            </strong>
+
+        `;
+
+    }
+
+
+
+    /* =========================
+       ÜRÜNLERİ FİLTRELE
+    ========================== */
+
+    const filtered =
+        products.filter(item => {
+
+
+            const itemSize =
+                String(
+                    item.beden || ""
+                )
+                .trim()
+                .toLocaleLowerCase(
+                    "tr-TR"
+                );
+
+
+            const stock =
+                Number(
+                    item.stok
+                ) || 0;
+
+
+            /*
+               BEDEN AYNI
+               VE
+               STOK 0'DAN BÜYÜK
+            */
+
+            return (
+
+                itemSize === selectedSize &&
+
+                stock > 0
+
+            );
+
+        });
+
+
+
+    /* =========================
+       ÜRÜN YOK
+    ========================== */
+
+    if (
+        filtered.length === 0
+    ) {
+
+
+        results.innerHTML = `
+
+            <div class="notfound">
+
+                ❌ ${size} bedeninde
+                stokta ürün bulunamadı.
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+
+    /* =========================
+       ÜRÜNLERİ GÖSTER
+    ========================== */
+
+    let html = "";
+
+
+
+    filtered.forEach(item => {
+
+
+        html += `
+
+            <div class="product-card">
+
+
+                <div class="product-name">
+
+                    ${item.urun || "-"}
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        Stok Kodu:
+                    </strong>
+
+                    ${item.stokKodu || "-"}
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        Barkod:
+                    </strong>
+
+                    ${item.barkod || "-"}
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        Renk:
+                    </strong>
+
+                    ${item.renk || "-"}
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        Kategori:
+                    </strong>
+
+                    ${item.kategori || "-"}
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        Cinsiyet:
+                    </strong>
+
+                    ${item.cinsiyet || "-"}
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>
+                        Sezon:
+                    </strong>
+
+                    ${item.sezon || "-"}
+
+                </div>
+
+
+
+                <div class="size-title">
+
+                    BEDEN / STOK
+
+                </div>
+
+
+
+                <div class="sizes">
+
+
+                    <div
+                        class="size-box low-stock"
+                    >
+
+
+                        <span class="size">
+
+                            ${item.beden || "-"}
+
+                        </span>
+
+
+                        <span class="quantity">
+
+                            ${Number(item.stok) || 0}
+
+                        </span>
+
 
                     </div>
 
-                `;
 
-            });
+                </div>
 
 
-            results.innerHTML = html;
+            </div>
 
-        }
+        `;
 
-    </script>
+    });
+
+
+
+    results.innerHTML =
+        html;
+
+}
+
+
+</script>
+
 
 </body>
 
