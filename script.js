@@ -15,21 +15,20 @@ async function loadProducts() {
 
         const rawData = await response.json();
 
-        // Yeni JSON yapısını uygulamanın kullandığı yapıya çevir
         products = rawData.map(item => ({
-            barkod: item["Barkod"] ?? item.barkod ?? "",
-            urun: item["Ürün Adı"] ?? item.urun ?? "",
-            beden: item["Beden No"] ?? item.beden ?? "",
-            stok: Number(item["Stok Adedi"] ?? item.stok ?? 0),
-            stokKodu: item["Ürün Kodu"] ?? item.stokKodu ?? "",
-            renk: item["Renk"] ?? item.renk ?? "",
-            kategori: item["Kategori"] ?? item.kategori ?? "",
-            cinsiyet: item["Cinsiyet"] ?? item.cinsiyet ?? "",
-            sezon: item["Sezon"] ?? item.sezon ?? "",
-            gorsel: item["Ürün Görseli"] ?? item.gorsel ?? ""
+            barkod: item["BARKOD"] ?? item["Barkod"] ?? "",
+            urun: item["PRODUCTNAME"] ?? item["Ürün Adı"] ?? "",
+            beden: item["BEDEN NO"] ?? item["Beden No"] ?? "",
+            stok: Number(item["STOK ADEDİ"] ?? item["Stok Adedi"] ?? 0),
+            stokKodu: item["STOK KODU"] ?? item["Ürün Kodu"] ?? "",
+            renk: item["RENK"] ?? item["Renk"] ?? "",
+            kategori: item["PUMA KATEGORİ"] ?? item["Kategori"] ?? "",
+            cinsiyet: item["CİNSİYET"] ?? item["Cinsiyet"] ?? "",
+            sezon: item["SEZON"] ?? item["Sezon"] ?? "",
+            gorsel: item["ÜRÜN RESMİ EXCEL"] ?? item["Ürün Görseli"] ?? ""
         }));
 
-        console.log("Toplam stok satırı:", products.length);
+        console.log("Ürün sayısı:", products.length);
 
         populateSizeFilter();
 
@@ -47,7 +46,7 @@ async function loadProducts() {
 
 
 // ======================================================
-// GÖRSEL URL'SİNİ TEMİZLE
+// GÖRSEL URL
 // ======================================================
 
 function getImageUrl(value) {
@@ -58,9 +57,7 @@ function getImageUrl(value) {
 
     let url = String(value).trim();
 
-    const markdownMatch = url.match(
-        /\]\((https?:\/\/[^)]+)\)/
-    );
+    const markdownMatch = url.match(/\]\((https?:\/\/[^)]+)\)/);
 
     if (markdownMatch) {
         url = markdownMatch[1];
@@ -92,8 +89,7 @@ function findProductImage(item) {
         return image;
     }
 
-    const stokKodu =
-        String(item.stokKodu || "").trim();
+    const stokKodu = String(item.stokKodu || "").trim();
 
     if (stokKodu) {
 
@@ -112,8 +108,7 @@ function findProductImage(item) {
         }
     }
 
-    const urun =
-        String(item.urun || "").trim();
+    const urun = String(item.urun || "").trim();
 
     if (urun) {
 
@@ -132,8 +127,7 @@ function findProductImage(item) {
         }
     }
 
-    const barkod =
-        String(item.barkod || "").trim();
+    const barkod = String(item.barkod || "").trim();
 
     if (barkod) {
 
@@ -200,8 +194,7 @@ function showSizeSearch() {
 
 function populateSizeFilter() {
 
-    const sizeFilter =
-        document.getElementById("sizeFilter");
+    const sizeFilter = document.getElementById("sizeFilter");
 
     if (!sizeFilter || products.length === 0) {
         return;
@@ -211,11 +204,8 @@ function populateSizeFilter() {
 
     products.forEach(item => {
 
-        const size =
-            String(item.beden || "").trim();
-
-        const stock =
-            Number(item.stok) || 0;
+        const size = String(item.beden || "").trim();
+        const stock = Number(item.stok) || 0;
 
         if (
             size &&
@@ -246,8 +236,7 @@ function populateSizeFilter() {
 
     sizes.forEach(size => {
 
-        const option =
-            document.createElement("option");
+        const option = document.createElement("option");
 
         option.value = size;
         option.textContent = size;
@@ -258,58 +247,56 @@ function populateSizeFilter() {
 
 
 // ======================================================
+// ARAMA NORMALİZASYONU
+// ======================================================
+
+function normalizeText(value) {
+
+    return String(value || "")
+        .trim()
+        .toLocaleLowerCase("tr-TR")
+        .replace(/\s+/g, " ");
+}
+
+
+// ======================================================
 // ÜRÜN ARAMA
 // ======================================================
 
 function searchProducts(text) {
 
-    const results =
-        document.getElementById("results");
+    const results = document.getElementById("results");
 
     if (!results) {
         return;
     }
 
-    text = String(text || "")
-        .trim()
-        .toLocaleLowerCase("tr-TR");
+    text = normalizeText(text);
 
     if (!text) {
         results.innerHTML = "";
         return;
     }
 
-    const filtered =
-        products.filter(item => {
+    const filtered = products.filter(item => {
 
-            const barkod =
-                String(item.barkod || "")
-                    .toLocaleLowerCase("tr-TR");
+        const barkod = normalizeText(item.barkod);
+        const stokKodu = normalizeText(item.stokKodu);
+        const urun = normalizeText(item.urun);
+        const beden = normalizeText(item.beden);
+        const renk = normalizeText(item.renk);
 
-            const stokKodu =
-                String(item.stokKodu || "")
-                    .toLocaleLowerCase("tr-TR");
+        return (
+            barkod.includes(text) ||
+            stokKodu.includes(text) ||
+            urun.includes(text) ||
+            beden.includes(text) ||
+            renk.includes(text)
+        );
+    });
 
-            const urun =
-                String(item.urun || "")
-                    .toLocaleLowerCase("tr-TR");
-
-            const beden =
-                String(item.beden || "")
-                    .toLocaleLowerCase("tr-TR");
-
-            const renk =
-                String(item.renk || "")
-                    .toLocaleLowerCase("tr-TR");
-
-            return (
-                barkod.includes(text) ||
-                stokKodu.includes(text) ||
-                urun.includes(text) ||
-                beden.includes(text) ||
-                renk.includes(text)
-            );
-        });
+    console.log("Arama:", text);
+    console.log("Bulunan ürün:", filtered.length);
 
     if (filtered.length === 0) {
 
@@ -516,7 +503,6 @@ function renderProductCards(productList, container) {
             }
 
             sizeHTML +=
-
                 '<div class="size-box ' +
                 stockClass +
                 '">' +
@@ -540,7 +526,6 @@ function renderProductCards(productList, container) {
         if (imageUrl) {
 
             imageHTML =
-
                 '<div class="product-image">' +
 
                 '<img ' +
