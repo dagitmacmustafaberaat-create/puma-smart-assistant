@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,53 +16,29 @@
         BUYAKA PUMA SMART ASSISTANT
     </div>
 
-    <div class="assistant-title">
-        SMART STOCK ASSISTANT
-    </div>
-
-    <div class="red-line"></div>
-
     <div class="subtitle">
         Anlık Stok Sorgulama
     </div>
 
 
     <!-- ANA MENÜ -->
-    <div id="mainMenu" class="main-menu">
+    <div id="mainMenu" class="menu">
 
         <button
-            id="productButton"
             class="menu-button"
             type="button"
+            onclick="showProductSearch()"
         >
-            <div class="menu-icon">🔎</div>
-
-            <div class="menu-text">
-                <strong>ÜRÜN SORGULAMA</strong>
-                <small>
-                    Barkod, ürün kodu veya ürün adı ile stok sorgula
-                </small>
-            </div>
-
-            <div class="menu-arrow">›</div>
+            🔎 ÜRÜN SORGULAMA
         </button>
 
 
         <button
-            id="sizeButton"
             class="menu-button"
             type="button"
+            onclick="showSizeSearch()"
         >
-            <div class="menu-icon">👟</div>
-
-            <div class="menu-text">
-                <strong>BEDEN BAZLI SORGULAMA</strong>
-                <small>
-                    Seçtiğin bedende bulunan ürünleri görüntüle
-                </small>
-            </div>
-
-            <div class="menu-arrow">›</div>
+            👟 BEDEN BAZLI SORGULAMA
         </button>
 
     </div>
@@ -75,9 +52,9 @@
     >
 
         <button
-            id="backProduct"
             class="back-button"
             type="button"
+            onclick="showMainMenu()"
         >
             ← Ana Menü
         </button>
@@ -89,7 +66,10 @@
             autocomplete="off"
         >
 
-        <div id="results"></div>
+        <div
+            id="results"
+            class="results"
+        ></div>
 
     </div>
 
@@ -102,31 +82,28 @@
     >
 
         <button
-            id="backSize"
             class="back-button"
             type="button"
+            onclick="showMainMenu()"
         >
             ← Ana Menü
         </button>
 
-        <div class="size-search-title">
-            BEDEN BAZLI SORGULAMA
-        </div>
-
-        <div class="size-filter-info">
-            Mevcut stok bulunan bedeni seçiniz.
-        </div>
 
         <select
             id="sizeFilter"
-            class="size-filter"
+            class="size-select"
         >
             <option value="">
                 Beden seçiniz
             </option>
         </select>
 
-        <div id="sizeResults"></div>
+
+        <div
+            id="sizeResults"
+            class="results"
+        ></div>
 
     </div>
 
@@ -134,4 +111,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
