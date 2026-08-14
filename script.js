@@ -16,6 +16,7 @@ function getBarkod(item) {
 
 function getStokKodu(item) {
     return String(
+        item["PRODUCTCODE"] ??
         item["STOK KODU"] ??
         item["Ürün Kodu"] ??
         ""
@@ -102,11 +103,6 @@ function getGorsel(item) {
 
     let url = String(value).trim();
 
-    /*
-       Markdown formatı:
-       [görsel](https://....)
-    */
-
     const markdownMatch =
         url.match(
             /\((https?:\/\/[^)]+)\)/
@@ -115,10 +111,6 @@ function getGorsel(item) {
     if (markdownMatch) {
         url = markdownMatch[1];
     }
-
-    /*
-       Fazladan [] veya ters slash temizliği
-    */
 
     url = url
         .replace(/^\[/, "")
@@ -704,12 +696,6 @@ function renderProducts(
                     sezon:
                         getSezon(item) || "-",
 
-                    /*
-                       İlk satırda görsel boşsa
-                       sonra gelen satırdaki görseli
-                       kullanacağız.
-                    */
-
                     gorsel:
                         image || "",
 
@@ -717,11 +703,6 @@ function renderProducts(
                 };
 
             } else {
-
-                /*
-                   Ürün grubunda görsel boşsa
-                   sonraki satırdaki URL'yi al.
-                */
 
                 if (
                     !grouped[key].gorsel &&
@@ -908,10 +889,6 @@ function renderProducts(
 
 function findImage(product) {
 
-    /*
-       Excel / JSON'dan gelen URL
-    */
-
     if (
         product.gorsel &&
         (
@@ -927,10 +904,6 @@ function findImage(product) {
         return product.gorsel;
     }
 
-
-    /*
-       Yerel images klasörü
-    */
 
     if (
         product.stokKodu &&
