@@ -9,6 +9,8 @@ function getBarkod(item) {
     return String(
         item["BARKOD"] ??
         item["Barkod"] ??
+        item["barcode"] ??
+        item["barkod"] ??
         ""
     ).trim();
 }
@@ -17,8 +19,13 @@ function getBarkod(item) {
 function getStokKodu(item) {
     return String(
         item["PRODUCTCODE"] ??
-        item["STOK KODU"] ??
+        item["productCode"] ??
+        item["urunKodu"] ??
+        item["URUN_KODU"] ??
+        item["Ürün kodu"] ??
         item["Ürün Kodu"] ??
+        item["STOK KODU"] ??
+        item["code"] ??
         ""
     ).trim();
 }
@@ -27,6 +34,7 @@ function getStokKodu(item) {
 function getUrun(item) {
     return String(
         item["PRODUCTNAME"] ??
+        item["productName"] ??
         item["Ürün Adı"] ??
         ""
     ).trim();
@@ -36,7 +44,10 @@ function getUrun(item) {
 function getBeden(item) {
     return String(
         item["BEDEN NO"] ??
+        item["BEDEN_NO"] ??
         item["Beden No"] ??
+        item["bedenNo"] ??
+        item["size"] ??
         ""
     ).trim();
 }
@@ -46,7 +57,11 @@ function getStok(item) {
 
     const value = Number(
         item["STOK ADEDİ"] ??
+        item["STOK_ADEDI"] ??
         item["Stok Adedi"] ??
+        item["stokAdedi"] ??
+        item["stock"] ??
+        item["stok"] ??
         0
     );
 
@@ -60,6 +75,7 @@ function getCinsiyet(item) {
     return String(
         item["CİNSİYET"] ??
         item["Cinsiyet"] ??
+        item["gender"] ??
         ""
     ).trim();
 }
@@ -68,7 +84,9 @@ function getCinsiyet(item) {
 function getKategori(item) {
     return String(
         item["PUMA KATEGORİ"] ??
+        item["PUMA_KATEGORI"] ??
         item["Kategori"] ??
+        item["category"] ??
         ""
     ).trim();
 }
@@ -78,6 +96,7 @@ function getSezon(item) {
     return String(
         item["SEZON"] ??
         item["Sezon"] ??
+        item["season"] ??
         ""
     ).trim();
 }
@@ -91,7 +110,9 @@ function getGorsel(item) {
 
     let value =
         item["ÜRÜN RESMİ EXCEL"] ??
+        item["URUN_RESIMI_EXCEL"] ??
         item["Ürün Görseli"] ??
+        item["image"] ??
         "";
 
     if (
@@ -410,10 +431,14 @@ function populateSizeFilter() {
             function (a, b) {
 
                 const aNum =
-                    parseFloat(a);
+                    parseFloat(
+                        String(a).replace(",", ".")
+                    );
 
                 const bNum =
-                    parseFloat(b);
+                    parseFloat(
+                        String(b).replace(",", ".")
+                    );
 
                 if (
                     !isNaN(aNum) &&
@@ -524,6 +549,24 @@ function searchBySize(selectedSize) {
    ÜRÜN ARAMA
 ====================================================== */
 
+function normalizeSearch(value) {
+
+    return String(value || "")
+        .toLocaleLowerCase("tr-TR")
+        .trim()
+        .replace(/\s+/g, "");
+}
+
+
+function normalizeCode(value) {
+
+    return String(value || "")
+        .toLocaleLowerCase("tr-TR")
+        .trim()
+        .replace(/[\s\-_.\/]/g, "");
+}
+
+
 function searchProducts(text) {
 
     const results =
@@ -547,6 +590,12 @@ function searchProducts(text) {
         results.innerHTML = "";
         return;
     }
+
+    const searchNormal =
+        normalizeSearch(search);
+
+    const searchCode =
+        normalizeCode(search);
 
     const filtered =
         products.filter(
@@ -594,22 +643,77 @@ function searchProducts(text) {
                             "tr-TR"
                         );
 
+                const barkodNormal =
+                    normalizeCode(barkod);
+
+                const stokKoduNormal =
+                    normalizeCode(stokKodu);
+
+                const urunNormal =
+                    normalizeSearch(urun);
+
+                const bedenNormal =
+                    normalizeSearch(beden);
+
+                const cinsiyetNormal =
+                    normalizeSearch(cinsiyet);
+
+                const kategoriNormal =
+                    normalizeSearch(kategori);
+
+                const sezonNormal =
+                    normalizeSearch(sezon);
+
                 return (
 
+                    /* BARKOD */
                     barkod.includes(search) ||
 
+                    barkodNormal.includes(
+                        searchCode
+                    ) ||
+
+                    /* ÜRÜN KODU */
                     stokKodu.includes(search) ||
 
+                    stokKoduNormal.includes(
+                        searchCode
+                    ) ||
+
+                    /* ÜRÜN ADI */
                     urun.includes(search) ||
 
+                    urunNormal.includes(
+                        searchNormal
+                    ) ||
+
+                    /* BEDEN */
                     beden.includes(search) ||
 
+                    bedenNormal.includes(
+                        searchNormal
+                    ) ||
+
+                    /* CİNSİYET */
                     cinsiyet.includes(search) ||
 
+                    cinsiyetNormal.includes(
+                        searchNormal
+                    ) ||
+
+                    /* KATEGORİ */
                     kategori.includes(search) ||
 
-                    sezon.includes(search)
+                    kategoriNormal.includes(
+                        searchNormal
+                    ) ||
 
+                    /* SEZON */
+                    sezon.includes(search) ||
+
+                    sezonNormal.includes(
+                        searchNormal
+                    )
                 );
             }
         );
@@ -733,14 +837,52 @@ function renderProducts(
     Object.values(grouped).forEach(
         function (product) {
 
+            /* Aynı beden birden fazla satırda varsa stokları birleştir */
+            const sizeMap = {};
+
+            product.sizes.forEach(
+                function (size) {
+
+                    const key =
+                        String(size.beden)
+                            .trim()
+                            .toLocaleLowerCase(
+                                "tr-TR"
+                            );
+
+                    if (!sizeMap[key]) {
+
+                        sizeMap[key] = {
+                            beden: size.beden,
+                            stok: 0
+                        };
+
+                    }
+
+                    sizeMap[key].stok +=
+                        Number(size.stok) || 0;
+                }
+            );
+
+            product.sizes =
+                Object.values(sizeMap);
+
+
+            /* Bedenleri sırala */
             product.sizes.sort(
                 function (a, b) {
 
                     const aNum =
-                        parseFloat(a.beden);
+                        parseFloat(
+                            String(a.beden)
+                                .replace(",", ".")
+                        );
 
                     const bNum =
-                        parseFloat(b.beden);
+                        parseFloat(
+                            String(b.beden)
+                                .replace(",", ".")
+                        );
 
                     if (
                         !isNaN(aNum) &&
