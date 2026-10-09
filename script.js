@@ -191,12 +191,6 @@ async function loadProducts() {
         }
 
         products = data;
-
-        console.log("====================================");
-        console.log("PUMA SMART ASSISTANT");
-        console.log("Toplam kayıt:", products.length);
-        console.log("====================================");
-
         populateSizeFilter();
     } catch (error) {
         console.error("DATA.JSON HATASI:", error);
@@ -553,12 +547,4 @@ function renderProducts(list, container) {
 function openEducationPDF() {
     const pdfPath = 'egitim.pdf';
     window.open(pdfPath, '_blank');
-}
-
-// ======================================================
-// SD KARNE (SHAREPOINT ORİJİNAL EXCEL LİNKİ)
-// ======================================================
-function openSDKarne() {
-    const sharepointUrl = "https://fastspor.sharepoint.com/:x:/s/MaazaVeriToplama/IQBjVdtzdWy2QZluXQy4FmWLAdLhTcknOQXkEbgQc6u5Ls8?e=09APLw";
-    window.open(sharepointUrl, '_blank');
 }
