@@ -551,7 +551,6 @@ function renderProducts(list, container) {
 // EĞİTİM DÖKÜMANI AÇMA
 // ======================================================
 function openEducationPDF() {
-    // PDF dosya yolunuzu buraya yazın (Örn: 'egitim.pdf' ya da bir web linki)
     const pdfPath = 'egitim.pdf';
     window.open(pdfPath, '_blank');
 }
