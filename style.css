@@ -2,17 +2,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    background:
+    background: 
         linear-gradient(
             rgba(0, 0, 0, 0.55),
             rgba(0, 0, 0, 0.78)
         ),
-        url("puma-bg.jpg.jpg") center center / cover fixed;
-
+        url("puma-bg.jpg") center center / cover fixed;
     color: white;
     min-height: 100vh;
 }
@@ -27,7 +26,6 @@ body {
 }
 
 /* BAŞLIK */
-
 .logo {
     font-size: 34px;
     font-weight: 800;
@@ -41,14 +39,12 @@ body {
 .subtitle {
     text-align: center;
     color: #e0e0e0;
-    margin-top: 8px;
-    margin-bottom: 28px;
+    margin: 8px 0 28px 0;
     font-size: 14px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
 
 /* ANA MENÜ */
-
 .menu {
     display: flex;
     flex-direction: column;
@@ -63,17 +59,13 @@ body {
     align-items: center;
     justify-content: center;
     padding: 18px 20px;
-
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 16px;
-
     background: rgba(10, 10, 10, 0.82);
     color: white;
-
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
-
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     transition: all 0.2s ease;
 }
@@ -84,19 +76,20 @@ body {
     border-color: #d5001c;
 }
 
-/* EĞİTİM DÖKÜMANI BUTONU ÖZEL VURGUSU (İSTEĞE BAĞLI VURGU) */
-.menu-button-education {
+/* EĞİTİM DÖKÜMANI VE SD KARNESİ ÖZEL VURGULARI */
+.menu-button-education,
+.menu-button-report {
     border-color: rgba(213, 0, 28, 0.4);
     background: rgba(20, 10, 10, 0.88);
 }
 
-.menu-button-education:hover {
+.menu-button-education:hover,
+.menu-button-report:hover {
     background: rgba(213, 0, 28, 0.2);
     border-color: #d5001c;
 }
 
 /* ARAMA */
-
 .search-area {
     margin-top: 20px;
 }
@@ -105,17 +98,13 @@ body {
 #searchInput {
     width: 100%;
     padding: 17px 20px;
-
     border: 2px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-
     font-size: 17px;
     outline: none;
     margin-bottom: 20px;
-
     background: rgba(255, 255, 255, 0.96);
     color: #111;
-
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
@@ -125,28 +114,20 @@ body {
 }
 
 /* BEDEN */
-
 .size-select,
 #sizeFilter {
     width: 100%;
     height: 58px;
-
     padding: 0 18px;
-
     border: 2px solid rgba(213, 0, 28, 0.55);
     border-radius: 12px;
-
     background: rgba(20, 20, 20, 0.95);
     color: white;
-
     font-size: 17px;
     font-weight: bold;
-
     outline: none;
     cursor: pointer;
-
     margin-bottom: 18px;
-
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
 }
 
@@ -157,19 +138,14 @@ body {
 }
 
 /* SEÇİLİ BEDEN */
-
 .selected-size,
 .selected-size-label {
     text-align: center;
-
     margin: 5px 0 18px;
     padding: 12px;
-
     border-radius: 9px;
-
     background: rgba(213, 0, 28, 0.18);
     border: 1px solid rgba(213, 0, 28, 0.45);
-
     color: white;
     font-size: 14px;
 }
@@ -180,26 +156,18 @@ body {
     font-size: 19px;
 }
 
-/* SONUÇLAR */
-
+/* SONUÇLAR VE ÜRÜN KARTI */
 .results {
     margin-top: 20px;
 }
 
-/* ÜRÜN KARTI */
-
 .product-card {
     background: rgba(27, 27, 27, 0.95);
-
     border-radius: 14px;
     margin-bottom: 16px;
-
     padding: 18px;
-
     border-left: 5px solid #d5001c;
-
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
-
     color: white;
 }
 
@@ -220,19 +188,14 @@ body {
 }
 
 /* GÖRSEL */
-
 .product-image {
     width: 140px;
     height: 140px;
-
     margin: 0 auto 15px auto;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     overflow: hidden;
-
     background: #ffffff;
     border-radius: 10px;
 }
@@ -240,66 +203,50 @@ body {
 .product-image img {
     width: 100%;
     height: 100%;
-
     object-fit: contain;
     display: block;
 }
 
 /* BEDEN / STOK */
-
 .size-title {
     margin-top: 18px !important;
     margin-bottom: 8px;
-
     font-size: 16px;
     font-weight: bold;
-
     color: white;
 }
 
 .sizes {
     display: flex;
     flex-wrap: wrap;
-
     gap: 8px;
-
     margin-top: 10px !important;
 }
 
 .size-box {
     min-width: 58px;
-
     padding: 9px 10px;
-
     border-radius: 8px;
-
     background: #292929;
-
     text-align: center;
-
     border: 1px solid #444;
 }
 
 .size-box .size {
     display: block;
-
     font-size: 15px;
     color: #ccc;
 }
 
 .size-box .quantity {
     display: block;
-
     margin-top: 3px;
-
     font-size: 18px;
     font-weight: bold;
-
     color: #00e676;
 }
 
 /* DÜŞÜK STOK */
-
 .low-stock {
     background: #4a3300;
     border-color: #806000;
@@ -310,7 +257,6 @@ body {
 }
 
 /* STOK YOK */
-
 .out-of-stock {
     background: #3a1717;
     border-color: #672020;
@@ -320,22 +266,76 @@ body {
     color: #ff5252;
 }
 
-/* GERİ */
+/* --- SD KARNESİ & EXCEL AKTARIM STİLLERİ --- */
+.report-container {
+    background: rgba(27, 27, 27, 0.95);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
 
+.report-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.sd-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    color: white;
+}
+
+.sd-table th, .sd-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sd-table th {
+    background: rgba(213, 0, 28, 0.3);
+    color: #ff3045;
+    font-weight: bold;
+}
+
+.sd-table tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.excel-export-btn {
+    width: 100%;
+    padding: 14px;
+    background: #00875a; /* Excel Yeşili */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.excel-export-btn:hover {
+    background: #00a86b;
+    transform: translateY(-1px);
+}
+
+/* GERİ BUTONU */
 .back-button {
     border: none;
-
     background: rgba(0, 0, 0, 0.75);
     color: white;
-
     padding: 10px 16px;
-
     border-radius: 9px;
-
     margin-bottom: 15px;
-
     cursor: pointer;
     font-size: 14px;
+    transition: background 0.2s ease;
 }
 
 .back-button:hover {
@@ -343,27 +343,18 @@ body {
 }
 
 /* BULUNAMADI */
-
 .notfound {
     text-align: center;
-
     padding: 40px 20px;
-
     background: rgba(27, 27, 27, 0.95);
-
     border-radius: 12px;
-
     color: #999;
-
     font-size: 16px;
-
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
-/* MOBİL */
-
+/* MOBİL UYUMLULUK */
 @media (max-width: 600px) {
-
     .container {
         padding: 15px;
     }
@@ -390,14 +381,13 @@ body {
         font-size: 20px;
     }
 
-    .product-image {
-        width: 140px;
-        height: 140px;
-    }
-
     .size-select,
-    #sizeFilter {
+#sizeFilter {
         height: 55px;
         font-size: 16px;
+    }
+
+    .sd-table {
+        font-size: 13px;
     }
 }

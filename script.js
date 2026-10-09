@@ -150,7 +150,7 @@ function getGorsel(item) {
     }
 
     url = url
-        .replace(/^\[/, "")         .replace(/\]$/, "")
+        .replace(/^\[/, "")        .replace(/\]$/, "")
         .replace(/\\/g, "")
         .trim();
 
@@ -554,3 +554,42 @@ function openEducationPDF() {
     const pdfPath = 'egitim.pdf';
     window.open(pdfPath, '_blank');
 }
+
+// ======================================================
+// SD KARNE MODÜLÜ
+// ======================================================
+let sdKarneData = [
+    { adi: "SİNEM PALAZ", gorev: "Satış Görevlisi", ciro: 177755.0, fatura: 30, adet: 46, upt: 1.53, atv: 5925.17, asp: 3864.24 },
+    { adi: "SERKAN CANİK", gorev: "Supervisor", ciro: 106106.0, fatura: 19, adet: 28, upt: 1.47, atv: 5584.53, asp: 3789.50 },
+    { adi: "CEM AKTAŞ", gorev: "Satış Danışmanı", ciro: 139250.0, fatura: 25, adet: 36, upt: 1.44, atv: 5570.00, asp: 3868.06 },
+    { adi: "MERVE ÇETİN", gorev: "Satış Danışmanı", ciro: 124369.0, fatura: 16, adet: 34, upt: 2.13, atv: 7773.06, asp: 3657.91 },
+    { adi: "ECE NUR TEMÜR", gorev: "Satış Danışmanı", ciro: 82502.0, fatura: 15, adet: 19, upt: 1.27, atv: 5500.13, asp: 4342.21 }
+];
+
+function openSDKarne() {
+    let modal = document.getElementById('sdKarneModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'sdKarneModal';
+        modal.className = 'modal-overlay';
+        document.body.appendChild(modal);
+    }
+
+    let tableRows = sdKarneData.map((person, index) => `
+        <tr>
+            <td><strong>${escapeHTML(person.adi)}</strong></td>
+            <td>${escapeHTML(person.gorev)}</td>
+            <td><input type="number" value="${person.ciro}" onchange="updateKarne(${index}, 'ciro', this.value)"></td>
+            <td><input type="number" value="${person.fatura}" onchange="updateKarne(${index}, 'fatura', this.value)"></td>
+            <td><input type="number" value="${person.adet}" onchange="updateKarne(${index}, 'adet', this.value)"></td>
+            <td id="upt_${index}">${person.upt}</td>
+            <td id="atv_${index}">${person.atv}</td>
+            <td id="asp_${index}">${person.asp}</td>
+        </tr>
+    `).join('');
+
+    modal.innerHTML = `
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h2>📊 Buyaka PUMA - SD Karne Takip Tablosu</h2>
+                <button onclick="closeSDK
