@@ -37,6 +37,7 @@
             👟 BEDEN BAZLI SORGULAMA
         </button>
 
+        <!-- EĞİTİM DÖKÜMANI BUTONU -->
         <button
             class="menu-button"
             type="button"
@@ -45,13 +46,13 @@
             📚 EĞİTİM DÖKÜMANI
         </button>
 
-        <!-- ONLİNE FORMÜLLÜ SD KARNESİ -->
+        <!-- SD KARNE BUTONU (SHAREPOINT ORİJİNAL EXCEL) -->
         <button
             class="menu-button menu-button-report"
             type="button"
             onclick="openSDKarne()"
         >
-            📊 SD KARNESİ (ONLİNE FORMÜLLÜ)
+            📊 SD KARNE
         </button>
 
     </div>
@@ -113,66 +114,6 @@
             id="sizeResults"
             class="results"
         ></div>
-    </div>
-
-    <!-- ONLİNE FORMÜLLÜ SD KARNE EKRANI -->
-    <div id="sdReportContainer" class="report-container" style="display:none;">
-        <button
-            class="back-button"
-            type="button"
-            onclick="closeSDKarne()"
-        >
-            ← Ana Menü
-        </button>
-        
-        <h2 style="text-align:center; margin-bottom:5px; color:#ff3045;">📊 Buyaka PUMA Online SD Karnesi</h2>
-        <p style="text-align:center; font-size:13px; color:#bbb; margin-bottom:20px;">
-            Sarı alanlara personellerin günlük ciro, fatura ve adet verilerini girin. UPT, ATV, ASP ve prim hakedişleri Excel mantığıyla anında otomatik hesaplanır.
-        </p>
-
-        <!-- DATA / GİRİŞ TABLOSU -->
-        <h3 style="color:#ff3045; margin-bottom:10px; font-size:16px;">1. Personel Günlük Veri Girişi (Sarı Alanlar)</h3>
-        <div class="report-table-wrapper">
-            <table class="sd-table">
-                <thead>
-                    <tr>
-                        <th>ADI SOYADI</th>
-                        <th>GÖREV</th>
-                        <th>GERÇEKLEŞEN CİRO (TL)</th>
-                        <th>FATURA SAYISI</th>
-                        <th>ADET</th>
-                        <th>UPT (Otomatik)</th>
-                        <th>ATV (Otomatik)</th>
-                        <th>ASP (Otomatik)</th>
-                    </tr>
-                </thead>
-                <tbody id="dataTabBody">
-                    <!-- Dinamik doldurulacak -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- ÖZET VE HAKEDİŞ TABLOSU (SD KARNE ÖZETİ) -->
-        <h3 style="color:#ff3045; margin:25px 0 10px 0; font-size:16px;">2. SD Karne & Prim Hakediş Özeti</h3>
-        <div class="report-table-wrapper">
-            <table class="sd-table">
-                <thead>
-                    <tr>
-                        <th>TOPLAM CİRO</th>
-                        <th>TOPLAM FATURA</th>
-                        <th>TOPLAM ADET</th>
-                        <th>MAĞAZA UPT</th>
-                        <th>MAĞAZA ATV</th>
-                        <th>MAĞAZA ASP</th>
-                    </tr>
-                </thead>
-                <tbody id="summaryTabBody">
-                    <!-- Dinamik doldurulacak -->
-                </tbody>
-            </table>
-        </div>
-
-        <button class="excel-export-btn" onclick="exportToExcelReport()" style="margin-top:25px;">📥 Güncel Raporu Excel Olarak İndir</button>
     </div>
 
     <!-- JAVASCRIPT -->

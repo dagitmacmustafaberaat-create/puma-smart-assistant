@@ -6,28 +6,53 @@ let products = [];
 const SUPABASE_URL = "https://zjxphwqcmmmbikgrbhyn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OF_6Dt6vWB3Z0XlyvOxIog_evFp_M57";
 
-async function saveSearchLog(searchType, productCode, productName, size, searchText) {
+// ======================================================
+// SUPABASE ARAMA KAYDI
+// ======================================================
+async function saveSearchLog(
+    searchType,
+    productCode,
+    productName,
+    size,
+    searchText
+) {
     try {
-        await fetch(SUPABASE_URL + "/rest/v1/search_logs", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "apikey": SUPABASE_KEY,
-                "Prefer": "return=minimal"
-            },
-            body: JSON.stringify({
-                search_type: searchType,
-                product_code: productCode || null,
-                product_name: productName || null,
-                size: size || null,
-                search_text: searchText || null
-            })
-        });
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/search_logs",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify({
+                    search_type: searchType,
+                    product_code: productCode || null,
+                    product_name: productName || null,
+                    size: size || null,
+                    search_text: searchText || null
+                })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("SUPABASE HATASI:", response.status, errorText);
+            return false;
+        }
+
+        console.log("✅ ARAMA SUPABASE'E KAYDEDİLDİ:", searchType, searchText);
+        return true;
     } catch (error) {
-        console.error("SUPABASE HATASI:", error);
+        console.error("❌ SUPABASE BAĞLANTI HATASI:", error);
+        return false;
     }
 }
 
+// ======================================================
+// YARDIMCI FONKSİYONLAR
+// ======================================================
 function escapeHTML(str) {
     if (!str) return "";
     return String(str)
@@ -43,42 +68,155 @@ function tryNextImage(imgElement) {
     imgElement.parentElement.style.display = 'none';
 }
 
-// ÜRÜN ALANLARI
-function getBarkod(item) { return String(item["BARKOD"] ?? item["Barkod"] ?? item["barcode"] ?? item["BARCODE"] ?? item["barkod"] ?? "").trim(); }
-function getStokKodu(item) { return String(item["PRODUCTCODE"] ?? item["PRODUCT_CODE"] ?? item["productCode"] ?? item["urunKodu"] ?? item["STOK KODU"] ?? item["code"] ?? "").trim(); }
-function getUrun(item) { return String(item["PRODUCTNAME"] ?? item["PRODUCT_NAME"] ?? item["Ürün Adı"] ?? "").trim(); }
-function getBeden(item) { return String(item["BEDEN NO"] ?? item["Beden No"] ?? item["BEDEN"] ?? item["size"] ?? "").trim(); }
-function getStok(item) { const v = Number(item["STOK ADEDİ"] ?? item["STOK"] ?? item["stock"] ?? 0); return Number.isFinite(v) ? v : 0; }
-function getCinsiyet(item) { return String(item["CİNSİYET"] ?? item["Cinsiyet"] ?? item["gender"] ?? "").trim(); }
-function getKategori(item) { return String(item["PUMA KATEGORİ"] ?? item["Kategori"] ?? item["category"] ?? "").trim(); }
-function getSezon(item) { return String(item["SEZON"] ?? item["Sezon"] ?? item["season"] ?? "").trim(); }
+// ======================================================
+// VERİ ALANLARI
+// ======================================================
+function getBarkod(item) {
+    return String(
+        item["BARKOD"] ?? item["Barkod"] ?? item["barcode"] ?? item["BARCODE"] ?? item["barkod"] ?? ""
+    ).trim();
+}
 
+function getStokKodu(item) {
+    return String(
+        item["PRODUCTCODE"] ?? item["PRODUCT_CODE"] ?? item["PRODUCT CODE"] ?? item["productCode"] ?? 
+        item["product_code"] ?? item["urunKodu"] ?? item["URUN_KODU"] ?? item["Ürün kodu"] ?? 
+        item["Ürün Kodu"] ?? item["STOK KODU"] ?? item["Stok Kodu"] ?? item["code"] ?? ""
+    ).trim();
+}
+
+function getUrun(item) {
+    return String(
+        item["PRODUCTNAME"] ?? item["PRODUCT_NAME"] ?? item["PRODUCT NAME"] ?? item["productName"] ?? 
+        item["Ürün Adı"] ?? item["Ürün adı"] ?? item["product_name"] ?? ""
+    ).trim();
+}
+
+function getBeden(item) {
+    return String(
+        item["BEDEN NO"] ?? item["BEDEN_NO"] ?? item["Beden No"] ?? item["bedenNo"] ?? 
+        item["BEDEN"] ?? item["Beden"] ?? item["size"] ?? ""
+    ).trim();
+}
+
+function getStok(item) {
+    const value = Number(
+        item["STOK ADEDİ"] ?? item["STOK_ADEDI"] ?? item["Stok Adedi"] ?? item["stokAdedi"] ?? 
+        item["STOK"] ?? item["Stok"] ?? item["stock"] ?? item["stok"] ?? 0
+    );
+    return Number.isFinite(value) ? value : 0;
+}
+
+function getCinsiyet(item) {
+    return String(
+        item["CİNSİYET"] ?? item["Cinsiyet"] ?? item["CINSIYET"] ?? item["gender"] ?? ""
+    ).trim();
+}
+
+function getKategori(item) {
+    return String(
+        item["PUMA KATEGORİ"] ?? item["PUMA_KATEGORI"] ?? item["PUMA KATEGORI"] ?? 
+        item["Kategori"] ?? item["KATEGORI"] ?? item["category"] ?? ""
+    ).trim();
+}
+
+function getSezon(item) {
+    return String(
+        item["SEZON"] ?? item["Sezon"] ?? item["season"] ?? ""
+    ).trim();
+}
+
+// ======================================================
+// GÖRSEL
+// ======================================================
 function getGorsel(item) {
-    let value = item["ÜRÜN RESMİ EXCEL"] ?? item["Ürün Görseli"] ?? item["image"] ?? "";
-    if (!value) return "";
+    let value =
+        item["ÜRÜN RESMİ EXCEL"] ??
+        item["URUN_RESIMI_EXCEL"] ??
+        item["Ürün Görseli"] ??
+        item["PRODUCT IMAGE"] ??
+        item["image"] ??
+        "";
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
     let url = String(value).trim();
-    const m = url.match(/\((https?:\/\/[^)]+)\)/);
-    if (m) url = m[1];
-    return url.replace(/^\[/, "").replace(/\]$/, "").replace(/\\/g, "").trim();
+    const markdownMatch = url.match(/\((https?:\/\/[^)]+)\)/);
+
+    if (markdownMatch) {
+        url = markdownMatch[1];
+    }
+
+    url = url
+        .replace(/^\[/, "")         .replace(/\]$/, "")
+        .replace(/\\/g, "")
+        .trim();
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+
+    return "";
 }
 
 function findImage(product) {
-    return (product.gorsel && (product.gorsel.startsWith("http://") || product.gorsel.startsWith("https://"))) ? product.gorsel : "";
+    if (
+        product.gorsel &&
+        (product.gorsel.startsWith("http://") || product.gorsel.startsWith("https://"))
+    ) {
+        return product.gorsel;
+    }
+    return "";
 }
 
+// ======================================================
+// DATA.JSON YÜKLE
+// ======================================================
 async function loadProducts() {
     try {
-        const response = await fetch("./data.json?v=" + Date.now(), { cache: "no-store" });
-        if (!response.ok) throw new Error("data.json yüklenemedi.");
-        products = await response.json();
+        const response = await fetch("./data.json?v=" + Date.now(), {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("data.json yüklenemedi. HTTP: " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+            throw new Error("data.json liste değil.");
+        }
+
+        products = data;
+
+        console.log("====================================");
+        console.log("PUMA SMART ASSISTANT");
+        console.log("Toplam kayıt:", products.length);
+        console.log("====================================");
+
         populateSizeFilter();
     } catch (error) {
         console.error("DATA.JSON HATASI:", error);
+
+        const results = document.getElementById("results");
+
+        if (results) {
+            results.innerHTML =
+                "<div class='notfound'>" +
+                "❌ Stok verisi okunamadı.<br><br>" +
+                escapeHTML(error.message) +
+                "</div>";
+        }
     }
 }
 
+// Sayfa yüklendiğinde verileri çek
 document.addEventListener("DOMContentLoaded", function () {
     loadProducts();
+
     const searchInput = document.getElementById("searchInput");
     if (searchInput) {
         searchInput.addEventListener("input", function (e) {
@@ -87,298 +225,340 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// ======================================================
+// ANA MENÜ
+// ======================================================
 function showMainMenu() {
-    document.getElementById("mainMenu").style.display = "flex";
-    document.getElementById("productSearchArea").style.display = "none";
-    document.getElementById("sizeSearchArea").style.display = "none";
-    document.getElementById("sdReportContainer").style.display = "none";
-    document.getElementById("results").innerHTML = "";
-    document.getElementById("sizeResults").innerHTML = "";
+    const mainMenu = document.getElementById("mainMenu");
+    const productSearchArea = document.getElementById("productSearchArea");
+    const sizeSearchArea = document.getElementById("sizeSearchArea");
+    const results = document.getElementById("results");
+    const sizeResults = document.getElementById("sizeResults");
+
+    if (mainMenu) mainMenu.style.display = "flex";
+    if (productSearchArea) productSearchArea.style.display = "none";
+    if (sizeSearchArea) sizeSearchArea.style.display = "none";
+    if (results) results.innerHTML = "";
+    if (sizeResults) sizeResults.innerHTML = "";
 }
 
+// ======================================================
+// ÜRÜN SORGULAMA
+// ======================================================
 function showProductSearch() {
-    document.getElementById("mainMenu").style.display = "none";
-    document.getElementById("productSearchArea").style.display = "block";
-    document.getElementById("sizeSearchArea").style.display = "none";
-    document.getElementById("sdReportContainer").style.display = "none";
+    const mainMenu = document.getElementById("mainMenu");
+    const productSearchArea = document.getElementById("productSearchArea");
+    const sizeSearchArea = document.getElementById("sizeSearchArea");
+
+    if (mainMenu) mainMenu.style.display = "none";
+    if (productSearchArea) productSearchArea.style.display = "block";
+    if (sizeSearchArea) sizeSearchArea.style.display = "none";
+
     const input = document.getElementById("searchInput");
-    if (input) { input.value = ""; setTimeout(() => input.focus(), 100); }
+
+    if (input) {
+        input.value = "";
+        setTimeout(function () {
+            input.focus();
+        }, 100);
+    }
+
+    const results = document.getElementById("results");
+    if (results) results.innerHTML = "";
 }
 
+// ======================================================
+// BEDEN SORGULAMA
+// ======================================================
 function showSizeSearch() {
-    document.getElementById("mainMenu").style.display = "none";
-    document.getElementById("productSearchArea").style.display = "none";
-    document.getElementById("sizeSearchArea").style.display = "block";
-    document.getElementById("sdReportContainer").style.display = "none";
+    const mainMenu = document.getElementById("mainMenu");
+    const productSearchArea = document.getElementById("productSearchArea");
+    const sizeSearchArea = document.getElementById("sizeSearchArea");
+
+    if (mainMenu) mainMenu.style.display = "none";
+    if (productSearchArea) productSearchArea.style.display = "none";
+    if (sizeSearchArea) sizeSearchArea.style.display = "block";
+
     populateSizeFilter();
 }
 
+// ======================================================
+// BEDENLERİ DOLDUR
+// ======================================================
 function populateSizeFilter() {
     const select = document.getElementById("sizeFilter");
     if (!select) return;
+
     const sizes = new Set();
-    products.forEach(item => {
+
+    products.forEach(function (item) {
         const beden = getBeden(item);
-        if (beden && getStok(item) > 0) sizes.add(beden);
+        const stok = getStok(item);
+
+        if (beden && stok > 0) {
+            sizes.add(beden);
+        }
     });
-    const sorted = Array.from(sizes).sort((a, b) => {
-        const an = parseFloat(String(a).replace(",", "."));
-        const bn = parseFloat(String(b).replace(",", "."));
-        return (!isNaN(an) && !isNaN(bn)) ? an - bn : String(a).localeCompare(String(b), "tr-TR");
+
+    const sortedSizes = Array.from(sizes).sort(function (a, b) {
+        const aNum = parseFloat(String(a).replace(",", "."));
+        const bNum = parseFloat(String(b).replace(",", "."));
+
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return aNum - bNum;
+        }
+
+        return String(a).localeCompare(String(b), "tr-TR");
     });
+
     select.innerHTML = '<option value="">Beden seçiniz</option>';
-    sorted.forEach(size => {
-        const opt = document.createElement("option");
-        opt.value = size;
-        opt.textContent = size;
-        select.appendChild(opt);
+
+    sortedSizes.forEach(function (size) {
+        const option = document.createElement("option");
+        option.value = size;
+        option.textContent = size;
+        select.appendChild(option);
     });
 }
 
+// ======================================================
+// BEDEN ARAMA
+// ======================================================
 function searchBySize(selectedSize) {
     const results = document.getElementById("sizeResults");
     if (!results) return;
-    if (!selectedSize) { results.innerHTML = ""; return; }
-    const filtered = products.filter(item => getBeden(item).toLocaleLowerCase("tr-TR") === selectedSize.toLocaleLowerCase("tr-TR") && getStok(item) > 0);
-    if (filtered.length === 0) { results.innerHTML = "<div class='notfound'>❌ Bu bedende stok bulunamadı.</div>"; return; }
-    saveSearchLog("size", getStokKodu(filtered[0]), getUrun(filtered[0]), selectedSize, selectedSize);
+
+    const size = String(selectedSize || "")
+        .trim()
+        .toLocaleLowerCase("tr-TR");
+
+    if (!size) {
+        results.innerHTML = "";
+        return;
+    }
+
+    const filtered = products.filter(function (item) {
+        const beden = getBeden(item).toLocaleLowerCase("tr-TR");
+        return beden === size && getStok(item) > 0;
+    });
+
+    if (filtered.length === 0) {
+        results.innerHTML = "<div class='notfound'>❌ Bu bedende stok bulunamadı.</div>";
+        return;
+    }
+
+    const first = filtered[0];
+    saveSearchLog(
+        "size",
+        getStokKodu(first),
+        getUrun(first),
+        selectedSize,
+        selectedSize
+    );
+
     renderProducts(filtered, results);
 }
+
+// ======================================================
+// ARAMA NORMALİZASYONU
+// ======================================================
+function normalizeSearch(value) {
+    return String(value || "").toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, "");
+}
+
+function normalizeCode(value) {
+    return String(value || "").toLocaleLowerCase("tr-TR").trim().replace(/[\s\-_.\/]/g, "");
+}
+
+// ======================================================
+// ÜRÜN ARAMA
+// ======================================================
+let lastLoggedSearch = "";
+let searchTimer = null;
 
 function searchProducts(text) {
     const results = document.getElementById("results");
     if (!results) return;
+
     const search = String(text || "").trim().toLocaleLowerCase("tr-TR");
-    if (!search) { results.innerHTML = ""; return; }
-    
-    const filtered = products.filter(item => {
+
+    if (!search) {
+        results.innerHTML = "";
+        return;
+    }
+
+    const searchNormal = normalizeSearch(search);
+    const searchCode = normalizeCode(search);
+
+    const filtered = products.filter(function (item) {
         if (getStok(item) <= 0) return false;
-        return getBarkod(item).toLocaleLowerCase("tr-TR").includes(search) ||
-               getStokKodu(item).toLocaleLowerCase("tr-TR").includes(search) ||
-               getUrun(item).toLocaleLowerCase("tr-TR").includes(search);
+
+        const barkod = getBarkod(item).toLocaleLowerCase("tr-TR");
+        const stokKodu = getStokKodu(item).toLocaleLowerCase("tr-TR");
+        const urun = getUrun(item).toLocaleLowerCase("tr-TR");
+        const beden = getBeden(item).toLocaleLowerCase("tr-TR");
+        const cinsiyet = getCinsiyet(item).toLocaleLowerCase("tr-TR");
+        const kategori = getKategori(item).toLocaleLowerCase("tr-TR");
+        const sezon = getSezon(item).toLocaleLowerCase("tr-TR");
+
+        const barkodNormal = normalizeCode(barkod);
+        const stokKoduNormal = normalizeCode(stokKodu);
+        const urunNormal = normalizeSearch(urun);
+        const bedenNormal = normalizeSearch(beden);
+        const cinsiyetNormal = normalizeSearch(cinsiyet);
+        const kategoriNormal = normalizeSearch(kategori);
+        const sezonNormal = normalizeSearch(sezon);
+
+        return (
+            barkod.includes(search) || barkodNormal.includes(searchCode) ||
+            stokKodu.includes(search) || stokKoduNormal.includes(searchCode) ||
+            urun.includes(search) || urunNormal.includes(searchNormal) ||
+            beden.includes(search) || bedenNormal.includes(searchNormal) ||
+            cinsiyet.includes(search) || cinsiyetNormal.includes(searchNormal) ||
+            kategori.includes(search) || kategoriNormal.includes(searchNormal) ||
+            sezon.includes(search) || sezonNormal.includes(searchNormal)
+        );
     });
 
-    if (filtered.length === 0) { results.innerHTML = "<div class='notfound'>❌ Ürün bulunamadı.</div>"; return; }
+    if (filtered.length === 0) {
+        results.innerHTML = "<div class='notfound'>❌ Ürün bulunamadı.</div>";
+        return;
+    }
+
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+        if (lastLoggedSearch === search) return;
+        lastLoggedSearch = search;
+
+        const first = filtered[0];
+        saveSearchLog(
+            "product",
+            getStokKodu(first),
+            getUrun(first),
+            null,
+            text
+        );
+    }, 700);
+
     renderProducts(filtered, results);
 }
 
+// ======================================================
+// ÜRÜNLERİ GRUPLA VE GÖSTER
+// ======================================================
 function renderProducts(list, container) {
     const grouped = {};
-    list.forEach(item => {
+
+    list.forEach(function (item) {
         if (getStok(item) <= 0) return;
-        const key = getStokKodu(item) || getBarkod(item);
+
+        const stokKodu = getStokKodu(item);
+        const barkod = getBarkod(item);
+        const urun = getUrun(item);
+        const image = getGorsel(item);
+
+        const key = stokKodu || barkod || urun;
+
         if (!grouped[key]) {
             grouped[key] = {
-                urun: getUrun(item) || "-",
-                stokKodu: getStokKodu(item) || "-",
-                barkod: getBarkod(item) || "-",
+                urun: urun || "-",
+                stokKodu: stokKodu || "-",
+                barkod: barkod || "-",
                 kategori: getKategori(item) || "-",
                 cinsiyet: getCinsiyet(item) || "-",
                 sezon: getSezon(item) || "-",
-                gorsel: getGorsel(item) || "",
+                gorsel: image || "",
                 sizes: []
             };
+        } else if (!grouped[key].gorsel && image) {
+            grouped[key].gorsel = image;
         }
-        grouped[key].sizes.push({ beden: getBeden(item) || "-", stok: getStok(item) });
+
+        grouped[key].sizes.push({
+            beden: getBeden(item) || "-",
+            stok: getStok(item)
+        });
     });
 
     let html = "";
-    Object.values(grouped).forEach(product => {
-        let sizeHTML = "";
-        product.sizes.forEach(s => {
-            sizeHTML += `<div class="size-box"><span class="size">${escapeHTML(s.beden)}</span><span class="quantity">${s.stok}</span></div>`;
+
+    Object.values(grouped).forEach(function (product) {
+        const sizeMap = {};
+
+        product.sizes.forEach(function (size) {
+            const key = String(size.beden).trim().toLocaleLowerCase("tr-TR");
+            if (!sizeMap[key]) {
+                sizeMap[key] = { beden: size.beden, stok: 0 };
+            }
+            sizeMap[key].stok += Number(size.stok) || 0;
         });
-        const img = findImage(product);
+
+        product.sizes = Object.values(sizeMap).filter(size => size.stok > 0);
+
+        if (product.sizes.length === 0) return;
+
+        product.sizes.sort(function (a, b) {
+            const aNum = parseFloat(String(a.beden).replace(",", "."));
+            const bNum = parseFloat(String(b.beden).replace(",", "."));
+
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+                return aNum - bNum;
+            }
+            return String(a.beden).localeCompare(String(b.beden), "tr-TR");
+        });
+
+        let sizeHTML = "";
+        product.sizes.forEach(function (size) {
+            let stockClass = size.stok <= 2 ? "low-stock" : "";
+            sizeHTML += `
+                <div class="size-box ${stockClass}">
+                    <span class="size">${escapeHTML(size.beden)}</span>
+                    <span class="quantity">${size.stok}</span>
+                </div>
+            `;
+        });
+
+        const image = findImage(product);
+
         html += `
             <div class="product-card">
-                ${img ? `<div class="product-image"><img src="${escapeHTML(img)}" alt="" loading="lazy" onerror="tryNextImage(this);"></div>` : ""}
+                ${image ? `
+                <div class="product-image">
+                    <img src="${escapeHTML(image)}" alt="${escapeHTML(product.urun)}" loading="lazy" referrerpolicy="no-referrer" onerror="tryNextImage(this);">
+                </div>
+                ` : ""}
                 <div class="product-name">${escapeHTML(product.urun)}</div>
                 <div><strong>Ürün Kodu:</strong> ${escapeHTML(product.stokKodu)}</div>
                 <div><strong>Barkod:</strong> ${escapeHTML(product.barkod)}</div>
+                <div><strong>Kategori:</strong> ${escapeHTML(product.kategori)}</div>
+                <div><strong>Cinsiyet:</strong> ${escapeHTML(product.cinsiyet)}</div>
+                <div><strong>Sezon:</strong> ${escapeHTML(product.sezon)}</div>
                 <div class="size-title">BEDEN / STOK</div>
                 <div class="sizes">${sizeHTML}</div>
             </div>
         `;
     });
+
+    if (!html.trim()) {
+        container.innerHTML = "<div class='notfound'>❌ Stokta ürün bulunamadı.</div>";
+        return;
+    }
+
     container.innerHTML = html;
 }
 
+// ======================================================
+// EĞİTİM DÖKÜMANI AÇMA
+// ======================================================
 function openEducationPDF() {
-    window.open('egitim.pdf', '_blank');
+    const pdfPath = 'egitim.pdf';
+    window.open(pdfPath, '_blank');
 }
 
 // ======================================================
-// ONLİNE FORMÜLLÜ SD KARNE SİSTEMİ
+// SD KARNE (SHAREPOINT ORİJİNAL EXCEL LİNKİ)
 // ======================================================
-let sdKarneData = [
-    { adi: "SİNEM PALAZ", gorev: "Satış Görevlisi", ciro: 177755.0, fatura: 30, adet: 46 },
-    { adi: "SERKAN CANİK", gorev: "Supervisor", ciro: 106106.0, fatura: 19, adet: 28 },
-    { adi: "CEM AKTAŞ", gorev: "Satış Danışmanı", ciro: 139250.0, fatura: 25, adet: 36 },
-    { adi: "MERVE ÇETİN", gorev: "Satış Danışmanı", ciro: 124369.0, fatura: 16, adet: 34 },
-    { adi: "ECE NUR TEMÜR", gorev: "Satış Danışmanı", ciro: 82502.0, fatura: 15, adet: 19 }
-];
-
 function openSDKarne() {
-    document.getElementById("mainMenu").style.display = "none";
-    document.getElementById("productSearchArea").style.display = "none";
-    document.getElementById("sizeSearchArea").style.display = "none";
-    document.getElementById("sdReportContainer").style.display = "block";
-    renderSDKarneTables();
-}
-
-function closeSDKarne() {
-    showMainMenu();
-}
-
-function renderSDKarneTables() {
-    let tbodyData = "";
-    let totalCiro = 0;
-    let totalFatura = 0;
-    let totalAdet = 0;
-
-    sdKarneData.forEach((p, index) => {
-        const upt = p.fatura > 0 ? (p.adet / p.fatura) : 0;
-        const atv = p.fatura > 0 ? (p.ciro / p.fatura) : 0;
-        const asp = p.adet > 0 ? (p.ciro / p.adet) : 0;
-
-        totalCiro += p.ciro;
-        totalFatura += p.fatura;
-        totalAdet += p.adet;
-
-        tbodyData += `
-            <tr>
-                <td><strong>${escapeHTML(p.adi)}</strong></td>
-                <td>${escapeHTML(p.gorev)}</td>
-                <td><input type="number" class="sd-input-cell" value="${p.ciro}" oninput="updateKarneData(${index}, 'ciro', this.value)"></td>
-                <td><input type="number" class="sd-input-cell" value="${p.fatura}" oninput="updateKarneData(${index}, 'fatura', this.value)"></td>
-                <td><input type="number" class="sd-input-cell" value="${p.adet}" oninput="updateKarneData(${index}, 'adet', this.value)"></td>
-                <td class="sd-calculated">${upt.toFixed(2)}</td>
-                <td class="sd-calculated">${atv.toFixed(2)} TL</td>
-                <td class="sd-calculated">${asp.toFixed(2)} TL</td>
-            </tr>
-        `;
-    });
-
-    document.getElementById("dataTabBody").innerHTML = tbodyData;
-
-    const storeUpt = totalFatura > 0 ? (totalAdet / totalFatura) : 0;
-    const storeAtv = totalFatura > 0 ? (totalCiro / totalFatura) : 0;
-    const storeAsp = totalAdet > 0 ? (totalCiro / totalAdet) : 0;
-
-    document.getElementById("summaryTabBody").innerHTML = `
-        <tr>
-            <td><strong>${totalCiro.toLocaleString('tr-TR')} TL</strong></td>
-            <td><strong>${totalFatura}</strong></td>
-            <td><strong>${totalAdet}</strong></td>
-            <td class="sd-calculated"><strong>${storeUpt.toFixed(2)}</strong></td>
-            <td class="sd-calculated"><strong>${storeAtv.toFixed(2)} TL</strong></td>
-            <td class="sd-calculated"><strong>${storeAsp.toFixed(2)} TL</strong></td>
-        </tr>
-    `;
-}
-
-function updateKarneData(index, field, value) {
-    const val = parseFloat(value) || 0;
-    sdKarneData[index][field] = val;
-    renderSDKarneTables();
-}
-
-function exportToExcelReport() {
-    let csv = "ADI SOYADI\tGÖREV\tGERÇEKLEŞEN CİRO\tFATURA SAYISI\tADET\tUPT\tATV\tASP\n";
-    sdKarneData.forEach(p => {
-        const upt = p.fatura > 0 ? (p.adet / p.fatura) : 0;
-        const atv = p.fatura > 0 ? (p.ciro / p.fatura) : 0;
-        const asp = p.adet > 0 ? (p.ciro / p.adet) : 0;
-        csv += `${p.adi}\t${p.gorev}\t${p.ciro}\t${p.fatura}\t${p.adet}\t${upt.toFixed(2)}\t${atv.toFixed(2)}\t${asp.toFixed(2)}\n`;
-    });
-
-    let blob = new Blob(["\ufeff" + csv], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = 'Buyaka_Puma_SD_Karne_Guncel.xls';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-}// ======================================================
-// ORİJİNAL EXCEL DOSYASINI TARAYICIDA ONLINE DÜZENLEME
-// ======================================================
-let globalWorkbook = null;
-let activeSheetName = "";
-
-async function openSDKarne() {
-    document.getElementById("mainMenu").style.display = "none";
-    document.getElementById("productSearchArea").style.display = "none";
-    document.getElementById("sizeSearchArea").style.display = "none";
-    document.getElementById("sdReportContainer").style.display = "block";
-
-    try {
-        const response = await fetch("sd_karne.xlsx?v=" + Date.now());
-        const data = await response.arrayBuffer();
-        globalWorkbook = XLSX.read(data, { type: "array", cellFormula: true, cellStyles: true });
-
-        renderExcelTabs();
-        if (globalWorkbook.SheetNames.length > 0) {
-            switchSheet(globalWorkbook.SheetNames[0]);
-        }
-    } catch (e) {
-        console.error("Excel yüklenemedi:", e);
-        document.getElementById("excelViewer").innerHTML = "<div class='notfound'>❌ sd_karne.xlsx dosyası okunamadı.</div>";
-    }
-}
-
-function closeSDKarne() {
-    showMainMenu();
-}
-
-function renderExcelTabs() {
-    const tabsDiv = document.getElementById("excelTabs");
-    tabsDiv.innerHTML = "";
-
-    globalWorkbook.SheetNames.forEach(sheetName => {
-        const btn = document.createElement("button");
-        btn.textContent = sheetName;
-        btn.className = "menu-button";
-        btn.style.cssText = "padding:8px 16px; min-height:auto; font-size:14px; cursor:pointer;";
-        btn.onclick = () => switchSheet(sheetName);
-        tabsDiv.appendChild(btn);
-    });
-}
-
-function switchSheet(sheetName) {
-    activeSheetName = sheetName;
-    const sheet = globalWorkbook.Sheets[sheetName];
-    
-    // Excel sayfasını HTML tabloya çeviriyoruz
-    const htmlTable = XLSX.utils.sheet_to_html(sheet, { editable: true });
-    const viewer = document.getElementById("excelViewer");
-    viewer.innerHTML = htmlTable;
-
-    // Tabloyu şık hale getirip hücreleri düzenlenebilir yapalım
-    const table = viewer.querySelector("table");
-    if (table) {
-        table.style.width = "100%";
-        table.style.borderCollapse = "collapse";
-        table.style.fontSize = "13px";
-        table.style.color = "white";
-
-        const cells = table.querySelectorAll("td, th");
-        cells.forEach(cell => {
-            cell.contentEditable = true;
-            cell.style.border = "1px solid #444";
-            cell.style.padding = "6px 8px";
-            
-            // Hücre değiştiğinde excel objesini güncelleyelim
-            cell.addEventListener("input", function() {
-                // Güncellenen veriyi tekrar workbook içerisine aktar
-                const updatedSheet = XLSX.utils.table_to_sheet(table);
-                globalWorkbook.Sheets[activeSheetName] = updatedSheet;
-            });
-        });
-    }
-}
-
-function saveExcelChanges() {
-    if (!globalWorkbook) return;
-    XLSX.writeFile(globalWorkbook, "sd_karne_guncel.xlsx");
+    const sharepointUrl = "https://fastspor.sharepoint.com/:x:/s/MaazaVeriToplama/IQBjVdtzdWy2QZluXQy4FmWLAdLhTcknOQXkEbgQc6u5Ls8?e=09APLw";
+    window.open(sharepointUrl, '_blank');
 }
