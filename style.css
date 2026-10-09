@@ -266,7 +266,7 @@ body {
     color: #ff5252;
 }
 
-/* --- SD KARNESİ & EXCEL AKTARIM STİLLERİ --- */
+/* --- SD KARNESİ & EXCEL TABLO / SARI ALAN STİLLERİ --- */
 .report-container {
     background: rgba(27, 27, 27, 0.95);
     border-radius: 14px;
@@ -274,6 +274,11 @@ body {
     margin-top: 15px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+    display: none; /* JS ile açılıp kapanacak */
+}
+
+.report-container.active {
+    display: block;
 }
 
 .report-table-wrapper {
@@ -286,108 +291,41 @@ body {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
     color: white;
 }
 
 .sd-table th, .sd-table td {
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .sd-table th {
-    background: rgba(213, 0, 28, 0.3);
+    background: rgba(213, 0, 28, 0.35);
     color: #ff3045;
     font-weight: bold;
-}
-
-.sd-table tr:hover {
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.excel-export-btn {
-    width: 100%;
-    padding: 14px;
-    background: #00875a; /* Excel Yeşili */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.excel-export-btn:hover {
-    background: #00a86b;
-    transform: translateY(-1px);
-}
-
-/* GERİ BUTONU */
-.back-button {
-    border: none;
-    background: rgba(0, 0, 0, 0.75);
-    color: white;
-    padding: 10px 16px;
-    border-radius: 9px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s ease;
-}
-
-.back-button:hover {
-    background: #d5001c;
-}
-
-/* BULUNAMADI */
-.notfound {
     text-align: center;
-    padding: 40px 20px;
-    background: rgba(27, 27, 27, 0.95);
-    border-radius: 12px;
-    color: #999;
-    font-size: 16px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
-/* MOBİL UYUMLULUK */
-@media (max-width: 600px) {
-    .container {
-        padding: 15px;
-    }
-
-    .logo {
-        font-size: 27px;
-    }
-
-    .menu-button {
-        min-height: 95px;
-        padding: 15px;
-    }
-
-    #searchInput {
-        padding: 15px;
-        font-size: 16px;
-    }
-
-    .product-card {
-        padding: 15px;
-    }
-
-    .product-card .product-name {
-        font-size: 20px;
-    }
-
-    .size-select,
-#sizeFilter {
-        height: 55px;
-        font-size: 16px;
-    }
-
-    .sd-table {
-        font-size: 13px;
-    }
+/* Personellerin manuel veri gireceği SARI ALANLAR (Excel uyumlu) */
+.sd-input-cell {
+    background: rgba(255, 235, 59, 0.15) !important;
+    border: 1px solid #ffd54f !important;
+    color: white;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    outline: none;
 }
+
+.sd-input-cell:focus {
+    background: rgba(255, 235, 59, 0.3) !important;
+    border-color: #ff3d00 !important;
+}
+
+/* Otomatik Hesaplanan Formül Alanları */
+.sd-calculated {
+    background: rgba(0, 23
