@@ -1,516 +1,556 @@
-```javascript
 let products = [];
 
 // ======================================================
-// VERİLERİ YÜKLE
+// SUPABASE AYARLARI
 // ======================================================
+const SUPABASE_URL = "https://zjxphwqcmmmbikgrbhyn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_OF_6Dt6vWB3Z0XlyvOxIog_evFp_M57";
 
-async function loadProducts() {
+// ======================================================
+// SUPABASE ARAMA KAYDI
+// ======================================================
+async function saveSearchLog(
+    searchType,
+    productCode,
+    productName,
+    size,
+    searchText
+) {
     try {
-        const response = await fetch("./data.json");
+        const response = await fetch(
+            SUPABASE_URL + "/rest/v1/search_logs",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify({
+                    search_type: searchType,
+                    product_code: productCode || null,
+                    product_name: productName || null,
+                    size: size || null,
+                    search_text: searchText || null
+                })
+            }
+        );
 
         if (!response.ok) {
-            throw new Error("data.json bulunamadı");
+            const errorText = await response.text();
+            console.error("SUPABASE HATASI:", response.status, errorText);
+            return false;
         }
 
-        products = await response.json();
-
-        console.log("Toplam ürün:", products.length);
-
+        console.log("✅ ARAMA SUPABASE'E KAYDEDİLDİ:", searchType, searchText);
+        return true;
     } catch (error) {
-        console.error("VERİ HATASI:", error);
-
-        const results = document.getElementById("results");
-
-        if (results) {
-            results.innerHTML =
-                "<div class='notfound'>❌ Stok verisi okunamadı.</div>";
-        }
+        console.error("❌ SUPABASE BAĞLANTI HATASI:", error);
+        return false;
     }
 }
 
 // ======================================================
-// GÖRSEL YOLUNU OLUŞTUR
+// YARDIMCI FONKSİYONLAR
 // ======================================================
+function escapeHTML(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
-function findProductImage(item) {
+function tryNextImage(imgElement) {
+    imgElement.onerror = null;
+    imgElement.parentElement.style.display = 'none';
+}
 
-    const stokKodu = String(
-        item.stokKodu ||
-        item.barkod ||
-        ""
+// ======================================================
+// VERİ ALANLARI
+// ======================================================
+function getBarkod(item) {
+    return String(
+        item["BARKOD"] ?? item["Barkod"] ?? item["barcode"] ?? item["BARCODE"] ?? item["barkod"] ?? ""
     ).trim();
+}
 
-    const gorsel = String(
-        item.gorsel ||
-        ""
+function getStokKodu(item) {
+    return String(
+        item["PRODUCTCODE"] ?? item["PRODUCT_CODE"] ?? item["PRODUCT CODE"] ?? item["productCode"] ?? 
+        item["product_code"] ?? item["urunKodu"] ?? item["URUN_KODU"] ?? item["Ürün kodu"] ?? 
+        item["Ürün Kodu"] ?? item["STOK KODU"] ?? item["Stok Kodu"] ?? item["code"] ?? ""
     ).trim();
+}
 
-    // data.json içinde gerçek bir görsel URL'si varsa kullan
-    if (
-        gorsel &&
-        (
-            gorsel.startsWith("http://") ||
-            gorsel.startsWith("https://") ||
-            gorsel.startsWith("./") ||
-            gorsel.startsWith("/")
-        )
-    ) {
-        return gorsel;
+function getUrun(item) {
+    return String(
+        item["PRODUCTNAME"] ?? item["PRODUCT_NAME"] ?? item["PRODUCT NAME"] ?? item["productName"] ?? 
+        item["Ürün Adı"] ?? item["Ürün adı"] ?? item["product_name"] ?? ""
+    ).trim();
+}
+
+function getBeden(item) {
+    return String(
+        item["BEDEN NO"] ?? item["BEDEN_NO"] ?? item["Beden No"] ?? item["bedenNo"] ?? 
+        item["BEDEN"] ?? item["Beden"] ?? item["size"] ?? ""
+    ).trim();
+}
+
+function getStok(item) {
+    const value = Number(
+        item["STOK ADEDİ"] ?? item["STOK_ADEDI"] ?? item["Stok Adedi"] ?? item["stokAdedi"] ?? 
+        item["STOK"] ?? item["Stok"] ?? item["stock"] ?? item["stok"] ?? 0
+    );
+    return Number.isFinite(value) ? value : 0;
+}
+
+function getCinsiyet(item) {
+    return String(
+        item["CİNSİYET"] ?? item["Cinsiyet"] ?? item["CINSIYET"] ?? item["gender"] ?? ""
+    ).trim();
+}
+
+function getKategori(item) {
+    return String(
+        item["PUMA KATEGORİ"] ?? item["PUMA_KATEGORI"] ?? item["PUMA KATEGORI"] ?? 
+        item["Kategori"] ?? item["KATEGORI"] ?? item["category"] ?? ""
+    ).trim();
+}
+
+function getSezon(item) {
+    return String(
+        item["SEZON"] ?? item["Sezon"] ?? item["season"] ?? ""
+    ).trim();
+}
+
+// ======================================================
+// GÖRSEL
+// ======================================================
+function getGorsel(item) {
+    let value =
+        item["ÜRÜN RESMİ EXCEL"] ??
+        item["URUN_RESIMI_EXCEL"] ??
+        item["Ürün Görseli"] ??
+        item["PRODUCT IMAGE"] ??
+        item["image"] ??
+        "";
+
+    if (value === null || value === undefined) {
+        return "";
     }
 
-    // images klasöründeki dosyaları stok koduna göre ara
-    if (stokKodu) {
+    let url = String(value).trim();
+    const markdownMatch = url.match(/\((https?:\/\/[^)]+)\)/);
 
-        return "./images/" + stokKodu + ".png";
+    if (markdownMatch) {
+        url = markdownMatch[1];
+    }
+
+    url = url
+        .replace(/^\[/, "")         .replace(/\]$/, "")
+        .replace(/\\/g, "")
+        .trim();
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
     }
 
     return "";
 }
 
-// ======================================================
-// GÖRSEL HATA KONTROLÜ
-// PNG yoksa JPG/JPEG denenecek
-// ======================================================
-
-function createImageHTML(product) {
-
-    const stokKodu = String(
-        product.stokKodu || ""
-    ).trim();
-
-    if (!stokKodu) {
-        return "";
+function findImage(product) {
+    if (
+        product.gorsel &&
+        (product.gorsel.startsWith("http://") || product.gorsel.startsWith("https://"))
+    ) {
+        return product.gorsel;
     }
-
-    const png =
-        "./images/" + stokKodu + ".png";
-
-    const jpg =
-        "./images/" + stokKodu + ".jpg";
-
-    const jpeg =
-        "./images/" + stokKodu + ".jpeg";
-
-    return `
-        <div class="product-image">
-            <img
-                src="${png}"
-                alt="${product.urun || "PUMA Ürün"}"
-                loading="lazy"
-                onerror="
-                    if (this.dataset.try === 'jpg') {
-                        this.dataset.try = 'jpeg';
-                        this.src = '${jpeg}';
-                    }
-                    else if (this.dataset.try === 'jpeg') {
-                        this.parentElement.style.display = 'none';
-                    }
-                    else {
-                        this.dataset.try = 'jpg';
-                        this.src = '${jpg}';
-                    }
-                "
-            >
-        </div>
-    `;
+    return "";
 }
+
+// ======================================================
+// DATA.JSON YÜKLE
+// ======================================================
+async function loadProducts() {
+    try {
+        const response = await fetch("./data.json?v=" + Date.now(), {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("data.json yüklenemedi. HTTP: " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+            throw new Error("data.json liste değil.");
+        }
+
+        products = data;
+
+        console.log("====================================");
+        console.log("PUMA SMART ASSISTANT");
+        console.log("Toplam kayıt:", products.length);
+        console.log("====================================");
+
+        populateSizeFilter();
+    } catch (error) {
+        console.error("DATA.JSON HATASI:", error);
+
+        const results = document.getElementById("results");
+
+        if (results) {
+            results.innerHTML =
+                "<div class='notfound'>" +
+                "❌ Stok verisi okunamadı.<br><br>" +
+                escapeHTML(error.message) +
+                "</div>";
+        }
+    }
+}
+
+// Sayfa yüklendiğinde verileri çek
+document.addEventListener("DOMContentLoaded", function () {
+    loadProducts();
+
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+        searchInput.addEventListener("input", function (e) {
+            searchProducts(e.target.value);
+        });
+    }
+});
 
 // ======================================================
 // ANA MENÜ
 // ======================================================
-
 function showMainMenu() {
+    const mainMenu = document.getElementById("mainMenu");
+    const productSearchArea = document.getElementById("productSearchArea");
+    const sizeSearchArea = document.getElementById("sizeSearchArea");
+    const results = document.getElementById("results");
+    const sizeResults = document.getElementById("sizeResults");
 
-    const mainMenu =
-        document.getElementById("mainMenu");
-
-    const productSearchArea =
-        document.getElementById("productSearchArea");
-
-    const sizeSearchArea =
-        document.getElementById("sizeSearchArea");
-
-    if (mainMenu) {
-        mainMenu.style.display = "block";
-    }
-
-    if (productSearchArea) {
-        productSearchArea.style.display = "none";
-    }
-
-    if (sizeSearchArea) {
-        sizeSearchArea.style.display = "none";
-    }
+    if (mainMenu) mainMenu.style.display = "flex";
+    if (productSearchArea) productSearchArea.style.display = "none";
+    if (sizeSearchArea) sizeSearchArea.style.display = "none";
+    if (results) results.innerHTML = "";
+    if (sizeResults) sizeResults.innerHTML = "";
 }
 
 // ======================================================
 // ÜRÜN SORGULAMA
 // ======================================================
-
 function showProductSearch() {
+    const mainMenu = document.getElementById("mainMenu");
+    const productSearchArea = document.getElementById("productSearchArea");
+    const sizeSearchArea = document.getElementById("sizeSearchArea");
 
-    const mainMenu =
-        document.getElementById("mainMenu");
+    if (mainMenu) mainMenu.style.display = "none";
+    if (productSearchArea) productSearchArea.style.display = "block";
+    if (sizeSearchArea) sizeSearchArea.style.display = "none";
 
-    const productSearchArea =
-        document.getElementById("productSearchArea");
-
-    const sizeSearchArea =
-        document.getElementById("sizeSearchArea");
-
-    if (mainMenu) {
-        mainMenu.style.display = "none";
-    }
-
-    if (productSearchArea) {
-        productSearchArea.style.display = "block";
-    }
-
-    if (sizeSearchArea) {
-        sizeSearchArea.style.display = "none";
-    }
-
-    const input =
-        document.getElementById("searchInput");
+    const input = document.getElementById("searchInput");
 
     if (input) {
+        input.value = "";
         setTimeout(function () {
             input.focus();
         }, 100);
     }
+
+    const results = document.getElementById("results");
+    if (results) results.innerHTML = "";
 }
 
 // ======================================================
 // BEDEN SORGULAMA
 // ======================================================
-
 function showSizeSearch() {
+    const mainMenu = document.getElementById("mainMenu");
+    const productSearchArea = document.getElementById("productSearchArea");
+    const sizeSearchArea = document.getElementById("sizeSearchArea");
 
-    const mainMenu =
-        document.getElementById("mainMenu");
+    if (mainMenu) mainMenu.style.display = "none";
+    if (productSearchArea) productSearchArea.style.display = "none";
+    if (sizeSearchArea) sizeSearchArea.style.display = "block";
 
-    const productSearchArea =
-        document.getElementById("productSearchArea");
-
-    const sizeSearchArea =
-        document.getElementById("sizeSearchArea");
-
-    if (mainMenu) {
-        mainMenu.style.display = "none";
-    }
-
-    if (productSearchArea) {
-        productSearchArea.style.display = "none";
-    }
-
-    if (sizeSearchArea) {
-        sizeSearchArea.style.display = "block";
-    }
+    populateSizeFilter();
 }
 
 // ======================================================
-// BEDEN ARAMASI
+// BEDENLERİ DOLDUR
 // ======================================================
+function populateSizeFilter() {
+    const select = document.getElementById("sizeFilter");
+    if (!select) return;
 
+    const sizes = new Set();
+
+    products.forEach(function (item) {
+        const beden = getBeden(item);
+        const stok = getStok(item);
+
+        if (beden && stok > 0) {
+            sizes.add(beden);
+        }
+    });
+
+    const sortedSizes = Array.from(sizes).sort(function (a, b) {
+        const aNum = parseFloat(String(a).replace(",", "."));
+        const bNum = parseFloat(String(b).replace(",", "."));
+
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return aNum - bNum;
+        }
+
+        return String(a).localeCompare(String(b), "tr-TR");
+    });
+
+    select.innerHTML = '<option value="">Beden seçiniz</option>';
+
+    sortedSizes.forEach(function (size) {
+        const option = document.createElement("option");
+        option.value = size;
+        option.textContent = size;
+        select.appendChild(option);
+    });
+}
+
+// ======================================================
+// BEDEN ARAMA
+// ======================================================
 function searchBySize(selectedSize) {
+    const results = document.getElementById("sizeResults");
+    if (!results) return;
 
-    console.log(
-        "Beden araması:",
+    const size = String(selectedSize || "")
+        .trim()
+        .toLocaleLowerCase("tr-TR");
+
+    if (!size) {
+        results.innerHTML = "";
+        return;
+    }
+
+    const filtered = products.filter(function (item) {
+        const beden = getBeden(item).toLocaleLowerCase("tr-TR");
+        return beden === size && getStok(item) > 0;
+    });
+
+    if (filtered.length === 0) {
+        results.innerHTML = "<div class='notfound'>❌ Bu bedende stok bulunamadı.</div>";
+        return;
+    }
+
+    const first = filtered[0];
+    saveSearchLog(
+        "size",
+        getStokKodu(first),
+        getUrun(first),
+        selectedSize,
         selectedSize
     );
+
+    renderProducts(filtered, results);
+}
+
+// ======================================================
+// ARAMA NORMALİZASYONU
+// ======================================================
+function normalizeSearch(value) {
+    return String(value || "").toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, "");
+}
+
+function normalizeCode(value) {
+    return String(value || "").toLocaleLowerCase("tr-TR").trim().replace(/[\s\-_.\/]/g, "");
 }
 
 // ======================================================
 // ÜRÜN ARAMA
 // ======================================================
+let lastLoggedSearch = "";
+let searchTimer = null;
 
 function searchProducts(text) {
+    const results = document.getElementById("results");
+    if (!results) return;
 
-    const results =
-        document.getElementById("results");
+    const search = String(text || "").trim().toLocaleLowerCase("tr-TR");
 
-    if (!results) {
-        return;
-    }
-
-    text = String(text || "")
-        .trim()
-        .toLocaleLowerCase("tr-TR");
-
-    if (!text) {
+    if (!search) {
         results.innerHTML = "";
         return;
     }
 
-    const filtered =
-        products.filter(function (item) {
+    const searchNormal = normalizeSearch(search);
+    const searchCode = normalizeCode(search);
 
-            const barkod =
-                String(item.barkod || "")
-                    .toLocaleLowerCase("tr-TR");
+    const filtered = products.filter(function (item) {
+        if (getStok(item) <= 0) return false;
 
-            const stokKodu =
-                String(item.stokKodu || "")
-                    .toLocaleLowerCase("tr-TR");
+        const barkod = getBarkod(item).toLocaleLowerCase("tr-TR");
+        const stokKodu = getStokKodu(item).toLocaleLowerCase("tr-TR");
+        const urun = getUrun(item).toLocaleLowerCase("tr-TR");
+        const beden = getBeden(item).toLocaleLowerCase("tr-TR");
+        const cinsiyet = getCinsiyet(item).toLocaleLowerCase("tr-TR");
+        const kategori = getKategori(item).toLocaleLowerCase("tr-TR");
+        const sezon = getSezon(item).toLocaleLowerCase("tr-TR");
 
-            const urun =
-                String(item.urun || "")
-                    .toLocaleLowerCase("tr-TR");
+        const barkodNormal = normalizeCode(barkod);
+        const stokKoduNormal = normalizeCode(stokKodu);
+        const urunNormal = normalizeSearch(urun);
+        const bedenNormal = normalizeSearch(beden);
+        const cinsiyetNormal = normalizeSearch(cinsiyet);
+        const kategoriNormal = normalizeSearch(kategori);
+        const sezonNormal = normalizeSearch(sezon);
 
-            const beden =
-                String(item.beden || "")
-                    .toLocaleLowerCase("tr-TR");
-
-            const renk =
-                String(item.renk || "")
-                    .toLocaleLowerCase("tr-TR");
-
-            return (
-                barkod.includes(text) ||
-                stokKodu.includes(text) ||
-                urun.includes(text) ||
-                beden.includes(text) ||
-                renk.includes(text)
-            );
-        });
+        return (
+            barkod.includes(search) || barkodNormal.includes(searchCode) ||
+            stokKodu.includes(search) || stokKoduNormal.includes(searchCode) ||
+            urun.includes(search) || urunNormal.includes(searchNormal) ||
+            beden.includes(search) || bedenNormal.includes(searchNormal) ||
+            cinsiyet.includes(search) || cinsiyetNormal.includes(searchNormal) ||
+            kategori.includes(search) || kategoriNormal.includes(searchNormal) ||
+            sezon.includes(search) || sezonNormal.includes(searchNormal)
+        );
+    });
 
     if (filtered.length === 0) {
-
-        results.innerHTML =
-            "<div class='notfound'>❌ Ürün bulunamadı.</div>";
-
+        results.innerHTML = "<div class='notfound'>❌ Ürün bulunamadı.</div>";
         return;
     }
 
-    const grouped = {};
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+        if (lastLoggedSearch === search) return;
+        lastLoggedSearch = search;
 
-    filtered.forEach(function (item) {
+        const first = filtered[0];
+        saveSearchLog(
+            "product",
+            getStokKodu(first),
+            getUrun(first),
+            null,
+            text
+        );
+    }, 700);
 
-        const key =
-            String(
-                item.stokKodu ||
-                item.urun ||
-                item.barkod
-            );
-
-        if (!grouped[key]) {
-
-            grouped[key] = {
-
-                urun:
-                    item.urun || "-",
-
-                stokKodu:
-                    item.stokKodu || item.barkod || "-",
-
-                renk:
-                    item.renk || "-",
-
-                kategori:
-                    item.kategori || "-",
-
-                cinsiyet:
-                    item.cinsiyet || "-",
-
-                sezon:
-                    item.sezon || "-",
-
-                sizes: []
-            };
-        }
-
-        grouped[key].sizes.push({
-
-            beden:
-                item.beden || "-",
-
-            stok:
-                Number(item.stok) || 0
-        });
-    });
-
-    renderProductCards(
-        Object.values(grouped),
-        results
-    );
+    renderProducts(filtered, results);
 }
 
 // ======================================================
-// ÜRÜN KARTLARI
+// ÜRÜNLERİ GRUPLA VE GÖSTER
 // ======================================================
+function renderProducts(list, container) {
+    const grouped = {};
 
-function renderProductCards(
-    productList,
-    container
-) {
+    list.forEach(function (item) {
+        if (getStok(item) <= 0) return;
+
+        const stokKodu = getStokKodu(item);
+        const barkod = getBarkod(item);
+        const urun = getUrun(item);
+        const image = getGorsel(item);
+
+        const key = stokKodu || barkod || urun;
+
+        if (!grouped[key]) {
+            grouped[key] = {
+                urun: urun || "-",
+                stokKodu: stokKodu || "-",
+                barkod: barkod || "-",
+                kategori: getKategori(item) || "-",
+                cinsiyet: getCinsiyet(item) || "-",
+                sezon: getSezon(item) || "-",
+                gorsel: image || "",
+                sizes: []
+            };
+        } else if (!grouped[key].gorsel && image) {
+            grouped[key].gorsel = image;
+        }
+
+        grouped[key].sizes.push({
+            beden: getBeden(item) || "-",
+            stok: getStok(item)
+        });
+    });
 
     let html = "";
 
-    productList.forEach(function (product) {
+    Object.values(grouped).forEach(function (product) {
+        const sizeMap = {};
+
+        product.sizes.forEach(function (size) {
+            const key = String(size.beden).trim().toLocaleLowerCase("tr-TR");
+            if (!sizeMap[key]) {
+                sizeMap[key] = { beden: size.beden, stok: 0 };
+            }
+            sizeMap[key].stok += Number(size.stok) || 0;
+        });
+
+        product.sizes = Object.values(sizeMap).filter(size => size.stok > 0);
+
+        if (product.sizes.length === 0) return;
 
         product.sizes.sort(function (a, b) {
+            const aNum = parseFloat(String(a.beden).replace(",", "."));
+            const bNum = parseFloat(String(b.beden).replace(",", "."));
 
-            const aNum =
-                parseFloat(a.beden);
-
-            const bNum =
-                parseFloat(b.beden);
-
-            if (
-                !isNaN(aNum) &&
-                !isNaN(bNum)
-            ) {
+            if (!isNaN(aNum) && !isNaN(bNum)) {
                 return aNum - bNum;
             }
-
-            return String(a.beden)
-                .localeCompare(
-                    String(b.beden),
-                    "tr-TR"
-                );
+            return String(a.beden).localeCompare(String(b.beden), "tr-TR");
         });
 
         let sizeHTML = "";
-
         product.sizes.forEach(function (size) {
-
-            let stockClass = "";
-
-            if (size.stok === 0) {
-
-                stockClass =
-                    "out-of-stock";
-
-            } else if (size.stok <= 2) {
-
-                stockClass =
-                    "low-stock";
-            }
-
-            sizeHTML +=
-                '<div class="size-box ' +
-                stockClass +
-                '">' +
-
-                '<span class="size">' +
-                size.beden +
-                '</span>' +
-
-                '<span class="quantity">' +
-                size.stok +
-                '</span>' +
-
-                '</div>';
+            let stockClass = size.stok <= 2 ? "low-stock" : "";
+            sizeHTML += `
+                <div class="size-box ${stockClass}">
+                    <span class="size">${escapeHTML(size.beden)}</span>
+                    <span class="quantity">${size.stok}</span>
+                </div>
+            `;
         });
 
-        // ==================================================
-        // GÖRSEL
-        // ==================================================
+        const image = findImage(product);
 
-        const imageHTML =
-            createImageHTML(product);
-
-        // ==================================================
-        // KART
-        // ==================================================
-
-        html +=
-
-            '<div class="product-card">' +
-
-            imageHTML +
-
-            '<div class="product-name">' +
-            product.urun +
-            '</div>' +
-
-            '<div>' +
-            '<strong>Stok Kodu:</strong> ' +
-            product.stokKodu +
-            '</div>' +
-
-            '<div>' +
-            '<strong>Renk:</strong> ' +
-            product.renk +
-            '</div>' +
-
-            '<div>' +
-            '<strong>Kategori:</strong> ' +
-            product.kategori +
-            '</div>' +
-
-            '<div>' +
-            '<strong>Cinsiyet:</strong> ' +
-            product.cinsiyet +
-            '</div>' +
-
-            '<div>' +
-            '<strong>Sezon:</strong> ' +
-            product.sezon +
-            '</div>' +
-
-            '<div class="size-title">' +
-            'BEDEN / STOK' +
-            '</div>' +
-
-            '<div class="sizes">' +
-            sizeHTML +
-            '</div>' +
-
-            '</div>';
+        html += `
+            <div class="product-card">
+                ${image ? `
+                <div class="product-image">
+                    <img src="${escapeHTML(image)}" alt="${escapeHTML(product.urun)}" loading="lazy" referrerpolicy="no-referrer" onerror="tryNextImage(this);">
+                </div>
+                ` : ""}
+                <div class="product-name">${escapeHTML(product.urun)}</div>
+                <div><strong>Ürün Kodu:</strong> ${escapeHTML(product.stokKodu)}</div>
+                <div><strong>Barkod:</strong> ${escapeHTML(product.barkod)}</div>
+                <div><strong>Kategori:</strong> ${escapeHTML(product.kategori)}</div>
+                <div><strong>Cinsiyet:</strong> ${escapeHTML(product.cinsiyet)}</div>
+                <div><strong>Sezon:</strong> ${escapeHTML(product.sezon)}</div>
+                <div class="size-title">BEDEN / STOK</div>
+                <div class="sizes">${sizeHTML}</div>
+            </div>
+        `;
     });
+
+    if (!html.trim()) {
+        container.innerHTML = "<div class='notfound'>❌ Stokta ürün bulunamadı.</div>";
+        return;
+    }
 
     container.innerHTML = html;
 }
 
 // ======================================================
-// SAYFA AÇILDIĞINDA
+// EĞİTİM DÖKÜMANI AÇMA
 // ======================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        loadProducts();
-
-        const input =
-            document.getElementById("searchInput");
-
-        if (!input) {
-
-            console.error(
-                "Arama kutusu bulunamadı."
-            );
-
-            return;
-        }
-
-        let timer;
-
-        input.addEventListener(
-            "input",
-            function () {
-
-                clearTimeout(timer);
-
-                const value =
-                    this.value;
-
-                timer =
-                    setTimeout(
-                        function () {
-
-                            searchProducts(
-                                value
-                            );
-
-                        },
-                        100
-                    );
-            }
-        );
-
-    }
-);
-```
+function openEducationPDF() {
+    const pdfPath = 'egitim.pdf';
+    window.open(pdfPath, '_blank');
+}
