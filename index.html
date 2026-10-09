@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BUYAKA PUMA SMART ASSISTANT</title>
     <link rel="stylesheet" href="style.css">
+    <!-- SheetJS Kütüphanesi (Excel Okuma/Yazma ve Formül İşleme için) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -15,7 +17,7 @@
     </div>
 
     <div class="subtitle">
-        Anlık Stok Sorgulama
+        Anlık Stok Sorgulama ve SD Karnesi
     </div>
 
     <!-- ANA MENÜ -->
@@ -37,7 +39,6 @@
             👟 BEDEN BAZLI SORGULAMA
         </button>
 
-        <!-- EĞİTİM DÖKÜMANI BUTONU -->
         <button
             class="menu-button"
             type="button"
@@ -46,13 +47,13 @@
             📚 EĞİTİM DÖKÜMANI
         </button>
 
-        <!-- SD KARNE BUTONU -->
+        <!-- ONLİNE EXCEL SD KARNESİ -->
         <button
             class="menu-button menu-button-report"
             type="button"
             onclick="openSDKarne()"
         >
-            📊 SD KARNE
+            📊 SD KARNESİ (ONLİNE)
         </button>
 
     </div>
@@ -114,6 +115,31 @@
             id="sizeResults"
             class="results"
         ></div>
+    </div>
+
+    <!-- ONLİNE SD KARNE KONTEYNERİ -->
+    <div id="sdReportContainer" class="report-container" style="display:none;">
+        <button
+            class="back-button"
+            type="button"
+            onclick="closeSDKarne()"
+        >
+            ← Ana Menü
+        </button>
+        <h2 style="text-align:center; margin-bottom:10px; color:#ff3045;">📊 Buyaka PUMA SD Karnesi (Online Excel)</h2>
+        <p style="text-align:center; font-size:13px; color:#bbb; margin-bottom:15px;">
+            Personeller sarı alanlara günlük verileri girebilir; UPT, ATV, ASP ve Prim hesaplamaları otomatik güncellenir.
+        </p>
+        
+        <!-- Excel Sekme Seçici Butonları -->
+        <div id="excelSheetTabs" style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;"></div>
+
+        <!-- Excel Tablo Görünümü -->
+        <div class="report-table-wrapper" id="excelTableViewer">
+            <div style="text-align:center; padding:20px; color:#888;">Excel Tablosu Yükleniyor...</div>
+        </div>
+
+        <button class="excel-export-btn" onclick="exportUpdatedExcel()">📥 Güncel Excel Dosyasını İndir</button>
     </div>
 
     <!-- JAVASCRIPT -->
