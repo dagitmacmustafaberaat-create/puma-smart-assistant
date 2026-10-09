@@ -208,79 +208,96 @@ function openEducationPDF() {
 }
 
 // ======================================================
-// ONLİNE EXCEL SD KARNE ENTEGRASYONU (SHEETJS)
+// ONLİNE FORMÜLLÜ SD KARNE SİSTEMİ
 // ======================================================
-let loadedWorkbook = null;
-let currentActiveSheetName = "";
+let sdKarneData = [
+    { adi: "SİNEM PALAZ", gorev: "Satış Görevlisi", ciro: 177755.0, fatura: 30, adet: 46 },
+    { adi: "SERKAN CANİK", gorev: "Supervisor", ciro: 106106.0, fatura: 19, adet: 28 },
+    { adi: "CEM AKTAŞ", gorev: "Satış Danışmanı", ciro: 139250.0, fatura: 25, adet: 36 },
+    { adi: "MERVE ÇETİN", gorev: "Satış Danışmanı", ciro: 124369.0, fatura: 16, adet: 34 },
+    { adi: "ECE NUR TEMÜR", gorev: "Satış Danışmanı", ciro: 82502.0, fatura: 15, adet: 19 }
+];
 
-async function openSDKarne() {
+function openSDKarne() {
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("productSearchArea").style.display = "none";
     document.getElementById("sizeSearchArea").style.display = "none";
-    
-    const reportContainer = document.getElementById("sdReportContainer");
-    reportContainer.style.display = "block";
-
-    try {
-        const response = await fetch('sd_karne.xlsx?v=' + Date.now());
-        const data = await response.arrayBuffer();
-        loadedWorkbook = XLSX.read(data, { type: 'array', cellFormula: true, cellStyles: true });
-
-        renderExcelTabs();
-        if (loadedWorkbook.SheetNames.length > 0) {
-            switchExcelSheet(loadedWorkbook.SheetNames[0]);
-        }
-    } catch (e) {
-        console.error("Excel yükleme hatası:", e);
-        document.getElementById("excelTableViewer").innerHTML = "<div class='notfound'>❌ sd_karne.xlsx dosyası yüklenemedi. Lütfen dosyanın ana dizinde olduğundan emin olun.</div>";
-    }
+    document.getElementById("sdReportContainer").style.display = "block";
+    renderSDKarneTables();
 }
 
 function closeSDKarne() {
     showMainMenu();
 }
 
-function renderExcelTabs() {
-    const tabsContainer = document.getElementById("excelSheetTabs");
-    tabsContainer.innerHTML = "";
-    
-    loadedWorkbook.SheetNames.forEach(sheetName => {
-        const btn = document.createElement("button");
-        btn.textContent = sheetName;
-        btn.className = "menu-button";
-        btn.style.cssText = "min-height:40px; padding:8px 15px; font-size:14px; cursor:pointer;";
-        btn.onclick = () => switchExcelSheet(sheetName);
-        tabsContainer.appendChild(btn);
+function renderSDKarneTables() {
+    let tbodyData = "";
+    let totalCiro = 0;
+    let totalFatura = 0;
+    let totalAdet = 0;
+
+    sdKarneData.forEach((p, index) => {
+        const upt = p.fatura > 0 ? (p.adet / p.fatura) : 0;
+        const atv = p.fatura > 0 ? (p.ciro / p.fatura) : 0;
+        const asp = p.adet > 0 ? (p.ciro / p.adet) : 0;
+
+        totalCiro += p.ciro;
+        totalFatura += p.fatura;
+        totalAdet += p.adet;
+
+        tbodyData += `
+            <tr>
+                <td><strong>${escapeHTML(p.adi)}</strong></td>
+                <td>${escapeHTML(p.gorev)}</td>
+                <td><input type="number" class="sd-input-cell" value="${p.ciro}" oninput="updateKarneData(${index}, 'ciro', this.value)"></td>
+                <td><input type="number" class="sd-input-cell" value="${p.fatura}" oninput="updateKarneData(${index}, 'fatura', this.value)"></td>
+                <td><input type="number" class="sd-input-cell" value="${p.adet}" oninput="updateKarneData(${index}, 'adet', this.value)"></td>
+                <td class="sd-calculated">${upt.toFixed(2)}</td>
+                <td class="sd-calculated">${atv.toFixed(2)} TL</td>
+                <td class="sd-calculated">${asp.toFixed(2)} TL</td>
+            </tr>
+        `;
     });
+
+    document.getElementById("dataTabBody").innerHTML = tbodyData;
+
+    const storeUpt = totalFatura > 0 ? (totalAdet / totalFatura) : 0;
+    const storeAtv = totalFatura > 0 ? (totalCiro / totalFatura) : 0;
+    const storeAsp = totalAdet > 0 ? (totalCiro / totalAdet) : 0;
+
+    document.getElementById("summaryTabBody").innerHTML = `
+        <tr>
+            <td><strong>${totalCiro.toLocaleString('tr-TR')} TL</strong></td>
+            <td><strong>${totalFatura}</strong></td>
+            <td><strong>${totalAdet}</strong></td>
+            <td class="sd-calculated"><strong>${storeUpt.toFixed(2)}</strong></td>
+            <td class="sd-calculated"><strong>${storeAtv.toFixed(2)} TL</strong></td>
+            <td class="sd-calculated"><strong>${storeAsp.toFixed(2)} TL</strong></td>
+        </tr>
+    `;
 }
 
-function switchExcelSheet(sheetName) {
-    currentActiveSheetName = sheetName;
-    const sheet = loadedWorkbook.Sheets[sheetName];
-    const htmlTable = XLSX.utils.sheet_to_html(sheet, { editable: true });
-
-    const viewer = document.getElementById("excelTableViewer");
-    viewer.innerHTML = htmlTable;
-
-    // Tabloyu şık hale getirip sarı alanları ve inputları aktif edelim
-    const table = viewer.querySelector("table");
-    if (table) {
-        table.className = "sd-table";
-        
-        // Tablodaki hücrelerde düzenleme yapıldıkça workbook'u güncelle
-        const inputs = table.querySelectorAll("td, th");
-        inputs.forEach((cell, idx) => {
-            cell.contentEditable = true;
-            cell.addEventListener("input", function() {
-                // Hücre güncellendiğinde Sheet verisini tazeleyelim
-                const updatedHtml = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                // Otomatik hesaplamalar için gerekli tetikleyiciler
-            });
-        });
-    }
+function updateKarneData(index, field, value) {
+    const val = parseFloat(value) || 0;
+    sdKarneData[index][field] = val;
+    renderSDKarneTables();
 }
 
-function exportUpdatedExcel() {
-    if (!loadedWorkbook) return;
-    XLSX.writeFile(loadedWorkbook, "Buyaka_Puma_Guncel_SD_Karne.xlsx");
+function exportToExcelReport() {
+    let csv = "ADI SOYADI\tGÖREV\tGERÇEKLEŞEN CİRO\tFATURA SAYISI\tADET\tUPT\tATV\tASP\n";
+    sdKarneData.forEach(p => {
+        const upt = p.fatura > 0 ? (p.adet / p.fatura) : 0;
+        const atv = p.fatura > 0 ? (p.ciro / p.fatura) : 0;
+        const asp = p.adet > 0 ? (p.ciro / p.adet) : 0;
+        csv += `${p.adi}\t${p.gorev}\t${p.ciro}\t${p.fatura}\t${p.adet}\t${upt.toFixed(2)}\t${atv.toFixed(2)}\t${asp.toFixed(2)}\n`;
+    });
+
+    let blob = new Blob(["\ufeff" + csv], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = 'Buyaka_Puma_SD_Karne_Guncel.xls';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }

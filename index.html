@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BUYAKA PUMA SMART ASSISTANT</title>
     <link rel="stylesheet" href="style.css">
-    <!-- SheetJS Kütüphanesi (Excel Okuma/Yazma ve Formül İşleme için) -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -47,13 +45,13 @@
             📚 EĞİTİM DÖKÜMANI
         </button>
 
-        <!-- ONLİNE EXCEL SD KARNESİ -->
+        <!-- ONLİNE FORMÜLLÜ SD KARNESİ -->
         <button
             class="menu-button menu-button-report"
             type="button"
             onclick="openSDKarne()"
         >
-            📊 SD KARNESİ (ONLİNE)
+            📊 SD KARNESİ (ONLİNE FORMÜLLÜ)
         </button>
 
     </div>
@@ -117,7 +115,7 @@
         ></div>
     </div>
 
-    <!-- ONLİNE SD KARNE KONTEYNERİ -->
+    <!-- ONLİNE FORMÜLLÜ SD KARNE EKRANI -->
     <div id="sdReportContainer" class="report-container" style="display:none;">
         <button
             class="back-button"
@@ -126,20 +124,55 @@
         >
             ← Ana Menü
         </button>
-        <h2 style="text-align:center; margin-bottom:10px; color:#ff3045;">📊 Buyaka PUMA SD Karnesi (Online Excel)</h2>
-        <p style="text-align:center; font-size:13px; color:#bbb; margin-bottom:15px;">
-            Personeller sarı alanlara günlük verileri girebilir; UPT, ATV, ASP ve Prim hesaplamaları otomatik güncellenir.
-        </p>
         
-        <!-- Excel Sekme Seçici Butonları -->
-        <div id="excelSheetTabs" style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;"></div>
+        <h2 style="text-align:center; margin-bottom:5px; color:#ff3045;">📊 Buyaka PUMA Online SD Karnesi</h2>
+        <p style="text-align:center; font-size:13px; color:#bbb; margin-bottom:20px;">
+            Sarı alanlara personellerin günlük ciro, fatura ve adet verilerini girin. UPT, ATV, ASP ve prim hakedişleri Excel mantığıyla anında otomatik hesaplanır.
+        </p>
 
-        <!-- Excel Tablo Görünümü -->
-        <div class="report-table-wrapper" id="excelTableViewer">
-            <div style="text-align:center; padding:20px; color:#888;">Excel Tablosu Yükleniyor...</div>
+        <!-- DATA / GİRİŞ TABLOSU -->
+        <h3 style="color:#ff3045; margin-bottom:10px; font-size:16px;">1. Personel Günlük Veri Girişi (Sarı Alanlar)</h3>
+        <div class="report-table-wrapper">
+            <table class="sd-table">
+                <thead>
+                    <tr>
+                        <th>ADI SOYADI</th>
+                        <th>GÖREV</th>
+                        <th>GERÇEKLEŞEN CİRO (TL)</th>
+                        <th>FATURA SAYISI</th>
+                        <th>ADET</th>
+                        <th>UPT (Otomatik)</th>
+                        <th>ATV (Otomatik)</th>
+                        <th>ASP (Otomatik)</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTabBody">
+                    <!-- Dinamik doldurulacak -->
+                </tbody>
+            </table>
         </div>
 
-        <button class="excel-export-btn" onclick="exportUpdatedExcel()">📥 Güncel Excel Dosyasını İndir</button>
+        <!-- ÖZET VE HAKEDİŞ TABLOSU (SD KARNE ÖZETİ) -->
+        <h3 style="color:#ff3045; margin:25px 0 10px 0; font-size:16px;">2. SD Karne & Prim Hakediş Özeti</h3>
+        <div class="report-table-wrapper">
+            <table class="sd-table">
+                <thead>
+                    <tr>
+                        <th>TOPLAM CİRO</th>
+                        <th>TOPLAM FATURA</th>
+                        <th>TOPLAM ADET</th>
+                        <th>MAĞAZA UPT</th>
+                        <th>MAĞAZA ATV</th>
+                        <th>MAĞAZA ASP</th>
+                    </tr>
+                </thead>
+                <tbody id="summaryTabBody">
+                    <!-- Dinamik doldurulacak -->
+                </tbody>
+            </table>
+        </div>
+
+        <button class="excel-export-btn" onclick="exportToExcelReport()" style="margin-top:25px;">📥 Güncel Raporu Excel Olarak İndir</button>
     </div>
 
     <!-- JAVASCRIPT -->
