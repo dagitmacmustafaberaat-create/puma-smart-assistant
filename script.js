@@ -300,4 +300,85 @@ function exportToExcelReport() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+}// ======================================================
+// ORİJİNAL EXCEL DOSYASINI TARAYICIDA ONLINE DÜZENLEME
+// ======================================================
+let globalWorkbook = null;
+let activeSheetName = "";
+
+async function openSDKarne() {
+    document.getElementById("mainMenu").style.display = "none";
+    document.getElementById("productSearchArea").style.display = "none";
+    document.getElementById("sizeSearchArea").style.display = "none";
+    document.getElementById("sdReportContainer").style.display = "block";
+
+    try {
+        const response = await fetch("sd_karne.xlsx?v=" + Date.now());
+        const data = await response.arrayBuffer();
+        globalWorkbook = XLSX.read(data, { type: "array", cellFormula: true, cellStyles: true });
+
+        renderExcelTabs();
+        if (globalWorkbook.SheetNames.length > 0) {
+            switchSheet(globalWorkbook.SheetNames[0]);
+        }
+    } catch (e) {
+        console.error("Excel yüklenemedi:", e);
+        document.getElementById("excelViewer").innerHTML = "<div class='notfound'>❌ sd_karne.xlsx dosyası okunamadı.</div>";
+    }
+}
+
+function closeSDKarne() {
+    showMainMenu();
+}
+
+function renderExcelTabs() {
+    const tabsDiv = document.getElementById("excelTabs");
+    tabsDiv.innerHTML = "";
+
+    globalWorkbook.SheetNames.forEach(sheetName => {
+        const btn = document.createElement("button");
+        btn.textContent = sheetName;
+        btn.className = "menu-button";
+        btn.style.cssText = "padding:8px 16px; min-height:auto; font-size:14px; cursor:pointer;";
+        btn.onclick = () => switchSheet(sheetName);
+        tabsDiv.appendChild(btn);
+    });
+}
+
+function switchSheet(sheetName) {
+    activeSheetName = sheetName;
+    const sheet = globalWorkbook.Sheets[sheetName];
+    
+    // Excel sayfasını HTML tabloya çeviriyoruz
+    const htmlTable = XLSX.utils.sheet_to_html(sheet, { editable: true });
+    const viewer = document.getElementById("excelViewer");
+    viewer.innerHTML = htmlTable;
+
+    // Tabloyu şık hale getirip hücreleri düzenlenebilir yapalım
+    const table = viewer.querySelector("table");
+    if (table) {
+        table.style.width = "100%";
+        table.style.borderCollapse = "collapse";
+        table.style.fontSize = "13px";
+        table.style.color = "white";
+
+        const cells = table.querySelectorAll("td, th");
+        cells.forEach(cell => {
+            cell.contentEditable = true;
+            cell.style.border = "1px solid #444";
+            cell.style.padding = "6px 8px";
+            
+            // Hücre değiştiğinde excel objesini güncelleyelim
+            cell.addEventListener("input", function() {
+                // Güncellenen veriyi tekrar workbook içerisine aktar
+                const updatedSheet = XLSX.utils.table_to_sheet(table);
+                globalWorkbook.Sheets[activeSheetName] = updatedSheet;
+            });
+        });
+    }
+}
+
+function saveExcelChanges() {
+    if (!globalWorkbook) return;
+    XLSX.writeFile(globalWorkbook, "sd_karne_guncel.xlsx");
 }
