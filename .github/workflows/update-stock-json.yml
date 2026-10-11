@@ -1,0 +1,40 @@
+name: Update stock data JSON
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Güncel Stok.xlsx"
+      - "generate_data_json.py"
+      - ".github/workflows/update-stock-json.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Excel dependencies
+        run: pip install pandas openpyxl
+      - name: Generate data.json from current stock Excel
+        run: python generate_data_json.py
+      - name: Commit updated data.json
+        run: |
+          if git diff --quiet -- data.json; then
+            echo "data.json already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git commit -m "Update data.json from current stock Excel"
+          git push
