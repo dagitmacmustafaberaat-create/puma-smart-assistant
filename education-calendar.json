@@ -1,0 +1,219 @@
+[
+  {
+    "date": "2026-10-01",
+    "weekday": "Perşembe",
+    "vm": "VM nedir? İlk izlenim",
+    "tech": "Tekstil Teknolojileri — DryCELL",
+    "practice": "Mağaza turu ve ürün anlatımı"
+  },
+  {
+    "date": "2026-10-02",
+    "weekday": "Cuma",
+    "vm": "Satış Teknikleri — Müşteriyi karşılama ve ihtiyaç analizi",
+    "tech": "Ayakkabı Teknolojileri — TPU",
+    "practice": "Karşılama rol canlandırması"
+  },
+  {
+    "date": "2026-10-03",
+    "weekday": "Cumartesi",
+    "vm": "Satış Teknikleri — Doğru soru sorma ve müşteri tipleri",
+    "tech": "Ayakkabı Teknolojileri — SOFTRIDE",
+    "practice": "İhtiyaca uygun ürün önerisi"
+  },
+  {
+    "date": "2026-10-04",
+    "weekday": "Pazar",
+    "vm": "VM — Mağaza düzeni ve temizlik",
+    "tech": "Tekstil Teknolojileri — DryCELL tekrarı",
+    "practice": "Reyon kontrolü ve ürün anlatımı"
+  },
+  {
+    "date": "2026-10-05",
+    "weekday": "Pazartesi",
+    "vm": "Ürünlerin doğru gruplanması",
+    "tech": "Tekstil Teknolojileri — StormCELL",
+    "practice": "Reyon gruplama uygulaması"
+  },
+  {
+    "date": "2026-10-06",
+    "weekday": "Salı",
+    "vm": "Satış Teknikleri — Açık uçlu sorularla ihtiyaç belirleme",
+    "tech": "Ayakkabı Teknolojileri — PROFOAM",
+    "practice": "İhtiyaç analizi rol canlandırması"
+  },
+  {
+    "date": "2026-10-07",
+    "weekday": "Çarşamba",
+    "vm": "Masa ve katlama düzeni",
+    "tech": "Tekstil Teknolojileri — PWRWarm / POWERWARM",
+    "practice": "Katlama ve ürün sunumu"
+  },
+  {
+    "date": "2026-10-08",
+    "weekday": "Perşembe",
+    "vm": "Satış Teknikleri — Ürün özelliğini müşteri faydasına çevirme",
+    "tech": "Ayakkabı Teknolojileri — PUMAGRIP",
+    "practice": "Özellik ve fayda anlatımı"
+  },
+  {
+    "date": "2026-10-09",
+    "weekday": "Cuma",
+    "vm": "Ayakkabı duvarı ve numara düzeni",
+    "tech": "Tekstil Teknolojileri — WATERPROOF",
+    "practice": "Teşhir ve etiket kontrolü"
+  },
+  {
+    "date": "2026-10-10",
+    "weekday": "Cumartesi",
+    "vm": "Satış Teknikleri — Tamamlayıcı ürün ve kombin satışı",
+    "tech": "Ayakkabı Teknolojileri — RUNGUIDE",
+    "practice": "İkinci ürün önerisi"
+  },
+  {
+    "date": "2026-10-11",
+    "weekday": "Pazar",
+    "vm": "Haftalık VM kontrolü",
+    "tech": "Tekstil Teknolojileri — LYCRA®",
+    "practice": "VM kontrolü ve ürün anlatımı"
+  },
+  {
+    "date": "2026-10-12",
+    "weekday": "Pazartesi",
+    "vm": "Renk düzeni ve koleksiyon bütünlüğü",
+    "tech": "Ayakkabı Teknolojileri — NITRO",
+    "practice": "Renk gruplama ve ürün sunumu"
+  },
+  {
+    "date": "2026-10-13",
+    "weekday": "Salı",
+    "vm": "Satış Teknikleri — Alternatif model ve beden sunma",
+    "tech": "Tekstil Teknolojileri — Kumaş yapısı ve bakım etiketleri",
+    "practice": "Alternatif ürün sunumu"
+  },
+  {
+    "date": "2026-10-14",
+    "weekday": "Çarşamba",
+    "vm": "Manken kullanımı ve kombin hazırlama",
+    "tech": "Ayakkabı Teknolojileri — RS",
+    "practice": "Manken kombin uygulaması"
+  },
+  {
+    "date": "2026-10-15",
+    "weekday": "Perşembe",
+    "vm": "Satış Teknikleri — Müşteri itirazlarını karşılama",
+    "tech": "Ayakkabı Teknolojileri — evoKNIT",
+    "practice": "İtiraz karşılama rol canlandırması"
+  },
+  {
+    "date": "2026-10-16",
+    "weekday": "Cuma",
+    "vm": "Fiyat etiketi ve kampanya görselleri",
+    "tech": "Tekstil Teknolojileri — DryCELL ve StormCELL karşılaştırması",
+    "practice": "Etiket ve görsel kontrolü"
+  },
+  {
+    "date": "2026-10-17",
+    "weekday": "Cumartesi",
+    "vm": "Satış Teknikleri — UPT ve ATV odaklı sepet geliştirme",
+    "tech": "Ayakkabı Teknolojileri — Futbol ayakkabısı kullanım alanları",
+    "practice": "Tamamlayıcı ürün önerisi"
+  },
+  {
+    "date": "2026-10-18",
+    "weekday": "Pazar",
+    "vm": "Haftalık VM fotoğraf çekim standardı",
+    "tech": "Tekstil Teknolojileri — Tekstil teknolojilerini faydaya çevirme",
+    "practice": "Reyon kontrolü ve fayda anlatımı"
+  },
+  {
+    "date": "2026-10-19",
+    "weekday": "Pazartesi",
+    "vm": "Stok ve satışa göre ürün yerleşimi",
+    "tech": "Ayakkabı Teknolojileri — SOFTRIDE ve PROFOAM karşılaştırması",
+    "practice": "Ürün yerleşimi çalışması"
+  },
+  {
+    "date": "2026-10-20",
+    "weekday": "Salı",
+    "vm": "Satış Teknikleri — Müşteri tipine göre iletişim",
+    "tech": "Tekstil Teknolojileri — PWRWarm / POWERWARM tekrarı",
+    "practice": "Müşteri senaryosu çalışması"
+  },
+  {
+    "date": "2026-10-21",
+    "weekday": "Çarşamba",
+    "vm": "Teşhirde ürün ve kategori bütünlüğü",
+    "tech": "Ayakkabı Teknolojileri — Pronasyon ve doğru ayakkabı seçimi",
+    "practice": "Teşhir kontrolü ve ihtiyaç analizi"
+  },
+  {
+    "date": "2026-10-22",
+    "weekday": "Perşembe",
+    "vm": "Satış Teknikleri — Kampanyayı satışa çevirme",
+    "tech": "Tekstil Teknolojileri — WATERPROOF ve bakım etiketleri",
+    "practice": "Kampanya anlatımı rol canlandırması"
+  },
+  {
+    "date": "2026-10-23",
+    "weekday": "Cuma",
+    "vm": "VM düzeninin satışa etkisi",
+    "tech": "Ayakkabı Teknolojileri — PUMAGRIP ve RUNGUIDE tekrarı",
+    "practice": "Ürün sunumu ve reyon kontrolü"
+  },
+  {
+    "date": "2026-10-24",
+    "weekday": "Cumartesi",
+    "vm": "Satış Teknikleri — Satışı kapatma ve müşteri deneyimi",
+    "tech": "Tekstil Teknolojileri — DryCELL ve LYCRA® kullanım senaryoları",
+    "practice": "Satışı kapatma rol canlandırması"
+  },
+  {
+    "date": "2026-10-25",
+    "weekday": "Pazar",
+    "vm": "Haftalık VM karşılaştırması",
+    "tech": "Ayakkabı Teknolojileri — NITRO ve evoKNIT tekrarı",
+    "practice": "Önce ve sonra reyon değerlendirmesi"
+  },
+  {
+    "date": "2026-10-26",
+    "weekday": "Pazartesi",
+    "vm": "VM kuralları genel tekrar",
+    "tech": "Tekstil teknolojileri karşılaştırması",
+    "practice": "VM kontrol listesi uygulaması"
+  },
+  {
+    "date": "2026-10-27",
+    "weekday": "Salı",
+    "vm": "Satış Teknikleri — İtiraz karşılama ve tamamlayıcı satış tekrarı",
+    "tech": "Ayakkabı teknolojileri genel tekrar",
+    "practice": "Satış rol canlandırması"
+  },
+  {
+    "date": "2026-10-28",
+    "weekday": "Çarşamba",
+    "vm": "Kasa önü ve tamamlayıcı ürün yerleşimi",
+    "tech": "Tekstil Teknolojileri — Kumaş ve bakım bilgisi uygulaması",
+    "practice": "Kasa önü düzenleme çalışması"
+  },
+  {
+    "date": "2026-10-29",
+    "weekday": "Perşembe",
+    "vm": "Satış Teknikleri — Müşteri deneyimi ve hizmet standardı",
+    "tech": "Ayakkabı Teknolojileri — İhtiyaca göre ayakkabı teknolojisi önerme",
+    "practice": "Müşteri senaryosu çalışması"
+  },
+  {
+    "date": "2026-10-30",
+    "weekday": "Cuma",
+    "vm": "Aylık VM uygulama değerlendirmesi",
+    "tech": "Tekstil teknolojileri bilgi kontrolü",
+    "practice": "Reyon değerlendirmesi"
+  },
+  {
+    "date": "2026-10-31",
+    "weekday": "Cumartesi",
+    "vm": "Satış teknikleri ve KPI değerlendirmesi",
+    "tech": "Ayakkabı teknolojileri bilgi kontrolü",
+    "practice": "Satış rol canlandırması"
+  }
+]
