@@ -42,9 +42,9 @@
         <button
             class="menu-button"
             type="button"
-            onclick="openEducationPDF()"
+            onclick="showEducationCenter()"
         >
-            📚 EĞİTİM DÖKÜMANI
+            📚 EĞİTİM MERKEZİ
         </button>
 
     </div>
@@ -111,6 +111,19 @@
         ></div>
 
     </div>
+
+    <section id="educationArea" class="education-area" style="display:none;">
+      <button class="back-button" type="button" onclick="showMainMenu()">← Ana Menü</button>
+      <header class="education-heading">
+        <p class="education-eyebrow">BUYAKA PUMA • PERSONEL GELİŞİMİ</p>
+        <h1>EKİM 2026 EĞİTİM TAKVİMİ</h1>
+        <p>Günün konularını incele; bir konu kartına tıklayarak eğitim dokümanını aç.</p>
+      </header>
+      <section id="todayTraining" class="today-training"></section>
+      <div class="calendar-title-row"><h2>Aylık Eğitim Planı</h2><span>1–31 Ekim 2026</span></div>
+      <div id="educationCalendar" class="education-calendar"><div class="notfound">Eğitim takvimi yükleniyor…</div></div>
+      <footer class="education-footer"><p>Tüm eğitim dokümanları tek PDF dosyasında</p><button type="button" class="pdf-button" onclick="openEducationPDF()">📖 Tüm Eğitim Dokümanlarını Aç</button></footer>
+    </section>
 
     <!-- JAVASCRIPT -->
     <script src="script.js"></script>
