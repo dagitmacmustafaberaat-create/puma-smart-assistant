@@ -42,7 +42,7 @@ function renderEducationCalendar() {
       <div class="today-topline"><span class="today-dot"></span> BUGÜNÜN EĞİTİMİ</div>
       <div class="today-date">${safe(current.weekday)} • ${current.date.split("-").reverse().join(".")}</div>
       <div class="today-topic-grid">
-        <button class="topic-card topic-vm" type="button" onclick="openVMRules()"><span class="topic-label">VM & SATIŞ TEKNİKLERİ</span><strong>${safe(current.vm)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
+        <button class="topic-card topic-vm" type="button" onclick="openVMRules('${encodeURIComponent(current.vm)}')"><span class="topic-label">VM & SATIŞ TEKNİKLERİ</span><strong>${safe(current.vm)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
         <button class="topic-card topic-tech" type="button" onclick="openTechnologyDocument('${encodeURIComponent(current.tech)}')"><span class="topic-label">TEKSTİL & AYAKKABI TEKNOLOJİLERİ</span><strong>${safe(current.tech)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
         <button class="topic-card topic-practice" type="button" onclick="return false"><span class="topic-label">UYGULAMA</span><strong>${safe(current.practice)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
       </div>` : '<div class="today-topline">GÜNÜN EĞİTİMİ</div><p class="outside-calendar">Bugün için takvimde kayıt bulunamadı. Aylık planı inceleyebilirsiniz.</p>';
@@ -54,7 +54,7 @@ function renderEducationCalendar() {
       const dateLabel = item.date.split("-").reverse().slice(0, 2).join(".");
       return `<article class="calendar-day ${isToday ? "calendar-day-today" : ""}">
         <div class="calendar-day-header"><span class="calendar-day-date">${dateLabel}</span><span class="calendar-day-weekday">${safe(item.weekday)}</span>${isToday ? '<span class="calendar-today-badge">BUGÜN</span>' : ""}</div>
-        <button type="button" class="calendar-topic" onclick="openVMRules()"><span>VM / SATIŞ</span><strong>${safe(item.vm)}</strong></button>
+        <button type="button" class="calendar-topic" onclick="openVMRules('${encodeURIComponent(item.vm)}')"><span>VM / SATIŞ</span><strong>${safe(item.vm)}</strong></button>
         <button type="button" class="calendar-topic" onclick="openTechnologyDocument('${encodeURIComponent(item.tech)}')"><span>TEKNOLOJİ</span><strong>${safe(item.tech)}</strong></button>
         <button type="button" class="calendar-topic calendar-practice" onclick="return false"><span>UYGULAMA</span><strong>${safe(item.practice)}</strong></button>
       </article>`;
@@ -67,7 +67,13 @@ function openTechnologyDocument(topic) {
   window.open("./egitim.pdf#page=3", "_blank", "noopener");
 }
 
-function openVMRules() {
+function openVMRules(topic) {
+  let decodedTopic = String(topic || "");
+  try { decodedTopic = decodeURIComponent(decodedTopic); } catch (error) { console.warn("Eğitim konusu çözümlenemedi.", error); }
+  if (decodedTopic.toLocaleLowerCase("tr-TR").includes("satış teknikleri")) {
+    window.open("./sat%C4%B1steknikleri.pptx", "_blank", "noopener");
+    return;
+  }
   window.open("./vmkurallar%C4%B1.docx", "_blank", "noopener");
 }
 
