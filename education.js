@@ -43,7 +43,7 @@ function renderEducationCalendar() {
       <div class="today-date">${safe(current.weekday)} • ${current.date.split("-").reverse().join(".")}</div>
       <div class="today-topic-grid">
         <button class="topic-card topic-vm" type="button" onclick="openVMRules()"><span class="topic-label">VM & SATIŞ TEKNİKLERİ</span><strong>${safe(current.vm)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
-        <button class="topic-card topic-tech" type="button" onclick="openTechnologyDocument(${JSON.stringify(current.tech)})"><span class="topic-label">TEKSTİL & AYAKKABI TEKNOLOJİLERİ</span><strong>${safe(current.tech)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
+        <button class="topic-card topic-tech" type="button" onclick="openTechnologyDocument('${encodeURIComponent(current.tech)}')"><span class="topic-label">TEKSTİL & AYAKKABI TEKNOLOJİLERİ</span><strong>${safe(current.tech)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
         <button class="topic-card topic-practice" type="button" onclick="openEducationPDF()"><span class="topic-label">UYGULAMA</span><strong>${safe(current.practice)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
       </div>` : '<div class="today-topline">GÜNÜN EĞİTİMİ</div><p class="outside-calendar">Bugün için takvimde kayıt bulunamadı. Aylık planı inceleyebilirsiniz.</p>';
   }
@@ -55,7 +55,7 @@ function renderEducationCalendar() {
       return `<article class="calendar-day ${isToday ? "calendar-day-today" : ""}">
         <div class="calendar-day-header"><span class="calendar-day-date">${dateLabel}</span><span class="calendar-day-weekday">${safe(item.weekday)}</span>${isToday ? '<span class="calendar-today-badge">BUGÜN</span>' : ""}</div>
         <button type="button" class="calendar-topic" onclick="openVMRules()"><span>VM / SATIŞ</span><strong>${safe(item.vm)}</strong></button>
-        <button type="button" class="calendar-topic" onclick="openTechnologyDocument(${JSON.stringify(item.tech)})"><span>TEKNOLOJİ</span><strong>${safe(item.tech)}</strong></button>
+        <button type="button" class="calendar-topic" onclick="openTechnologyDocument('${encodeURIComponent(item.tech)}')"><span>TEKNOLOJİ</span><strong>${safe(item.tech)}</strong></button>
         <button type="button" class="calendar-topic calendar-practice" onclick="openEducationPDF()"><span>UYGULAMA</span><strong>${safe(item.practice)}</strong></button>
       </article>`;
     }).join("");
@@ -64,7 +64,9 @@ function renderEducationCalendar() {
 
 function openTechnologyDocument(topic) {
   // Open the combined training PDF and ask the built-in PDF viewer to find the clicked technology.
-  const text = String(topic || "").toUpperCase();
+  let decodedTopic = String(topic || "");
+  try { decodedTopic = decodeURIComponent(decodedTopic); } catch (error) { console.warn("Eğitim konusu çözümlenemedi.", error); }
+  const text = decodedTopic.toUpperCase();
   const knownTopics = [
     "LYCRA", "DRYCELL", "STORMCELL", "WATERPROOF", "POWERWARM", "PWRWARM",
     "TPU", "SOFTRIDE", "PROFOAM", "PUMAGRIP", "RUNGUIDE", "NITRO",
