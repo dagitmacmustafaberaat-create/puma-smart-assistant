@@ -73,7 +73,12 @@ function openTechnologyDocument(topic) {
     "EVOKNIT", "PRONASYON", "KUMAŞ", "RS"
   ];
   const keyword = knownTopics.find(function (term) { return text.includes(term); }) || text;
-  const url = "./egitim.pdf" + (keyword ? "#search=" + encodeURIComponent(keyword) : "");
+  // Known page locations in the combined training PDF (PDF page numbers are 1-based).
+  const topicPages = {
+    "LYCRA": 19
+  };
+  const matchedTopic = Object.keys(topicPages).find(function (term) { return text.includes(term); });
+  const url = "./egitim.pdf" + (matchedTopic ? "#page=" + topicPages[matchedTopic] : (keyword ? "#search=" + encodeURIComponent(keyword) : ""));
   window.open(url, "_blank", "noopener");
 }
 
