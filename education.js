@@ -63,23 +63,8 @@ function renderEducationCalendar() {
 }
 
 function openTechnologyDocument(topic) {
-  // Open the combined training PDF and ask the built-in PDF viewer to find the clicked technology.
-  let decodedTopic = String(topic || "");
-  try { decodedTopic = decodeURIComponent(decodedTopic); } catch (error) { console.warn("Eğitim konusu çözümlenemedi.", error); }
-  const text = decodedTopic.toUpperCase();
-  const knownTopics = [
-    "LYCRA", "DRYCELL", "STORMCELL", "WATERPROOF", "POWERWARM", "PWRWARM",
-    "TPU", "SOFTRIDE", "PROFOAM", "PUMAGRIP", "RUNGUIDE", "NITRO",
-    "EVOKNIT", "PRONASYON", "KUMAŞ", "RS"
-  ];
-  const keyword = knownTopics.find(function (term) { return text.includes(term); }) || text;
-  // Known page locations in the combined training PDF (PDF page numbers are 1-based).
-  const topicPages = {
-    "LYCRA": 19
-  };
-  const matchedTopic = Object.keys(topicPages).find(function (term) { return text.includes(term); });
-  const url = "./egitim.pdf" + (matchedTopic ? "#page=" + topicPages[matchedTopic] : (keyword ? "#search=" + encodeURIComponent(keyword) : ""));
-  window.open(url, "_blank", "noopener");
+  // Tüm teknoloji eğitim bağlantıları PDF'nin 3. sayfasındaki teknoloji içindekiler bölümünü açar.
+  window.open("./egitim.pdf#page=3", "_blank", "noopener");
 }
 
 function openVMRules() {
@@ -87,7 +72,7 @@ function openVMRules() {
 }
 
 function openEducationPDF() {
-  window.open("./egitim.pdf", "_blank", "noopener");
+  window.open("./egitim.pdf#page=3", "_blank", "noopener");
 }
 function closeEducationCenter() {
   const area = document.getElementById("educationArea");
