@@ -70,11 +70,14 @@ function openTechnologyDocument(topic) {
 function openVMRules(topic) {
   let decodedTopic = String(topic || "");
   try { decodedTopic = decodeURIComponent(decodedTopic); } catch (error) { console.warn("Eğitim konusu çözümlenemedi.", error); }
-  if (decodedTopic.toLocaleLowerCase("tr-TR").includes("satış teknikleri")) {
-    window.open("./sat%C4%B1steknikleri.pptx", "_blank", "noopener");
-    return;
-  }
-  window.open("./vmkurallar%C4%B1.docx", "_blank", "noopener");
+
+  // Office dosyalarını doğrudan açmak yerine çevrim içi görüntüleyicide aç.
+  const fileName = decodedTopic.toLocaleLowerCase("tr-TR").includes("satış teknikleri")
+    ? "satısteknikleri.pptx"
+    : "vmkuralları.docx";
+  const fileUrl = new URL(fileName, window.location.href).href;
+  const viewerUrl = "https://view.officeapps.live.com/op/view.aspx?src=" + encodeURIComponent(fileUrl);
+  window.open(viewerUrl, "_blank", "noopener,noreferrer");
 }
 
 function closeEducationCenter() {
