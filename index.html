@@ -22,22 +22,30 @@
       </div>
     </section>
 
-    <!-- AD SOYAD GİRİŞİ -->
+    <!-- KULLANICI ADI VE ŞİFRE GİRİŞİ -->
     <section id="loginScreen" class="login-screen" hidden>
       <div class="login-card">
         <p class="login-eyebrow">BUYAKA PUMA STORE</p>
-        <h1>Hoş Geldiniz</h1>
-        <p class="login-description">Lütfen adınızı ve soyadınızı girin.</p>
+        <h1>Personel Girişi</h1>
+        <p class="login-description">Size tanımlanan kullanıcı adı ve şifreyle giriş yapın.</p>
         <form id="loginForm">
-          <label for="loginName">Ad Soyad</label>
-          <input id="loginName" name="fullName" type="text" autocomplete="name" placeholder="Adınız Soyadınız" required minlength="3">
-          <button id="loginSubmit" type="submit">Devam Et</button>
+          <label for="loginName">Kullanıcı adı</label>
+          <input id="loginName" name="username" type="text" autocomplete="username" placeholder="Kullanıcı adınız" required minlength="3">
+          <label for="loginPassword">Şifre</label>
+          <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Şifreniz" required minlength="8">
+          <button id="loginSubmit" type="submit">Giriş Yap</button>
           <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
           <button id="changeStoreButton" type="button" class="logout-button">← Mağaza Seçimine Dön</button>
         </form>
-        <p class="login-footnote">Bu giriş yöntemi şifre istemez; ad soyad bilgisi doğrulanmaz.</p>
+        <p class="login-footnote">Hesap veya şifre için mağaza yöneticinize başvurun.</p>
       </div>
     </section>
+
+    <div id="appShell" hidden>
+    <div class="user-toolbar">
+      <div><strong>BUYAKA PUMA SMART ASSISTANT</strong><div class="user-badge" id="userBadge">BUYAKA PUMA STORE</div></div>
+      <div class="user-toolbar-actions"><span id="welcomeName"></span><button id="managerNavButton" class="manager-nav-button" type="button" hidden>Yönetici Paneli</button><button id="logoutButton" class="logout-button" type="button">Çıkış Yap</button></div>
+    </div>
 
     <div class="logo">
         BUYAKA PUMA SMART ASSISTANT
@@ -152,14 +160,33 @@
       <footer class="education-footer"><p>Tüm eğitim dokümanları tek PDF dosyasında</p><button type="button" class="pdf-button" onclick="openEducationPDF()">📖 Tüm Eğitim Dokümanlarını Aç</button></footer>
     </section>
 
+      <section id="managerPanel" class="manager-panel" hidden>
+        <h2>Personel ve Eğitim Yönetimi</h2>
+        <div class="create-staff-form">
+          <h3>Yeni personel hesabı oluştur</h3>
+          <form id="createStaffForm">
+            <label for="newStaffName">Ad Soyad</label><input id="newStaffName" name="fullName" required minlength="3" placeholder="Personelin adı soyadı">
+            <label for="newStaffUsername">Kullanıcı adı</label><input id="newStaffUsername" name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9._-]+" placeholder="Örn. sinem.palaz">
+            <label for="newStaffPassword">Geçici şifre (en az 8 karakter)</label><input id="newStaffPassword" name="password" type="password" required minlength="8" autocomplete="new-password">
+            <button id="createStaffSubmit" type="submit">Personel Hesabı Oluştur</button>
+            <p id="managerMessage" class="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="manager-report-grid">
+          <section><h3>Personel Hesapları</h3><div id="staffList">Yükleniyor…</div></section>
+          <section><h3>Eğitim Tamamlama Raporu</h3><div id="managerTrainingReport">Yükleniyor…</div></section>
+        </div>
+      </section>
       <section id="trainingHistory" class="training-history"></section>
-      </div>
+    </div>
 
     <!-- JAVASCRIPT -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js"></script>
-    <script src="staff-auth.js"></script>
     <script src="education.js"></script>
+    <script src="staff-auth.js"></script>
 
 </body>
 
