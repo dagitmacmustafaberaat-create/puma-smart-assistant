@@ -9,18 +9,18 @@ Bu özellikler ana `main` dalına aktarılmadan önce Supabase tarafı hazırlan
 
 ## 2. İlk yönetici hesabını oluştur
 1. Supabase **Authentication → Users → Add user** bölümünde kullanıcı oluştur.
-2. E-posta: `yonetici@staff.buyakapuma.com`
+2. E-posta: `mustafa.berat.dagitmac@staff.buyakapuma.com`
 3. Güçlü bir ilk şifre belirle ve kullanıcıyı doğrulanmış (confirmed) olarak oluştur.
 4. SQL Editor'de şu sorguyu çalıştır:
    ```sql
    update public.staff_profiles sp
-   set role = 'manager', full_name = 'Yönetici', active = true
+   set role = 'manager', full_name = 'Mustafa Berat Dağıtmaç', active = true
    from auth.users u
    where sp.user_id = u.id
-     and u.email = 'yonetici@staff.buyakapuma.com';
+     and u.email = 'mustafa.berat.dagitmac@staff.buyakapuma.com';
    ```
-5. Yönetici profilinin ilk girişte şifre değiştirmeye zorlanmaması için SQL Editor'de şu ek sorguyu da çalıştır: `update public.staff_profiles set must_change_password = false where user_id = (select id from auth.users where email = 'yonetici@staff.buyakapuma.com');`
-6. Site girişinde ad soyad alanına **Yönetici**, şifre alanına az önce belirlediğin şifreyi gir.
+5. Yönetici profilinin ilk girişte şifre değiştirmeye zorlanmaması için SQL Editor'de şu ek sorguyu da çalıştır: `update public.staff_profiles set must_change_password = false where user_id = (select id from auth.users where email = 'mustafa.berat.dagitmac@staff.buyakapuma.com');`
+6. Site girişinde ad soyad alanına **Mustafa Berat Dağıtmaç**, şifre alanına az önce belirlediğin şifreyi gir.
 
 ## 3. Personel oluşturma fonksiyonunu yayımla
 Supabase CLI ile repo kökünde:
