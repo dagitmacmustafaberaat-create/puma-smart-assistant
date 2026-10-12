@@ -4,8 +4,11 @@ create table if not exists public.staff_profiles (
   full_name text not null,
   role text not null default 'staff' check (role in ('staff','manager')),
   active boolean not null default true,
+  must_change_password boolean not null default true,
   created_at timestamptz not null default now()
 );
+
+alter table public.staff_profiles add column if not exists must_change_password boolean not null default true;
 
 create table if not exists public.training_completions (
   id uuid primary key default gen_random_uuid(),
