@@ -1,4 +1,4 @@
-const { verifyRequest, sendError } = require("./_firebase");
+const { verifyRequest, sendError } = require("../lib/firebase-admin");
 
 module.exports = async function handler(req, res) {
   try {
