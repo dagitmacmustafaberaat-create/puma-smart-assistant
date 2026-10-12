@@ -45,7 +45,7 @@ as $$
     select 1 from public.staff_profiles
     where user_id = auth.uid() and role = 'manager' and active = true
   );
-$;
+$$;
 
 drop policy if exists "staff can read own profile, managers read all" on public.staff_profiles;
 create policy "staff can read own profile, managers read all" on public.staff_profiles
