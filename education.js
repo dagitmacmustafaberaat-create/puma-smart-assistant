@@ -52,7 +52,7 @@ function renderEducationCalendar() {
     calendarBox.innerHTML = educationCalendar.map(function (item) {
       const isToday = item.date === today;
       const dateLabel = item.date.split("-").reverse().slice(0, 2).join(".");
-      return `<article class="calendar-day ${isToday ? "calendar-day-today" : ""}">
+      return `<article class="calendar-day ${isToday ? "calendar-day-today" : ""}" data-training-date="${item.date}">
         <div class="calendar-day-header"><span class="calendar-day-date">${dateLabel}</span><span class="calendar-day-weekday">${safe(item.weekday)}</span>${isToday ? '<span class="calendar-today-badge">BUGÜN</span>' : ""}</div>
         <button type="button" class="calendar-topic" onclick="openVMRules('${encodeURIComponent(item.vm)}')"><span>VM / SATIŞ</span><strong>${safe(item.vm)}</strong></button>
         <button type="button" class="calendar-topic" onclick="openTechnologyDocument('${encodeURIComponent(item.tech)}')"><span>TEKNOLOJİ</span><strong>${safe(item.tech)}</strong></button>
