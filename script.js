@@ -229,15 +229,19 @@ document.addEventListener("DOMContentLoaded", function () {
 // ANA MENÜ
 // ======================================================
 function showMainMenu() {
+    const landingScreen = document.getElementById("landingScreen");
     const mainMenu = document.getElementById("mainMenu");
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
+    const educationArea = document.getElementById("educationArea");
     const results = document.getElementById("results");
     const sizeResults = document.getElementById("sizeResults");
 
-    if (mainMenu) mainMenu.style.display = "flex";
+    if (landingScreen) landingScreen.style.display = "block";
+    if (mainMenu) mainMenu.style.display = "none";
     if (productSearchArea) productSearchArea.style.display = "none";
     if (sizeSearchArea) sizeSearchArea.style.display = "none";
+    if (educationArea) educationArea.style.display = "none";
     if (results) results.innerHTML = "";
     if (sizeResults) sizeResults.innerHTML = "";
 }
@@ -246,10 +250,12 @@ function showMainMenu() {
 // ÜRÜN SORGULAMA
 // ======================================================
 function showProductSearch() {
+    const landingScreen = document.getElementById("landingScreen");
     const mainMenu = document.getElementById("mainMenu");
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
 
+    if (landingScreen) landingScreen.style.display = "none";
     if (mainMenu) mainMenu.style.display = "none";
     if (productSearchArea) productSearchArea.style.display = "block";
     if (sizeSearchArea) sizeSearchArea.style.display = "none";
