@@ -11,7 +11,7 @@ body {
             rgba(0, 0, 0, 0.55),
             rgba(0, 0, 0, 0.78)
         ),
-        url("puma-bg.jpg.jpg") center center / cover fixed;
+        url("puma-wallpaper.png") center center / cover fixed;
 
     color: white;
     min-height: 100vh;
