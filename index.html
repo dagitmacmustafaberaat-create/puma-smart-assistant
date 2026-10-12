@@ -12,42 +12,15 @@
 
 <body>
 
-    <div class="logo">
-        BUYAKA PUMA SMART ASSISTANT
+    <!-- AÇILIŞ EKRANI: TEK BUTON -->
+    <div id="landingScreen" style="max-width:520px;margin:35vh auto 0;padding:20px;">
+        <button class="menu-button" type="button" onclick="showProductSearch()">
+            BUYAKA PUMA STORE
+        </button>
     </div>
 
-    <div class="subtitle">
-        Anlık Stok Sorgulama
-    </div>
-
-    <!-- ANA MENÜ -->
-    <div id="mainMenu" class="menu">
-
-        <button
-            class="menu-button"
-            type="button"
-            onclick="showProductSearch()"
-        >
-            🔎 ÜRÜN SORGULAMA
-        </button>
-
-        <button
-            class="menu-button"
-            type="button"
-            onclick="showSizeSearch()"
-        >
-            👟 BEDEN BAZLI SORGULAMA
-        </button>
-
-        <button
-            class="menu-button"
-            type="button"
-            onclick="showEducationCenter()"
-        >
-            📚 EĞİTİM MERKEZİ
-        </button>
-
-    </div>
+    <!-- Eski ana menü; arayüzde gösterilmez -->
+    <div id="mainMenu" class="menu" style="display:none;"></div>
 
     <!-- ÜRÜN SORGULAMA -->
     <div
