@@ -248,25 +248,19 @@ function showMainMenu() {
 // ÜRÜN SORGULAMA
 // ======================================================
 function showProductSearch() {
-    const landingScreen = document.getElementById("landingScreen");
     const mainMenu = document.getElementById("mainMenu");
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
-
-    if (landingScreen) landingScreen.style.display = "none";
-    if (mainMenu) mainMenu.style.display = "none";
+    const educationArea = document.getElementById("educationArea");
+    if (mainMenu) mainMenu.style.display = "flex";
     if (productSearchArea) productSearchArea.style.display = "block";
     if (sizeSearchArea) sizeSearchArea.style.display = "none";
-
+    if (educationArea) educationArea.style.display = "none";
     const input = document.getElementById("searchInput");
-
     if (input) {
         input.value = "";
-        setTimeout(function () {
-            input.focus();
-        }, 100);
+        setTimeout(function () { input.focus(); }, 100);
     }
-
     const results = document.getElementById("results");
     if (results) results.innerHTML = "";
 }
@@ -278,11 +272,11 @@ function showSizeSearch() {
     const mainMenu = document.getElementById("mainMenu");
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
-
-    if (mainMenu) mainMenu.style.display = "none";
+    const educationArea = document.getElementById("educationArea");
+    if (mainMenu) mainMenu.style.display = "flex";
     if (productSearchArea) productSearchArea.style.display = "none";
     if (sizeSearchArea) sizeSearchArea.style.display = "block";
-
+    if (educationArea) educationArea.style.display = "none";
     populateSizeFilter();
 }
 
