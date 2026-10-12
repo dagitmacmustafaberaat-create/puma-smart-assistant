@@ -1,11 +1,13 @@
 let educationCalendar = [];
 
 function showEducationCenter() {
-  ["mainMenu", "productSearchArea", "sizeSearchArea"].forEach(function (id) {
+  ["productSearchArea", "sizeSearchArea"].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) el.style.display = "none";
   });
   const area = document.getElementById("educationArea");
+  const menu = document.getElementById("mainMenu");
+  if (menu) menu.style.display = "flex";
   if (area) area.style.display = "block";
   if (educationCalendar.length) renderEducationCalendar();
   else loadEducationCalendar();
