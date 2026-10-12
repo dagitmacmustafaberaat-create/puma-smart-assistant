@@ -14,13 +14,20 @@
 
     <!-- AÇILIŞ EKRANI: TEK BUTON -->
     <div id="landingScreen" style="max-width:520px;margin:35vh auto 0;padding:20px;">
-        <button class="menu-button" type="button" onclick="showProductSearch()">
+        <button class="menu-button" type="button" onclick="showStoreMenu()">
             BUYAKA PUMA STORE
         </button>
     </div>
 
-    <!-- Eski ana menü; arayüzde gösterilmez -->
-    <div id="mainMenu" class="menu" style="display:none;"></div>
+    <div class="logo" id="storeLogo" style="display:none;">BUYAKA PUMA SMART ASSISTANT</div>
+    <div class="subtitle" id="storeSubtitle" style="display:none;">Anlık Stok Sorgulama</div>
+
+    <!-- MAĞAZA MENÜSÜ: stok, beden ve eğitim seçenekleri korunur -->
+    <div id="mainMenu" class="menu" style="display:none;">
+        <button class="menu-button" type="button" onclick="showProductSearch()">🔎 ÜRÜN SORGULAMA</button>
+        <button class="menu-button" type="button" onclick="showSizeSearch()">👟 BEDEN BAZLI SORGULAMA</button>
+        <button class="menu-button" type="button" onclick="showEducationCenter()">📚 EĞİTİM MERKEZİ</button>
+    </div>
 
     <!-- ÜRÜN SORGULAMA -->
     <div
