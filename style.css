@@ -1238,3 +1238,6 @@ button,
 @media (prefers-reduced-transparency: reduce) {
     .login-card,.user-toolbar,#mainMenu,#trainingHistory,.manager-panel { -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(7,8,12,.96); }
 }
+
+.staff-toggle-button { align-self:flex-start; margin-top:6px; padding:7px 10px; color:#fff; background:rgba(213,0,28,.16); border:1px solid rgba(255,90,110,.4); border-radius:7px; cursor:pointer; font-size:11px; font-weight:700; }
+.staff-toggle-button:hover { background:rgba(213,0,28,.32); }
