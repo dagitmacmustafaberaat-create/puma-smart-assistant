@@ -35,23 +35,22 @@ for each row execute procedure public.create_staff_profile();
 alter table public.staff_profiles enable row level security;
 alter table public.training_completions enable row level security;
 
+create or replace function public.is_staff_manager()
+returns boolean language sql stable security definer set search_path = public
+as $
+  select exists (
+    select 1 from public.staff_profiles
+    where user_id = auth.uid() and role = 'manager' and active = true
+  );
+$;
+
 drop policy if exists "staff can read own profile, managers read all" on public.staff_profiles;
 create policy "staff can read own profile, managers read all" on public.staff_profiles
-for select to authenticated using (
-  user_id = auth.uid() or exists (
-    select 1 from public.staff_profiles manager
-    where manager.user_id = auth.uid() and manager.role = 'manager' and manager.active = true
-  )
-);
+for select to authenticated using (user_id = auth.uid() or public.is_staff_manager());
 
 drop policy if exists "staff can read own completions, managers read all" on public.training_completions;
 create policy "staff can read own completions, managers read all" on public.training_completions
-for select to authenticated using (
-  user_id = auth.uid() or exists (
-    select 1 from public.staff_profiles manager
-    where manager.user_id = auth.uid() and manager.role = 'manager' and manager.active = true
-  )
-);
+for select to authenticated using (user_id = auth.uid() or public.is_staff_manager());
 
 drop policy if exists "staff can record own completion" on public.training_completions;
 create policy "staff can record own completion" on public.training_completions
