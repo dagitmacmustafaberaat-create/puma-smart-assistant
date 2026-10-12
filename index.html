@@ -30,6 +30,23 @@
       </div>
     </section>
 
+
+    <section id="forcePasswordScreen" class="login-screen" hidden>
+      <div class="login-card">
+        <p class="login-eyebrow">BUYAKA PUMA • GÜVENLİ HESAP</p>
+        <h1>İlk Giriş Şifre Değişikliği</h1>
+        <p class="login-description"><strong id="forcePasswordName">Personel</strong>, devam etmeden önce sana verilen geçici şifreyi değiştir.</p>
+        <form id="forcePasswordForm">
+          <label for="newPassword">Yeni şifre (en az 8 karakter)</label>
+          <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
+          <label for="confirmPassword">Yeni şifreyi tekrar gir</label>
+          <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
+          <button id="forcePasswordSubmit" type="submit">Şifremi Kaydet</button>
+          <p id="forcePasswordMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
     <div id="appShell" hidden>
       <div class="user-toolbar">
         <span>Merhaba, <strong id="welcomeName">Personel</strong></span>
