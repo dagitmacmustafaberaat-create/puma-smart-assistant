@@ -12,66 +12,33 @@
 
 <body>
 
-    <!-- PERSONEL GİRİŞİ: Site arka planı mevcut CSS dosyasından aynen alınır. -->
-    <section id="loginScreen" class="login-screen" hidden>
+    <!-- MAĞAZA SEÇİMİ -->
+    <section id="storeSelectScreen" class="login-screen">
       <div class="login-card">
         <p class="login-eyebrow">BUYAKA PUMA • PERSONEL PORTALI</p>
         <h1>BUYAKA PUMA SMART ASSISTANT</h1>
-        <p class="login-description">Devam etmek için personel adınızı ve şifrenizi girin.</p>
+        <p class="login-description">Devam etmek için mağazanızı seçin.</p>
+        <button id="storeSelectButton" type="button">BUYAKA PUMA STORE</button>
+      </div>
+    </section>
+
+    <!-- AD SOYAD GİRİŞİ -->
+    <section id="loginScreen" class="login-screen" hidden>
+      <div class="login-card">
+        <p class="login-eyebrow">BUYAKA PUMA STORE</p>
+        <h1>Hoş Geldiniz</h1>
+        <p class="login-description">Lütfen adınızı ve soyadınızı girin.</p>
         <form id="loginForm">
           <label for="loginName">Ad Soyad</label>
-          <input id="loginName" name="fullName" type="text" autocomplete="username" placeholder="Adınız Soyadınız" required>
-          <label for="loginPassword">Şifre</label>
-          <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Şifreniz" required>
-          <button id="loginSubmit" type="submit">Giriş Yap</button>
+          <input id="loginName" name="fullName" type="text" autocomplete="name" placeholder="Adınız Soyadınız" required minlength="3">
+          <button id="loginSubmit" type="submit">Devam Et</button>
           <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
+          <button id="changeStoreButton" type="button" class="logout-button">← Mağaza Seçimine Dön</button>
         </form>
-        <p class="login-footnote">Hesabınız yoksa mağaza yöneticinizle görüşün.</p>
+        <p class="login-footnote">Bu giriş yöntemi şifre istemez; ad soyad bilgisi doğrulanmaz.</p>
       </div>
     </section>
 
-
-    <section id="forcePasswordScreen" class="login-screen" hidden>
-      <div class="login-card">
-        <p class="login-eyebrow">BUYAKA PUMA • GÜVENLİ HESAP</p>
-        <h1>İlk Giriş Şifre Değişikliği</h1>
-        <p class="login-description"><strong id="forcePasswordName">Personel</strong>, devam etmeden önce sana verilen geçici şifreyi değiştir.</p>
-        <form id="forcePasswordForm">
-          <label for="newPassword">Yeni şifre (en az 8 karakter)</label>
-          <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
-          <label for="confirmPassword">Yeni şifreyi tekrar gir</label>
-          <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
-          <button id="forcePasswordSubmit" type="submit">Şifremi Kaydet</button>
-          <p id="forcePasswordMessage" class="form-message" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
-
-    <div id="appShell" hidden>
-      <div class="user-toolbar">
-        <span>Merhaba, <strong id="welcomeName">Personel</strong></span>
-        <div class="user-toolbar-actions">
-          <span id="userBadge" class="user-badge">PERSONEL</span>
-          <button id="managerNavButton" class="manager-nav-button" type="button" hidden>Yönetici Paneli</button>
-          <button id="logoutButton" class="logout-button" type="button">Çıkış</button>
-        </div>
-      </div>
-      <section id="managerPanel" class="manager-panel" hidden>
-        <div class="manager-panel-heading"><div><p class="login-eyebrow">YÖNETİCİ ALANI</p><h2>Personel ve Eğitim Yönetimi</h2></div></div>
-        <form id="createStaffForm" class="create-staff-form">
-          <h3>Yeni personel hesabı oluştur</h3>
-          <label for="newStaffName">Personel ad soyad</label>
-          <input id="newStaffName" type="text" placeholder="Ad Soyad" required minlength="3">
-          <label for="newStaffPassword">Geçici / ilk şifre (en az 8 karakter)</label>
-          <input id="newStaffPassword" type="password" required minlength="8" autocomplete="new-password">
-          <button type="submit">Personel Hesabı Oluştur</button>
-          <p id="createStaffMessage" class="form-message" role="status"></p>
-        </form>
-        <div class="manager-report-grid">
-          <section><h3>Personel Listesi</h3><div id="managerStaffList"></div></section>
-          <section><h3>Tamamlanan Eğitimler</h3><div id="managerTrainingReport"></div></section>
-        </div>
-      </section>
     <div class="logo">
         BUYAKA PUMA SMART ASSISTANT
     </div>
