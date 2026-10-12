@@ -29,8 +29,18 @@ Deno.serve(async (req) => {
   const { data: profile } = await adminClient.from("staff_profiles").select("role,active").eq("user_id", userData.user.id).maybeSingle();
   if (!profile || profile.role !== "manager" || !profile.active) return new Response(JSON.stringify({ error: "Bu işlem için yönetici yetkisi gerekir." }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
-  let body: { full_name?: string; password?: string; active?: boolean };
+  let body: { action?: string; full_name?: string; password?: string; user_id?: string; active?: boolean };
   try { body = await req.json(); } catch { return new Response(JSON.stringify({ error: "Geçersiz istek." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }); }
+
+  if (body.action === "set-active") {
+    if (!body.user_id || typeof body.active !== "boolean") return new Response(JSON.stringify({ error: "Personel ve durum bilgisi gerekli." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const { data: target } = await adminClient.from("staff_profiles").select("role").eq("user_id", body.user_id).maybeSingle();
+    if (!target || target.role === "manager") return new Response(JSON.stringify({ error: "Yönetici hesabı bu ekrandan değiştirilemez." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const { error } = await adminClient.from("staff_profiles").update({ active: body.active }).eq("user_id", body.user_id);
+    if (error) return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
+
   const fullName = String(body.full_name || "").trim().replace(/\s+/g, " ");
   const password = String(body.password || "");
   if (fullName.length < 3 || password.length < 8) return new Response(JSON.stringify({ error: "Ad soyad girin; şifre en az 8 karakter olmalı." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
