@@ -24,12 +24,21 @@
   }
   function showLogin() {
     el("loginScreen").hidden = false;
+    el("forcePasswordScreen").hidden = true;
     el("appShell").hidden = true;
     el("loginName").focus();
   }
   async function showApp(profile) {
     currentProfile = profile;
     el("loginScreen").hidden = true;
+    el("appShell").hidden = true;
+    if (profile.must_change_password) {
+      el("forcePasswordName").textContent = profile.full_name || "Personel";
+      el("forcePasswordScreen").hidden = false;
+      el("newPassword").focus();
+      return;
+    }
+    el("forcePasswordScreen").hidden = true;
     el("appShell").hidden = false;
     el("welcomeName").textContent = profile.full_name;
     el("userBadge").textContent = profile.role === "manager" ? "YÖNETİCİ" : "PERSONEL";
@@ -43,7 +52,7 @@
     const { data, error } = await client.auth.signInWithPassword({ email, password });
     if (error || !data.user) throw new Error("Ad soyad veya şifre hatalı. Personel adınızın yönetici tarafından eklenmiş olduğunu kontrol edin.");
     const { data: profile, error: profileError } = await client.from("staff_profiles")
-      .select("user_id,full_name,role,active").eq("user_id", data.user.id).single();
+      .select("user_id,full_name,role,active,must_change_password").eq("user_id", data.user.id).single();
     if (profileError || !profile || !profile.active) {
       await client.auth.signOut();
       throw new Error("Hesabınız etkin değil. Mağaza yöneticisiyle görüşün.");
@@ -186,6 +195,36 @@
       catch (error) { message("loginMessage", error.message || "Giriş yapılamadı.", true); }
       finally { button.disabled = false; button.textContent = "Giriş Yap"; }
     });
+    el("forcePasswordForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const password = el("newPassword").value;
+      const confirmation = el("confirmPassword").value;
+      if (password.length < 8) { message("forcePasswordMessage", "Şifre en az 8 karakter olmalı.", true); return; }
+      if (password !== confirmation) { message("forcePasswordMessage", "Şifreler eşleşmiyor.", true); return; }
+      const submit = el("forcePasswordSubmit");
+      submit.disabled = true; submit.textContent = "Kaydediliyor…";
+      try {
+        const { data: sessionData } = await client.auth.getSession();
+        const response = await fetch(SUPABASE_URL + "/functions/v1/change-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + (sessionData.session && sessionData.session.access_token || "") },
+          body: JSON.stringify({ password })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || "Şifre değiştirilemedi.");
+        const { data: profile, error } = await client.from("staff_profiles")
+          .select("user_id,full_name,role,active,must_change_password")
+          .eq("user_id", sessionData.session.user.id).single();
+        if (error || !profile) throw new Error("Profil bilgisi yenilenemedi. Lütfen tekrar giriş yapın.");
+        message("forcePasswordMessage", "", false);
+        await showApp(profile);
+      } catch (error) {
+        message("forcePasswordMessage", error.message || "Şifre değiştirilemedi.", true);
+      } finally {
+        submit.disabled = false; submit.textContent = "Şifremi Kaydet";
+      }
+    });
     el("logoutButton").addEventListener("click", signOut);
     el("managerNavButton").addEventListener("click", async () => {
       el("managerPanel").hidden = !el("managerPanel").hidden;
@@ -195,7 +234,7 @@
     el("managerStaffList").addEventListener("click", event => { const button = event.target.closest(".staff-toggle-button"); if (button) setStaffActive(button.dataset.userId, button.dataset.active !== "true"); });
     client.auth.getSession().then(async ({ data }) => {
       if (!data.session) { showLogin(); return; }
-      const { data: profile } = await client.from("staff_profiles").select("user_id,full_name,role,active")
+      const { data: profile } = await client.from("staff_profiles").select("user_id,full_name,role,active,must_change_password")
         .eq("user_id", data.session.user.id).single();
       if (!profile || !profile.active) { await client.auth.signOut(); showLogin(); return; }
       await showApp(profile);
