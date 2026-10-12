@@ -1182,3 +1182,15 @@ button,
   #productSearchArea, #sizeSearchArea { margin-left: 192px; margin-right: 8px; }
   #educationArea { margin-left: 192px; margin-right: 8px; }
 }
+
+
+/* MOBİL ARKA PLAN: duvar kâğıdını yakınlaştırmadan göster; başlık ve Puma logosu kadrajda kalsın */
+@media (max-width: 760px) {
+  body {
+    background-size: 100% 100%, 100% 100%, 100% auto !important;
+    background-position: center center, center center, center top !important;
+    background-repeat: no-repeat, no-repeat, no-repeat !important;
+    background-attachment: scroll !important;
+    background-color: #050505 !important;
+  }
+}
