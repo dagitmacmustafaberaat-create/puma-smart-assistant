@@ -94,10 +94,10 @@
     const reportBox = el("managerTrainingReport");
     if (staffBox) {
       staffBox.innerHTML = staffResult.error ? "<p>Personel listesi alınamadı.</p>" :
-        (staffResult.data || []).map(s => "<div class=\\"history-row\\"><strong>" + escapeText(s.full_name) +
+        (staffResult.data || []).map(s => "<div class=\"history-row\"><strong>" + escapeText(s.full_name) +
           "</strong><span>" + (s.role === "manager" ? "Yönetici" : "Personel") + " · " +
           (s.active ? "Aktif" : "Pasif") + "</span>" +
-          (s.role === "manager" ? "" : "<button type=\\"button\\" class=\\"staff-toggle-button\\" data-user-id=\\"" + escapeText(s.user_id) + "\\" data-active=\\"" + String(!!s.active) + "\\">" + (s.active ? "Hesabı pasifleştir" : "Hesabı aktifleştir") + "</button>") +
+          (s.role === "manager" ? "" : "<button type=\"button\" class=\"staff-toggle-button\" data-user-id=\"" + escapeText(s.user_id) + "\" data-active=\"" + String(!!s.active) + "\">" + (s.active ? "Hesabı pasifleştir" : "Hesabı aktifleştir") + "</button>") +
           "</div>").join("") || "<p>Personel bulunamadı.</p>";
     }
     if (reportBox) {
