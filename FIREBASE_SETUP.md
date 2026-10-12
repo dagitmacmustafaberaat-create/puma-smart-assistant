@@ -21,7 +21,7 @@ Tarayıcıdan doğrudan personel/eğitim verisi okunup yazılamaz; kayıtlar Ver
 ## 3. Vercel ortam değişkenleri
 Vercel → proje → **Settings → Environment Variables** bölümüne şu iki değişkeni ekleyin (Preview ve Production ortamları için gerekenleri seçin):
 
-- `MANAGER_UID`: Firebase Authentication'da oluşturduğunuz yönetici kullanıcısının UID'si.
+- `MANAGER_UID`: `6M8bxxLZZmVTiNm7bC2jhPVcEm13` (paylaştığınız yönetici UID'si).
 - `FIREBASE_SERVICE_ACCOUNT_JSON`: Firebase Console → Project settings → **Service accounts** → **Generate new private key** ile indirdiğiniz servis hesabı JSON dosyasının **tam içeriği**.
 
 **Servis hesabı JSON dosyasını GitHub'a veya sohbet mesajına yüklemeyin.** Yalnızca Vercel'in Environment Variables alanına ekleyin. Sonrasında yeni dağıtım başlatın.
