@@ -12,6 +12,51 @@
 
 <body>
 
+    <!-- PERSONEL GİRİŞİ: Site arka planı mevcut CSS dosyasından aynen alınır. -->
+    <section id="loginScreen" class="login-screen" hidden>
+      <div class="login-card">
+        <p class="login-eyebrow">BUYAKA PUMA • PERSONEL PORTALI</p>
+        <h1>BUYAKA PUMA SMART ASSISTANT</h1>
+        <p class="login-description">Devam etmek için personel adınızı ve şifrenizi girin.</p>
+        <form id="loginForm">
+          <label for="loginName">Ad Soyad</label>
+          <input id="loginName" name="fullName" type="text" autocomplete="username" placeholder="Adınız Soyadınız" required>
+          <label for="loginPassword">Şifre</label>
+          <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Şifreniz" required>
+          <button id="loginSubmit" type="submit">Giriş Yap</button>
+          <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="login-footnote">Hesabınız yoksa mağaza yöneticinizle görüşün.</p>
+      </div>
+    </section>
+
+    <div id="appShell" hidden>
+      <div class="user-toolbar">
+        <span>Merhaba, <strong id="welcomeName">Personel</strong></span>
+        <div class="user-toolbar-actions">
+          <span id="userBadge" class="user-badge">PERSONEL</span>
+          <button id="managerNavButton" class="manager-nav-button" type="button" hidden>Yönetici Paneli</button>
+          <button id="logoutButton" class="logout-button" type="button">Çıkış</button>
+        </div>
+      </div>
+      <section id="managerPanel" class="manager-panel" hidden>
+        <div class="manager-panel-heading"><div><p class="login-eyebrow">YÖNETİCİ ALANI</p><h2>Personel ve Eğitim Yönetimi</h2></div></div>
+        <form id="createStaffForm" class="create-staff-form">
+          <h3>Yeni personel hesabı oluştur</h3>
+          <label for="newStaffName">Personel ad soyad</label>
+          <input id="newStaffName" type="text" placeholder="Ad Soyad" required minlength="3">
+          <label for="newStaffPassword">Geçici / ilk şifre (en az 8 karakter)</label>
+          <input id="newStaffPassword" type="password" required minlength="8" autocomplete="new-password">
+          <button type="submit">Personel Hesabı Oluştur</button>
+          <p id="createStaffMessage" class="form-message" role="status"></p>
+        </form>
+        <div class="manager-report-grid">
+          <section><h3>Personel Listesi</h3><div id="managerStaffList"></div></section>
+          <section><h3>Tamamlanan Eğitimler</h3><div id="managerTrainingReport"></div></section>
+        </div>
+      </section>
+      <section id="trainingHistory" class="training-history"></section>
+
     <div class="logo">
         BUYAKA PUMA SMART ASSISTANT
     </div>
@@ -125,8 +170,8 @@
       <footer class="education-footer"><p>Tüm eğitim dokümanları tek PDF dosyasında</p><button type="button" class="pdf-button" onclick="openEducationPDF()">📖 Tüm Eğitim Dokümanlarını Aç</button></footer>
     </section>
 
-    <!-- JAVASCRIPT -->
-    <script src="script.js"></script>
+      </div>\n\n    <!-- JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n    <script src="script.js"></script>\n    <script src="staff-auth.js"></script>
     <script src="education.js"></script>
 
 </body>
