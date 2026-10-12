@@ -19,7 +19,8 @@ Bu özellikler ana `main` dalına aktarılmadan önce Supabase tarafı hazırlan
    where sp.user_id = u.id
      and u.email = 'yonetici@staff.buyakapuma.com';
    ```
-5. Site girişinde ad soyad alanına **Yönetici**, şifre alanına az önce belirlediğin şifreyi gir.
+5. Yönetici profilinin ilk girişte şifre değiştirmeye zorlanmaması için SQL Editor'de şu ek sorguyu da çalıştır: `update public.staff_profiles set must_change_password = false where user_id = (select id from auth.users where email = 'yonetici@staff.buyakapuma.com');`
+6. Site girişinde ad soyad alanına **Yönetici**, şifre alanına az önce belirlediğin şifreyi gir.
 
 ## 3. Personel oluşturma fonksiyonunu yayımla
 Supabase CLI ile repo kökünde:
@@ -27,6 +28,7 @@ Supabase CLI ile repo kökünde:
 supabase login
 supabase link --project-ref zjxphwqcmmmbikgrbhyn
 supabase functions deploy create-staff
+supabase functions deploy change-password
 ```
 Fonksiyon `supabase/functions/create-staff/index.ts` dosyasındadır. Supabase Edge Functions ortamında `SUPABASE_URL`, `SUPABASE_ANON_KEY` ve `SUPABASE_SERVICE_ROLE_KEY` değişkenleri kullanılmalıdır. Service-role anahtarını HTML/JavaScript dosyalarına veya GitHub'a eklemeyin.
 
@@ -36,6 +38,7 @@ Supabase Authentication ayarlarında **public sign-ups / yeni kullanıcı kaydı
 ## 5. Çalışma şekli
 - Personel girişi ad soyad + şifre ile yapılır. İsim, `@staff.buyakapuma.com` iç alan adıyla eşleştirilir.
 - Yönetici panelinden hesap oluşturulur ve hesap aktif/pasif yapılabilir.
+- Yeni personel ilk girişte geçici şifresini değiştirmeden portala erişemez. Bunun için `change-password` Edge Function yayımlanmalıdır.
 - Eğitim kartlarının altındaki **Eğitimi tamamladım** düğmesi, personel ve eğitim tarihiyle kaydı saklar.
 - Personel kendi eğitim geçmişini; yönetici tüm personellerin eğitim kayıtlarını görür.
 - Stok arama ve eğitim takvimi aynı dosyalardan çalışmaya devam eder.
