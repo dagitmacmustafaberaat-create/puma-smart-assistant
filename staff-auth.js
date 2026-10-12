@@ -6,6 +6,7 @@
   let client = null;
   let currentProfile = null;
   let decorated = new WeakSet();
+  const completedTrainingKeys = new Set();
 
   function slugifyName(value) {
     return String(value || "").trim().toLocaleLowerCase("tr-TR")
@@ -62,8 +63,10 @@
       .eq("user_id", currentProfile.user_id).order("completed_at", { ascending: false }).limit(100);
     const box = el("trainingHistory");
     if (!box) return;
+    completedTrainingKeys.clear();
     if (error) { box.innerHTML = "<p>Eğitim geçmişi yüklenemedi.</p>"; return; }
     if (!data || !data.length) { box.innerHTML = "<p>Henüz tamamlanmış eğitim kaydınız yok.</p>"; return; }
+    data.forEach(item => completedTrainingKeys.add(item.training_title + "|" + item.training_date));
     box.innerHTML = "<h3>Eğitim Geçmişim</h3>" + data.map(item =>
       "<div class=\"history-row\"><strong>" + escapeText(item.training_title) +
       "</strong><span>Eğitim günü: " + escapeText(item.training_date) +
@@ -161,7 +164,9 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "training-complete-button";
-      button.textContent = "Eğitimi tamamladım";
+      const alreadyComplete = completedTrainingKeys.has(title + "|" + date);
+      button.textContent = alreadyComplete ? "✓ Tamamlandı" : "Eğitimi tamamladım";
+      button.disabled = alreadyComplete;
       button.dataset.completeTitle = title;
       button.dataset.completeDate = date;
       button.addEventListener("click", () => markTraining(title, date));
