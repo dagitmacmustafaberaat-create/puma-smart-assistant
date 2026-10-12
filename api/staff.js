@@ -6,14 +6,22 @@ module.exports = async function handler(req, res) {
     if (!isManager) {
       if (req.method !== "GET") return res.status(403).json({ error: "Bu işlem yalnızca mağaza yöneticisine açıktır." });
       const own = await firebase.firestore().collection("staff").doc(decoded.uid).get();
-      return res.status(200).json({ staff: own.exists ? [{ id: own.id, ...own.data() }] : [] });
+      return res.status(200).json({ isManager: false, staff: own.exists ? [{ id: own.id, ...own.data() }] : [] });
     }
 
     const db = firebase.firestore();
     if (req.method === "GET") {
       const snapshot = await db.collection("staff").orderBy("createdAt", "desc").get();
       const staff = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      return res.status(200).json({ staff });
+      return res.status(200).json({ isManager: true, staff });
+    }
+    if (req.method === "PATCH") {
+      const body = req.body || {};
+      const userId = String(body.userId || "");
+      if (!userId || typeof body.active !== "boolean") return res.status(400).json({ error: "Personel ve aktiflik durumu gerekli." });
+      await firebase.auth().updateUser(userId, { disabled: !body.active });
+      await db.collection("staff").doc(userId).set({ active: body.active, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+      return res.status(200).json({ message: body.active ? "Personel hesabı aktifleştirildi." : "Personel hesabı pasifleştirildi." });
     }
     if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
