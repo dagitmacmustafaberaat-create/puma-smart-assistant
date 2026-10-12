@@ -433,3 +433,307 @@ body {
 .pdf-button{background:#d5001c;color:white;border:0;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:800;cursor:pointer}.pdf-button:hover{background:#f01632}
 .outside-calendar{color:#ddd;margin-top:14px}
 @media(max-width:760px){.today-topic-grid,.education-calendar{grid-template-columns:1fr}.topic-card{min-height:auto}.education-heading{padding:22px 18px}.today-training{padding:17px}.calendar-title-row{align-items:flex-start;flex-direction:column;gap:6px}}
+
+
+/* =========================================================
+   BUYAKA PUMA SMART ASSISTANT — PREMIUM BLACK / RED THEME
+   Görsel ve işlevler korunur; yalnızca arayüz görünümü yenilenir.
+   ========================================================= */
+
+:root {
+    --puma-red: #d5001c;
+    --puma-red-bright: #ff263f;
+    --puma-black: #090909;
+    --puma-panel: rgba(9, 9, 9, 0.88);
+    --puma-border: rgba(213, 0, 28, 0.58);
+    --puma-muted: #b9b9b9;
+}
+
+body {
+    background-color: var(--puma-black);
+    background-image:
+        linear-gradient(135deg, rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0.84)),
+        url("puma-wallpaper.png");
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.logo {
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 0 22px rgba(213, 0, 28, 0.2);
+}
+
+.subtitle {
+    letter-spacing: 0.5px;
+}
+
+/* Ana menü butonları ve genel buton etkileşimi */
+.menu-button {
+    position: relative;
+    overflow: hidden;
+    min-height: 96px;
+    border: 1px solid var(--puma-border);
+    border-left: 4px solid var(--puma-red);
+    border-radius: 13px;
+    background: linear-gradient(115deg, rgba(8, 8, 8, 0.96), rgba(27, 8, 11, 0.91));
+    color: #fff;
+    letter-spacing: 0.45px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.menu-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.065), transparent);
+    transform: skewX(-18deg);
+    transition: left 450ms ease;
+    pointer-events: none;
+}
+
+.menu-button:hover,
+.menu-button:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--puma-red-bright);
+    background: linear-gradient(115deg, rgba(18, 8, 10, 0.98), rgba(48, 5, 13, 0.95));
+    box-shadow: 0 15px 34px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(213, 0, 28, 0.16);
+    outline: none;
+}
+
+.menu-button:hover::after {
+    left: 150%;
+}
+
+.menu-button-education {
+    border-color: var(--puma-border);
+    background: linear-gradient(115deg, rgba(8, 8, 8, 0.96), rgba(32, 5, 10, 0.94));
+}
+
+/* Geri, PDF ve eğitim kartı butonları */
+.back-button,
+.pdf-button {
+    border: 1px solid var(--puma-border);
+    border-radius: 9px;
+    background: linear-gradient(135deg, #111, #26070c);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32);
+    transition: background 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.back-button:hover,
+.back-button:focus-visible,
+.pdf-button:hover,
+.pdf-button:focus-visible {
+    background: linear-gradient(135deg, #35070e, #a90018);
+    border-color: var(--puma-red-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4), 0 0 14px rgba(213, 0, 28, 0.16);
+    outline: none;
+}
+
+/* Arama alanları */
+.search-input,
+#searchInput,
+.size-select,
+#sizeFilter {
+    border: 1px solid rgba(213, 0, 28, 0.64);
+    border-radius: 11px;
+    background: rgba(8, 8, 8, 0.94);
+    color: #fff;
+    box-shadow: 0 9px 26px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.search-input::placeholder,
+#searchInput::placeholder {
+    color: #aaa;
+    opacity: 1;
+}
+
+.search-input:focus,
+#searchInput:focus,
+.size-select:focus,
+#sizeFilter:focus {
+    border-color: var(--puma-red-bright);
+    background: rgba(12, 12, 12, 0.98);
+    box-shadow: 0 0 0 3px rgba(213, 0, 28, 0.14), 0 9px 26px rgba(0, 0, 0, 0.4);
+}
+
+.size-select option,
+#sizeFilter option {
+    background: #101010;
+    color: #fff;
+}
+
+.selected-size,
+.selected-size-label {
+    border: 1px solid rgba(213, 0, 28, 0.58);
+    border-radius: 10px;
+    background: linear-gradient(110deg, rgba(12, 12, 12, 0.94), rgba(48, 5, 13, 0.82));
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* Ürün sonuç kartları */
+.product-card,
+.notfound {
+    border: 1px solid rgba(213, 0, 28, 0.36);
+    border-left: 4px solid var(--puma-red);
+    border-radius: 13px;
+    background: linear-gradient(135deg, rgba(8, 8, 8, 0.96), rgba(22, 12, 13, 0.94));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.product-card .product-name {
+    letter-spacing: 0.15px;
+}
+
+.product-card strong {
+    color: #d2d2d2;
+}
+
+.product-image {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+}
+
+.size-box {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    background: rgba(34, 34, 34, 0.94);
+    transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.size-box:hover {
+    border-color: rgba(213, 0, 28, 0.75);
+    background: rgba(47, 16, 20, 0.96);
+    transform: translateY(-1px);
+}
+
+.size-box .quantity {
+    color: #f1f1f1;
+}
+
+.low-stock {
+    background: #34270a;
+    border-color: #8a6512;
+}
+
+.low-stock .quantity {
+    color: #ffd15a;
+}
+
+.out-of-stock {
+    background: #351014;
+    border-color: #8f2530;
+}
+
+.out-of-stock .quantity {
+    color: #ff6878;
+}
+
+/* Eğitim Merkezi: aynı premium siyah/kırmızı tasarım dili */
+.education-heading,
+.today-training,
+.calendar-day,
+.education-footer {
+    border: 1px solid rgba(213, 0, 28, 0.28);
+    background: linear-gradient(135deg, rgba(8, 8, 8, 0.96), rgba(20, 10, 12, 0.94));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.education-heading {
+    border-top: 3px solid var(--puma-red);
+}
+
+.today-training {
+    border-left: 3px solid var(--puma-red);
+}
+
+.topic-card,
+.calendar-topic {
+    border: 1px solid rgba(213, 0, 28, 0.34);
+    border-radius: 11px;
+    background: linear-gradient(135deg, rgba(12, 12, 12, 0.97), rgba(29, 9, 12, 0.94));
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.topic-card:hover,
+.topic-card:focus-visible,
+.calendar-topic:hover,
+.calendar-topic:focus-visible {
+    border-color: var(--puma-red-bright);
+    background: linear-gradient(135deg, rgba(20, 10, 11, 0.98), rgba(55, 5, 14, 0.96));
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(213, 0, 28, 0.12);
+    outline: none;
+}
+
+.topic-vm,
+.topic-tech,
+.topic-practice {
+    border-top: 3px solid var(--puma-red);
+}
+
+.topic-label,
+.calendar-topic span {
+    color: #ff6878;
+}
+
+.calendar-day-today {
+    border-color: var(--puma-red-bright);
+    box-shadow: 0 0 0 1px rgba(213, 0, 28, 0.18), 0 12px 28px rgba(0, 0, 0, 0.34);
+}
+
+.calendar-today-badge {
+    background: var(--puma-red);
+    box-shadow: 0 3px 12px rgba(213, 0, 28, 0.22);
+}
+
+.pdf-button {
+    background: linear-gradient(135deg, #b90019, #e00020);
+}
+
+/* Klavye ile kullanımda belirgin odak ve hareket azaltma tercihi */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid #ff5265;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-button {
+        min-height: 88px;
+        border-radius: 11px;
+        font-size: 16px;
+    }
+
+    .search-input,
+    #searchInput {
+        padding: 15px 16px;
+    }
+
+    .product-card,
+    .notfound {
+        border-radius: 11px;
+    }
+}
