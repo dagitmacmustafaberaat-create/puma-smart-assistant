@@ -87,16 +87,18 @@
   async function loadManagerReport() {
     if (!currentProfile || currentProfile.role !== "manager") return;
     const [staffResult, completionResult] = await Promise.all([
-      client.from("staff_profiles").select("full_name,active,role,created_at").order("full_name"),
+      client.from("staff_profiles").select("user_id,full_name,active,role,created_at").order("full_name"),
       client.from("training_completions").select("training_title,training_date,completed_at,staff_profiles(full_name)").order("completed_at", { ascending: false }).limit(300)
     ]);
     const staffBox = el("managerStaffList");
     const reportBox = el("managerTrainingReport");
     if (staffBox) {
       staffBox.innerHTML = staffResult.error ? "<p>Personel listesi alınamadı.</p>" :
-        (staffResult.data || []).map(s => "<div class=\"history-row\"><strong>" + escapeText(s.full_name) +
+        (staffResult.data || []).map(s => "<div class=\\"history-row\\"><strong>" + escapeText(s.full_name) +
           "</strong><span>" + (s.role === "manager" ? "Yönetici" : "Personel") + " · " +
-          (s.active ? "Aktif" : "Pasif") + "</span></div>").join("") || "<p>Personel bulunamadı.</p>";
+          (s.active ? "Aktif" : "Pasif") + "</span>" +
+          (s.role === "manager" ? "" : "<button type=\\"button\\" class=\\"staff-toggle-button\\" data-user-id=\\"" + escapeText(s.user_id) + "\\" data-active=\\"" + String(!!s.active) + "\\">" + (s.active ? "Hesabı pasifleştir" : "Hesabı aktifleştir") + "</button>") +
+          "</div>").join("") || "<p>Personel bulunamadı.</p>";
     }
     if (reportBox) {
       reportBox.innerHTML = completionResult.error ? "<p>Eğitim raporu alınamadı.</p>" :
@@ -106,6 +108,18 @@
           " · Tamamlandı: " + escapeText(new Date(r.completed_at).toLocaleDateString("tr-TR")) +
           "</span></div>").join("") || "<p>Henüz tamamlanma kaydı yok.</p>";
     }
+  }
+  async function setStaffActive(userId, active) {
+    const { data: sessionData } = await client.auth.getSession();
+    const response = await fetch(SUPABASE_URL + "/functions/v1/create-staff", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + (sessionData.session && sessionData.session.access_token || "") },
+      body: JSON.stringify({ action: "set-active", user_id: userId, active })
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) { alert(result.error || "Personel durumu güncellenemedi."); return; }
+    await loadManagerReport();
   }
   async function createStaff(event) {
     event.preventDefault();
@@ -173,6 +187,7 @@
       if (!el("managerPanel").hidden) await loadManagerReport();
     });
     el("createStaffForm").addEventListener("submit", createStaff);
+    el("managerStaffList").addEventListener("click", event => { const button = event.target.closest(".staff-toggle-button"); if (button) setStaffActive(button.dataset.userId, button.dataset.active !== "true"); });
     client.auth.getSession().then(async ({ data }) => {
       if (!data.session) { showLogin(); return; }
       const { data: profile } = await client.from("staff_profiles").select("user_id,full_name,role,active")
