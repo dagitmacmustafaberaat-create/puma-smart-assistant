@@ -40,7 +40,7 @@ alter table public.training_completions enable row level security;
 
 create or replace function public.is_staff_manager()
 returns boolean language sql stable security definer set search_path = public
-as $
+as $$
   select exists (
     select 1 from public.staff_profiles
     where user_id = auth.uid() and role = 'manager' and active = true
