@@ -1,56 +1,6 @@
 let products = [];
 
 // ======================================================
-// SUPABASE AYARLARI
-// ======================================================
-const SUPABASE_URL = "https://zjxphwqcmmmbikgrbhyn.supabase.co";
-const SUPABASE_KEY = "sb_publishable_OF_6Dt6vWB3Z0XlyvOxIog_evFp_M57";
-
-// ======================================================
-// SUPABASE ARAMA KAYDI
-// ======================================================
-async function saveSearchLog(
-    searchType,
-    productCode,
-    productName,
-    size,
-    searchText
-) {
-    try {
-        const response = await fetch(
-            SUPABASE_URL + "/rest/v1/search_logs",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "apikey": SUPABASE_KEY,
-                    "Prefer": "return=minimal"
-                },
-                body: JSON.stringify({
-                    search_type: searchType,
-                    product_code: productCode || null,
-                    product_name: productName || null,
-                    size: size || null,
-                    search_text: searchText || null
-                })
-            }
-        );
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("SUPABASE HATASI:", response.status, errorText);
-            return false;
-        }
-
-        console.log("✅ ARAMA SUPABASE'E KAYDEDİLDİ:", searchType, searchText);
-        return true;
-    } catch (error) {
-        console.error("❌ SUPABASE BAĞLANTI HATASI:", error);
-        return false;
-    }
-}
-
-// ======================================================
 // YARDIMCI FONKSİYONLAR
 // ======================================================
 function escapeHTML(str) {
@@ -348,15 +298,7 @@ function searchBySize(selectedSize) {
     }
 
     const first = filtered[0];
-    saveSearchLog(
-        "size",
-        getStokKodu(first),
-        getUrun(first),
-        selectedSize,
-        selectedSize
-    );
-
-    renderProducts(filtered, results);
+renderProducts(filtered, results);
 }
 
 // ======================================================
@@ -425,22 +367,7 @@ function searchProducts(text) {
         return;
     }
 
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(function () {
-        if (lastLoggedSearch === search) return;
-        lastLoggedSearch = search;
-
-        const first = filtered[0];
-        saveSearchLog(
-            "product",
-            getStokKodu(first),
-            getUrun(first),
-            null,
-            text
-        );
-    }, 700);
-
-    renderProducts(filtered, results);
+renderProducts(filtered, results);
 }
 
 // ======================================================
