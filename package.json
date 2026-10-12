@@ -1,0 +1,10 @@
+{
+  "name": "buyaka-puma-smart-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BUYAKA PUMA SMART ASSISTANT staff authentication and training tracking API",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}
