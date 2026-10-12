@@ -1129,10 +1129,56 @@ button,
 }
 
 
-/* Compact fixed top-left navigation */
-#mainMenu.menu{position:fixed!important;top:14px!important;left:14px!important;z-index:1000!important;display:flex!important;flex-direction:row!important;align-items:center;gap:7px!important;width:auto!important;max-width:calc(100vw - 28px)!important;margin:0!important;padding:7px!important;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-#mainMenu .menu-button{width:auto!important;min-height:0!important;padding:9px 12px!important;border-radius:7px!important;border-left:2px solid #d5001c!important;font-size:11px!important;line-height:1.25;white-space:nowrap;box-shadow:none!important}
-#storeLogo,#storeSubtitle,#landingScreen{display:none!important}
-#productSearchArea,#sizeSearchArea{margin:0 18px 24px;padding-top:66px}
-#educationArea{margin-top:66px}
-@media(max-width:600px){#mainMenu.menu{top:8px!important;left:8px!important;gap:4px!important;padding:5px!important;max-width:calc(100vw - 16px)!important}#mainMenu .menu-button{padding:8px 7px!important;font-size:9px!important;letter-spacing:0!important}#productSearchArea,#sizeSearchArea{margin-left:10px;margin-right:10px;padding-top:60px}#educationArea{width:calc(100% - 20px);margin-top:60px}}
+/* Sol-orta konumda, mevcut geniş buton görünümüyle alt alta menü */
+#mainMenu.menu {
+  position: fixed !important;
+  top: 50% !important;
+  left: 18px !important;
+  right: auto !important;
+  transform: translateY(-50%) !important;
+  z-index: 1000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 260px !important;
+  max-width: calc(100vw - 36px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#mainMenu .menu-button {
+  display: flex !important;
+  width: 100% !important;
+  min-height: 58px !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 16px 20px !important;
+  border-radius: 12px !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  white-space: normal !important;
+  text-align: left !important;
+  box-shadow: var(--glass-shadow, 0 10px 28px rgba(0,0,0,.25)) !important;
+}
+#storeLogo, #storeSubtitle, #landingScreen { display: none !important; }
+#productSearchArea, #sizeSearchArea { margin: 0 18px 24px 300px; padding-top: 24px; }
+#educationArea { margin: 24px 18px 24px 300px; }
+@media (max-width: 760px) {
+  #mainMenu.menu { left: 10px !important; width: 220px !important; max-width: calc(100vw - 20px) !important; gap: 9px !important; }
+  #mainMenu .menu-button { min-height: 52px !important; padding: 14px 15px !important; font-size: 12px !important; }
+  #productSearchArea, #sizeSearchArea { margin: 0 10px 20px 245px; padding-top: 16px; }
+  #educationArea { margin: 16px 10px 20px 245px; }
+}
+@media (max-width: 480px) {
+  #mainMenu.menu { left: 8px !important; width: 174px !important; max-width: calc(100vw - 16px) !important; gap: 8px !important; }
+  #mainMenu .menu-button { min-height: 48px !important; padding: 12px 10px !important; font-size: 10px !important; }
+  #productSearchArea, #sizeSearchArea { margin-left: 192px; margin-right: 8px; }
+  #educationArea { margin-left: 192px; margin-right: 8px; }
+}
