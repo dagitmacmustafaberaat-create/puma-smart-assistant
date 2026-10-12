@@ -1304,3 +1304,39 @@ button,
     #mainMenu.menu { width: calc(100% - 20px); gap: 8px; padding: 8px; }
     #mainMenu .menu-button { flex-basis: 175px; min-height: 54px; font-size: 12px; }
 }
+
+
+/* Mağaza seçimi: sağ ok butonu */
+#storeSelectButton.store-select-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  text-align: left;
+  min-height: 58px;
+  padding: 14px 18px 14px 20px;
+  font-size: 15px;
+  letter-spacing: .3px;
+}
+#storeSelectButton .store-select-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  color: #d5001c;
+  font-size: 26px;
+  line-height: 1;
+  transition: transform .18s ease, background .18s ease;
+}
+#storeSelectButton:hover .store-select-arrow {
+  transform: translateX(3px);
+  background: #f1f1f1;
+}
+#storeSelectButton:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
