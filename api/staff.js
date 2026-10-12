@@ -1,4 +1,4 @@
-const { getAdmin, verifyRequest, sendError, usernameToEmail } = require("./_firebase");
+const { getAdmin, verifyRequest, sendError, usernameToEmail } = require("../lib/firebase-admin");
 
 module.exports = async function handler(req, res) {
   try {
