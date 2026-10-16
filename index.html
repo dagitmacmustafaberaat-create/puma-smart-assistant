@@ -7,10 +7,17 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261016-layoutfix">
+    <link rel="stylesheet" href="style.css?v=20261016-menukpi2">
 </head>
 
 <body>
+
+    <button id="moduleMenuToggle" class="module-menu-toggle" type="button" aria-label="Modül menüsünü aç" aria-expanded="false" aria-controls="moduleQuickMenu" onclick="toggleModuleMenu()">☰ <span>MENÜ</span></button>
+    <nav id="moduleQuickMenu" class="module-quick-menu" aria-label="Modül seçimi" hidden>
+      <button type="button" onclick="chooseModule(showProductSearch)">⌕ <span>Ürün Sorgulama</span></button>
+      <button type="button" onclick="chooseModule(showSizeSearch)">▤ <span>Beden Bazlı Sorgulama</span></button>
+      <button type="button" onclick="chooseModule(showEducationCenter)">▣ <span>Eğitim Merkezi</span></button>
+    </nav>
 
     <!-- SPORT TECH ANA EKRAN / MAĞAZA DURUMU -->
     <main id="mainMenu" class="menu home-dashboard">
@@ -143,8 +150,8 @@
     </section>
 
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-layoutfix"></script>
-    <script src="education.js?v=20261016-layoutfix"></script>
+    <script src="script.js?v=20261016-menukpi2"></script>
+    <script src="education.js?v=20261016-menukpi2"></script>
 
 </body>
 
