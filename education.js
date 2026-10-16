@@ -1,7 +1,7 @@
 let educationCalendar = [];
 
 function showEducationCenter() {
-  ["productSearchArea", "sizeSearchArea"].forEach(function (id) {
+  ["productSearchArea", "sizeSearchArea", "dailyTasksArea", "vmStandardsArea"].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) el.style.display = "none";
   });
