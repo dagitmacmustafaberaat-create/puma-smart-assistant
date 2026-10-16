@@ -1922,3 +1922,21 @@ body{background-size:contain !important;background-position:center top !importan
   #dailyTaskList .daily-task-fields { grid-template-columns:1fr; }
   #dailyTaskList .daily-task-fields textarea { min-height:38px; height:38px; }
 }
+
+
+/* Veri temelli günlük yönetici yorumu */
+.store-action-summary{margin-top:18px;padding:18px;border:1px solid rgba(213,0,28,.35);border-radius:14px;background:rgba(12,14,18,.88);color:#fff;backdrop-filter:blur(8px)}
+.action-summary-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.action-summary-head h3{font-size:clamp(17px,2vw,22px);margin:4px 0 5px;color:#fff}
+.action-summary-head p:not(.dashboard-eyebrow){margin:0;color:#bbb;font-size:12px}
+.action-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.action-insight{min-width:0;padding:13px;border:1px solid #343434;border-left:3px solid #777;border-radius:10px;background:rgba(255,255,255,.035)}
+.action-insight.warning{border-left-color:#f0b429}
+.action-insight.positive{border-left-color:#31c48d}
+.action-insight.neutral{border-left-color:#8b98a8}
+.action-insight strong{display:block;font-size:13px;margin-bottom:5px}
+.action-insight p{margin:0 0 8px;color:#e4e4e4;font-size:12px;line-height:1.5}
+.action-insight small{display:block;color:#aaa;font-size:10px;line-height:1.4}
+.action-summary-footnote{margin:12px 0 0;color:#aaa;font-size:10px;line-height:1.5}
+.action-summary-empty{padding:13px;border:1px dashed #454545;border-radius:9px;color:#ccc;font-size:12px;line-height:1.5}
+@media(max-width:650px){.store-action-summary{padding:12px;margin-top:12px}.action-summary-head{display:block}.action-summary-head .data-source-tag{display:inline-block;margin-top:10px}.action-summary-grid{grid-template-columns:1fr}}
