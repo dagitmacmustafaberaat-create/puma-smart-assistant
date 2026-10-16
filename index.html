@@ -178,11 +178,15 @@
           <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Fiyat etiketleri kontrol edildi</strong><small>Etiket görünürlüğü ve doğruluğu</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Fiyat etiketlerinin görünürlüğünü ve doğruluğunu kontrol edin."></textarea></label></div></div></div>
           <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Satış alanı ve depo düzenli</strong><small>Ürün erişimi ve genel düzen</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Satış alanı, ürün erişimi ve depo düzenini kontrol edin."></textarea></label></div></div></div>
         </div>
-        <p class="work-module-note">Görev işaretleri bu tarayıcı oturumunda tutulur; merkezi kayıt oluşturmaz.</p>
+        <div class="daily-task-save-area">
+          <button type="button" id="saveDailyTasksButton" class="daily-task-save-button" onclick="saveDailyTasks()">✓ Görevleri Kaydet ve Bildir</button>
+          <p id="dailyTaskSaveStatus" class="daily-task-save-status" role="status" aria-live="polite">Kaydet butonuna basıldığında kontrol listesi yöneticiye e-posta ile gönderilir.</p>
+        </div>
+        <p class="work-module-note">Görev işaretleri kaydetme sırasında e-posta ile yöneticiye iletilir.</p>
       </div>
     </section>
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-two-store-tabs"></script>
+    <script src="script.js?v=20261016-daily-email1"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
 </body>
