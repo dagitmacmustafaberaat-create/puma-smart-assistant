@@ -769,10 +769,13 @@ function showVmStandards() {
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function updateDailyTaskProgress() {
-  const boxes=[...document.querySelectorAll("#dailyTaskList input[type=checkbox]")],count=boxes.filter(x=>x.checked).length;
+  const items=[...document.querySelectorAll("#dailyTaskList .work-task")];
+  const done=items.filter(item=>item.querySelector("select")?.value && item.querySelector("textarea")?.value.trim()).length;
+  const total=items.length;
   const label=document.getElementById("dailyTaskProgress"),bar=document.getElementById("dailyTaskProgressBar");
-  if(label)label.textContent=count+" / "+boxes.length+" tamamlandı";if(bar)bar.style.width=(count/boxes.length*100)+"%";
-  boxes.forEach(x=>x.closest(".work-task")?.classList.toggle("done",x.checked));
+  if(label)label.textContent=done+" / "+total+" yanıtlandı";
+  if(bar)bar.style.width=(total?done/total*100:0)+"%";
+  items.forEach(item=>item.classList.toggle("done",!!item.querySelector("select")?.value && !!item.querySelector("textarea")?.value.trim()));
 }
 function updateVmProgress() {
   const boxes=[...document.querySelectorAll("#vmTaskList input[type=checkbox]")],count=boxes.filter(x=>x.checked).length;
