@@ -717,6 +717,7 @@ async function loadPerformanceDashboard() {
 
         root.innerHTML = groups.join("");
         renderStoreActionSummary(cells);
+        organizeStoreStatusTabs();
     } catch (error) {
         console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
         root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
@@ -768,6 +769,56 @@ function renderStoreActionSummary(cells) {
     root.innerHTML = '<div class="action-summary-grid">'+insights.map(item=>'<article class="action-insight '+item.type+'"><strong>'+escapeHTML(item.title)+'</strong><p>'+escapeHTML(item.text)+'</p><small>'+escapeHTML(item.detail)+'</small></article>').join("")+'</div>';
 }
 
+
+function organizeStoreStatusTabs() {
+    const panel = document.querySelector(".store-status-panel");
+    const root = document.getElementById("performanceSections");
+    const summary = document.getElementById("storeActionSummary");
+    if (!panel || !root || !summary || panel.dataset.tabsReady === "true") return;
+    const period = root.querySelector(".period-group");
+    const targets = root.querySelector(".targets-group");
+    const daily = root.querySelector(".daily-group");
+    const kpi = root.querySelector(".kpi-group");
+    const forecast = root.querySelector(".forecast-group");
+    const comparisons = [...root.querySelectorAll(".comparison-group")];
+    if (!period || !targets || !daily || !kpi || !forecast || comparisons.length < 3) return;
+    panel.dataset.tabsReady = "true";
+    const tabs = document.createElement("div");
+    tabs.className = "store-status-tabs";
+    tabs.setAttribute("role", "tablist");
+    tabs.setAttribute("aria-label", "Mağaza raporu sayfaları");
+    tabs.innerHTML = '<button type="button" class="store-status-tab active" role="tab" aria-selected="true" data-store-tab="performance">Mağaza Durumu</button><button type="button" class="store-status-tab" role="tab" aria-selected="false" data-store-tab="details">Kategori &amp; Stok</button>';
+    const first = document.createElement("div");
+    first.className = "store-status-page";
+    first.id = "storePerformancePage";
+    first.setAttribute("role", "tabpanel");
+    const second = document.createElement("div");
+    second.className = "store-status-page";
+    second.id = "storeDetailsPage";
+    second.setAttribute("role", "tabpanel");
+    second.hidden = true;
+    const title = document.createElement("h3");
+    title.className = "store-tab-section-title";
+    title.textContent = "Kategori, Cinsiyet ve Stok Değerlendirmesi";
+    const commentary = document.createElement("section");
+    commentary.className = "store-action-summary category-stock-summary";
+    commentary.innerHTML = '<div class="action-summary-head"><div><p class="dashboard-eyebrow">GENEL DETAYLAR</p><h3>Kategori &amp; Stok Yorumları</h3><p>Kategori, cinsiyet ve stok dağılımı için takip notları</p></div></div><div class="action-summary-grid"><article class="action-insight positive"><strong>😊 Güçlü alanları koru</strong><p>Satış payı ve büyümesi öne çıkan kategori ve cinsiyet gruplarında ürün bulunurluğunu koru.</p></article><article class="action-insight warning"><strong>⚠️ Fırsat ve stok risklerini kontrol et</strong><p>Geride kalan kategori gruplarını, düşük stokları ve eksik bedenleri kontrol ederek aksiyon belirle.</p></article></div>';
+    tabs.querySelectorAll("button").forEach(button => button.addEventListener("click", () => {
+        const showFirst = button.dataset.storeTab === "performance";
+        first.hidden = !showFirst;
+        second.hidden = showFirst;
+        tabs.querySelectorAll("button").forEach(tab => {
+            const active = tab === button;
+            tab.classList.toggle("active", active);
+            tab.setAttribute("aria-selected", String(active));
+        });
+    }));
+    panel.querySelector(".store-status-heading").insertAdjacentElement("afterend", tabs);
+    tabs.insertAdjacentElement("afterend", first);
+    first.append(root, summary);
+    second.append(title, ...comparisons, commentary);
+    first.insertAdjacentElement("afterend", second);
+}
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
 
 
