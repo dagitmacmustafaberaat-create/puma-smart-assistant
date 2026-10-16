@@ -1,4 +1,4 @@
-name: Update stock data JSON
+name: Update stock and store performance data
 
 on:
   push:
@@ -6,7 +6,9 @@ on:
       - main
     paths:
       - "Güncel Stok.xlsx"
+      - "Ekim 2026 Data.xlsx"
       - "generate_data_json.py"
+      - "generate_performance_json.py"
       - ".github/workflows/update-stock-json.yml"
   workflow_dispatch:
 
@@ -25,16 +27,18 @@ jobs:
           python-version: "3.12"
       - name: Install Excel dependencies
         run: pip install pandas openpyxl
-      - name: Generate data.json from current stock Excel
+      - name: Generate stock data JSON
         run: python generate_data_json.py
-      - name: Commit updated data.json
+      - name: Generate store performance JSON
+        run: python generate_performance_json.py
+      - name: Commit generated JSON files
         run: |
-          if git diff --quiet -- data.json; then
-            echo "data.json already up to date."
+          if git diff --quiet -- data.json performance-data.json; then
+            echo "Generated JSON files already up to date."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.json
-          git commit -m "Update data.json from current stock Excel"
+          git add data.json performance-data.json
+          git commit -m "Update stock and store performance data from Excel"
           git push
