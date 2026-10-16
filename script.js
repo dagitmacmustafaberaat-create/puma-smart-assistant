@@ -552,3 +552,133 @@ function openEducationPDF() {
     const pdfPath = 'egitim.pdf';
     window.open(pdfPath, '_blank');
 }
+
+
+/* ======================================================
+   MAĞAZA PERFORMANS PANELİ
+   Kaynak Excel'deki değerleri okur; hiçbir formülü değiştirmez.
+   ====================================================== */
+async function loadPerformanceDashboard() {
+    const root = document.getElementById("performanceSections");
+    if (!root) return;
+
+    try {
+        const response = await fetch("./performance-data.json?v=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) throw new Error("Performans verisi yüklenemedi.");
+        const workbook = await response.json();
+        const sheet = (workbook.sheets || [])[0];
+        if (!sheet) throw new Error("Excel sayfası bulunamadı.");
+
+        const cells = {};
+        (sheet.rows || []).forEach(row => (row.cells || []).forEach(cell => { cells[cell.address] = cell; }));
+        const get = address => cells[address] || null;
+        const raw = address => { const c = get(address); return c ? c.value : null; };
+        const safe = value => escapeHTML(value === null || value === undefined || value === "" ? "—" : value);
+        const format = cell => {
+            if (!cell || cell.value === null || cell.value === undefined || cell.value === "") return "—";
+            const value = cell.value;
+            if (typeof value === "string") return escapeHTML(value);
+            const fmt = String(cell.number_format || "");
+            if (fmt.includes("%")) {
+                return new Intl.NumberFormat("tr-TR", { style: "percent", maximumFractionDigits: 2 }).format(value);
+            }
+            if (fmt.includes("₺") || /TL/i.test(fmt)) {
+                return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 2 }).format(value);
+            }
+            return new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 2 }).format(value);
+        };
+        const card = (label, valueCell, extraClass = "") => `
+            <article class="metric-card ${extraClass}">
+              <span class="metric-label">${safe(label)}</span>
+              <strong class="metric-value">${format(valueCell)}</strong>
+            </article>`;
+        const section = (title, subtitle, cards, extraClass = "") => `
+            <section class="performance-group ${extraClass}">
+              <div class="performance-group-heading"><h3>${safe(title)}</h3>${subtitle ? `<p>${safe(subtitle)}</p>` : ""}</div>
+              <div class="metric-card-grid">${cards.join("")}</div>
+            </section>`;
+
+        const targets = [
+            ["Ciro", "C8"], ["UPT", "C9"], ["CR", "C10"], ["ASP", "C11"],
+            ["Fatura", "C12"], ["Ürün Adedi", "C13"], ["Trafik", "C14"]
+        ];
+        const daily = [
+            ["Ciro", "F8"], ["UPT", "F9"], ["CR", "F10"], ["ASP", "F11"],
+            ["Fatura", "F12"], ["Ürün Adedi", "F13"], ["Trafik", "F14"]
+        ];
+        const kpiRows = [
+            ["Ciro", 17], ["UPT", 18], ["CR", 19], ["ASP", 20],
+            ["Fatura", 21], ["Ürün Adedi", 22], ["Trafik", 23]
+        ];
+        const kpiCards = kpiRows.map(([label, row]) => `
+            <article class="kpi-row-card">
+              <h4>${safe(label)}</h4>
+              <div class="kpi-values">
+                <div><span>Gerçekleşmesi Gereken</span><strong>${format(get("C" + row))}</strong></div>
+                <div><span>Gerçekleşen</span><strong>${format(get("D" + row))}</strong></div>
+                <div><span>Fark</span><strong>${format(get("E" + row))}</strong></div>
+                <div><span>Sapma</span><strong>${format(get("F" + row))}</strong></div>
+              </div>
+            </article>`);
+
+        const categoryCards = [
+            {name: raw("H4"),  y25: "I5", y26: "J5", growth: "I6"},
+            {name: raw("H7"),  y25: "I8", y26: "J8", growth: "I9"},
+            {name: raw("H10"), y25: "I11", y26: "J11", growth: "I12"}
+        ].map(item => `
+            <article class="comparison-card">
+              <h4>${safe(item.name)}</h4>
+              <div class="comparison-values">
+                <div><span>2025 Ciro</span><strong>${format(get(item.y25))}</strong></div>
+                <div><span>2026 Ciro</span><strong>${format(get(item.y26))}</strong></div>
+                <div><span>Büyüme</span><strong>${format(get(item.growth))}</strong></div>
+              </div>
+            </article>`);
+
+        const genderCards = [15,16,17,18,19].map(row => {
+            const name = raw("H" + row);
+            if (name === null || name === undefined) return "";
+            return `
+              <article class="comparison-card">
+                <h4>${safe(name)}</h4>
+                <div class="comparison-values">
+                  <div><span>2025</span><strong>${format(get("I" + row))}</strong></div>
+                  <div><span>2026</span><strong>${format(get("J" + row))}</strong></div>
+                  <div><span>Büyüme</span><strong>${format(get("K" + row))}</strong></div>
+                </div>
+              </article>`;
+        }).filter(Boolean);
+
+        const stockCards = [
+            {name: raw("H24"), old: "I24", current: "J24"},
+            {name: raw("H25"), old: "I25", current: "J25"},
+            {name: raw("H26"), old: "I26", current: "J26"},
+            {name: raw("H27"), old: "I27", current: "J27"}
+        ].filter(item => item.name !== null && item.name !== undefined).map(item => `
+            <article class="comparison-card">
+              <h4>${safe(item.name)}</h4>
+              <div class="comparison-values">
+                <div><span>2025</span><strong>${format(get(item.old))}</strong></div>
+                <div><span>2026</span><strong>${format(get(item.current))}</strong></div>
+              </div>
+            </article>`);
+
+        const groups = [];
+        groups.push(section("Ekim 2026 Hedefleri", "Tablodaki aylık hedef değerleri", targets.map(([label, address]) => card(label, get(address))), "targets-group"));
+        groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
+        groups.push(section("Günlük Yapılması Gerekenler", "Tablodaki günlük değerler; yeniden hesaplanmaz", daily.map(([label, address]) => card(label, get(address))), "daily-group"));
+        groups.push(section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
+            card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
+            card(String(raw("E25") || "HGO"), get("F25"), "metric-card-featured")
+        ], "forecast-group"));
+        groups.push(section("Kategori Bazlı Ciro Karşılaştırması", "Tabloda bulunan 2025 / 2026 ve büyüme değerleri", categoryCards, "comparison-group"));
+        groups.push(section("Cinsiyet Bazlı Karşılaştırma", "Tablodaki değerler olduğu gibi gösterilir", genderCards, "comparison-group"));
+        groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group"));
+
+        root.innerHTML = groups.join("");
+    } catch (error) {
+        console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
+        root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
+    }
+}
+document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
