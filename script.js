@@ -686,3 +686,36 @@ async function loadPerformanceDashboard() {
     }
 }
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
+
+
+// SOL ÜST HIZLI MODÜL MENÜSÜ
+function toggleModuleMenu() {
+    const menu = document.getElementById("moduleQuickMenu");
+    const toggle = document.getElementById("moduleMenuToggle");
+    if (!menu || !toggle) return;
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    toggle.setAttribute("aria-expanded", String(willOpen));
+    toggle.setAttribute("aria-label", willOpen ? "Modül menüsünü kapat" : "Modül menüsünü aç");
+}
+function chooseModule(openModule) {
+    const menu = document.getElementById("moduleQuickMenu");
+    const toggle = document.getElementById("moduleMenuToggle");
+    if (menu) menu.hidden = true;
+    if (toggle) {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Modül menüsünü aç");
+    }
+    if (typeof openModule === "function") openModule();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+document.addEventListener("click", function(event) {
+    const menu = document.getElementById("moduleQuickMenu");
+    const toggle = document.getElementById("moduleMenuToggle");
+    if (!menu || !toggle || menu.hidden) return;
+    if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+        menu.hidden = true;
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Modül menüsünü aç");
+    }
+});
