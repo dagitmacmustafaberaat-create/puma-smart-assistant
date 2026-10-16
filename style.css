@@ -1872,3 +1872,53 @@ body{background-size:contain !important;background-position:center top !importan
 #dailyTaskList .daily-task-fields textarea { min-height:76px; resize:vertical; }
 #dailyTaskList .work-task.done { border-color:rgba(49,196,141,.55); }
 @media(max-width:600px) { #dailyTaskList .daily-task-fields { grid-template-columns:1fr; } }
+
+
+/* GÜNLÜK GÖREVLER — AD SOYAD VE KOMPAKT EKRAN */
+.daily-task-person {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:12px;
+  padding:12px;
+  border:1px solid rgba(213,0,28,.5);
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+}
+.daily-task-person label { display:block; min-width:0; color:#eee; font-size:12px; font-weight:750; }
+.daily-task-person input {
+  display:block; width:100%; min-width:0; margin-top:5px; padding:9px 10px;
+  border:1px solid #454545; border-radius:8px; background:#141414; color:#fff; font:inherit;
+}
+#dailyTasksArea.work-module { width:min(1320px,calc(100% - 28px)); margin:10px auto 22px; }
+#dailyTasksArea .work-module-heading { padding:13px 18px; margin-bottom:9px; }
+#dailyTasksArea .work-module-heading h1 { font-size:clamp(21px,2.4vw,28px); margin:2px 0 4px; }
+#dailyTasksArea .work-module-heading p:last-child { margin:0; font-size:12px; }
+#dailyTasksArea .work-module-card { padding:12px; }
+#dailyTasksArea .work-module-progress { gap:6px; margin-bottom:9px; }
+#dailyTasksArea .work-task-section-title { margin:0 0 4px; font-size:15px; }
+#dailyTasksArea .work-module-note { margin:7px 0; font-size:10px; }
+#dailyTaskList.work-task-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+#dailyTaskList .work-task { min-width:0; padding:9px; }
+#dailyTaskList .work-task-content > strong { font-size:12px; line-height:1.25; }
+#dailyTaskList .work-task-content > small { font-size:10px; line-height:1.25; margin-top:3px; }
+#dailyTaskList .daily-task-fields { grid-template-columns:minmax(105px,.38fr) minmax(0,1fr); gap:7px; margin-top:7px; }
+#dailyTaskList .daily-task-fields label { font-size:10px; }
+#dailyTaskList .daily-task-fields select,
+#dailyTaskList .daily-task-fields textarea { padding:7px 8px; margin-top:3px; font-size:11px; }
+#dailyTaskList .daily-task-fields select { min-height:34px; }
+#dailyTaskList .daily-task-fields textarea { min-height:42px; height:42px; resize:vertical; }
+@media(max-width:850px) {
+  #dailyTaskList.work-task-list { grid-template-columns:1fr; }
+  #dailyTaskList .daily-task-fields { grid-template-columns:minmax(120px,.34fr) minmax(0,1fr); }
+}
+@media(max-width:600px) {
+  #dailyTasksArea.work-module { width:calc(100% - 18px); margin-top:8px; }
+  #dailyTasksArea .work-module-heading { padding:12px; }
+  #dailyTasksArea .work-module-card { padding:9px; }
+  .daily-task-person { padding:9px; gap:8px; }
+  .daily-task-person input { padding:8px; font-size:12px; }
+  #dailyTaskList .work-task { padding:9px; }
+  #dailyTaskList .daily-task-fields { grid-template-columns:1fr; }
+  #dailyTaskList .daily-task-fields textarea { min-height:38px; height:38px; }
+}
