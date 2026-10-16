@@ -1940,3 +1940,15 @@ body{background-size:contain !important;background-position:center top !importan
 .action-summary-footnote{margin:12px 0 0;color:#aaa;font-size:10px;line-height:1.5}
 .action-summary-empty{padding:13px;border:1px dashed #454545;border-radius:9px;color:#ccc;font-size:12px;line-height:1.5}
 @media(max-width:650px){.store-action-summary{padding:12px;margin-top:12px}.action-summary-head{display:block}.action-summary-head .data-source-tag{display:inline-block;margin-top:10px}.action-summary-grid{grid-template-columns:1fr}}
+
+/* Two-tab store report layout */
+.store-status-tabs{display:flex;gap:10px;margin:18px 0 16px;padding:5px;border:1px solid rgba(255,255,255,.12);border-radius:13px;background:rgba(0,0,0,.28)}
+.store-status-tab{flex:1;min-height:44px;padding:11px 16px;border:1px solid transparent;border-radius:9px;background:transparent;color:#d4d4d4;font-size:14px;font-weight:800;cursor:pointer;transition:background .18s ease,color .18s ease}
+.store-status-tab.active{background:#d5001c;border-color:#ff4257;color:#fff;box-shadow:0 5px 16px rgba(213,0,28,.22)}
+.store-status-page[hidden]{display:none!important}
+.store-status-page{display:grid;gap:14px}
+.store-status-page .performance-sections{display:grid;gap:14px}
+.store-status-page .store-action-summary{margin-top:0}
+.store-tab-section-title{margin:3px 0 2px;color:#fff;font-size:clamp(17px,2vw,22px)}
+.category-stock-summary{margin-top:2px}
+@media(max-width:650px){.store-status-tabs{gap:6px;margin:14px 0 12px}.store-status-tab{font-size:12px;min-height:42px;padding:9px 6px}.store-status-page{gap:11px}}
