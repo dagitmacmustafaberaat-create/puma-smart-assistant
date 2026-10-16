@@ -40,7 +40,7 @@
           </button>
           <button class="menu-button module-card" type="button" onclick="showDailyTasks()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5h11M9 12h11M9 19h11"></path><path d="m3 5 1.5 1.5L7 4M3 12l1.5 1.5L7 11M3 19l1.5 1.5L7 18"></path></svg></span>
-            <span class="module-copy"><strong>Günlük Görevler</strong><small>Açılış, gün içi ve kapanış kontrolü</small></span><span class="module-arrow" aria-hidden="true">↗</span>
+            <span class="module-copy"><strong>Günlük Görevler</strong><small>Mağaza açılış süreçleri</small></span><span class="module-arrow" aria-hidden="true">↗</span>
           </button>
           <button class="menu-button module-card" type="button" onclick="showVmStandards()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="m8 12 2.5 2.5L16 9"></path></svg></span>
@@ -154,16 +154,17 @@
 
     <section id="dailyTasksArea" class="work-module" style="display:none;">
       <button class="back-button" type="button" onclick="showMainMenu()">← Ana Menü</button>
-      <header class="work-module-heading"><p class="education-eyebrow">MAĞAZA OPERASYONU</p><h1>Günlük Görevler</h1><p>Açılış, gün içi ve kapanış kontrollerini tamamladıkça işaretle.</p></header>
+      <header class="work-module-heading"><p class="education-eyebrow">MAĞAZA OPERASYONU</p><h1>Günlük Görevler</h1><p>Mağaza açılış süreçleri için kontrol listesi.</p></header>
       <div class="work-module-card">
         <div class="work-module-progress"><strong id="dailyTaskProgress">0 / 6 tamamlandı</strong><div class="work-progress-track"><span id="dailyTaskProgressBar"></span></div></div>
+        <h2 class="work-task-section-title">Mağaza açılış süreçleri</h2>
         <div class="work-task-list" id="dailyTaskList">
-          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Açılış mağaza kontrolü</strong><small>Mağaza düzeni ve ekip bilgilendirmesi</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Ön alan ürün tamamlama</strong><small>Öne çıkan ürünlerin görünürlüğünü kontrol et</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Kabin ve kasa kontrolü</strong><small>Düzen, sarf malzemeleri ve müşteri deneyimi</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Eksik beden ve ürün kontrolü</strong><small>Satış alanı ile depo durumunu karşılaştır</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Günün eğitimini ekiple paylaş</strong><small>Kısa ürün bilgisi veya satış tekniği tekrarı</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Kapanış kontrolü</strong><small>Açık işleri ve ertesi gün önceliklerini gözden geçir</small></span></label>
+          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Ortak dosya – Data Weekly raporu</strong><small>Ortak dosyadaki haftalık raporu kontrol et</small></span></label>
+          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Servis planı</strong><small>Açılış öncesi servis planını kontrol et</small></span></label>
+          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>SD karne</strong><small>SD karne bilgilerini ve güncelliğini kontrol et</small></span></label>
+          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>E-commerce siparişleri</strong><small>Bekleyen e-commerce siparişlerini kontrol et</small></span></label>
+          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Eğitim konuları</strong><small>Günün eğitim konularını kontrol et</small></span></label>
+          <label class="work-task"><input type="checkbox" onchange="updateDailyTaskProgress()"><span><strong>Mağaza açılış son kontrolü</strong><small>Açılış öncesi kontrollerin tamamlandığını doğrula</small></span></label>
         </div>
         <p class="work-module-note">Görev işaretleri bu tarayıcı oturumunda tutulur; merkezi kayıt oluşturmaz.</p>
       </div>
@@ -185,7 +186,7 @@
       </div>
     </section>
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-directview2"></script>
+    <script src="script.js?v=20261016-openingtasks"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
 </body>
