@@ -765,7 +765,7 @@ function renderStoreActionSummary(cells) {
     }
     const priority = {warning:0,neutral:1,positive:2};
     insights.sort((a,b)=>priority[a.type]-priority[b.type]);
-    root.innerHTML = '<div class="action-summary-head"><div><p class="dashboard-eyebrow">VERİYE DAYALI ANALİZ</p><h3 id="storeActionSummaryTitle">Yapay Zekâ Destekli Günlük Yorum</h3><p>Excel’de bulunan hedef, gerçekleşen ve sapma değerlerinden otomatik aksiyon özeti.</p></div><span class="data-source-tag">Otomatik analiz</span></div><div class="action-summary-grid">'+insights.map(item=>'<article class="action-insight '+item.type+'"><strong>'+escapeHTML(item.title)+'</strong><p>'+escapeHTML(item.text)+'</p><small>'+escapeHTML(item.detail)+'</small></article>').join("")+'</div><p class="action-summary-footnote">Yalnızca Excel’de sayısal hedef ve gerçekleşen değeri bulunan KPI’lar yorumlanır. Bu sürüm kural tabanlı otomatik analiz yapar; harici bir üretken yapay zekâ servisi kullanmaz.</p>';
+    root.innerHTML = '<div class="action-summary-grid">'+insights.map(item=>'<article class="action-insight '+item.type+'"><strong>'+escapeHTML(item.title)+'</strong><p>'+escapeHTML(item.text)+'</p><small>'+escapeHTML(item.detail)+'</small></article>').join("")+'</div>';
 }
 
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
