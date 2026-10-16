@@ -8,7 +8,7 @@
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
     <link rel="stylesheet" href="style.css?v=20261016-dailycompact2">
-    <style>#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}@media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
+    <style>#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
             <p class="dashboard-eyebrow">HIZLI ERİŞİM</p>
             <h2 id="quickAccessTitle">Neye ihtiyacın var?</h2>
           </div>
-          <span class="quick-access-note">4 MODÜL</span>
+          <span class="quick-access-note">3 MODÜL</span>
         </div>
         <div class="module-card-grid">
           <button class="menu-button module-card" type="button" onclick="showProductSearch()">
@@ -41,10 +41,6 @@
           <button class="menu-button module-card" type="button" onclick="showDailyTasks()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5h11M9 12h11M9 19h11"></path><path d="m3 5 1.5 1.5L7 4M3 12l1.5 1.5L7 11M3 19l1.5 1.5L7 18"></path></svg></span>
             <span class="module-copy"><strong>Günlük Görevler</strong><small>Mağaza açılış süreçleri</small></span><span class="module-arrow" aria-hidden="true">↗</span>
-          </button>
-          <button class="menu-button module-card" type="button" onclick="showVmStandards()">
-            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="m8 12 2.5 2.5L16 9"></path></svg></span>
-            <span class="module-copy"><strong>VM Standartları</strong><small>Mağaza görsel standartlarını kontrol et</small></span><span class="module-arrow" aria-hidden="true">↗</span>
           </button>
           <button class="menu-button module-card module-card-education" type="button" onclick="showEducationCenter()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5L2 9Z"></path><path d="M6 11v5c3.5 3 8.5 3 12 0v-5M22 9v6"></path></svg></span>
@@ -186,19 +182,7 @@
       <button class="back-button" type="button" onclick="showMainMenu()">← Ana Menü</button>
       <header class="work-module-heading"><p class="education-eyebrow">MAĞAZA GÖRSEL STANDARTLARI</p><h1>VM Standartları</h1><p>Mağaza alanlarını kontrol ederek tamamlanan maddeleri işaretle.</p></header>
       <div class="work-module-card">
-        <div class="work-module-progress"><strong id="vmProgress">0 / 6 tamamlandı</strong><div class="work-progress-track"><span id="vmProgressBar"></span></div></div>
-        <div class="work-task-list" id="vmTaskList">
-          <label class="work-task"><input type="checkbox" onchange="updateVmProgress()"><span><strong>Ön alan ürün hikâyesi güncel</strong><small>Kampanya ve odak ürün görünürlüğü</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateVmProgress()"><span><strong>Ayakkabı duvarı düzenli</strong><small>Model, renk ve beden sıralaması</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateVmProgress()"><span><strong>Tekstil katlama standartları uygun</strong><small>Katlama, beden sırası ve renk blokları</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateVmProgress()"><span><strong>Ürün askı ve yönleri uygun</strong><small>Ürün sunum ve yön birliği</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateVmProgress()"><span><strong>Fiyat etiketleri kontrol edildi</strong><small>Etiket görünürlüğü ve doğruluğu</small></span></label>
-          <label class="work-task"><input type="checkbox" onchange="updateVmProgress()"><span><strong>Satış alanı ve depo düzenli</strong><small>Ürün erişimi ve genel düzen</small></span></label>
-        </div>
-        <p class="work-module-note">Kontroller bu tarayıcı oturumunda tutulur; merkezi kayıt oluşturmaz.</p>
-      </div>
-    </section>
-    <!-- JAVASCRIPT -->
+        <div class="work-module-progress"><strong     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261016-dailycompact2"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
