@@ -752,11 +752,11 @@ function renderStoreActionSummary(cells) {
         const ratio = actual / target;
         const shortfall = gap !== null ? gap : ratio - 1;
         if (Math.abs(shortfall) < 0.02) {
-            insights.push({type:"neutral",title:item.name+" hedefe yakın",text:item.name+" gerçekleşmesi gereken seviyeye yakın. Mevcut ritmi koru ve veriyi takip et.",detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)});
+            insights.push({type:"neutral",title:"🎯 "+item.name+" hedefe yakın",text:item.name+" gerçekleşmesi gereken seviyeye yakın. Mevcut ritmi koru ve veriyi takip et.",detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)});
         } else if (shortfall < 0) {
-            insights.push({type:"warning",title:item.name+" hedefin gerisinde",text:item.action,detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)+" · Sapma "+fmtPercent(shortfall)});
+            insights.push({type:"warning",title:"⚠️ "+item.name+" hedefin gerisinde",text:item.action,detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)+" · Sapma "+fmtPercent(shortfall)});
         } else {
-            insights.push({type:"positive",title:item.name+" hedefin üzerinde",text:item.name+" gerçekleşmesi gereken seviyenin üzerinde. Bu performansı koru ve diğer KPI'lara da odaklan.",detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)+" · Fark +"+fmtPercent(shortfall)});
+            insights.push({type:"positive",title:"😊 "+item.name+" hedefin üzerinde",text:item.name+" gerçekleşmesi gereken seviyenin üzerinde. Bu performansı koru ve diğer KPI'lara da odaklan.",detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)+" · Fark +"+fmtPercent(shortfall)});
         }
     });
     if (!insights.length) {
