@@ -716,11 +716,58 @@ async function loadPerformanceDashboard() {
         groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group"));
 
         root.innerHTML = groups.join("");
+        renderStoreActionSummary(cells);
     } catch (error) {
         console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
         root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
     }
 }
+
+function renderStoreActionSummary(cells) {
+    const root = document.getElementById("storeActionSummary");
+    if (!root) return;
+    const getValue = address => {
+        const cell = cells[address];
+        if (!cell || cell.value === null || cell.value === undefined || cell.value === "") return null;
+        const value = Number(cell.value);
+        return Number.isFinite(value) ? value : null;
+    };
+    const definitions = [
+        {name:"Ciro", target:"C17", actual:"D17", gap:"F17", action:"Ciro açığını kapatmak için yüksek potansiyelli ürünlere, müşteri ihtiyaç analizine ve satış fırsatlarına odaklan."},
+        {name:"UPT", target:"C18", actual:"D18", gap:"F18", action:"Tamamlayıcı ürün önerilerini artır; ana ürünle uyumlu ikinci ürün fırsatlarını her müşteride değerlendir."},
+        {name:"CR", target:"C19", actual:"D19", gap:"F19", action:"Müşteri karşılama, ihtiyaç analizi ve deneme sürecini güçlendirerek dönüşüm fırsatlarını artır."},
+        {name:"ASP", target:"C20", actual:"D20", gap:"F20", action:"Ürün faydalarını doğru anlat; ihtiyaca uygun daha yüksek değerli alternatifleri karşılaştırmalı sun."},
+        {name:"Fatura", target:"C21", actual:"D21", gap:"F21", action:"Müşteri trafiğini satışa dönüştürmek için aktif karşılama ve satış takibini güçlendir."},
+        {name:"Ürün adedi", target:"C22", actual:"D22", gap:"F22", action:"Birlikte kullanım ve tamamlayıcı ürün önerileriyle ürün adedini artır."},
+        {name:"Trafik", target:"C23", actual:"D23", gap:"F23", action:"Mağaza içi karşılama ve dönüşüm hazırlığını güçlendir; trafik verisi tek başına müşteri davranışının nedenini göstermez."}
+    ];
+    const fmtNumber = (n, digits=1) => new Intl.NumberFormat("tr-TR", {maximumFractionDigits:digits}).format(n);
+    const fmtPercent = n => new Intl.NumberFormat("tr-TR", {style:"percent",maximumFractionDigits:1}).format(n);
+    const insights = [];
+    definitions.forEach(item => {
+        const target = getValue(item.target);
+        const actual = getValue(item.actual);
+        const gap = getValue(item.gap);
+        if (target === null || actual === null || target <= 0) return;
+        const ratio = actual / target;
+        const shortfall = gap !== null ? gap : ratio - 1;
+        if (Math.abs(shortfall) < 0.02) {
+            insights.push({type:"neutral",title:item.name+" hedefe yakın",text:item.name+" gerçekleşmesi gereken seviyeye yakın. Mevcut ritmi koru ve veriyi takip et.",detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)});
+        } else if (shortfall < 0) {
+            insights.push({type:"warning",title:item.name+" hedefin gerisinde",text:item.action,detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)+" · Sapma "+fmtPercent(shortfall)});
+        } else {
+            insights.push({type:"positive",title:item.name+" hedefin üzerinde",text:item.name+" gerçekleşmesi gereken seviyenin üzerinde. Bu performansı koru ve diğer KPI'lara da odaklan.",detail:"Gerçekleşen "+fmtNumber(actual,2)+" · Beklenen "+fmtNumber(target,2)+" · Fark +"+fmtPercent(shortfall)});
+        }
+    });
+    if (!insights.length) {
+        root.innerHTML = '<div class="action-summary-empty">Günlük yorum oluşturmak için gerekli hedef ve gerçekleşen veriler bulunamadı. Veri mevcut olduğunda yorum otomatik hazırlanır.</div>';
+        return;
+    }
+    const priority = {warning:0,neutral:1,positive:2};
+    insights.sort((a,b)=>priority[a.type]-priority[b.type]);
+    root.innerHTML = '<div class="action-summary-head"><div><p class="dashboard-eyebrow">VERİYE DAYALI ANALİZ</p><h3>Yapay Zekâ Destekli Günlük Yorum</h3><p>Excel’de bulunan hedef, gerçekleşen ve sapma değerlerinden otomatik aksiyon özeti.</p></div><span class="data-source-tag">Otomatik analiz</span></div><div class="action-summary-grid">'+insights.map(item=>'<article class="action-insight '+item.type+'"><strong>'+escapeHTML(item.title)+'</strong><p>'+escapeHTML(item.text)+'</p><small>'+escapeHTML(item.detail)+'</small></article>').join("")+'</div><p class="action-summary-footnote">Yalnızca Excel’de sayısal hedef ve gerçekleşen değeri bulunan KPI’lar yorumlanır. Bu sürüm kural tabanlı otomatik analiz yapar; harici bir üretken yapay zekâ servisi kullanmaz.</p>';
+}
+
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
 
 
