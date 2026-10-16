@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261016-nodescriptions">
+    <link rel="stylesheet" href="style.css?v=20261016-dailycompact1">
     <style>#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}@media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
 </head>
 
@@ -156,6 +156,10 @@
       <button class="back-button" type="button" onclick="showMainMenu()">← Ana Menü</button>
       <header class="work-module-heading"><p class="education-eyebrow">MAĞAZA OPERASYONU</p><h1>Günlük Görevler</h1><p>Her kontrol maddesi için sonuç ve açıklama girin.</p></header>
       <div class="work-module-card">
+        <div class="daily-task-person">
+          <label>Ad <input id="dailyTaskFirstName" type="text" autocomplete="given-name" placeholder="Adınızı yazın" required></label>
+          <label>Soyad <input id="dailyTaskLastName" type="text" autocomplete="family-name" placeholder="Soyadınızı yazın" required></label>
+        </div>
         <div class="work-module-progress"><strong id="dailyTaskProgress">0 / 8 yanıtlandı</strong><div class="work-progress-track"><span id="dailyTaskProgressBar"></span></div></div>
         <h2 class="work-task-section-title">Mağaza açılış süreçleri</h2>
         <p class="work-module-note">Her madde için kontrol sonucunu seçin ve açıklama girin. Sonuç ve açıklama birlikte tamamlandığında yanıt kaydedilmiş sayılır.</p>
@@ -189,7 +193,7 @@
       </div>
     </section>
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-openingtasks"></script>
+    <script src="script.js?v=20261016-dailycompact1"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
 </body>
