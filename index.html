@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261016-dailycompact1">
+    <link rel="stylesheet" href="style.css?v=20261016-dailycompact2">
     <style>#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}@media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
 </head>
 
@@ -160,7 +160,7 @@
           <label>Ad <input id="dailyTaskFirstName" type="text" autocomplete="given-name" placeholder="Adınızı yazın" required></label>
           <label>Soyad <input id="dailyTaskLastName" type="text" autocomplete="family-name" placeholder="Soyadınızı yazın" required></label>
         </div>
-        <div class="work-module-progress"><strong id="dailyTaskProgress">0 / 8 yanıtlandı</strong><div class="work-progress-track"><span id="dailyTaskProgressBar"></span></div></div>
+        <div class="work-module-progress"><strong id="dailyTaskProgress">0 / 14 yanıtlandı</strong><div class="work-progress-track"><span id="dailyTaskProgressBar"></span></div></div>
         <h2 class="work-task-section-title">Mağaza açılış süreçleri</h2>
         <p class="work-module-note">Her madde için kontrol sonucunu seçin ve açıklama girin. Sonuç ve açıklama birlikte tamamlandığında yanıt kaydedilmiş sayılır.</p>
         <div class="work-task-list" id="dailyTaskList">
@@ -172,6 +172,12 @@
           <div class="work-task"><div class="work-task-content"><strong>Reyon eksikleri</strong><small>Eksik ürünleri, bedenleri ve tamamlanması gereken alanları belirt</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Eksik ürün, beden ve alınacak aksiyonu yazın"></textarea></label></div></div></div>
           <div class="work-task"><div class="work-task-content"><strong>Depo düzeni</strong><small>Depo düzenini ve düzeltilmesi gereken noktaları kontrol et</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Düzen durumunu ve alınacak aksiyonu yazın"></textarea></label></div></div></div>
           <div class="work-task"><div class="work-task-content"><strong>Mağaza açılış son kontrolü</strong><small>Açılış öncesi kontrollerin tamamlandığını doğrula</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Son kontrolü ve varsa aksiyonu açıklayın"></textarea></label></div></div></div>
+          <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Ön alan ürün hikâyesi güncel</strong><small>Kampanya ve odak ürün görünürlüğü</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Ön alan, kampanya ve odak ürün görünürlüğünü kontrol edin."></textarea></label></div></div></div>
+          <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Ayakkabı duvarı düzenli</strong><small>Model, renk ve beden sıralaması</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Ayakkabı duvarında model, renk ve beden sıralamasını kontrol edin."></textarea></label></div></div></div>
+          <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Tekstil katlama standartları uygun</strong><small>Katlama, beden sırası ve renk blokları</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Tekstil katlama, beden sırası ve renk bloklarını kontrol edin."></textarea></label></div></div></div>
+          <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Ürün askı ve yönleri uygun</strong><small>Ürün sunum ve yön birliği</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Ürün askılarını ve ürünlerin yön birliğini kontrol edin."></textarea></label></div></div></div>
+          <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Fiyat etiketleri kontrol edildi</strong><small>Etiket görünürlüğü ve doğruluğu</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Fiyat etiketlerinin görünürlüğünü ve doğruluğunu kontrol edin."></textarea></label></div></div></div>
+          <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Satış alanı ve depo düzenli</strong><small>Ürün erişimi ve genel düzen</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Satış alanı, ürün erişimi ve depo düzenini kontrol edin."></textarea></label></div></div></div>
         </div>
         <p class="work-module-note">Görev işaretleri bu tarayıcı oturumunda tutulur; merkezi kayıt oluşturmaz.</p>
       </div>
@@ -193,7 +199,7 @@
       </div>
     </section>
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-dailycompact1"></script>
+    <script src="script.js?v=20261016-dailycompact2"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
 </body>
