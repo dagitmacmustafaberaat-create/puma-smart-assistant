@@ -700,29 +700,23 @@ async function loadPerformanceDashboard() {
             </article>`);
 
         const groups = [];
-        const targetCards = [
-            ...targets.map(([label, address]) => card("Aylık " + label, get(address))),
-            ...daily.map(([label, address]) => card("Günlük " + label, get(address)))
-        ];
-        groups.push(section("Aylık ve Günlük Hedefler", "Excel'deki aylık ve günlük hedef değerleri", targetCards, "overview-targets-group"));
-        groups.push(section("Aylık ve Bugüne Kadar Gerçekleşmeler", "Beklenen değer, gerçekleşen, fark ve sapma", kpiCards, "overview-actuals-group"));
+        groups.push(section("Dönem Bilgisi", "Excel tablosundaki dönem bilgileri", [
+            card("Ay Gün Sayısı", get("C4")),
+            card("Geçen Gün Sayısı", get("C5"))
+        ], "period-group"));
+        groups.push(section("Ekim 2026 Hedefleri", "Tablodaki aylık hedef değerleri", targets.map(([label, address]) => card(label, get(address))), "targets-group"));
+        groups.push(section("Günlük Yapılması Gerekenler", "Tablodaki günlük değerler; yeniden hesaplanmaz", daily.map(([label, address]) => card(label, get(address))), "daily-group"));
+        groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
+        groups.push(section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
+            card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
+            card(String(raw("E25") || "HGO"), get("F25"), "metric-card-featured")
+        ], "forecast-group"));
+        groups.push(section("Kategori Bazlı Ciro Karşılaştırması", "Tabloda bulunan 2025 / 2026 ve büyüme değerleri", categoryCards, "comparison-group"));
+        groups.push(section("Cinsiyet Bazlı Karşılaştırma", "Tablodaki değerler olduğu gibi gösterilir", genderCards, "comparison-group"));
+        groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group"));
+
         root.innerHTML = groups.join("");
         renderStoreActionSummary(cells);
-
-        const secondary = document.createElement("div");
-        secondary.id = "performanceSecondarySections";
-        secondary.className = "performance-secondary-sections";
-        secondary.innerHTML = [
-            section("Kategori Bazlı Ciro", "2025 / 2026 karşılaştırması", categoryCards, "comparison-group"),
-            section("Cinsiyet Bazlı Veriler", "Excel'deki cinsiyet dağılımı ve büyüme", genderCards, "comparison-group"),
-            section("Kategori Bazlı Stok", "2025 / 2026 stok karşılaştırması", stockCards, "comparison-group"),
-            section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
-                card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
-                card(String(raw("E25") || "HGO"), get("F25"), "metric-card-featured")
-            ], "forecast-group")
-        ].join("");
-        const summary = document.getElementById("storeActionSummary");
-        if (summary) summary.insertAdjacentElement("afterend", secondary);
     } catch (error) {
         console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
         root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
