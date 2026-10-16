@@ -12,15 +12,6 @@
 
 <body>
 
-    <button id="moduleMenuToggle" class="module-menu-toggle" type="button" aria-label="Modül menüsünü aç" aria-expanded="false" aria-controls="moduleQuickMenu" onclick="toggleModuleMenu()">☰ <span>MENÜ</span></button>
-    <nav id="moduleQuickMenu" class="module-quick-menu" aria-label="Modül seçimi" hidden>
-      <button type="button" onclick="chooseModule(showProductSearch)">⌕ <span>Ürün Sorgulama</span></button>
-      <button type="button" onclick="chooseModule(showSizeSearch)">▤ <span>Beden Bazlı Sorgulama</span></button>
-      <button type="button" onclick="chooseModule(showEducationCenter)">▣ <span>Eğitim Merkezi</span></button>
-      <button type="button" onclick="chooseModule(showDailyTasks)">☑ <span>Günlük Görevler</span></button>
-      <button type="button" onclick="chooseModule(showVmStandards)">▧ <span>VM Standartları</span></button>
-    </nav>
-
     <!-- SPORT TECH ANA EKRAN / MAĞAZA DURUMU -->
     <main id="mainMenu" class="menu home-dashboard">
       <header class="dashboard-header">
@@ -38,17 +29,12 @@
             <p class="dashboard-eyebrow">HIZLI ERİŞİM</p>
             <h2 id="quickAccessTitle">Neye ihtiyacın var?</h2>
           </div>
-          <span class="quick-access-note">5 MODÜL</span>
+          <span class="quick-access-note">4 MODÜL</span>
         </div>
         <div class="module-card-grid">
           <button class="menu-button module-card" type="button" onclick="showProductSearch()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></span>
             <span class="module-copy"><strong>Ürün Sorgulama</strong><small>Ürün kodu veya adıyla ara</small></span>
-            <span class="module-arrow" aria-hidden="true">↗</span>
-          </button>
-          <button class="menu-button module-card" type="button" onclick="showSizeSearch()">
-            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="5" rx="1"></rect><rect x="3" y="11" width="18" height="9" rx="1"></rect><path d="M8 4v5M13 4v5M8 11v9M13 11v9M18 11v9"></path></svg></span>
-            <span class="module-copy"><strong>Beden Bazlı Sorgulama</strong><small>Beden seçerek stokları incele</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
           <button class="menu-button module-card" type="button" onclick="showDailyTasks()">
