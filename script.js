@@ -898,7 +898,7 @@ async function saveDailyTasks() {
     return;
   }
   if (button) { button.disabled = true; button.textContent = "Gönderiliyor…"; }
-  if (status) status.textContent = "Kontrol listesi e-posta ile gönderiliyor…";
+  if (status) status.textContent = "Kontrol listesi GitHub’a tarihli dosya olarak kaydediliyor…";
   try {
     const response = await fetch("/api/daily-task-notification", {
       method: "POST",
@@ -910,9 +910,9 @@ async function saveDailyTasks() {
       })
     });
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "E-posta gönderilemedi.");
-    if (status) status.textContent = "✓ Kontrol listesi başarıyla e-posta ile gönderildi.";
-    if (window.alert) alert("Günlük görev kontrol listeniz yöneticiye gönderildi.");
+    if (!response.ok) throw new Error(data.error || "GitHub kaydı yapılamadı.");
+    if (status) status.textContent = "✓ Görevler GitHub’a " + data.date + " tarihli dosya olarak kaydedildi.";
+    if (window.alert) alert("Günlük görev kontrol listeniz GitHub’a kaydedildi: " + data.path);
   } catch (error) {
     if (status) status.textContent = "Gönderim başarısız: " + (error.message || "Lütfen tekrar deneyin.");
   } finally {
