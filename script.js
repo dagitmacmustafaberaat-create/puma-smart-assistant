@@ -198,6 +198,7 @@ async function loadProducts() {
         console.log("====================================");
 
         populateSizeFilter();
+        populateProductFilters();
     } catch (error) {
         console.error("DATA.JSON HATASI:", error);
 
@@ -235,12 +236,16 @@ function showMainMenu() {
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");
+    const dailyTasksArea = document.getElementById("dailyTasksArea");
+    const vmStandardsArea = document.getElementById("vmStandardsArea");
     const results = document.getElementById("results");
     const sizeResults = document.getElementById("sizeResults");
     if (mainMenu) mainMenu.style.display = "flex";
     if (productSearchArea) productSearchArea.style.display = "none";
     if (sizeSearchArea) sizeSearchArea.style.display = "none";
     if (educationArea) educationArea.style.display = "none";
+    if (dailyTasksArea) dailyTasksArea.style.display = "none";
+    if (vmStandardsArea) vmStandardsArea.style.display = "none";
     if (results) results.innerHTML = "";
     if (sizeResults) sizeResults.innerHTML = "";
 }
@@ -252,7 +257,11 @@ function showProductSearch() {
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");
+    const dailyTasksArea = document.getElementById("dailyTasksArea");
+    const vmStandardsArea = document.getElementById("vmStandardsArea");
     if (mainMenu) mainMenu.style.display = "none";
+    if (dailyTasksArea) dailyTasksArea.style.display = "none";
+    if (vmStandardsArea) vmStandardsArea.style.display = "none";
     if (productSearchArea) productSearchArea.style.display = "block";
     if (sizeSearchArea) sizeSearchArea.style.display = "none";
     if (educationArea) educationArea.style.display = "none";
@@ -273,7 +282,11 @@ function showSizeSearch() {
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");
+    const dailyTasksArea = document.getElementById("dailyTasksArea");
+    const vmStandardsArea = document.getElementById("vmStandardsArea");
     if (mainMenu) mainMenu.style.display = "none";
+    if (dailyTasksArea) dailyTasksArea.style.display = "none";
+    if (vmStandardsArea) vmStandardsArea.style.display = "none";
     if (productSearchArea) productSearchArea.style.display = "none";
     if (sizeSearchArea) sizeSearchArea.style.display = "block";
     if (educationArea) educationArea.style.display = "none";
@@ -374,13 +387,33 @@ function normalizeCode(value) {
 let lastLoggedSearch = "";
 let searchTimer = null;
 
+function populateProductFilters() {
+    const categorySelect = document.getElementById("productCategoryFilter");
+    const sizeSelect = document.getElementById("productSizeFilter");
+    if (categorySelect) {
+        const selected = categorySelect.value;
+        const categories = [...new Set(products.filter(item => getStok(item) > 0).map(getKategori).filter(Boolean))].sort((a,b) => a.localeCompare(b,"tr-TR"));
+        categorySelect.innerHTML = '<option value="">Tüm kategoriler</option>' + categories.map(v => '<option value="' + escapeHTML(v) + '">' + escapeHTML(v) + '</option>').join("");
+        if (categories.includes(selected)) categorySelect.value = selected;
+    }
+    if (sizeSelect) {
+        const selected = sizeSelect.value;
+        const sizes = [...new Set(products.filter(item => getStok(item) > 0).map(getBeden).filter(Boolean))].sort((a,b) => {
+            const an=parseFloat(String(a).replace(",",".")), bn=parseFloat(String(b).replace(",","."));
+            if (!Number.isNaN(an) && !Number.isNaN(bn)) return an-bn;
+            return String(a).localeCompare(String(b),"tr-TR");
+        });
+        sizeSelect.innerHTML = '<option value="">Tüm bedenler</option>' + sizes.map(v => '<option value="' + escapeHTML(v) + '">' + escapeHTML(v) + '</option>').join("");
+        if (sizes.includes(selected)) sizeSelect.value = selected;
+    }
+}
 function searchProducts(text) {
     const results = document.getElementById("results");
     if (!results) return;
-
     const search = String(text || "").trim().toLocaleLowerCase("tr-TR");
-
-    if (!search) {
+    const selectedCategory = document.getElementById("productCategoryFilter")?.value || "";
+    const selectedSize = (document.getElementById("productSizeFilter")?.value || "").trim().toLocaleLowerCase("tr-TR");
+    if (!search && !selectedCategory && !selectedSize) {
         results.innerHTML = "";
         return;
     }
@@ -390,7 +423,9 @@ function searchProducts(text) {
 
     const filtered = products.filter(function (item) {
         if (getStok(item) <= 0) return false;
-
+        if (selectedCategory && getKategori(item) !== selectedCategory) return false;
+        if (selectedSize && getBeden(item).trim().toLocaleLowerCase("tr-TR") !== selectedSize) return false;
+        if (!search) return true;
         const barkod = getBarkod(item).toLocaleLowerCase("tr-TR");
         const stokKodu = getStokKodu(item).toLocaleLowerCase("tr-TR");
         const urun = getUrun(item).toLocaleLowerCase("tr-TR");
@@ -423,8 +458,9 @@ function searchProducts(text) {
         return;
     }
 
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(function () {
+    if (search) {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () {
         if (lastLoggedSearch === search) return;
         lastLoggedSearch = search;
 
@@ -436,8 +472,8 @@ function searchProducts(text) {
             null,
             text
         );
-    }, 700);
-
+      }, 700);
+    }
     renderProducts(filtered, results);
 }
 
@@ -719,3 +755,28 @@ document.addEventListener("click", function(event) {
         toggle.setAttribute("aria-label", "Modül menüsünü aç");
     }
 });
+
+
+// Günlük görevler ve VM standartları
+function showDailyTasks() {
+  ["mainMenu","productSearchArea","sizeSearchArea","educationArea","vmStandardsArea"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  const el=document.getElementById("dailyTasksArea");if(el)el.style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function showVmStandards() {
+  ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  const el=document.getElementById("vmStandardsArea");if(el)el.style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function updateDailyTaskProgress() {
+  const boxes=[...document.querySelectorAll("#dailyTaskList input[type=checkbox]")],count=boxes.filter(x=>x.checked).length;
+  const label=document.getElementById("dailyTaskProgress"),bar=document.getElementById("dailyTaskProgressBar");
+  if(label)label.textContent=count+" / "+boxes.length+" tamamlandı";if(bar)bar.style.width=(count/boxes.length*100)+"%";
+  boxes.forEach(x=>x.closest(".work-task")?.classList.toggle("done",x.checked));
+}
+function updateVmProgress() {
+  const boxes=[...document.querySelectorAll("#vmTaskList input[type=checkbox]")],count=boxes.filter(x=>x.checked).length;
+  const label=document.getElementById("vmProgress"),bar=document.getElementById("vmProgressBar");
+  if(label)label.textContent=count+" / "+boxes.length+" tamamlandı";if(bar)bar.style.width=(count/boxes.length*100)+"%";
+  boxes.forEach(x=>x.closest(".work-task")?.classList.toggle("done",x.checked));
+}
