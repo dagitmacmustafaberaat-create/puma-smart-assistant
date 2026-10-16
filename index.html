@@ -179,14 +179,14 @@
           <div class="work-task"><div class="work-task-content"><strong>VM Standardı — Satış alanı ve depo düzenli</strong><small>Ürün erişimi ve genel düzen</small><div class="daily-task-fields"><label>Kontrol sonucu<select onchange="updateDailyTaskProgress()"><option value="">Yanıt seçin</option><option>Uygun</option><option>Eksik var</option><option>Aksiyon gerekli</option></select></label><label>Açıklama / tespit<textarea oninput="updateDailyTaskProgress()" placeholder="Satış alanı, ürün erişimi ve depo düzenini kontrol edin."></textarea></label></div></div></div>
         </div>
         <div class="daily-task-save-area">
-          <button type="button" id="saveDailyTasksButton" class="daily-task-save-button" onclick="saveDailyTasks()">✓ Görevleri Kaydet ve Bildir</button>
-          <p id="dailyTaskSaveStatus" class="daily-task-save-status" role="status" aria-live="polite">Kaydet butonuna basıldığında kontrol listesi yöneticiye e-posta ile gönderilir.</p>
+          <button type="button" id="saveDailyTasksButton" class="daily-task-save-button" onclick="saveDailyTasks()">✓ Görevleri Kaydet</button>
+          <p id="dailyTaskSaveStatus" class="daily-task-save-status" role="status" aria-live="polite">Kaydet butonuna basıldığında görevler GitHub’da günün tarihli kayıt dosyasına eklenir.</p>
         </div>
-        <p class="work-module-note">Görev işaretleri kaydetme sırasında e-posta ile yöneticiye iletilir.</p>
+        <p class="work-module-note">Her personel kaydı tarih bazında GitHub’da saklanır; aynı gün yapılan kayıtlar aynı dosyaya eklenir.</p>
       </div>
     </section>
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-daily-email1"></script>
+    <script src="script.js?v=20261016-github-daily-log1"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
 </body>
