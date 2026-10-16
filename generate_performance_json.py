@@ -36,7 +36,8 @@ def main():
                     cells.append({
                         "column": cell.column,
                         "address": cell.coordinate,
-                        "value": value
+                        "value": value,
+                        "number_format": cell.number_format
                     })
             if cells:
                 rows.append({"row": row_idx, "cells": cells})
