@@ -1739,3 +1739,40 @@ body {
   .comparison-group .comparison-values { grid-template-columns:repeat(3,minmax(0,1fr)) !important; }
   .comparison-group .comparison-values strong { font-size: 11px !important; }
 }
+
+
+/* BUGÜNE KADAR GERÇEKLEŞEN — 3 SÜTUN, SAYILAR TEK SATIR */
+.kpi-group .kpi-values {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+.kpi-group .kpi-values > div {
+  min-width: 0 !important;
+  padding: 7px 4px !important;
+  overflow: hidden !important;
+}
+.kpi-group .kpi-values span {
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+  overflow-wrap: anywhere !important;
+}
+.kpi-group .kpi-values strong {
+  display: block !important;
+  width: 100% !important;
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+  font-size: clamp(9px, 0.8vw, 11px) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.35px !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+}
+@media (max-width: 760px) {
+  .kpi-group .kpi-values {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+  }
+  .kpi-group .kpi-values > div { padding: 6px 3px !important; }
+  .kpi-group .kpi-values span { font-size: 8px !important; }
+  .kpi-group .kpi-values strong { font-size: clamp(8px, 2.3vw, 10px) !important; }
+}
