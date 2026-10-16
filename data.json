@@ -1,27 +1,5 @@
 [
   {
-    "barcode": "4070033379493",
-    "productCode": "63666401",
-    "productName": "ESS Ribbed Crop Top",
-    "size": "L",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b924e118-18ae-4811-aae4-d3f69709913c.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033379509",
-    "productCode": "63666401",
-    "productName": "ESS Ribbed Crop Top",
-    "size": "M",
-    "stock": 3,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b924e118-18ae-4811-aae4-d3f69709913c.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070033380215",
     "productCode": "62979623",
     "productName": "T7 Jacket",
@@ -114,7 +92,7 @@
     "productCode": "69470301",
     "productName": "PUMA SPORT Camo Sweatpants",
     "size": "XL",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -352,11 +330,33 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/2255d5d5-cbbd-4345-a4b6-8a6e96ced572.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033386620",
+    "productCode": "63670901",
+    "productName": "ESS Relaxed Sweatpants",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/97930183-d2b8-4cf0-876a-ac182f61a60f.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070033386651",
     "productCode": "63670901",
     "productName": "ESS Relaxed Sweatpants",
     "size": "L",
     "stock": 5,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/97930183-d2b8-4cf0-876a-ac182f61a60f.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033386668",
+    "productCode": "63670901",
+    "productName": "ESS Relaxed Sweatpants",
+    "size": "M",
+    "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -455,17 +455,6 @@
     "productCode": "63666481",
     "productName": "ESS Ribbed Crop Top",
     "size": "L",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fbe277bb-6a41-4609-ad24-a185f087d891.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033390801",
-    "productCode": "63666481",
-    "productName": "ESS Ribbed Crop Top",
-    "size": "M",
     "stock": 1,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
@@ -704,37 +693,15 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/ab618384-f711-4031-a16e-9916970b1f6f.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033347966",
-    "productCode": "69429801",
+    "barcode": "4070033406830",
+    "productCode": "69430206",
     "productName": "PUMA CLASS Relaxed Material",
     "size": "L",
     "stock": 3,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f107a47-03c1-4aae-8d4f-6c478d2c8af2.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033347973",
-    "productCode": "69429801",
-    "productName": "PUMA CLASS Relaxed Material",
-    "size": "M",
-    "stock": 4,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f107a47-03c1-4aae-8d4f-6c478d2c8af2.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033349205",
-    "productCode": "63790901",
-    "productName": "ESS Boxy Tee",
-    "size": "S",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/353da244-bb83-4ae0-bd1b-ed5e8842ae3e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ab618384-f711-4031-a16e-9916970b1f6f.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033349212",
@@ -946,6 +913,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/fd4101e7-8b05-46fe-b995-dd0b02733afc.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033356395",
+    "productCode": "63672635",
+    "productName": "T7 Ringer Tee",
+    "size": "L",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/fd4101e7-8b05-46fe-b995-dd0b02733afc.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070033356401",
     "productCode": "63672635",
     "productName": "T7 Ringer Tee",
@@ -999,6 +977,17 @@
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/986864d5-105a-412f-91fb-c3e1d9733dae.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033366417",
+    "productCode": "63666701",
+    "productName": "ESS Ribbed Pants",
+    "size": "S",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/684a090f-cbc3-43d5-a391-f900fb0b18b2.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033366448",
@@ -1137,7 +1126,7 @@
     "productCode": "69433801",
     "productName": "PUMA SPORT Camo Hoodie",
     "size": "M",
-    "stock": 2,
+    "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -1375,17 +1364,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/14da3ea0-ca74-4ff4-b6be-38a2ac096fd7.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033379066",
-    "productCode": "62979678",
-    "productName": "T7 Jacket",
-    "size": "XS",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/14da3ea0-ca74-4ff4-b6be-38a2ac096fd7.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070033379073",
     "productCode": "62979678",
     "productName": "T7 Jacket",
@@ -1419,26 +1397,26 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/b924e118-18ae-4811-aae4-d3f69709913c.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033447796",
-    "productCode": "69403702",
-    "productName": "PUMATECH SENSE Tee",
-    "size": "M",
-    "stock": 6,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a347d8f0-f187-4a56-b63e-ebdc9805ffcd.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033450222",
-    "productCode": "69578501",
-    "productName": "PUMATECH SENSE Pants",
-    "size": "S",
+    "barcode": "4070033379493",
+    "productCode": "63666401",
+    "productName": "ESS Ribbed Crop Top",
+    "size": "L",
     "stock": 1,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/3bfafb3b-65d8-4209-a973-33c13dbf396a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b924e118-18ae-4811-aae4-d3f69709913c.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033379509",
+    "productCode": "63666401",
+    "productName": "ESS Ribbed Crop Top",
+    "size": "M",
+    "stock": 2,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b924e118-18ae-4811-aae4-d3f69709913c.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033450253",
@@ -1461,17 +1439,6 @@
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/3bfafb3b-65d8-4209-a973-33c13dbf396a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033452486",
-    "productCode": "69432802",
-    "productName": "PUMA SPORT Relaxed Blocking",
-    "size": "L",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/703694af-559f-4031-9811-e8a46eb8bc65.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033452646",
@@ -1621,7 +1588,7 @@
     "productCode": "69394682",
     "productName": "PUMATECH Tee",
     "size": "M",
-    "stock": 4,
+    "stock": 3,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -1720,7 +1687,7 @@
     "productCode": "69403935",
     "productName": "PUMATECH SENSE Jacket",
     "size": "S",
-    "stock": 3,
+    "stock": 2,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -2123,15 +2090,37 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/2320f1be-bb6d-48e3-9514-22adfd0d6be2.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033406830",
-    "productCode": "69430206",
-    "productName": "PUMA CLASS Relaxed Material",
-    "size": "L",
-    "stock": 3,
+    "barcode": "4070033474426",
+    "productCode": "69403401",
+    "productName": "PUMATECH SENSE Half-Zip",
+    "size": "M",
+    "stock": 4,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2320f1be-bb6d-48e3-9514-22adfd0d6be2.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033474907",
+    "productCode": "69395103",
+    "productName": "PUMATECH Full-Zip Hoodie",
+    "size": "S",
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ab618384-f711-4031-a16e-9916970b1f6f.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/5e2eeac8-17bd-49e5-80f5-7706c31b2b6c.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033474914",
+    "productCode": "69395103",
+    "productName": "PUMATECH Full-Zip Hoodie",
+    "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/5e2eeac8-17bd-49e5-80f5-7706c31b2b6c.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033406847",
@@ -2292,7 +2281,7 @@
     "productCode": "69401402",
     "productName": "PUMA CLASS Polo Tee",
     "size": "XS",
-    "stock": 1,
+    "stock": 2,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -2495,17 +2484,6 @@
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/5de9c9f7-ed1c-4283-9e95-bb73a8a4ce21.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033441930",
-    "productCode": "69403429",
-    "productName": "PUMATECH SENSE Half-Zip",
-    "size": "S",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4a07a52a-0a10-4875-8b5f-f19aa7f9ba0f.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033441954",
@@ -2838,26 +2816,26 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/a347d8f0-f187-4a56-b63e-ebdc9805ffcd.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033279625",
-    "productCode": "62958933",
-    "productName": "T7 ALWAYS ON Track Pants",
-    "size": "L",
-    "stock": 4,
-    "gender": "Erkek",
+    "barcode": "4070033447796",
+    "productCode": "69403702",
+    "productName": "PUMATECH SENSE Tee",
+    "size": "M",
+    "stock": 6,
+    "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/19d8b749-c264-44ee-99e1-b99965fba834.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a347d8f0-f187-4a56-b63e-ebdc9805ffcd.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033279632",
-    "productCode": "62958933",
-    "productName": "T7 ALWAYS ON Track Pants",
-    "size": "M",
-    "stock": 3,
-    "gender": "Erkek",
+    "barcode": "4070033450222",
+    "productCode": "69578501",
+    "productName": "PUMATECH SENSE Pants",
+    "size": "S",
+    "stock": 1,
+    "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/19d8b749-c264-44ee-99e1-b99965fba834.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/3bfafb3b-65d8-4209-a973-33c13dbf396a.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033279717",
@@ -2930,7 +2908,7 @@
     "productCode": "62958936",
     "productName": "T7 ALWAYS ON Track Pants",
     "size": "L",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -2941,7 +2919,7 @@
     "productCode": "62958936",
     "productName": "T7 ALWAYS ON Track Pants",
     "size": "M",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -2996,6 +2974,17 @@
     "productCode": "62965381",
     "productName": "WARDROBE ESS Cargo Pants",
     "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4383db6e-0b5c-44f7-90cb-dedc4fc3a469.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033281123",
+    "productCode": "62965381",
+    "productName": "WARDROBE ESS Cargo Pants",
+    "size": "XL",
     "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
@@ -3205,7 +3194,7 @@
     "productCode": "63673501",
     "productName": "T7 Track Jacket",
     "size": "L",
-    "stock": 2,
+    "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -3458,7 +3447,7 @@
     "productCode": "63662881",
     "productName": "T7 Tartan Woven Jacket",
     "size": "XS",
-    "stock": 2,
+    "stock": 1,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -3535,55 +3524,22 @@
     "productCode": "63656601",
     "productName": "Ferrari MT7 Track Pant",
     "size": "S",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/49f5afed-c169-4080-96a8-6b9d2d40fb46.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033207062",
-    "productCode": "52928901",
-    "productName": "M TAD ESSENTIALS AOP TEE",
-    "size": "L",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4dcaf2a9-df46-47f3-bd2d-7b2f75f0af48.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033207079",
-    "productCode": "52928901",
-    "productName": "M TAD ESSENTIALS AOP TEE",
-    "size": "M",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4dcaf2a9-df46-47f3-bd2d-7b2f75f0af48.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033208557",
-    "productCode": "52933169",
-    "productName": "M TAD WOVEN JACKET",
-    "size": "S",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/436a1573-b793-49b8-9240-7fc275ff6307.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033208564",
-    "productCode": "52933169",
-    "productName": "M TAD WOVEN JACKET",
+    "barcode": "4070033298923",
+    "productCode": "63656601",
+    "productName": "Ferrari MT7 Track Pant",
     "size": "XL",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/436a1573-b793-49b8-9240-7fc275ff6307.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/49f5afed-c169-4080-96a8-6b9d2d40fb46.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033208601",
@@ -3766,7 +3722,7 @@
     "productCode": "09275301",
     "productName": "BMW MMS BOXY Waist Bag",
     "size": "Standart",
-    "stock": 2,
+    "stock": 1,
     "gender": "Erkek",
     "category": "AKSESUAR",
     "season": "AW26",
@@ -3854,7 +3810,7 @@
     "productCode": "31349713",
     "productName": "MaxStride Lite",
     "size": "39",
-    "stock": 1,
+    "stock": 2,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -3876,7 +3832,7 @@
     "productCode": "31349713",
     "productName": "MaxStride Lite",
     "size": "43",
-    "stock": 2,
+    "stock": 1,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -3887,6 +3843,17 @@
     "productCode": "31349713",
     "productName": "MaxStride Lite",
     "size": "40",
+    "stock": 1,
+    "gender": "Unisex",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a2805231-669e-4ed0-b2b4-2e78821abcb3.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033274347",
+    "productCode": "31349713",
+    "productName": "MaxStride Lite",
+    "size": "41",
     "stock": 1,
     "gender": "Unisex",
     "category": "AYAKKABI",
@@ -3986,7 +3953,18 @@
     "productCode": "31349710",
     "productName": "MaxStride Lite",
     "size": "38",
-    "stock": 2,
+    "stock": 1,
+    "gender": "Unisex",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c110bf3b-eacc-46e6-be8a-a09dab45c40b.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033275979",
+    "productCode": "31349710",
+    "productName": "MaxStride Lite",
+    "size": "39",
+    "stock": 1,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -4085,7 +4063,7 @@
     "productCode": "62958736",
     "productName": "T7 ALWAYS ON Track Jacket",
     "size": "L",
-    "stock": 4,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -4129,7 +4107,7 @@
     "productCode": "62958788",
     "productName": "T7 ALWAYS ON Track Jacket",
     "size": "L",
-    "stock": 5,
+    "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -4140,7 +4118,7 @@
     "productCode": "62958788",
     "productName": "T7 ALWAYS ON Track Jacket",
     "size": "M",
-    "stock": 4,
+    "stock": 3,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -4257,48 +4235,26 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/19d8b749-c264-44ee-99e1-b99965fba834.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033321669",
-    "productCode": "69205406",
-    "productName": "ESS ELEVATED Tee",
+    "barcode": "4070033279625",
+    "productCode": "62958933",
+    "productName": "T7 ALWAYS ON Track Pants",
     "size": "L",
     "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d45f71dd-9f83-41c7-92af-1e402d78499a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/19d8b749-c264-44ee-99e1-b99965fba834.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033321676",
-    "productCode": "69205406",
-    "productName": "ESS ELEVATED Tee",
+    "barcode": "4070033279632",
+    "productCode": "62958933",
+    "productName": "T7 ALWAYS ON Track Pants",
     "size": "M",
-    "stock": 4,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d45f71dd-9f83-41c7-92af-1e402d78499a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033327371",
-    "productCode": "69429833",
-    "productName": "PUMA CLASS Relaxed Material",
-    "size": "S",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5aae2de-49b8-49c4-adcb-0db1c5bf3b04.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033327388",
-    "productCode": "69429833",
-    "productName": "PUMA CLASS Relaxed Material",
-    "size": "XL",
     "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5aae2de-49b8-49c4-adcb-0db1c5bf3b04.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/19d8b749-c264-44ee-99e1-b99965fba834.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033327401",
@@ -4499,6 +4455,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/c70dafd7-ec1e-40a1-9d06-f4adc758ccd0.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033333082",
+    "productCode": "63790902",
+    "productName": "ESS Boxy Tee",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/f4a69853-0a7c-4f99-91c3-8fcfbbc7d517.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070033333099",
     "productCode": "63790902",
     "productName": "ESS Boxy Tee",
@@ -4525,7 +4492,7 @@
     "productCode": "63790902",
     "productName": "ESS Boxy Tee",
     "size": "M",
-    "stock": 5,
+    "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -4972,15 +4939,37 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/8f107a47-03c1-4aae-8d4f-6c478d2c8af2.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033298923",
-    "productCode": "63656601",
-    "productName": "Ferrari MT7 Track Pant",
-    "size": "XL",
+    "barcode": "4070033347966",
+    "productCode": "69429801",
+    "productName": "PUMA CLASS Relaxed Material",
+    "size": "L",
+    "stock": 3,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/8f107a47-03c1-4aae-8d4f-6c478d2c8af2.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033347973",
+    "productCode": "69429801",
+    "productName": "PUMA CLASS Relaxed Material",
+    "size": "M",
     "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/49f5afed-c169-4080-96a8-6b9d2d40fb46.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/8f107a47-03c1-4aae-8d4f-6c478d2c8af2.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033349205",
+    "productCode": "63790901",
+    "productName": "ESS Boxy Tee",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/353da244-bb83-4ae0-bd1b-ed5e8842ae3e.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033298947",
@@ -5042,7 +5031,7 @@
     "productCode": "63656614",
     "productName": "Ferrari MT7 Track Pant",
     "size": "M",
-    "stock": 4,
+    "stock": 3,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -5108,7 +5097,7 @@
     "productCode": "63656701",
     "productName": "Ferrari MT7 TEE",
     "size": "XL",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -5141,17 +5130,6 @@
     "productCode": "63656702",
     "productName": "Ferrari MT7 TEE",
     "size": "S",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/51aa26eb-94a6-44c5-acfc-0215ddba14a6.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033299920",
-    "productCode": "63656702",
-    "productName": "Ferrari MT7 TEE",
-    "size": "XL",
     "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
@@ -5192,17 +5170,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/a296d2d2-7220-41f5-85a7-226471f8ddf4.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033300268",
-    "productCode": "63875701",
-    "productName": "Ferrari MT7 Woven Jacket",
-    "size": "XL",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a296d2d2-7220-41f5-85a7-226471f8ddf4.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070033300282",
     "productCode": "63875701",
     "productName": "Ferrari MT7 Woven Jacket",
@@ -5218,7 +5185,7 @@
     "productCode": "63875701",
     "productName": "Ferrari MT7 Woven Jacket",
     "size": "M",
-    "stock": 2,
+    "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -5406,17 +5373,6 @@
     "productName": "T7 Tartan Woven Pants",
     "size": "S",
     "stock": 4,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a3993ce9-0aa3-41c8-a4f5-9d78095edddc.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033304174",
-    "productCode": "63662981",
-    "productName": "T7 Tartan Woven Pants",
-    "size": "XS",
-    "stock": 1,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -5687,6 +5643,50 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/d45f71dd-9f83-41c7-92af-1e402d78499a.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033321669",
+    "productCode": "69205406",
+    "productName": "ESS ELEVATED Tee",
+    "size": "L",
+    "stock": 4,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/d45f71dd-9f83-41c7-92af-1e402d78499a.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033321676",
+    "productCode": "69205406",
+    "productName": "ESS ELEVATED Tee",
+    "size": "M",
+    "stock": 4,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/d45f71dd-9f83-41c7-92af-1e402d78499a.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033327371",
+    "productCode": "69429833",
+    "productName": "PUMA CLASS Relaxed Material",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/d5aae2de-49b8-49c4-adcb-0db1c5bf3b04.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033327388",
+    "productCode": "69429833",
+    "productName": "PUMA CLASS Relaxed Material",
+    "size": "XL",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/d5aae2de-49b8-49c4-adcb-0db1c5bf3b04.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070034273653",
     "productCode": "78502301",
     "productName": "GSK Shorts Replica",
@@ -5860,7 +5860,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f008e81-094c-4c5d-b4c9-4608aa6bc02f.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b798c4e4-833d-4f04-b56a-a54e218169af.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034274780",
@@ -5871,7 +5871,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f008e81-094c-4c5d-b4c9-4608aa6bc02f.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b798c4e4-833d-4f04-b56a-a54e218169af.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034274803",
@@ -5882,7 +5882,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f008e81-094c-4c5d-b4c9-4608aa6bc02f.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b798c4e4-833d-4f04-b56a-a54e218169af.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034274810",
@@ -5893,7 +5893,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f008e81-094c-4c5d-b4c9-4608aa6bc02f.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b798c4e4-833d-4f04-b56a-a54e218169af.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034274827",
@@ -5904,7 +5904,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f008e81-094c-4c5d-b4c9-4608aa6bc02f.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b798c4e4-833d-4f04-b56a-a54e218169af.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034276326",
@@ -5915,7 +5915,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/6420e3bf-aee7-4317-ba2a-d26538a892a8.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/07e2b6bd-0ba9-4f57-9f85-ed8072351c2f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034276333",
@@ -5926,7 +5926,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/6420e3bf-aee7-4317-ba2a-d26538a892a8.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/07e2b6bd-0ba9-4f57-9f85-ed8072351c2f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034276357",
@@ -5937,7 +5937,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/6420e3bf-aee7-4317-ba2a-d26538a892a8.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/07e2b6bd-0ba9-4f57-9f85-ed8072351c2f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034276364",
@@ -5948,7 +5948,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/6420e3bf-aee7-4317-ba2a-d26538a892a8.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/07e2b6bd-0ba9-4f57-9f85-ed8072351c2f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034276371",
@@ -5959,7 +5959,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/6420e3bf-aee7-4317-ba2a-d26538a892a8.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/07e2b6bd-0ba9-4f57-9f85-ed8072351c2f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034277132",
@@ -5970,7 +5970,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a5d4b899-e7e6-43cd-9021-3cd21f0e5b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/705552e4-e79e-4f66-a5ee-2e17da85b7ab.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034277149",
@@ -5981,7 +5981,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a5d4b899-e7e6-43cd-9021-3cd21f0e5b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/705552e4-e79e-4f66-a5ee-2e17da85b7ab.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034277163",
@@ -5992,7 +5992,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a5d4b899-e7e6-43cd-9021-3cd21f0e5b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/705552e4-e79e-4f66-a5ee-2e17da85b7ab.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034277170",
@@ -6003,7 +6003,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a5d4b899-e7e6-43cd-9021-3cd21f0e5b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/705552e4-e79e-4f66-a5ee-2e17da85b7ab.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034277187",
@@ -6014,7 +6014,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a5d4b899-e7e6-43cd-9021-3cd21f0e5b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/705552e4-e79e-4f66-a5ee-2e17da85b7ab.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034277545",
@@ -6190,7 +6190,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/61b5f5f6-9e54-4cac-8e2a-c9f0203edc0e.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/83624236-30ac-4755-bdd5-bc2f5ff09643.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034279792",
@@ -6201,7 +6201,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/61b5f5f6-9e54-4cac-8e2a-c9f0203edc0e.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/83624236-30ac-4755-bdd5-bc2f5ff09643.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034279815",
@@ -6212,7 +6212,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/61b5f5f6-9e54-4cac-8e2a-c9f0203edc0e.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/83624236-30ac-4755-bdd5-bc2f5ff09643.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034279822",
@@ -6223,7 +6223,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/61b5f5f6-9e54-4cac-8e2a-c9f0203edc0e.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/83624236-30ac-4755-bdd5-bc2f5ff09643.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034279839",
@@ -6234,7 +6234,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/61b5f5f6-9e54-4cac-8e2a-c9f0203edc0e.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/83624236-30ac-4755-bdd5-bc2f5ff09643.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034279983",
@@ -6300,7 +6300,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fbe21065-5acc-44f3-9a02-e43530c1b9d7.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c9fc5e7c-e84c-4db9-8e05-4859db1b91b1.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070034280354",
@@ -6311,7 +6311,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fbe21065-5acc-44f3-9a02-e43530c1b9d7.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c9fc5e7c-e84c-4db9-8e05-4859db1b91b1.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070034280378",
@@ -6322,7 +6322,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fbe21065-5acc-44f3-9a02-e43530c1b9d7.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c9fc5e7c-e84c-4db9-8e05-4859db1b91b1.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070034280385",
@@ -6333,7 +6333,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fbe21065-5acc-44f3-9a02-e43530c1b9d7.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c9fc5e7c-e84c-4db9-8e05-4859db1b91b1.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070034280392",
@@ -6344,7 +6344,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fbe21065-5acc-44f3-9a02-e43530c1b9d7.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c9fc5e7c-e84c-4db9-8e05-4859db1b91b1.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070034280545",
@@ -6391,17 +6391,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/a0911732-81f3-4853-a01e-186b4cf652a7.jpg?f=jpeg&h=150"
   },
   {
-    "barcode": "4070034270072",
-    "productCode": "78291026",
-    "productName": "GSK FtblESS FZ HoodJacket FL",
-    "size": "L",
-    "stock": 3,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/906d0e3e-424c-4884-9081-285b3220f902.jpg?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070034270089",
     "productCode": "78291026",
     "productName": "GSK FtblESS FZ HoodJacket FL",
@@ -6410,7 +6399,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/906d0e3e-424c-4884-9081-285b3220f902.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b672a46e-29d4-475c-8320-64363e95d79c.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270102",
@@ -6421,7 +6410,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/cfb58f99-2bb8-4dda-9eab-df960d2f4d7c.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a25f1f49-7795-462b-b70c-010eb14f1b9f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270119",
@@ -6432,7 +6421,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/cfb58f99-2bb8-4dda-9eab-df960d2f4d7c.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a25f1f49-7795-462b-b70c-010eb14f1b9f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270133",
@@ -6443,7 +6432,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/cfb58f99-2bb8-4dda-9eab-df960d2f4d7c.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a25f1f49-7795-462b-b70c-010eb14f1b9f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270140",
@@ -6454,7 +6443,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/cfb58f99-2bb8-4dda-9eab-df960d2f4d7c.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a25f1f49-7795-462b-b70c-010eb14f1b9f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270157",
@@ -6465,7 +6454,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/cfb58f99-2bb8-4dda-9eab-df960d2f4d7c.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a25f1f49-7795-462b-b70c-010eb14f1b9f.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270171",
@@ -6476,7 +6465,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fc173001-f94b-433c-aca9-1c5a077f32b6.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9c310884-93a5-4e2e-ba94-3ba74f8f5ecc.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270188",
@@ -6487,7 +6476,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fc173001-f94b-433c-aca9-1c5a077f32b6.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9c310884-93a5-4e2e-ba94-3ba74f8f5ecc.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270201",
@@ -6498,7 +6487,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fc173001-f94b-433c-aca9-1c5a077f32b6.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9c310884-93a5-4e2e-ba94-3ba74f8f5ecc.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270218",
@@ -6509,7 +6498,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fc173001-f94b-433c-aca9-1c5a077f32b6.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9c310884-93a5-4e2e-ba94-3ba74f8f5ecc.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270225",
@@ -6520,7 +6509,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/fc173001-f94b-433c-aca9-1c5a077f32b6.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9c310884-93a5-4e2e-ba94-3ba74f8f5ecc.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270447",
@@ -6549,7 +6538,7 @@
     "productCode": "78765071",
     "productName": "GSK GK Jersey Replica LS",
     "size": "XS",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -6586,7 +6575,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5b455921-c85d-4656-969c-bd5da442a9ee.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9f895e63-d72c-41c7-a67b-c2c47d42c6d9.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034271246",
@@ -6597,7 +6586,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5b455921-c85d-4656-969c-bd5da442a9ee.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9f895e63-d72c-41c7-a67b-c2c47d42c6d9.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034271260",
@@ -6608,7 +6597,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5b455921-c85d-4656-969c-bd5da442a9ee.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9f895e63-d72c-41c7-a67b-c2c47d42c6d9.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034271277",
@@ -6619,7 +6608,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5b455921-c85d-4656-969c-bd5da442a9ee.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9f895e63-d72c-41c7-a67b-c2c47d42c6d9.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034271284",
@@ -6630,7 +6619,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5b455921-c85d-4656-969c-bd5da442a9ee.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9f895e63-d72c-41c7-a67b-c2c47d42c6d9.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034271659",
@@ -6751,7 +6740,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5de9e62-d7b8-4370-8b8f-0238e8ce8337.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/188a6014-e1fc-489b-9deb-9cfc1ebb9d22.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034272137",
@@ -6762,7 +6751,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5de9e62-d7b8-4370-8b8f-0238e8ce8337.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/188a6014-e1fc-489b-9deb-9cfc1ebb9d22.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034272151",
@@ -6773,7 +6762,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5de9e62-d7b8-4370-8b8f-0238e8ce8337.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/188a6014-e1fc-489b-9deb-9cfc1ebb9d22.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034272168",
@@ -6784,7 +6773,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5de9e62-d7b8-4370-8b8f-0238e8ce8337.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/188a6014-e1fc-489b-9deb-9cfc1ebb9d22.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034272175",
@@ -6795,7 +6784,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d5de9e62-d7b8-4370-8b8f-0238e8ce8337.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/188a6014-e1fc-489b-9deb-9cfc1ebb9d22.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034272199",
@@ -6912,6 +6901,17 @@
     "productCode": "78502302",
     "productName": "GSK Shorts Replica",
     "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a79447eb-1042-445a-b921-8448c03c7336.jpg?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070034272809",
+    "productCode": "78502302",
+    "productName": "GSK Shorts Replica",
+    "size": "XS",
     "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
@@ -7044,7 +7044,7 @@
     "productCode": "78499101",
     "productName": "GSK Home Jersey Replica",
     "size": "M",
-    "stock": 20,
+    "stock": 19,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -7059,7 +7059,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ef1f80e0-9086-4ff3-b2fa-7a43e6bd1384.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ce61b266-122e-460c-abaf-56cce80e921d.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034273592",
@@ -7070,7 +7070,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ef1f80e0-9086-4ff3-b2fa-7a43e6bd1384.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ce61b266-122e-460c-abaf-56cce80e921d.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034273615",
@@ -7081,7 +7081,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ef1f80e0-9086-4ff3-b2fa-7a43e6bd1384.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ce61b266-122e-460c-abaf-56cce80e921d.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034273622",
@@ -7092,7 +7092,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ef1f80e0-9086-4ff3-b2fa-7a43e6bd1384.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ce61b266-122e-460c-abaf-56cce80e921d.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034273639",
@@ -7103,18 +7103,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ef1f80e0-9086-4ff3-b2fa-7a43e6bd1384.jpg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "8720245028516",
-    "productCode": "90794001",
-    "productName": "PUMA SPORT CREW LIGHTWEIGHT",
-    "size": "35/38",
-    "stock": 6,
-    "gender": "Erkek",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ad8a7c88-115e-4597-9801-60eb4baa9491.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ce61b266-122e-460c-abaf-56cce80e921d.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "8720245028523",
@@ -7165,7 +7154,7 @@
     "productCode": "90794002",
     "productName": "PUMA SPORT CREW LIGHTWEIGHT",
     "size": "39/42",
-    "stock": 9,
+    "stock": 8,
     "gender": "Erkek",
     "category": "AKSESUAR",
     "season": "AW26",
@@ -8463,7 +8452,7 @@
     "productCode": "88329607",
     "productName": "PUMA ELEMENTS CREW SOCK 3P",
     "size": "39/42",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "SS26 GRJ",
@@ -8525,37 +8514,15 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/9a1cd28f-1b87-4b0c-afde-5bbc96628d62.png?f=jpeg&h=150"
   },
   {
-    "barcode": "8720245022934",
-    "productCode": "88035527",
-    "productName": "CREW SOCK 3P",
-    "size": "39/42",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "TEKSTİL",
-    "season": "SS25",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/3cd02191-d3a8-402c-ab72-6b9961dce95e.jpg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033533055",
-    "productCode": "63788570",
-    "productName": "GRAPHIC Football Tee",
-    "size": "S",
-    "stock": 1,
+    "barcode": "8720245028516",
+    "productCode": "90794001",
+    "productName": "PUMA SPORT CREW LIGHTWEIGHT",
+    "size": "35/38",
+    "stock": 6,
     "gender": "Erkek",
-    "category": "TEKSTİL",
+    "category": "AKSESUAR",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/40c464db-bd9e-4967-9e6f-3711cdc054c5.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033533062",
-    "productCode": "63788570",
-    "productName": "GRAPHIC Football Tee",
-    "size": "XL",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/40c464db-bd9e-4967-9e6f-3711cdc054c5.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ad8a7c88-115e-4597-9801-60eb4baa9491.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070033533086",
@@ -8800,11 +8767,22 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/a0cabfcd-4e50-49ff-9bde-3b6423b4d6cd.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033545003",
+    "productCode": "69395001",
+    "productName": "PUMATECH Half Zip",
+    "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a0cabfcd-4e50-49ff-9bde-3b6423b4d6cd.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070033545041",
     "productCode": "69395001",
     "productName": "PUMATECH Half Zip",
     "size": "L",
-    "stock": 6,
+    "stock": 5,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -9167,7 +9145,7 @@
     "productCode": "69395182",
     "productName": "PUMATECH Full-Zip Hoodie",
     "size": "M",
-    "stock": 5,
+    "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -9189,18 +9167,7 @@
     "productCode": "69395201",
     "productName": "PUMATECH Pants",
     "size": "XL",
-    "stock": 3,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/e585b7fb-da9f-48cf-aa82-2035e837a98f.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033549162",
-    "productCode": "69395201",
-    "productName": "PUMATECH Pants",
-    "size": "L",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -9251,37 +9218,15 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/52b03bba-1d87-46b8-b877-8ead78bcf0d3.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033474426",
-    "productCode": "69403401",
-    "productName": "PUMATECH SENSE Half-Zip",
+    "barcode": "4070033549254",
+    "productCode": "69395203",
+    "productName": "PUMATECH Pants",
     "size": "M",
-    "stock": 4,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2320f1be-bb6d-48e3-9514-22adfd0d6be2.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033474907",
-    "productCode": "69395103",
-    "productName": "PUMATECH Full-Zip Hoodie",
-    "size": "S",
-    "stock": 2,
+    "stock": 6,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5e2eeac8-17bd-49e5-80f5-7706c31b2b6c.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033474914",
-    "productCode": "69395103",
-    "productName": "PUMATECH Full-Zip Hoodie",
-    "size": "XL",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5e2eeac8-17bd-49e5-80f5-7706c31b2b6c.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/52b03bba-1d87-46b8-b877-8ead78bcf0d3.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033474952",
@@ -9354,6 +9299,17 @@
     "productCode": "63735401",
     "productName": "AMF1 Essential Sweat Pants",
     "size": "S",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1a6388b1-d232-4444-8caf-0c8f7a26e565.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033512500",
+    "productCode": "63735401",
+    "productName": "AMF1 Essential Sweat Pants",
+    "size": "XL",
     "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
@@ -9607,7 +9563,7 @@
     "productCode": "63705501",
     "productName": "Ferrari T7 Track Jkt",
     "size": "M",
-    "stock": 2,
+    "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -9684,7 +9640,7 @@
     "productCode": "63705601",
     "productName": "Ferrari T7 Track Pant",
     "size": "M",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -9904,7 +9860,7 @@
     "productCode": "63788504",
     "productName": "GRAPHIC Football Tee",
     "size": "M",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -9959,33 +9915,33 @@
     "productCode": "63729101",
     "productName": "GRAPHIC Tee",
     "size": "M",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/7e7a994a-6e79-4314-a5f8-586c7f3208c3.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033670477",
-    "productCode": "63700402",
-    "productName": "Ferrari Tonal Shield Tee",
-    "size": "M",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/22bd3a27-883e-4c28-a959-6c0ab40227a0.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033670569",
-    "productCode": "63700414",
-    "productName": "Ferrari Tonal Shield Tee",
+    "barcode": "4070033533055",
+    "productCode": "63788570",
+    "productName": "GRAPHIC Football Tee",
     "size": "S",
     "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f0c77eee-4986-463f-91f6-15caf3c3915e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/40c464db-bd9e-4967-9e6f-3711cdc054c5.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033533062",
+    "productCode": "63788570",
+    "productName": "GRAPHIC Football Tee",
+    "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/40c464db-bd9e-4967-9e6f-3711cdc054c5.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033670576",
@@ -10179,7 +10135,7 @@
     "productCode": "78921303",
     "productName": "GSK All-Weather Jacket",
     "size": "S",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -10223,7 +10179,7 @@
     "productCode": "78921303",
     "productName": "GSK All-Weather Jacket",
     "size": "M",
-    "stock": 6,
+    "stock": 5,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -10593,6 +10549,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/5b1bdd38-05f0-4b59-b30c-0667e0dc96ac.jpg?f=jpeg&h=150"
   },
   {
+    "barcode": "4070034269601",
+    "productCode": "78290727",
+    "productName": "GSK FtblESS Tee",
+    "size": "M",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/5b1bdd38-05f0-4b59-b30c-0667e0dc96ac.jpg?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070034269960",
     "productCode": "78291024",
     "productName": "GSK FtblESS FZ HoodJacket FL",
@@ -10656,7 +10623,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/906d0e3e-424c-4884-9081-285b3220f902.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b672a46e-29d4-475c-8320-64363e95d79c.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270041",
@@ -10667,7 +10634,7 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/906d0e3e-424c-4884-9081-285b3220f902.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b672a46e-29d4-475c-8320-64363e95d79c.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070034270065",
@@ -10678,29 +10645,18 @@
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/906d0e3e-424c-4884-9081-285b3220f902.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b672a46e-29d4-475c-8320-64363e95d79c.jpg?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033549254",
-    "productCode": "69395203",
-    "productName": "PUMATECH Pants",
-    "size": "M",
-    "stock": 6,
+    "barcode": "4070034270072",
+    "productCode": "78291026",
+    "productName": "GSK FtblESS FZ HoodJacket FL",
+    "size": "L",
+    "stock": 3,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/52b03bba-1d87-46b8-b877-8ead78bcf0d3.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033549278",
-    "productCode": "69395234",
-    "productName": "PUMATECH Pants",
-    "size": "S",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/93f5774c-0bf4-4e0d-a86f-45f8af1d4c15.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b672a46e-29d4-475c-8320-64363e95d79c.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4070033549285",
@@ -11235,7 +11191,7 @@
     "productCode": "63646373",
     "productName": "SELECT Essentials Tee",
     "size": "S",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -11290,7 +11246,7 @@
     "productCode": "63474224",
     "productName": "SELECT Essentials Waffle Tee",
     "size": "XL",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -11396,37 +11352,26 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/22bd3a27-883e-4c28-a959-6c0ab40227a0.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069157403603",
-    "productCode": "63214402",
-    "productName": "DARE TO Oversized Ruched Tee",
-    "size": "XS",
-    "stock": 3,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW25",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/0e483ffe-c79b-4e05-9c15-ae4f062e99ad.jpg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069157403627",
-    "productCode": "63214402",
-    "productName": "DARE TO Oversized Ruched Tee",
+    "barcode": "4070033670477",
+    "productCode": "63700402",
+    "productName": "Ferrari Tonal Shield Tee",
     "size": "M",
-    "stock": 3,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "AW25",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/0e483ffe-c79b-4e05-9c15-ae4f062e99ad.jpg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069157411356",
-    "productCode": "68521001",
-    "productName": "ESS Padded Jacket",
-    "size": "S",
-    "stock": 2,
+    "stock": 1,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/9fc811eb-7ac3-401d-9f7d-8ab77ef65876.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/22bd3a27-883e-4c28-a959-6c0ab40227a0.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033670569",
+    "productCode": "63700414",
+    "productName": "Ferrari Tonal Shield Tee",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/f0c77eee-4986-463f-91f6-15caf3c3915e.png?f=jpeg&h=150"
   },
   {
     "barcode": "4069157411363",
@@ -11620,6 +11565,17 @@
     "productCode": "68522987",
     "productName": "ESS Padded Vest",
     "size": "L",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a8ae066b-e88f-4c3a-b58b-c68c132cbc46.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069157416382",
+    "productCode": "68522987",
+    "productName": "ESS Padded Vest",
+    "size": "M",
     "stock": 1,
     "gender": "Kadın / Kız",
     "category": "TEKSTİL",
@@ -11880,17 +11836,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/b12491d5-ecc9-432a-af87-219f5652d0f9.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069157728546",
-    "productCode": "02660901",
-    "productName": "TRAINING BB Cap",
-    "size": "Standart",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/0f6f7fef-bd38-4314-92d2-19308729024f.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4069157728591",
     "productCode": "02660902",
     "productName": "TRAINING BB Cap",
@@ -12100,37 +12045,37 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/68af82be-38da-4824-914d-039a4276cbfd.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069156613539",
-    "productCode": "31135311",
-    "productName": "DAGGER",
-    "size": "42",
-    "stock": 9,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/afc61f1d-1c5c-4680-b511-dfbcdd00e848.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069156613546",
-    "productCode": "31135311",
-    "productName": "DAGGER",
-    "size": "43",
-    "stock": 7,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/afc61f1d-1c5c-4680-b511-dfbcdd00e848.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069156613584",
-    "productCode": "31135311",
-    "productName": "DAGGER",
-    "size": "40",
+    "barcode": "4069159630250",
+    "productCode": "40617604",
+    "productName": "Carina 3.0 TDP",
+    "size": "37",
     "stock": 1,
-    "gender": "Erkek",
+    "gender": "Kadın / Kız",
     "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/afc61f1d-1c5c-4680-b511-dfbcdd00e848.png?f=jpeg&h=150"
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2303f0b7-264f-44ca-a7ec-4c4ec5eae610.jpg?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069159630267",
+    "productCode": "40617604",
+    "productName": "Carina 3.0 TDP",
+    "size": "38",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2303f0b7-264f-44ca-a7ec-4c4ec5eae610.jpg?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069159630274",
+    "productCode": "40617604",
+    "productName": "Carina 3.0 TDP",
+    "size": "39",
+    "stock": 2,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2303f0b7-264f-44ca-a7ec-4c4ec5eae610.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4069156613607",
@@ -12380,17 +12325,6 @@
     "productName": "Park Luna",
     "size": "38",
     "stock": 3,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c85d33e7-ee0d-439f-977c-26eef6007d68.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069156771956",
-    "productCode": "40250902",
-    "productName": "Park Luna",
-    "size": "39",
-    "stock": 1,
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -12749,6 +12683,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/17806158-a195-41cd-b0fa-366eec35a88b.jpg?f=jpeg&h=150"
   },
   {
+    "barcode": "4069157195973",
+    "productCode": "52759301",
+    "productName": "M CLOUDSPUN TEE",
+    "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/823c2ca3-0c8c-43c0-9693-28ce8ce4c61a.jpg?f=jpeg&h=150"
+  },
+  {
     "barcode": "4069157196017",
     "productCode": "52759301",
     "productName": "M CLOUDSPUN TEE",
@@ -12815,59 +12760,37 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/0e483ffe-c79b-4e05-9c15-ae4f062e99ad.jpg?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161202414",
-    "productCode": "10870701",
-    "productName": "ULTRA 6 PLAY+ FG/AG",
-    "size": "43",
+    "barcode": "4069157403603",
+    "productCode": "63214402",
+    "productName": "DARE TO Oversized Ruched Tee",
+    "size": "XS",
+    "stock": 3,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "AW25",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0e483ffe-c79b-4e05-9c15-ae4f062e99ad.jpg?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069157403627",
+    "productCode": "63214402",
+    "productName": "DARE TO Oversized Ruched Tee",
+    "size": "M",
+    "stock": 3,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "AW25",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0e483ffe-c79b-4e05-9c15-ae4f062e99ad.jpg?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069157411356",
+    "productCode": "68521001",
+    "productName": "ESS Padded Jacket",
+    "size": "S",
     "stock": 2,
     "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161202438",
-    "productCode": "10870701",
-    "productName": "ULTRA 6 PLAY+ FG/AG",
-    "size": "41",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161202445",
-    "productCode": "10870701",
-    "productName": "ULTRA 6 PLAY+ FG/AG",
-    "size": "42,5",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161204081",
-    "productCode": "10850007",
-    "productName": "VITORIA II FG/AG",
-    "size": "42",
-    "stock": 3,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/e6058f77-a328-40f1-b725-fefcd233aba1.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161204098",
-    "productCode": "10850007",
-    "productName": "VITORIA II FG/AG",
-    "size": "43",
-    "stock": 3,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/e6058f77-a328-40f1-b725-fefcd233aba1.png?f=jpeg&h=150"
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9fc811eb-7ac3-401d-9f7d-8ab77ef65876.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4069161204111",
@@ -12925,17 +12848,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/70201658-0e90-42b3-83ba-6bbe4604f97b.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161207174",
-    "productCode": "10898701",
-    "productName": "ULTRA 6 PLAY TT",
-    "size": "38,5",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/70201658-0e90-42b3-83ba-6bbe4604f97b.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4069161207204",
     "productCode": "10898701",
     "productName": "ULTRA 6 PLAY TT",
@@ -12973,17 +12885,6 @@
     "productCode": "10873201",
     "productName": "KING 20 PLAY FG/AG",
     "size": "42,5",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/dd52e2d8-462b-4ce3-b771-6a4261937fef.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161224638",
-    "productCode": "10873201",
-    "productName": "KING 20 PLAY FG/AG",
-    "size": "44,5",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
@@ -13061,7 +12962,7 @@
     "productCode": "10873301",
     "productName": "KING 20 PLAY TT",
     "size": "42",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "SS26",
@@ -13194,17 +13095,6 @@
     "productName": "RS Surge Hairy Suede",
     "size": "42",
     "stock": 2,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/0b6e77f5-e420-4ab7-a6e0-de2144a36e33.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161521904",
-    "productCode": "40432706",
-    "productName": "RS Surge Hairy Suede",
-    "size": "42,5",
-    "stock": 1,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "SS26",
@@ -13479,7 +13369,7 @@
     "productCode": "40049713",
     "productName": "Park Lifestyle SK8",
     "size": "42",
-    "stock": 5,
+    "stock": 4,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "SS26",
@@ -13530,48 +13420,81 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/f5ba47d5-7e1f-4014-b98c-35b873d95622.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069157995801",
-    "productCode": "40432703",
-    "productName": "RS Surge Hairy Suede",
-    "size": "42,5",
+    "barcode": "4069161906206",
+    "productCode": "09182408",
+    "productName": "PUMA 1976 Micro Grip Bag",
+    "size": "Standart",
+    "stock": 2,
+    "gender": "Kadın / Kız",
+    "category": "AKSESUAR",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/3bc00b61-ddfd-4803-865b-4044bf7e2ab1.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161907340",
+    "productCode": "09230701",
+    "productName": "ESSENTIALS Crossbody Bag",
+    "size": "Standart",
     "stock": 1,
     "gender": "Erkek",
-    "category": "AYAKKABI",
+    "category": "AKSESUAR",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/68af82be-38da-4824-914d-039a4276cbfd.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ff56669f-abe9-4164-8e12-08c89a97ef02.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069159630250",
-    "productCode": "40617604",
-    "productName": "Carina 3.0 TDP",
-    "size": "37",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2303f0b7-264f-44ca-a7ec-4c4ec5eae610.jpg?f=jpeg&h=150"
+    "barcode": "4069161954962",
+    "productCode": "62964461",
+    "productName": "WARDROBE ESS Tee",
+    "size": "L",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/3f1701d4-b11f-41a5-b888-8e5241b0fa5f.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069159630267",
-    "productCode": "40617604",
-    "productName": "Carina 3.0 TDP",
-    "size": "38",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2303f0b7-264f-44ca-a7ec-4c4ec5eae610.jpg?f=jpeg&h=150"
+    "barcode": "4069161954979",
+    "productCode": "62964461",
+    "productName": "WARDROBE ESS Tee",
+    "size": "M",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/3f1701d4-b11f-41a5-b888-8e5241b0fa5f.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069159630274",
-    "productCode": "40617604",
-    "productName": "Carina 3.0 TDP",
-    "size": "39",
+    "barcode": "4069161976667",
+    "productCode": "69189901",
+    "productName": "EVOSTRIPE Sweatpants DK op",
+    "size": "S",
+    "stock": 2,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a50effed-2975-4bf2-a6b6-30bc0a292565.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161976681",
+    "productCode": "69189901",
+    "productName": "EVOSTRIPE Sweatpants DK op",
+    "size": "XS",
     "stock": 1,
     "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2303f0b7-264f-44ca-a7ec-4c4ec5eae610.jpg?f=jpeg&h=150"
+    "category": "TEKSTİL",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a50effed-2975-4bf2-a6b6-30bc0a292565.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161976704",
+    "productCode": "69189901",
+    "productName": "EVOSTRIPE Sweatpants DK op",
+    "size": "M",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "TEKSTİL",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a50effed-2975-4bf2-a6b6-30bc0a292565.png?f=jpeg&h=150"
   },
   {
     "barcode": "4069159630328",
@@ -13836,17 +13759,6 @@
     "category": "AYAKKABI",
     "season": "SS26 GRJ",
     "image": "https://fastspor.istecdn.com/File/Images/Product/059223f1-0be2-48cd-a9c4-af75320a49e0.jpg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161149863",
-    "productCode": "10871301",
-    "productName": "FUTURE 9 MATCH FG/AG",
-    "size": "42",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/03143331-940a-41e0-bc6d-c2c13937a0cc.png?f=jpeg&h=150"
   },
   {
     "barcode": "4069161157516",
@@ -14245,15 +14157,59 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067979841610",
-    "productCode": "39978102",
-    "productName": "Suede Classic",
-    "size": "40,5",
+    "barcode": "4069161202414",
+    "productCode": "10870701",
+    "productName": "ULTRA 6 PLAY+ FG/AG",
+    "size": "43",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161202438",
+    "productCode": "10870701",
+    "productName": "ULTRA 6 PLAY+ FG/AG",
+    "size": "41",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2c7caa73-8902-4786-8edc-dc63eb32c9be.jpg?f=jpeg&h=150"
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161202445",
+    "productCode": "10870701",
+    "productName": "ULTRA 6 PLAY+ FG/AG",
+    "size": "42,5",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/101eb1af-57a5-4e89-82c3-492a2c74b5e0.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161204081",
+    "productCode": "10850007",
+    "productName": "VITORIA II FG/AG",
+    "size": "42",
+    "stock": 3,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/e6058f77-a328-40f1-b725-fefcd233aba1.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069161204098",
+    "productCode": "10850007",
+    "productName": "VITORIA II FG/AG",
+    "size": "43",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "SS26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/e6058f77-a328-40f1-b725-fefcd233aba1.png?f=jpeg&h=150"
   },
   {
     "barcode": "4067979841627",
@@ -14399,6 +14355,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/e6e7f2fa-b312-4101-abc7-cb9869d4aa48.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4067983100994",
+    "productCode": "62965301",
+    "productName": "WARDROBE ESS Cargo Pants",
+    "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/e6e7f2fa-b312-4101-abc7-cb9869d4aa48.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4067983101014",
     "productCode": "62965301",
     "productName": "WARDROBE ESS Cargo Pants",
@@ -14502,7 +14469,7 @@
     "productCode": "62958801",
     "productName": "T7 ALWAYS ON Track Pants",
     "size": "L",
-    "stock": 9,
+    "stock": 8,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -14557,7 +14524,7 @@
     "productCode": "40236601",
     "productName": "CA Pro Classic II",
     "size": "43",
-    "stock": 5,
+    "stock": 4,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -14568,7 +14535,7 @@
     "productCode": "40236601",
     "productName": "CA Pro Classic II",
     "size": "41",
-    "stock": 3,
+    "stock": 2,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -14773,17 +14740,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/cf1b5f2d-5f17-453b-8f49-97544f167ef4.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067983281006",
-    "productCode": "39884631",
-    "productName": "Speedcat OG",
-    "size": "38",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/cf1b5f2d-5f17-453b-8f49-97544f167ef4.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4067983281013",
     "productCode": "39884631",
     "productName": "Speedcat OG",
@@ -14872,17 +14828,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/6eee015c-834f-46d9-9ba4-dba8ad30c295.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067983287398",
-    "productCode": "39077656",
-    "productName": "RS-X Efekt PRM",
-    "size": "45",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "SS25",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7df2e0-9203-440b-984c-6286381a2e3d.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4067983287411",
     "productCode": "39077656",
     "productName": "RS-X Efekt PRM",
@@ -14898,7 +14843,7 @@
     "productCode": "39077656",
     "productName": "RS-X Efekt PRM",
     "size": "38",
-    "stock": 6,
+    "stock": 5,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "SS25",
@@ -14960,6 +14905,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/5814bdd5-c9e4-484b-92a3-75efcb21687b.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4067983352133",
+    "productCode": "62959201",
+    "productName": "T7 Tee",
+    "size": "M",
+    "stock": 20,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/5814bdd5-c9e4-484b-92a3-75efcb21687b.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4065449324236",
     "productCode": "38584904W",
     "productName": "Carina 2.0",
@@ -14968,7 +14924,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW23",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b3231908-0b1f-48cd-a05e-5d7131a86b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/357ea5c8-5d5a-491a-a5e7-580e73a0c560.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4065449324250",
@@ -14979,7 +14935,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW23",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b3231908-0b1f-48cd-a05e-5d7131a86b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/357ea5c8-5d5a-491a-a5e7-580e73a0c560.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4065449324274",
@@ -14990,7 +14946,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW23",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b3231908-0b1f-48cd-a05e-5d7131a86b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/357ea5c8-5d5a-491a-a5e7-580e73a0c560.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4065449324281",
@@ -15001,7 +14957,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW23",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b3231908-0b1f-48cd-a05e-5d7131a86b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/357ea5c8-5d5a-491a-a5e7-580e73a0c560.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4065449324304",
@@ -15012,7 +14968,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW23",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b3231908-0b1f-48cd-a05e-5d7131a86b94.jpg?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/357ea5c8-5d5a-491a-a5e7-580e73a0c560.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4065452457792",
@@ -15030,17 +14986,6 @@
     "productCode": "38936801",
     "productName": "Court Ultra",
     "size": "37",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/6c6260d9-b3eb-47d2-a482-75e565713944.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4065452457839",
-    "productCode": "38936801",
-    "productName": "Court Ultra",
-    "size": "37,5",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
@@ -15444,17 +15389,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/f869eb3a-3fa5-4007-a141-6f9ac2ffa7e4.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067979627719",
-    "productCode": "39377206",
-    "productName": "RS-X Soft Wns",
-    "size": "38",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f869eb3a-3fa5-4007-a141-6f9ac2ffa7e4.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4067979627740",
     "productCode": "39377206",
     "productName": "RS-X Soft Wns",
@@ -15642,6 +15576,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/30c322e5-b36c-40a7-8266-6c74377aec87.jpg?f=jpeg&h=150"
   },
   {
+    "barcode": "4067979841597",
+    "productCode": "39978102",
+    "productName": "Suede Classic",
+    "size": "39",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2c7caa73-8902-4786-8edc-dc63eb32c9be.jpg?f=jpeg&h=150"
+  },
+  {
     "barcode": "4067979841603",
     "productCode": "39978102",
     "productName": "Suede Classic",
@@ -15653,37 +15598,15 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/2c7caa73-8902-4786-8edc-dc63eb32c9be.jpg?f=jpeg&h=150"
   },
   {
-    "barcode": "4067983971136",
-    "productCode": "40065701",
-    "productName": "Puma Smash 3.0Poised2raceVPS",
-    "size": "33",
-    "stock": 2,
-    "gender": "Unisex",
+    "barcode": "4067979841610",
+    "productCode": "39978102",
+    "productName": "Suede Classic",
+    "size": "40,5",
+    "stock": 1,
+    "gender": "Erkek",
     "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4067983971150",
-    "productCode": "40065701",
-    "productName": "Puma Smash 3.0Poised2raceVPS",
-    "size": "34",
-    "stock": 2,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4067983971167",
-    "productCode": "40065701",
-    "productName": "Puma Smash 3.0Poised2raceVPS",
-    "size": "35",
-    "stock": 3,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2c7caa73-8902-4786-8edc-dc63eb32c9be.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4067983971181",
@@ -15712,7 +15635,7 @@
     "productCode": "39075819",
     "productName": "Smash Platform v3",
     "size": "38",
-    "stock": 8,
+    "stock": 7,
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "SS26 GRJ",
@@ -15833,7 +15756,7 @@
     "productCode": "52590801",
     "productName": "M TAD ESS SOLID CAT TEE LC",
     "size": "L",
-    "stock": 5,
+    "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -16148,6 +16071,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/3d9c8d56-ee91-4ac2-b804-c2ba99962fb6.jpg?f=jpeg&h=150"
   },
   {
+    "barcode": "4069156511668",
+    "productCode": "40291601",
+    "productName": "RS Surge",
+    "size": "36",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/3d9c8d56-ee91-4ac2-b804-c2ba99962fb6.jpg?f=jpeg&h=150"
+  },
+  {
     "barcode": "4069156511675",
     "productCode": "40291601",
     "productName": "RS Surge",
@@ -16346,17 +16280,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/f369a6e2-155a-473c-b1c9-86811aa6d8cd.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069156613201",
-    "productCode": "31135309",
-    "productName": "DAGGER",
-    "size": "40",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f369a6e2-155a-473c-b1c9-86811aa6d8cd.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4069156613225",
     "productCode": "31135309",
     "productName": "DAGGER",
@@ -16368,15 +16291,37 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/f369a6e2-155a-473c-b1c9-86811aa6d8cd.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067983352133",
-    "productCode": "62959201",
-    "productName": "T7 Tee",
-    "size": "M",
-    "stock": 20,
+    "barcode": "4069156613539",
+    "productCode": "31135311",
+    "productName": "DAGGER",
+    "size": "42",
+    "stock": 9,
     "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/5814bdd5-c9e4-484b-92a3-75efcb21687b.png?f=jpeg&h=150"
+    "category": "AYAKKABI",
+    "season": "SS26 GRJ",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/afc61f1d-1c5c-4680-b511-dfbcdd00e848.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069156613546",
+    "productCode": "31135311",
+    "productName": "DAGGER",
+    "size": "43",
+    "stock": 6,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "SS26 GRJ",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/afc61f1d-1c5c-4680-b511-dfbcdd00e848.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069156613584",
+    "productCode": "31135311",
+    "productName": "DAGGER",
+    "size": "40",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "SS26 GRJ",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/afc61f1d-1c5c-4680-b511-dfbcdd00e848.png?f=jpeg&h=150"
   },
   {
     "barcode": "4067983352157",
@@ -16621,22 +16566,11 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/1d98ec3a-a8c1-4488-88ca-ac995188f75e.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067983508127",
-    "productCode": "02599401",
-    "productName": "ESS METAL PUMA CAT BB Cap",
-    "size": "Standart",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/3c95440b-5b86-4bf4-912e-80fa1107aa55.jpg?f=jpeg&h=150"
-  },
-  {
     "barcode": "4067983508165",
     "productCode": "02599402",
     "productName": "ESS METAL PUMA CAT BB Cap",
     "size": "Standart",
-    "stock": 4,
+    "stock": 3,
     "gender": "Unisex",
     "category": "AKSESUAR",
     "season": "AW26",
@@ -16874,6 +16808,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/d3e81d62-c632-4205-8679-226f3caa76a9.jpeg?f=jpeg&h=150"
   },
   {
+    "barcode": "4067983845123",
+    "productCode": "40036803",
+    "productName": "Court Lally Skye",
+    "size": "37",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1d1ade50-64da-4963-94b6-105fd7bfb7b9.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4067983845130",
     "productCode": "40036803",
     "productName": "Court Lally Skye",
@@ -16922,7 +16867,7 @@
     "productCode": "40036802",
     "productName": "Court Lally Skye",
     "size": "38",
-    "stock": 3,
+    "stock": 2,
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -16973,33 +16918,11 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/94725574-8175-4aba-80d4-f50cd4c1a850.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4067983877551",
-    "productCode": "40036801",
-    "productName": "Court Lally Skye",
-    "size": "39",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/94725574-8175-4aba-80d4-f50cd4c1a850.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4067983969751",
     "productCode": "40065702",
     "productName": "Puma Smash 3.0Poised2raceVPS",
     "size": "29",
     "stock": 2,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "SS26 GRJ",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/e7885c1b-1816-4eeb-af2c-5f9858ed1924.jpeg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4067983969775",
-    "productCode": "40065702",
-    "productName": "Puma Smash 3.0Poised2raceVPS",
-    "size": "32",
-    "stock": 1,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "SS26 GRJ",
@@ -17083,70 +17006,37 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032811673",
-    "productCode": "40824702",
-    "productName": "Court Bae Feline",
-    "size": "39",
+    "barcode": "4067983971136",
+    "productCode": "40065701",
+    "productName": "Puma Smash 3.0Poised2raceVPS",
+    "size": "33",
     "stock": 2,
-    "gender": "Kadın / Kız",
+    "gender": "Unisex",
     "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4590316a-443b-4638-be09-fbd8c96e8c61.png?f=jpeg&h=150"
+    "season": "SS26 GRJ",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032811727",
-    "productCode": "40824702",
-    "productName": "Court Bae Feline",
-    "size": "38,5",
-    "stock": 1,
-    "gender": "Kadın / Kız",
+    "barcode": "4067983971150",
+    "productCode": "40065701",
+    "productName": "Puma Smash 3.0Poised2raceVPS",
+    "size": "34",
+    "stock": 2,
+    "gender": "Unisex",
     "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4590316a-443b-4638-be09-fbd8c96e8c61.png?f=jpeg&h=150"
+    "season": "SS26 GRJ",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032811734",
-    "productCode": "40824702",
-    "productName": "Court Bae Feline",
-    "size": "40",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4590316a-443b-4638-be09-fbd8c96e8c61.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032829609",
-    "productCode": "40236633",
-    "productName": "CA Pro Classic II",
-    "size": "44",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7b8551-b9da-4f35-914a-4a8e68115072.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032829647",
-    "productCode": "40236633",
-    "productName": "CA Pro Classic II",
-    "size": "45",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7b8551-b9da-4f35-914a-4a8e68115072.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032829708",
-    "productCode": "40236633",
-    "productName": "CA Pro Classic II",
-    "size": "42",
+    "barcode": "4067983971167",
+    "productCode": "40065701",
+    "productName": "Puma Smash 3.0Poised2raceVPS",
+    "size": "35",
     "stock": 3,
-    "gender": "Erkek",
+    "gender": "Unisex",
     "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7b8551-b9da-4f35-914a-4a8e68115072.png?f=jpeg&h=150"
+    "season": "SS26 GRJ",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2a940a65-4044-440c-8be6-d24e743ef937.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032829715",
@@ -17230,17 +17120,6 @@
     "productCode": "40833003",
     "productName": "Suede Bloom Wns",
     "size": "38",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f4cb0366-db05-40b2-a25c-96563ae4f06a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032891514",
-    "productCode": "40833003",
-    "productName": "Suede Bloom Wns",
-    "size": "37,5",
     "stock": 1,
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
@@ -17450,6 +17329,17 @@
     "productCode": "10918701",
     "productName": "FUTURE 9 MATCH FG/AG Jr",
     "size": "34",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/e1b6f879-7c3e-4ea4-97ba-fbc61f9eacd6.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032968162",
+    "productCode": "10918701",
+    "productName": "FUTURE 9 MATCH FG/AG Jr",
+    "size": "36",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
@@ -17703,7 +17593,18 @@
     "productCode": "10911501",
     "productName": "ULTRA NITRO 7 MATCH FG/AG",
     "size": "44",
-    "stock": 2,
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/3292065a-b5fe-444d-90dc-7a974cddee22.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032981499",
+    "productCode": "10911501",
+    "productName": "ULTRA NITRO 7 MATCH FG/AG",
+    "size": "45",
+    "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -17787,92 +17688,59 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032648989",
-    "productCode": "40715606",
-    "productName": "Park Lifestyle II",
-    "size": "45",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032649047",
-    "productCode": "40715606",
-    "productName": "Park Lifestyle II",
+    "barcode": "4070032997094",
+    "productCode": "31349802",
+    "productName": "Scend Pro 3",
     "size": "42",
-    "stock": 3,
-    "gender": "Erkek",
+    "stock": 2,
+    "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032649054",
-    "productCode": "40715606",
-    "productName": "Park Lifestyle II",
+    "barcode": "4070032997100",
+    "productCode": "31349802",
+    "productName": "Scend Pro 3",
     "size": "43",
     "stock": 1,
-    "gender": "Erkek",
+    "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032649108",
-    "productCode": "40715606",
-    "productName": "Park Lifestyle II",
-    "size": "41",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032649115",
-    "productCode": "40715606",
-    "productName": "Park Lifestyle II",
-    "size": "42,5",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032649702",
-    "productCode": "40730404",
-    "productName": "Park Lifestyle II Mesh",
+    "barcode": "4070033002186",
+    "productCode": "31349808",
+    "productName": "Scend Pro 3",
     "size": "44",
     "stock": 1,
-    "gender": "Erkek",
+    "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c8f72b08-46d9-47f2-8053-3ff1c88579d8.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/39d8146e-ab0f-49ee-9bfd-11996d2175ee.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032649740",
-    "productCode": "40730404",
-    "productName": "Park Lifestyle II Mesh",
+    "barcode": "4070033002223",
+    "productCode": "31349808",
+    "productName": "Scend Pro 3",
     "size": "45",
     "stock": 1,
-    "gender": "Erkek",
+    "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c8f72b08-46d9-47f2-8053-3ff1c88579d8.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/39d8146e-ab0f-49ee-9bfd-11996d2175ee.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032649801",
-    "productCode": "40730404",
-    "productName": "Park Lifestyle II Mesh",
-    "size": "42",
-    "stock": 4,
-    "gender": "Erkek",
+    "barcode": "4070033002247",
+    "productCode": "31349808",
+    "productName": "Scend Pro 3",
+    "size": "37",
+    "stock": 1,
+    "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c8f72b08-46d9-47f2-8053-3ff1c88579d8.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/39d8146e-ab0f-49ee-9bfd-11996d2175ee.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032649818",
@@ -18026,7 +17894,18 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f3ac1b05-0de8-4081-adf5-7c4a0e92e17e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9df8dfe5-6809-4006-8c2c-127f577a3072.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032665597",
+    "productCode": "40855004",
+    "productName": "Puma Tacklette Wns",
+    "size": "38",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9df8dfe5-6809-4006-8c2c-127f577a3072.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032665603",
@@ -18037,7 +17916,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f3ac1b05-0de8-4081-adf5-7c4a0e92e17e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9df8dfe5-6809-4006-8c2c-127f577a3072.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032665665",
@@ -18048,7 +17927,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f3ac1b05-0de8-4081-adf5-7c4a0e92e17e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/9df8dfe5-6809-4006-8c2c-127f577a3072.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032687377",
@@ -18282,6 +18161,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/78b09681-4123-4b1d-8eed-bc266f8a4a83.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070032704418",
+    "productCode": "40717902",
+    "productName": "Profoam Galactic",
+    "size": "44",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/75332b92-d105-4f90-a013-138d2b1e0ccd.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070032704456",
     "productCode": "40717902",
     "productName": "Profoam Galactic",
@@ -18488,7 +18378,7 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4590316a-443b-4638-be09-fbd8c96e8c61.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0964d6b8-a155-46ce-bb14-924f3b4d6ec4.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032811666",
@@ -18499,84 +18389,73 @@
     "gender": "Kadın / Kız",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4590316a-443b-4638-be09-fbd8c96e8c61.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0964d6b8-a155-46ce-bb14-924f3b4d6ec4.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033103746",
-    "productCode": "52759381",
-    "productName": "M CLOUDSPUN TEE",
-    "size": "L",
-    "stock": 4,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/30d5e7bb-f8b8-4b9f-80ed-4e98b4dda2a2.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033103753",
-    "productCode": "52759381",
-    "productName": "M CLOUDSPUN TEE",
-    "size": "M",
-    "stock": 4,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/30d5e7bb-f8b8-4b9f-80ed-4e98b4dda2a2.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033124154",
-    "productCode": "10914601",
-    "productName": "ULTRA 7 PLAY FG/AG",
-    "size": "44",
+    "barcode": "4070032811673",
+    "productCode": "40824702",
+    "productName": "Court Bae Feline",
+    "size": "39",
     "stock": 2,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0964d6b8-a155-46ce-bb14-924f3b4d6ec4.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032811727",
+    "productCode": "40824702",
+    "productName": "Court Bae Feline",
+    "size": "38,5",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0964d6b8-a155-46ce-bb14-924f3b4d6ec4.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032811734",
+    "productCode": "40824702",
+    "productName": "Court Bae Feline",
+    "size": "40",
+    "stock": 1,
+    "gender": "Kadın / Kız",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/0964d6b8-a155-46ce-bb14-924f3b4d6ec4.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032829609",
+    "productCode": "40236633",
+    "productName": "CA Pro Classic II",
+    "size": "44",
+    "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7b8551-b9da-4f35-914a-4a8e68115072.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033124208",
-    "productCode": "10914601",
-    "productName": "ULTRA 7 PLAY FG/AG",
+    "barcode": "4070032829647",
+    "productCode": "40236633",
+    "productName": "CA Pro Classic II",
     "size": "45",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7b8551-b9da-4f35-914a-4a8e68115072.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033124239",
-    "productCode": "10914601",
-    "productName": "ULTRA 7 PLAY FG/AG",
+    "barcode": "4070032829708",
+    "productCode": "40236633",
+    "productName": "CA Pro Classic II",
     "size": "42",
-    "stock": 4,
+    "stock": 3,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033124246",
-    "productCode": "10914601",
-    "productName": "ULTRA 7 PLAY FG/AG",
-    "size": "43",
-    "stock": 4,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033124260",
-    "productCode": "10914601",
-    "productName": "ULTRA 7 PLAY FG/AG",
-    "size": "41",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/8f7b8551-b9da-4f35-914a-4a8e68115072.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033124277",
@@ -18821,6 +18700,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/238826f6-2c73-4076-b30b-4f0d86c4cd77.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033129869",
+    "productCode": "63717501",
+    "productName": "BMW MMS MT7 Woven Jacket",
+    "size": "XL",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/238826f6-2c73-4076-b30b-4f0d86c4cd77.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070033129883",
     "productCode": "63717501",
     "productName": "BMW MMS MT7 Woven Jacket",
@@ -19019,6 +18909,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/a561f7cf-4acf-4c2d-a822-cdf97ceaaed8.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070033135273",
+    "productCode": "63705714",
+    "productName": "Ferrari MT7 Track Jkt",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/a59f0bd9-a2ac-4fb1-a5ea-f42d02954ba3.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070033135280",
     "productCode": "63705714",
     "productName": "Ferrari MT7 Track Jkt",
@@ -19045,11 +18946,22 @@
     "productCode": "63705714",
     "productName": "Ferrari MT7 Track Jkt",
     "size": "M",
-    "stock": 5,
+    "stock": 4,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/a59f0bd9-a2ac-4fb1-a5ea-f42d02954ba3.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033135334",
+    "productCode": "63705701",
+    "productName": "Ferrari MT7 Track Jkt",
+    "size": "S",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2326964a-51a3-49ba-ba37-49c58c668d8d.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033135341",
@@ -19217,81 +19129,48 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/4dcaf2a9-df46-47f3-bd2d-7b2f75f0af48.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032997070",
-    "productCode": "31349802",
-    "productName": "Scend Pro 3",
-    "size": "39",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032997094",
-    "productCode": "31349802",
-    "productName": "Scend Pro 3",
-    "size": "42",
+    "barcode": "4070033207062",
+    "productCode": "52928901",
+    "productName": "M TAD ESSENTIALS AOP TEE",
+    "size": "L",
     "stock": 2,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
+    "gender": "Erkek",
+    "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4dcaf2a9-df46-47f3-bd2d-7b2f75f0af48.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032997100",
-    "productCode": "31349802",
-    "productName": "Scend Pro 3",
-    "size": "43",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
+    "barcode": "4070033207079",
+    "productCode": "52928901",
+    "productName": "M TAD ESSENTIALS AOP TEE",
+    "size": "M",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4dcaf2a9-df46-47f3-bd2d-7b2f75f0af48.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032997155",
-    "productCode": "31349802",
-    "productName": "Scend Pro 3",
-    "size": "41",
+    "barcode": "4070033208557",
+    "productCode": "52933169",
+    "productName": "M TAD WOVEN JACKET",
+    "size": "S",
     "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
+    "gender": "Erkek",
+    "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c55483bc-be50-40d1-bcc5-cce98d3f610a.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/436a1573-b793-49b8-9240-7fc275ff6307.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033002186",
-    "productCode": "31349808",
-    "productName": "Scend Pro 3",
-    "size": "44",
+    "barcode": "4070033208564",
+    "productCode": "52933169",
+    "productName": "M TAD WOVEN JACKET",
+    "size": "XL",
     "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
+    "gender": "Erkek",
+    "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/39d8146e-ab0f-49ee-9bfd-11996d2175ee.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033002223",
-    "productCode": "31349808",
-    "productName": "Scend Pro 3",
-    "size": "45",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/39d8146e-ab0f-49ee-9bfd-11996d2175ee.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070033002247",
-    "productCode": "31349808",
-    "productName": "Scend Pro 3",
-    "size": "37",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/39d8146e-ab0f-49ee-9bfd-11996d2175ee.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/436a1573-b793-49b8-9240-7fc275ff6307.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033002254",
@@ -19479,6 +19358,17 @@
     "category": "AYAKKABI",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/da586eb3-ccda-49e7-8f0b-12e8c55e9aae.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033027059",
+    "productCode": "31373603",
+    "productName": "Pounce Lite 2 Trail",
+    "size": "44",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/53424284-789d-45ce-8219-a0fc67febb19.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070033027097",
@@ -19789,17 +19679,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/f3878585-00e7-4e84-af3e-54ef30935f0e.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070033099643",
-    "productCode": "52922001",
-    "productName": "M CLOUDSPUN OVERSIZED TEE",
-    "size": "XL",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/f3878585-00e7-4e84-af3e-54ef30935f0e.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070033099667",
     "productCode": "52922001",
     "productName": "M CLOUDSPUN OVERSIZED TEE",
@@ -19932,103 +19811,81 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/30d5e7bb-f8b8-4b9f-80ed-4e98b4dda2a2.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069162862365",
-    "productCode": "39978140",
-    "productName": "Suede Classic",
-    "size": "43",
-    "stock": 2,
+    "barcode": "4070033103746",
+    "productCode": "52759381",
+    "productName": "M CLOUDSPUN TEE",
+    "size": "L",
+    "stock": 4,
     "gender": "Erkek",
-    "category": "AYAKKABI",
+    "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/30d5e7bb-f8b8-4b9f-80ed-4e98b4dda2a2.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069162862402",
-    "productCode": "39978140",
-    "productName": "Suede Classic",
-    "size": "40",
-    "stock": 1,
+    "barcode": "4070033103753",
+    "productCode": "52759381",
+    "productName": "M CLOUDSPUN TEE",
+    "size": "M",
+    "stock": 4,
     "gender": "Erkek",
-    "category": "AYAKKABI",
+    "category": "TEKSTİL",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/30d5e7bb-f8b8-4b9f-80ed-4e98b4dda2a2.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069162862419",
-    "productCode": "39978140",
-    "productName": "Suede Classic",
-    "size": "41",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069162862440",
-    "productCode": "39978141",
-    "productName": "Suede Classic",
+    "barcode": "4070033124154",
+    "productCode": "10914601",
+    "productName": "ULTRA 7 PLAY FG/AG",
     "size": "44",
     "stock": 2,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069162862488",
-    "productCode": "39978141",
-    "productName": "Suede Classic",
+    "barcode": "4070033124208",
+    "productCode": "10914601",
+    "productName": "ULTRA 7 PLAY FG/AG",
     "size": "45",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069162862501",
-    "productCode": "39978141",
-    "productName": "Suede Classic",
-    "size": "37",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069162862518",
-    "productCode": "39978141",
-    "productName": "Suede Classic",
-    "size": "38",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069162862525",
-    "productCode": "39978141",
-    "productName": "Suede Classic",
-    "size": "39",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069162862549",
-    "productCode": "39978141",
-    "productName": "Suede Classic",
+    "barcode": "4070033124239",
+    "productCode": "10914601",
+    "productName": "ULTRA 7 PLAY FG/AG",
     "size": "42",
     "stock": 4,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033124246",
+    "productCode": "10914601",
+    "productName": "ULTRA 7 PLAY FG/AG",
+    "size": "43",
+    "stock": 4,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070033124260",
+    "productCode": "10914601",
+    "productName": "ULTRA 7 PLAY FG/AG",
+    "size": "41",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/48f5a279-b0af-4dc0-a371-ef8dc582e3eb.png?f=jpeg&h=150"
   },
   {
     "barcode": "4069162862556",
@@ -20152,6 +20009,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/503514ba-b46c-467d-9eed-56a98a487f56.jpg?f=jpeg&h=150"
   },
   {
+    "barcode": "4069162921130",
+    "productCode": "40793001",
+    "productName": "PUMA SKYJET PRISCO",
+    "size": "41",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/503514ba-b46c-467d-9eed-56a98a487f56.jpg?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070032018447",
     "productCode": "09283301",
     "productName": "PUMA BUZZ Backpack II",
@@ -20167,6 +20035,17 @@
     "productCode": "40917016",
     "productName": "Puma Caven III TDP",
     "size": "37",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/fb66ca3a-dae0-43bf-a207-bb77835ffd26.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032368924",
+    "productCode": "40917016",
+    "productName": "Puma Caven III TDP",
+    "size": "42",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
@@ -20234,17 +20113,6 @@
     "productName": "Ferrari Profoam Galactic",
     "size": "44",
     "stock": 2,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/c0cfdfb5-5846-4f6e-9149-ea7cfcd0e153.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032531601",
-    "productCode": "30942902",
-    "productName": "Ferrari Profoam Galactic",
-    "size": "45",
-    "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -20548,6 +20416,17 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/ec953f58-c9eb-46d1-910a-a2aaaaeaec02.png?f=jpeg&h=150"
   },
   {
+    "barcode": "4070032548890",
+    "productCode": "30941002",
+    "productName": "BMW MMS Profoam Galactic",
+    "size": "42,5",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/ec953f58-c9eb-46d1-910a-a2aaaaeaec02.png?f=jpeg&h=150"
+  },
+  {
     "barcode": "4070032550343",
     "productCode": "30919603",
     "productName": "Ferrari Catch",
@@ -20647,92 +20526,70 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/fb6f7239-1139-495b-8e2f-916228dd55bd.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161906206",
-    "productCode": "09182408",
-    "productName": "PUMA 1976 Micro Grip Bag",
+    "barcode": "4070032554006",
+    "productCode": "09283321",
+    "productName": "PUMA BUZZ Backpack II",
     "size": "Standart",
-    "stock": 2,
-    "gender": "Kadın / Kız",
+    "stock": 4,
+    "gender": "Unisex",
     "category": "AKSESUAR",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/3bc00b61-ddfd-4803-865b-4044bf7e2ab1.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/2b461d67-e9ff-4420-bb69-d72267f7f8ee.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161907333",
-    "productCode": "09230901",
-    "productName": "ESSENTIALS Waist Bag",
+    "barcode": "4070032554013",
+    "productCode": "09115320",
+    "productName": "PUMA BUZZ Backpack",
     "size": "Standart",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/46508f35-edd9-4499-a740-1d5de0d85a73.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161907340",
-    "productCode": "09230701",
-    "productName": "ESSENTIALS Crossbody Bag",
-    "size": "Standart",
-    "stock": 1,
+    "stock": 5,
     "gender": "Erkek",
     "category": "AKSESUAR",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/ff56669f-abe9-4164-8e12-08c89a97ef02.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/7eb91cfc-f002-4545-9606-2a8437b5e82b.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161954962",
-    "productCode": "62964461",
-    "productName": "WARDROBE ESS Tee",
-    "size": "L",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/3f1701d4-b11f-41a5-b888-8e5241b0fa5f.png?f=jpeg&h=150"
+    "barcode": "4070032554020",
+    "productCode": "09283320",
+    "productName": "PUMA BUZZ Backpack II",
+    "size": "Standart",
+    "stock": 3,
+    "gender": "Unisex",
+    "category": "AKSESUAR",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/e8f3adc1-3e6f-4118-a017-841540e087b4.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161954979",
-    "productCode": "62964461",
-    "productName": "WARDROBE ESS Tee",
-    "size": "M",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/3f1701d4-b11f-41a5-b888-8e5241b0fa5f.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161976667",
-    "productCode": "69189901",
-    "productName": "EVOSTRIPE Sweatpants DK op",
-    "size": "S",
-    "stock": 2,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a50effed-2975-4bf2-a6b6-30bc0a292565.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069161976681",
-    "productCode": "69189901",
-    "productName": "EVOSTRIPE Sweatpants DK op",
-    "size": "XS",
+    "barcode": "4070032574899",
+    "productCode": "40291624",
+    "productName": "RS Surge",
+    "size": "44",
     "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a50effed-2975-4bf2-a6b6-30bc0a292565.png?f=jpeg&h=150"
+    "gender": "Unisex",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/87b54546-82b9-47f9-9bab-a59f44a58b2e.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4069161976704",
-    "productCode": "69189901",
-    "productName": "EVOSTRIPE Sweatpants DK op",
-    "size": "M",
+    "barcode": "4070032574936",
+    "productCode": "40291624",
+    "productName": "RS Surge",
+    "size": "45",
     "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "TEKSTİL",
-    "season": "SS26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/a50effed-2975-4bf2-a6b6-30bc0a292565.png?f=jpeg&h=150"
+    "gender": "Unisex",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/87b54546-82b9-47f9-9bab-a59f44a58b2e.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032574950",
+    "productCode": "40291624",
+    "productName": "RS Surge",
+    "size": "37",
+    "stock": 1,
+    "gender": "Unisex",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/87b54546-82b9-47f9-9bab-a59f44a58b2e.png?f=jpeg&h=150"
   },
   {
     "barcode": "4069162045379",
@@ -20882,7 +20739,7 @@
     "productCode": "63490002",
     "productName": "BMW MMS Ess Polo",
     "size": "S",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -20893,7 +20750,7 @@
     "productCode": "63490002",
     "productName": "BMW MMS Ess Polo",
     "size": "XL",
-    "stock": 1,
+    "stock": 2,
     "gender": "Erkek",
     "category": "TEKSTİL",
     "season": "AW26",
@@ -21096,17 +20953,6 @@
     "category": "TEKSTİL",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/dd4495a0-ead7-465a-8431-6d28efdff2c4.jpg?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4069162315595",
-    "productCode": "63646301",
-    "productName": "SELECT Essentials Tee",
-    "size": "XL",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "TEKSTİL",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/d41fc747-d545-4248-b616-4c2541c6795b.jpg?f=jpeg&h=150"
   },
   {
     "barcode": "4069162315618",
@@ -21362,59 +21208,103 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032600208",
-    "productCode": "40733103",
-    "productName": "Fade Nitro LS+",
-    "size": "42,5",
+    "barcode": "4069162862365",
+    "productCode": "39978140",
+    "productName": "Suede Classic",
+    "size": "43",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069162862402",
+    "productCode": "39978140",
+    "productName": "Suede Classic",
+    "size": "40",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/7da062dd-40aa-4a4c-8be9-ede3f807564f.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032600451",
-    "productCode": "40700002",
-    "productName": "Fade Nitro LS Y2K",
+    "barcode": "4069162862419",
+    "productCode": "39978140",
+    "productName": "Suede Classic",
+    "size": "41",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/b1cef546-f18c-4dff-9c5e-3cc70a92547e.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069162862440",
+    "productCode": "39978141",
+    "productName": "Suede Classic",
+    "size": "44",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069162862488",
+    "productCode": "39978141",
+    "productName": "Suede Classic",
     "size": "45",
     "stock": 1,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032600512",
-    "productCode": "40700002",
-    "productName": "Fade Nitro LS Y2K",
+    "barcode": "4069162862501",
+    "productCode": "39978141",
+    "productName": "Suede Classic",
+    "size": "37",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069162862518",
+    "productCode": "39978141",
+    "productName": "Suede Classic",
+    "size": "38",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069162862525",
+    "productCode": "39978141",
+    "productName": "Suede Classic",
+    "size": "39",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4069162862549",
+    "productCode": "39978141",
+    "productName": "Suede Classic",
     "size": "42",
     "stock": 4,
     "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032600529",
-    "productCode": "40700002",
-    "productName": "Fade Nitro LS Y2K",
-    "size": "43",
-    "stock": 3,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032600574",
-    "productCode": "40700002",
-    "productName": "Fade Nitro LS Y2K",
-    "size": "41",
-    "stock": 2,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/1bb67356-4f6f-4aff-a911-e7f1057f1394.png?f=jpeg&h=150"
   },
   {
     "barcode": "4070032600581",
@@ -21725,17 +21615,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/03d7be98-24ac-43e9-ad90-e5d52ce04981.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032623061",
-    "productCode": "40825301",
-    "productName": "Carina Mia WILD",
-    "size": "40",
-    "stock": 1,
-    "gender": "Kadın / Kız",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/03d7be98-24ac-43e9-ad90-e5d52ce04981.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070032647999",
     "productCode": "40715601",
     "productName": "Park Lifestyle II",
@@ -21956,17 +21835,6 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/26dbbb07-0018-4c78-91db-e77e4ca70541.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032648545",
-    "productCode": "40715603",
-    "productName": "Park Lifestyle II",
-    "size": "42,5",
-    "stock": 1,
-    "gender": "Erkek",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/26dbbb07-0018-4c78-91db-e77e4ca70541.png?f=jpeg&h=150"
-  },
-  {
     "barcode": "4070032648750",
     "productCode": "40715605",
     "productName": "Park Lifestyle II",
@@ -22077,65 +21945,87 @@
     "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032554006",
-    "productCode": "09283321",
-    "productName": "PUMA BUZZ Backpack II",
-    "size": "Standart",
-    "stock": 4,
-    "gender": "Unisex",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/2b461d67-e9ff-4420-bb69-d72267f7f8ee.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032554013",
-    "productCode": "09115320",
-    "productName": "PUMA BUZZ Backpack",
-    "size": "Standart",
-    "stock": 5,
-    "gender": "Erkek",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/7eb91cfc-f002-4545-9606-2a8437b5e82b.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032554020",
-    "productCode": "09283320",
-    "productName": "PUMA BUZZ Backpack II",
-    "size": "Standart",
-    "stock": 3,
-    "gender": "Unisex",
-    "category": "AKSESUAR",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/e8f3adc1-3e6f-4118-a017-841540e087b4.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032574899",
-    "productCode": "40291624",
-    "productName": "RS Surge",
-    "size": "44",
-    "stock": 1,
-    "gender": "Unisex",
-    "category": "AYAKKABI",
-    "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/87b54546-82b9-47f9-9bab-a59f44a58b2e.png?f=jpeg&h=150"
-  },
-  {
-    "barcode": "4070032574936",
-    "productCode": "40291624",
-    "productName": "RS Surge",
+    "barcode": "4070032648989",
+    "productCode": "40715606",
+    "productName": "Park Lifestyle II",
     "size": "45",
     "stock": 1,
-    "gender": "Unisex",
+    "gender": "Erkek",
     "category": "AYAKKABI",
     "season": "AW26",
-    "image": "https://fastspor.istecdn.com/File/Images/Product/87b54546-82b9-47f9-9bab-a59f44a58b2e.png?f=jpeg&h=150"
+    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
   },
   {
-    "barcode": "4070032574950",
+    "barcode": "4070032649047",
+    "productCode": "40715606",
+    "productName": "Park Lifestyle II",
+    "size": "42",
+    "stock": 3,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032649054",
+    "productCode": "40715606",
+    "productName": "Park Lifestyle II",
+    "size": "43",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032649108",
+    "productCode": "40715606",
+    "productName": "Park Lifestyle II",
+    "size": "41",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032649115",
+    "productCode": "40715606",
+    "productName": "Park Lifestyle II",
+    "size": "42,5",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/765fc036-ef37-4266-9c5f-bc54c744e59a.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032649740",
+    "productCode": "40730404",
+    "productName": "Park Lifestyle II Mesh",
+    "size": "45",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c8f72b08-46d9-47f2-8053-3ff1c88579d8.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032649801",
+    "productCode": "40730404",
+    "productName": "Park Lifestyle II Mesh",
+    "size": "42",
+    "stock": 4,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/c8f72b08-46d9-47f2-8053-3ff1c88579d8.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032574967",
     "productCode": "40291624",
     "productName": "RS Surge",
-    "size": "37",
+    "size": "38",
     "stock": 1,
     "gender": "Unisex",
     "category": "AYAKKABI",
@@ -22246,7 +22136,7 @@
     "productCode": "40291625",
     "productName": "RS Surge",
     "size": "39",
-    "stock": 1,
+    "stock": 2,
     "gender": "Unisex",
     "category": "AYAKKABI",
     "season": "AW26",
@@ -22790,5 +22680,60 @@
     "category": "AYAKKABI",
     "season": "AW26",
     "image": "https://fastspor.istecdn.com/File/Images/Product/7da062dd-40aa-4a4c-8be9-ede3f807564f.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032600208",
+    "productCode": "40733103",
+    "productName": "Fade Nitro LS+",
+    "size": "42,5",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/7da062dd-40aa-4a4c-8be9-ede3f807564f.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032600451",
+    "productCode": "40700002",
+    "productName": "Fade Nitro LS Y2K",
+    "size": "45",
+    "stock": 1,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032600512",
+    "productCode": "40700002",
+    "productName": "Fade Nitro LS Y2K",
+    "size": "42",
+    "stock": 4,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032600529",
+    "productCode": "40700002",
+    "productName": "Fade Nitro LS Y2K",
+    "size": "43",
+    "stock": 3,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
+  },
+  {
+    "barcode": "4070032600574",
+    "productCode": "40700002",
+    "productName": "Fade Nitro LS Y2K",
+    "size": "41",
+    "stock": 2,
+    "gender": "Erkek",
+    "category": "AYAKKABI",
+    "season": "AW26",
+    "image": "https://fastspor.istecdn.com/File/Images/Product/4130a800-b2a2-42b2-b6a1-46c599762966.png?f=jpeg&h=150"
   }
 ]
