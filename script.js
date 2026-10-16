@@ -594,7 +594,7 @@ async function loadPerformanceDashboard() {
             </article>`;
         const section = (title, subtitle, cards, extraClass = "") => `
             <section class="performance-group ${extraClass}">
-              <div class="performance-group-heading"><h3>${safe(title)}</h3>${subtitle ? `<p>${safe(subtitle)}</p>` : ""}</div>
+              <div class="performance-group-heading"><h3>${safe(title)}</h3></div>
               <div class="metric-card-grid">${cards.join("")}</div>
             </section>`;
 
