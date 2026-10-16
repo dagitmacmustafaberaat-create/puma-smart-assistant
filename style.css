@@ -1247,3 +1247,9 @@ button,
     width: calc(100% - 24px) !important;
   }
 }
+
+/* Menü seçimi yapıldıktan sonra JS'nin gizleme komutu CSS tarafından ezilmesin */
+#mainMenu[style*="display: none"],
+#mainMenu[style*="display:none"] {
+  display: none !important;
+}
