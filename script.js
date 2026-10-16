@@ -669,8 +669,8 @@ async function loadPerformanceDashboard() {
             card("Geçen Gün Sayısı", get("C5"))
         ], "period-group"));
         groups.push(section("Ekim 2026 Hedefleri", "Tablodaki aylık hedef değerleri", targets.map(([label, address]) => card(label, get(address))), "targets-group"));
-        groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
         groups.push(section("Günlük Yapılması Gerekenler", "Tablodaki günlük değerler; yeniden hesaplanmaz", daily.map(([label, address]) => card(label, get(address))), "daily-group"));
+        groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
         groups.push(section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
             card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
             card(String(raw("E25") || "HGO"), get("F25"), "metric-card-featured")
