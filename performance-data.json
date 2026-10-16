@@ -1,0 +1,857 @@
+{
+  "source": "Ekim 2026 Data.xlsx",
+  "sheets": [
+    {
+      "name": "Sayfa1",
+      "max_row": 35,
+      "max_column": 11,
+      "rows": [
+        {
+          "row": 2,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B2",
+              "value": "MAĞAZA PERFORMANS VE AYLIK DEĞERLENDİRME RAPORU"
+            },
+            {
+              "column": 8,
+              "address": "H2",
+              "value": "KATEGORİ & CİNSİYET 2025 / 2026 "
+            }
+          ]
+        },
+        {
+          "row": 4,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B4",
+              "value": "Ay Gün Sayısı"
+            },
+            {
+              "column": 3,
+              "address": "C4",
+              "value": 31
+            },
+            {
+              "column": 8,
+              "address": "H4",
+              "value": "FOOTWEAR"
+            },
+            {
+              "column": 9,
+              "address": "I4",
+              "value": 2025
+            },
+            {
+              "column": 10,
+              "address": "J4",
+              "value": 2026
+            }
+          ]
+        },
+        {
+          "row": 5,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B5",
+              "value": "Geçen Gün Sayısı"
+            },
+            {
+              "column": 3,
+              "address": "C5",
+              "value": 15
+            },
+            {
+              "column": 8,
+              "address": "H5",
+              "value": "Ciro"
+            },
+            {
+              "column": 9,
+              "address": "I5",
+              "value": 664887
+            },
+            {
+              "column": 10,
+              "address": "J5",
+              "value": 496587
+            }
+          ]
+        },
+        {
+          "row": 6,
+          "cells": [
+            {
+              "column": 8,
+              "address": "H6",
+              "value": "Büyüme"
+            },
+            {
+              "column": 9,
+              "address": "I6",
+              "value": -0.25312571910715653
+            }
+          ]
+        },
+        {
+          "row": 7,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B7",
+              "value": "Ekim.26 Hedefler"
+            },
+            {
+              "column": 5,
+              "address": "E7",
+              "value": "Ekim.26 Günlük Yapılması Gerekenler"
+            },
+            {
+              "column": 8,
+              "address": "H7",
+              "value": "APPAREL"
+            },
+            {
+              "column": 9,
+              "address": "I7",
+              "value": 2025
+            },
+            {
+              "column": 10,
+              "address": "J7",
+              "value": 2026
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B8",
+              "value": "Ciro"
+            },
+            {
+              "column": 3,
+              "address": "C8",
+              "value": 3000000
+            },
+            {
+              "column": 5,
+              "address": "E8",
+              "value": "Ciro"
+            },
+            {
+              "column": 6,
+              "address": "F8",
+              "value": 96774.19354838709
+            },
+            {
+              "column": 8,
+              "address": "H8",
+              "value": "Ciro"
+            },
+            {
+              "column": 9,
+              "address": "I8",
+              "value": 758392
+            },
+            {
+              "column": 10,
+              "address": "J8",
+              "value": 777363
+            }
+          ]
+        },
+        {
+          "row": 9,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B9",
+              "value": "Upt"
+            },
+            {
+              "column": 3,
+              "address": "C9",
+              "value": 1.8
+            },
+            {
+              "column": 5,
+              "address": "E9",
+              "value": "Upt"
+            },
+            {
+              "column": 6,
+              "address": "F9",
+              "value": 1.8
+            },
+            {
+              "column": 8,
+              "address": "H9",
+              "value": "Büyüme"
+            },
+            {
+              "column": 9,
+              "address": "I9",
+              "value": 0.025014768088271078
+            }
+          ]
+        },
+        {
+          "row": 10,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B10",
+              "value": "Cr"
+            },
+            {
+              "column": 3,
+              "address": "C10",
+              "value": 0.07
+            },
+            {
+              "column": 5,
+              "address": "E10",
+              "value": "Cr"
+            },
+            {
+              "column": 6,
+              "address": "F10",
+              "value": 0.07
+            },
+            {
+              "column": 8,
+              "address": "H10",
+              "value": "ACCESSORIES"
+            },
+            {
+              "column": 9,
+              "address": "I10",
+              "value": 2025
+            },
+            {
+              "column": 10,
+              "address": "J10",
+              "value": 2026
+            }
+          ]
+        },
+        {
+          "row": 11,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B11",
+              "value": "Asp"
+            },
+            {
+              "column": 3,
+              "address": "C11",
+              "value": 2565
+            },
+            {
+              "column": 5,
+              "address": "E11",
+              "value": "Asp"
+            },
+            {
+              "column": 6,
+              "address": "F11",
+              "value": 2565
+            },
+            {
+              "column": 8,
+              "address": "H11",
+              "value": "Ciro"
+            },
+            {
+              "column": 9,
+              "address": "I11",
+              "value": 44446
+            },
+            {
+              "column": 10,
+              "address": "J11",
+              "value": 54571
+            }
+          ]
+        },
+        {
+          "row": 12,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B12",
+              "value": "Fatura"
+            },
+            {
+              "column": 3,
+              "address": "C12",
+              "value": 585
+            },
+            {
+              "column": 5,
+              "address": "E12",
+              "value": "Fatura"
+            },
+            {
+              "column": 6,
+              "address": "F12",
+              "value": 18.870967741935484
+            },
+            {
+              "column": 8,
+              "address": "H12",
+              "value": "Büyüme"
+            },
+            {
+              "column": 9,
+              "address": "I12",
+              "value": 0.2278045268415605
+            }
+          ]
+        },
+        {
+          "row": 13,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B13",
+              "value": "Ürün Adedi"
+            },
+            {
+              "column": 3,
+              "address": "C13",
+              "value": 1170
+            },
+            {
+              "column": 5,
+              "address": "E13",
+              "value": "Ürün Adedi"
+            },
+            {
+              "column": 6,
+              "address": "F13",
+              "value": 37.74193548387097
+            }
+          ]
+        },
+        {
+          "row": 14,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B14",
+              "value": "Trafik"
+            },
+            {
+              "column": 3,
+              "address": "C14",
+              "value": 8566
+            },
+            {
+              "column": 5,
+              "address": "E14",
+              "value": "Trafik"
+            },
+            {
+              "column": 6,
+              "address": "F14",
+              "value": 276.3225806451613
+            },
+            {
+              "column": 8,
+              "address": "H14",
+              "value": "CİNSİYET"
+            },
+            {
+              "column": 9,
+              "address": "I14",
+              "value": 2025
+            },
+            {
+              "column": 10,
+              "address": "J14",
+              "value": 2026
+            },
+            {
+              "column": 11,
+              "address": "K14",
+              "value": "Büyüme"
+            }
+          ]
+        },
+        {
+          "row": 15,
+          "cells": [
+            {
+              "column": 8,
+              "address": "H15",
+              "value": "Male"
+            },
+            {
+              "column": 9,
+              "address": "I15",
+              "value": 960406
+            },
+            {
+              "column": 10,
+              "address": "J15",
+              "value": 941690
+            },
+            {
+              "column": 11,
+              "address": "K15",
+              "value": -0.019487591706007668
+            }
+          ]
+        },
+        {
+          "row": 16,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B16",
+              "value": "Kpı"
+            },
+            {
+              "column": 3,
+              "address": "C16",
+              "value": "Gerçekleşmesi Gereken"
+            },
+            {
+              "column": 4,
+              "address": "D16",
+              "value": "Gerçekleşen"
+            },
+            {
+              "column": 5,
+              "address": "E16",
+              "value": "Fark"
+            },
+            {
+              "column": 6,
+              "address": "F16",
+              "value": "Sapma "
+            },
+            {
+              "column": 8,
+              "address": "H16",
+              "value": "Female"
+            },
+            {
+              "column": 9,
+              "address": "I16",
+              "value": 249962
+            },
+            {
+              "column": 10,
+              "address": "J16",
+              "value": 241545
+            },
+            {
+              "column": 11,
+              "address": "K16",
+              "value": -0.033673118313983674
+            }
+          ]
+        },
+        {
+          "row": 17,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B17",
+              "value": "Ciro"
+            },
+            {
+              "column": 3,
+              "address": "C17",
+              "value": 1451612.9032258063
+            },
+            {
+              "column": 4,
+              "address": "D17",
+              "value": 1328521
+            },
+            {
+              "column": 5,
+              "address": "E17",
+              "value": -123091.90322580631
+            },
+            {
+              "column": 6,
+              "address": "F17",
+              "value": -0.08479664444444436
+            },
+            {
+              "column": 8,
+              "address": "H17",
+              "value": "Kids"
+            },
+            {
+              "column": 9,
+              "address": "I17",
+              "value": 0
+            },
+            {
+              "column": 10,
+              "address": "J17",
+              "value": 0
+            },
+            {
+              "column": 11,
+              "address": "K17",
+              "value": "#DIV/0!"
+            }
+          ]
+        },
+        {
+          "row": 18,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B18",
+              "value": "Upt"
+            },
+            {
+              "column": 3,
+              "address": "C18",
+              "value": 1.8
+            },
+            {
+              "column": 4,
+              "address": "D18",
+              "value": 1.65
+            },
+            {
+              "column": 5,
+              "address": "E18",
+              "value": -0.15000000000000013
+            },
+            {
+              "column": 6,
+              "address": "F18",
+              "value": -0.08333333333333341
+            },
+            {
+              "column": 8,
+              "address": "H18",
+              "value": "Unısex"
+            },
+            {
+              "column": 9,
+              "address": "I18",
+              "value": 257743
+            },
+            {
+              "column": 10,
+              "address": "J18",
+              "value": 135670
+            },
+            {
+              "column": 11,
+              "address": "K18",
+              "value": -0.4736229499928223
+            }
+          ]
+        },
+        {
+          "row": 19,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B19",
+              "value": "Cr"
+            },
+            {
+              "column": 3,
+              "address": "C19",
+              "value": 0.07
+            },
+            {
+              "column": 4,
+              "address": "D19",
+              "value": 0.0668
+            },
+            {
+              "column": 5,
+              "address": "E19",
+              "value": -0.0032000000000000084
+            },
+            {
+              "column": 6,
+              "address": "F19",
+              "value": -0.04571428571428583
+            },
+            {
+              "column": 8,
+              "address": "H19",
+              "value": "Total"
+            },
+            {
+              "column": 9,
+              "address": "I19",
+              "value": 1468111
+            },
+            {
+              "column": 10,
+              "address": "J19",
+              "value": 1318905
+            },
+            {
+              "column": 11,
+              "address": "K19",
+              "value": -0.10163127992365695
+            }
+          ]
+        },
+        {
+          "row": 20,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B20",
+              "value": "Asp"
+            },
+            {
+              "column": 3,
+              "address": "C20",
+              "value": 2565
+            },
+            {
+              "column": 4,
+              "address": "D20",
+              "value": 3942
+            },
+            {
+              "column": 5,
+              "address": "E20",
+              "value": 1377
+            },
+            {
+              "column": 6,
+              "address": "F20",
+              "value": 0.5368421052631579
+            }
+          ]
+        },
+        {
+          "row": 21,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B21",
+              "value": "Fatura"
+            },
+            {
+              "column": 3,
+              "address": "C21",
+              "value": 283.06451612903226
+            },
+            {
+              "column": 4,
+              "address": "D21",
+              "value": 204
+            },
+            {
+              "column": 5,
+              "address": "E21",
+              "value": -79.06451612903226
+            },
+            {
+              "column": 6,
+              "address": "F21",
+              "value": -0.27931623931623933
+            },
+            {
+              "column": 8,
+              "address": "H21",
+              "value": "STOK 2025 / 2026"
+            }
+          ]
+        },
+        {
+          "row": 22,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B22",
+              "value": "Ürün Adedi"
+            },
+            {
+              "column": 3,
+              "address": "C22",
+              "value": 566.1290322580645
+            },
+            {
+              "column": 4,
+              "address": "D22",
+              "value": 355
+            },
+            {
+              "column": 5,
+              "address": "E22",
+              "value": -211.1290322580645
+            },
+            {
+              "column": 6,
+              "address": "F22",
+              "value": -0.3729344729344729
+            }
+          ]
+        },
+        {
+          "row": 23,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B23",
+              "value": "Trafik"
+            },
+            {
+              "column": 3,
+              "address": "C23",
+              "value": 4144.8387096774195
+            },
+            {
+              "column": 4,
+              "address": "D23",
+              "value": 3052
+            },
+            {
+              "column": 5,
+              "address": "E23",
+              "value": -1092.8387096774195
+            },
+            {
+              "column": 6,
+              "address": "F23",
+              "value": -0.26366254183204924
+            },
+            {
+              "column": 8,
+              "address": "H23",
+              "value": "2026-10-16T00:00:00"
+            },
+            {
+              "column": 9,
+              "address": "I23",
+              "value": 2025
+            },
+            {
+              "column": 10,
+              "address": "J23",
+              "value": 2026
+            }
+          ]
+        },
+        {
+          "row": 24,
+          "cells": [
+            {
+              "column": 8,
+              "address": "H24",
+              "value": "Footwear"
+            },
+            {
+              "column": 9,
+              "address": "I24",
+              "value": 1559
+            },
+            {
+              "column": 10,
+              "address": "J24",
+              "value": 1484
+            }
+          ]
+        },
+        {
+          "row": 25,
+          "cells": [
+            {
+              "column": 2,
+              "address": "B25",
+              "value": "Tahmini Kapanış Cirosu"
+            },
+            {
+              "column": 3,
+              "address": "C25",
+              "value": 2745610.0666666664
+            },
+            {
+              "column": 5,
+              "address": "E25",
+              "value": "Hgo"
+            },
+            {
+              "column": 6,
+              "address": "F25",
+              "value": 0.9152033555555554
+            },
+            {
+              "column": 8,
+              "address": "H25",
+              "value": "Apparel"
+            },
+            {
+              "column": 9,
+              "address": "I25",
+              "value": 2498
+            },
+            {
+              "column": 10,
+              "address": "J25",
+              "value": 3337
+            }
+          ]
+        },
+        {
+          "row": 26,
+          "cells": [
+            {
+              "column": 8,
+              "address": "H26",
+              "value": "Accessories"
+            },
+            {
+              "column": 9,
+              "address": "I26",
+              "value": 289
+            },
+            {
+              "column": 10,
+              "address": "J26",
+              "value": 418
+            }
+          ]
+        },
+        {
+          "row": 27,
+          "cells": [
+            {
+              "column": 8,
+              "address": "H27",
+              "value": "Total"
+            },
+            {
+              "column": 9,
+              "address": "I27",
+              "value": 4346
+            },
+            {
+              "column": 10,
+              "address": "J27",
+              "value": 5239
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
