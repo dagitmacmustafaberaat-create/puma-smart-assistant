@@ -1860,3 +1860,15 @@ body{background-size:contain !important;background-position:center top !importan
   #mainMenu.home-dashboard .store-status-panel { max-height:calc(100svh - 300px) !important; }
   #mainMenu.home-dashboard .module-card { min-height:48px !important; }
 }
+
+
+/* Günlük görevlerde yanıt ve açıklama alanları */
+#dailyTaskList .work-task { display:block; }
+#dailyTaskList .work-task-content { display:block; width:100%; min-width:0; }
+#dailyTaskList .daily-task-fields { display:grid; grid-template-columns:minmax(150px,.38fr) minmax(0,1fr); gap:10px; margin-top:12px; }
+#dailyTaskList .daily-task-fields label { display:block; min-width:0; color:var(--muted,#9aa2b1); font-size:12px; font-weight:700; }
+#dailyTaskList .daily-task-fields select,
+#dailyTaskList .daily-task-fields textarea { display:block; width:100%; min-width:0; margin-top:5px; padding:10px 11px; border:1px solid var(--line,#343943); border-radius:9px; background:var(--surface2,#191d25); color:var(--text,#f4f5f7); font:inherit; }
+#dailyTaskList .daily-task-fields textarea { min-height:76px; resize:vertical; }
+#dailyTaskList .work-task.done { border-color:rgba(49,196,141,.55); }
+@media(max-width:600px) { #dailyTaskList .daily-task-fields { grid-template-columns:1fr; } }
