@@ -252,7 +252,7 @@ function showProductSearch() {
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");
-    if (mainMenu) mainMenu.style.display = "flex";
+    if (mainMenu) mainMenu.style.display = "none";
     if (productSearchArea) productSearchArea.style.display = "block";
     if (sizeSearchArea) sizeSearchArea.style.display = "none";
     if (educationArea) educationArea.style.display = "none";
@@ -273,7 +273,7 @@ function showSizeSearch() {
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");
-    if (mainMenu) mainMenu.style.display = "flex";
+    if (mainMenu) mainMenu.style.display = "none";
     if (productSearchArea) productSearchArea.style.display = "none";
     if (sizeSearchArea) sizeSearchArea.style.display = "block";
     if (educationArea) educationArea.style.display = "none";
