@@ -1952,3 +1952,11 @@ body{background-size:contain !important;background-position:center top !importan
 .store-tab-section-title{margin:3px 0 2px;color:#fff;font-size:clamp(17px,2vw,22px)}
 .category-stock-summary{margin-top:2px}
 @media(max-width:650px){.store-status-tabs{gap:6px;margin:14px 0 12px}.store-status-tab{font-size:12px;min-height:42px;padding:9px 6px}.store-status-page{gap:11px}}
+
+
+/* Daily task save and email notification */
+.daily-task-save-area{display:grid;gap:10px;margin:22px 0 8px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(0,0,0,.28)}
+.daily-task-save-button{width:100%;min-height:48px;padding:13px 18px;border:1px solid #ff4257;border-radius:10px;background:#d5001c;color:#fff;font-size:15px;font-weight:800;cursor:pointer;transition:opacity .2s ease,transform .2s ease}
+.daily-task-save-button:hover{transform:translateY(-1px)}
+.daily-task-save-button:disabled{opacity:.65;cursor:wait;transform:none}
+.daily-task-save-status{margin:0;color:#ddd;font-size:13px;line-height:1.5}
