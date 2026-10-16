@@ -1,11 +1,8 @@
-// Vercel serverless endpoint: emails submitted daily store checklist to the manager.
-const MANAGER_EMAIL = "mustafaberat.dagitmac@fastperakende.com";
-
-function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-  }[ch]));
-}
+// Vercel serverless endpoint: saves daily store checklist submissions as dated GitHub JSON files.
+const OWNER = "dagitmacmustafaberaat-create";
+const REPO = "puma-smart-assistant";
+const BRANCH = "main";
+const DIRECTORY = "gorev-kayitlari";
 
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
@@ -14,11 +11,10 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Yalnızca POST isteği kabul edilir." });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.DAILY_TASK_FROM_EMAIL;
-  if (!apiKey || !fromEmail) {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) {
     return res.status(503).json({
-      error: "E-posta gönderimi henüz yapılandırılmadı. Vercel ortam değişkenlerinde RESEND_API_KEY ve DAILY_TASK_FROM_EMAIL tanımlanmalı."
+      error: "GitHub kayıt bağlantısı henüz yapılandırılmadı. Vercel ortam değişkenlerine GITHUB_TOKEN eklenmeli."
     });
   }
 
@@ -29,6 +25,7 @@ module.exports = async (req, res) => {
   if (!firstName || !lastName || tasks.length < 1 || tasks.length > 40) {
     return res.status(400).json({ error: "Ad, soyad ve görev listesi zorunludur." });
   }
+
   const normalized = tasks.map(item => ({
     task: String(item.task || "").trim().slice(0, 180),
     result: String(item.result || "").trim().slice(0, 80),
@@ -38,40 +35,65 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "Tüm görevler için sonuç ve açıklama gereklidir." });
   }
 
-  const submittedAt = new Date().toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" });
-  const rows = normalized.map(item =>
-    "<tr><td style=\"padding:10px;border:1px solid #ddd;vertical-align:top\"><b>" + escapeHtml(item.task) +
-    "</b></td><td style=\"padding:10px;border:1px solid #ddd;vertical-align:top\">" + escapeHtml(item.result) +
-    "</td><td style=\"padding:10px;border:1px solid #ddd;vertical-align:top;white-space:pre-wrap\">" + escapeHtml(item.note) + "</td></tr>"
-  ).join("");
-  const html = "<div style=\"font-family:Arial,sans-serif;color:#222\"><h2>BUYAKA PUMA — Günlük Görev Kontrol Listesi</h2>" +
-    "<p><b>Personel:</b> " + escapeHtml(firstName + " " + lastName) + "</p>" +
-    "<p><b>Gönderim zamanı:</b> " + escapeHtml(submittedAt) + " (Türkiye saati)</p>" +
-    "<table style=\"border-collapse:collapse;width:100%;max-width:900px\"><thead><tr>" +
-    "<th style=\"text-align:left;padding:10px;border:1px solid #ddd\">Görev</th>" +
-    "<th style=\"text-align:left;padding:10px;border:1px solid #ddd\">Sonuç</th>" +
-    "<th style=\"text-align:left;padding:10px;border:1px solid #ddd\">Açıklama / Tespit</th>" +
-    "</tr></thead><tbody>" + rows + "</tbody></table></div>";
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Istanbul", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(now).reduce((out, part) => {
+    if (part.type !== "literal") out[part.type] = part.value;
+    return out;
+  }, {});
+  const date = parts.year + "-" + parts.month + "-" + parts.day;
+  const submittedAt = now.toISOString();
+  const path = DIRECTORY + "/" + date + ".json";
+  const apiBase = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + path;
+  const headers = {
+    "Authorization": "Bearer " + token,
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+    "Content-Type": "application/json"
+  };
 
   try {
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { "Authorization": "Bearer " + apiKey, "Content-Type": "application/json" },
+    let existing = [];
+    let sha;
+    const readResponse = await fetch(apiBase + "?ref=" + BRANCH, { headers });
+    if (readResponse.ok) {
+      const file = await readResponse.json();
+      sha = file.sha;
+      existing = JSON.parse(Buffer.from(file.content, "base64").toString("utf8"));
+      if (!Array.isArray(existing)) existing = [];
+    } else if (readResponse.status !== 404) {
+      const detail = await readResponse.text();
+      console.error("GitHub read error", readResponse.status, detail);
+      return res.status(502).json({ error: "GitHub kayıt dosyası okunamadı. Token yetkilerini kontrol edin." });
+    }
+
+    existing.push({
+      submittedAt,
+      date,
+      employee: { firstName, lastName },
+      tasks: normalized
+    });
+
+    const writeResponse = await fetch(apiBase, {
+      method: "PUT",
+      headers,
       body: JSON.stringify({
-        from: fromEmail,
-        to: [MANAGER_EMAIL],
-        subject: "Günlük Görevler — " + firstName + " " + lastName + " — " + submittedAt,
-        html
+        message: "Günlük görev kaydı: " + date,
+        branch: BRANCH,
+        ...(sha ? { sha } : {}),
+        content: Buffer.from(JSON.stringify(existing, null, 2), "utf8").toString("base64")
       })
     });
-    const result = await emailResponse.json().catch(() => ({}));
-    if (!emailResponse.ok) {
-      console.error("Resend email API error", emailResponse.status, result);
-      return res.status(502).json({ error: "E-posta servisi gönderimi kabul etmedi. Gönderen adresinin doğrulandığını ve e-posta ayarlarını kontrol edin." });
+    const result = await writeResponse.json().catch(() => ({}));
+    if (!writeResponse.ok) {
+      console.error("GitHub write error", writeResponse.status, result);
+      return res.status(502).json({ error: "GitHub dosyasına kayıt yazılamadı. Token'ın bu depoda içerik yazma yetkisi olmalı." });
     }
-    return res.status(200).json({ ok: true, id: result.id || null });
+
+    return res.status(200).json({ ok: true, date, path, entries: existing.length });
   } catch (error) {
-    console.error("Daily task email failed", error);
-    return res.status(502).json({ error: "E-posta servisine bağlanılamadı. Lütfen tekrar deneyin." });
+    console.error("Daily task GitHub save failed", error);
+    return res.status(502).json({ error: "GitHub kaydı sırasında bağlantı veya dosya biçimi hatası oluştu." });
   }
 };
