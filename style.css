@@ -1940,3 +1940,51 @@ body{background-size:contain !important;background-position:center top !importan
 .action-summary-footnote{margin:12px 0 0;color:#aaa;font-size:10px;line-height:1.5}
 .action-summary-empty{padding:13px;border:1px dashed #454545;border-radius:9px;color:#ccc;font-size:12px;line-height:1.5}
 @media(max-width:650px){.store-action-summary{padding:12px;margin-top:12px}.action-summary-head{display:block}.action-summary-head .data-source-tag{display:inline-block;margin-top:10px}.action-summary-grid{grid-template-columns:1fr}}
+
+
+/* ANA MAĞAZA EKRANI: hedefler, gerçekleşmeler, yorum ve kategori verileri */
+#performanceSections.performance-sections {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+}
+#performanceSections .overview-targets-group,
+#performanceSections .overview-actuals-group {
+    min-width: 0;
+    margin: 0;
+}
+#performanceSections .overview-targets-group .metric-card-grid,
+#performanceSections .overview-actuals-group .metric-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+#performanceSections .overview-targets-group .metric-card,
+#performanceSections .overview-actuals-group .kpi-row-card {
+    min-width: 0;
+}
+#performanceSections .overview-actuals-group .metric-card-grid {
+    grid-template-columns: 1fr;
+}
+.performance-secondary-sections {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+.performance-secondary-sections .performance-group {
+    min-width: 0;
+}
+#storeActionSummary {
+    margin-top: 16px;
+}
+@media (max-width: 760px) {
+    #performanceSections.performance-sections,
+    .performance-secondary-sections {
+        grid-template-columns: 1fr;
+    }
+    #performanceSections .overview-targets-group .metric-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
