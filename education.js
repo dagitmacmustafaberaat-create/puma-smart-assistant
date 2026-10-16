@@ -7,7 +7,7 @@ function showEducationCenter() {
   });
   const area = document.getElementById("educationArea");
   const menu = document.getElementById("mainMenu");
-  if (menu) menu.style.display = "flex";
+  if (menu) menu.style.display = "none";
   if (area) area.style.display = "block";
   if (educationCalendar.length) renderEducationCalendar();
   else loadEducationCalendar();
