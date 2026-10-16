@@ -875,6 +875,50 @@ function updateDailyTaskProgress() {
   if(bar)bar.style.width=(total?done/total*100:0)+"%";
   items.forEach(item=>item.classList.toggle("done",!!item.querySelector("select")?.value && !!item.querySelector("textarea")?.value.trim()));
 }
+async function saveDailyTasks() {
+  const button = document.getElementById("saveDailyTasksButton");
+  const status = document.getElementById("dailyTaskSaveStatus");
+  const firstName = document.getElementById("dailyTaskFirstName")?.value.trim() || "";
+  const lastName = document.getElementById("dailyTaskLastName")?.value.trim() || "";
+  const items = [...document.querySelectorAll("#dailyTaskList .work-task")];
+  if (!firstName || !lastName) {
+    if (status) status.textContent = "Lütfen kaydetmeden önce adınızı ve soyadınızı yazın.";
+    document.getElementById(!firstName ? "dailyTaskFirstName" : "dailyTaskLastName")?.focus();
+    return;
+  }
+  const tasks = items.map(item => ({
+    task: item.querySelector("strong")?.textContent.trim() || "Görev",
+    result: item.querySelector("select")?.value || "",
+    note: item.querySelector("textarea")?.value.trim() || ""
+  }));
+  const unanswered = tasks.filter(task => !task.result || !task.note);
+  if (unanswered.length) {
+    if (status) status.textContent = "Göndermeden önce tüm maddeler için kontrol sonucu seçin ve açıklama yazın. Eksik madde: " + unanswered.length;
+    items.find(item => !item.querySelector("select")?.value || !item.querySelector("textarea")?.value.trim())?.scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  if (button) { button.disabled = true; button.textContent = "Gönderiliyor…"; }
+  if (status) status.textContent = "Kontrol listesi e-posta ile gönderiliyor…";
+  try {
+    const response = await fetch("/api/daily-task-notification", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        firstName, lastName,
+        submittedAt: new Date().toISOString(),
+        tasks
+      })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "E-posta gönderilemedi.");
+    if (status) status.textContent = "✓ Kontrol listesi başarıyla e-posta ile gönderildi.";
+    if (window.alert) alert("Günlük görev kontrol listeniz yöneticiye gönderildi.");
+  } catch (error) {
+    if (status) status.textContent = "Gönderim başarısız: " + (error.message || "Lütfen tekrar deneyin.");
+  } finally {
+    if (button) { button.disabled = false; button.textContent = "✓ Görevleri Kaydet ve Bildir"; }
+  }
+}
 function updateVmProgress() {
   const boxes=[...document.querySelectorAll("#vmTaskList input[type=checkbox]")],count=boxes.filter(x=>x.checked).length;
   const label=document.getElementById("vmProgress"),bar=document.getElementById("vmProgressBar");
