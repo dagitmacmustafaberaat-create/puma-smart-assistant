@@ -70,7 +70,7 @@
             {
               "column": 3,
               "address": "C5",
-              "value": 15,
+              "value": 16,
               "number_format": "General"
             },
             {
@@ -82,13 +82,13 @@
             {
               "column": 9,
               "address": "I5",
-              "value": 664887,
+              "value": 699546,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J5",
-              "value": 496587,
+              "value": 540298,
               "number_format": "#,###\\ \\T\\L"
             }
           ]
@@ -105,7 +105,7 @@
             {
               "column": 9,
               "address": "I6",
-              "value": -0.25312571910715653,
+              "value": -0.22764478676169975,
               "number_format": "0%"
             }
           ]
@@ -181,13 +181,13 @@
             {
               "column": 9,
               "address": "I8",
-              "value": 758392,
+              "value": 809639,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J8",
-              "value": 777363,
+              "value": 792644,
               "number_format": "#,###\\ \\T\\L"
             }
           ]
@@ -228,7 +228,7 @@
             {
               "column": 9,
               "address": "I9",
-              "value": 0.025014768088271078,
+              "value": -0.02099083665683099,
               "number_format": "0%"
             }
           ]
@@ -316,13 +316,13 @@
             {
               "column": 9,
               "address": "I11",
-              "value": 44446,
+              "value": 45779,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J11",
-              "value": 54571,
+              "value": 57013,
               "number_format": "#,###\\ \\T\\L"
             }
           ]
@@ -363,7 +363,7 @@
             {
               "column": 9,
               "address": "I12",
-              "value": 0.2278045268415605,
+              "value": 0.2453963607767753,
               "number_format": "0%"
             }
           ]
@@ -462,19 +462,19 @@
             {
               "column": 9,
               "address": "I15",
-              "value": 960406,
+              "value": 1039498,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J15",
-              "value": 941690,
+              "value": 990446,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 11,
               "address": "K15",
-              "value": -0.019487591706007668,
+              "value": -0.04718816197818565,
               "number_format": "0.00%"
             }
           ]
@@ -521,19 +521,19 @@
             {
               "column": 9,
               "address": "I16",
-              "value": 249962,
+              "value": 249963,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J16",
-              "value": 241545,
+              "value": 249511,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 11,
               "address": "K16",
-              "value": -0.033673118313983674,
+              "value": -0.0018082676236083062,
               "number_format": "0.00%"
             }
           ]
@@ -550,25 +550,25 @@
             {
               "column": 3,
               "address": "C17",
-              "value": 1451612.9032258063,
+              "value": 1548387.0967741935,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 4,
               "address": "D17",
-              "value": 1328521,
+              "value": 1389956,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 5,
               "address": "E17",
-              "value": -123091.90322580631,
+              "value": -158431.09677419346,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 6,
               "address": "F17",
-              "value": -0.08479664444444436,
+              "value": -0.10232008333333328,
               "number_format": "0.00%"
             },
             {
@@ -580,19 +580,19 @@
             {
               "column": 9,
               "address": "I17",
-              "value": 0,
+              "value": 19117,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J17",
-              "value": 0,
+              "value": 8892,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 11,
               "address": "K17",
-              "value": "#DIV/0!",
+              "value": -0.5348642569440811,
               "number_format": "0.00%"
             }
           ]
@@ -615,19 +615,19 @@
             {
               "column": 4,
               "address": "D18",
-              "value": 1.65,
+              "value": 1.64,
               "number_format": "0.00"
             },
             {
               "column": 5,
               "address": "E18",
-              "value": -0.15000000000000013,
+              "value": -0.16000000000000014,
               "number_format": "0.00"
             },
             {
               "column": 6,
               "address": "F18",
-              "value": -0.08333333333333341,
+              "value": -0.08888888888888896,
               "number_format": "0.00%"
             },
             {
@@ -639,19 +639,19 @@
             {
               "column": 9,
               "address": "I18",
-              "value": 257743,
+              "value": 265503,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J18",
-              "value": 135670,
+              "value": 149892,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 11,
               "address": "K18",
-              "value": -0.4736229499928223,
+              "value": -0.43544140744172377,
               "number_format": "0.00%"
             }
           ]
@@ -674,19 +674,19 @@
             {
               "column": 4,
               "address": "D19",
-              "value": 0.0668,
+              "value": 0.0655,
               "number_format": "0.00%"
             },
             {
               "column": 5,
               "address": "E19",
-              "value": -0.0032000000000000084,
+              "value": -0.004500000000000004,
               "number_format": "0.00%"
             },
             {
               "column": 6,
               "address": "F19",
-              "value": -0.04571428571428583,
+              "value": -0.06428571428571433,
               "number_format": "0.00%"
             },
             {
@@ -698,19 +698,19 @@
             {
               "column": 9,
               "address": "I19",
-              "value": 1468111,
+              "value": 1574081,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 10,
               "address": "J19",
-              "value": 1318905,
+              "value": 1398741,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 11,
               "address": "K19",
-              "value": -0.10163127992365695,
+              "value": -0.11139198046352128,
               "number_format": "0.00%"
             }
           ]
@@ -733,19 +733,19 @@
             {
               "column": 4,
               "address": "D20",
-              "value": 3942,
+              "value": 3971,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 5,
               "address": "E20",
-              "value": 1377,
+              "value": 1406,
               "number_format": "#,###\\ \\T\\L"
             },
             {
               "column": 6,
               "address": "F20",
-              "value": 0.5368421052631579,
+              "value": 0.5481481481481482,
               "number_format": "0.00%"
             }
           ]
@@ -762,25 +762,25 @@
             {
               "column": 3,
               "address": "C21",
-              "value": 283.06451612903226,
+              "value": 301.93548387096774,
               "number_format": "#,##0"
             },
             {
               "column": 4,
               "address": "D21",
-              "value": 204,
+              "value": 213,
               "number_format": "#,##0"
             },
             {
               "column": 5,
               "address": "E21",
-              "value": -79.06451612903226,
+              "value": -88.93548387096774,
               "number_format": "#,##0"
             },
             {
               "column": 6,
               "address": "F21",
-              "value": -0.27931623931623933,
+              "value": -0.29455128205128206,
               "number_format": "0.00%"
             },
             {
@@ -803,25 +803,25 @@
             {
               "column": 3,
               "address": "C22",
-              "value": 566.1290322580645,
+              "value": 603.8709677419355,
               "number_format": "#,##0"
             },
             {
               "column": 4,
               "address": "D22",
-              "value": 355,
+              "value": 350,
               "number_format": "#,##0"
             },
             {
               "column": 5,
               "address": "E22",
-              "value": -211.1290322580645,
+              "value": -253.8709677419355,
               "number_format": "#,##0"
             },
             {
               "column": 6,
               "address": "F22",
-              "value": -0.3729344729344729,
+              "value": -0.4204059829059829,
               "number_format": "0.00%"
             }
           ]
@@ -838,31 +838,31 @@
             {
               "column": 3,
               "address": "C23",
-              "value": 4144.8387096774195,
+              "value": 4421.1612903225805,
               "number_format": "#,##0"
             },
             {
               "column": 4,
               "address": "D23",
-              "value": 3052,
+              "value": 3254,
               "number_format": "#,##0"
             },
             {
               "column": 5,
               "address": "E23",
-              "value": -1092.8387096774195,
+              "value": -1167.1612903225805,
               "number_format": "#,##0"
             },
             {
               "column": 6,
               "address": "F23",
-              "value": -0.26366254183204924,
+              "value": -0.2639942797104833,
               "number_format": "0.00%"
             },
             {
               "column": 8,
               "address": "H23",
-              "value": "2026-10-16T00:00:00",
+              "value": "2026-10-17T00:00:00",
               "number_format": "mm-dd-yy"
             },
             {
@@ -891,13 +891,13 @@
             {
               "column": 9,
               "address": "I24",
-              "value": 1559,
+              "value": 1560,
               "number_format": "General"
             },
             {
               "column": 10,
               "address": "J24",
-              "value": 1484,
+              "value": 1498,
               "number_format": "General"
             }
           ]
@@ -914,7 +914,7 @@
             {
               "column": 3,
               "address": "C25",
-              "value": 2745610.0666666664,
+              "value": 2693039.75,
               "number_format": "#,###\\T\\L"
             },
             {
@@ -926,7 +926,7 @@
             {
               "column": 6,
               "address": "F25",
-              "value": 0.9152033555555554,
+              "value": 0.8976799166666667,
               "number_format": "0.00%"
             },
             {
@@ -938,13 +938,13 @@
             {
               "column": 9,
               "address": "I25",
-              "value": 2498,
+              "value": 2500,
               "number_format": "General"
             },
             {
               "column": 10,
               "address": "J25",
-              "value": 3337,
+              "value": 3370,
               "number_format": "#,##0.00"
             }
           ]
@@ -967,7 +967,7 @@
             {
               "column": 10,
               "address": "J26",
-              "value": 418,
+              "value": 416,
               "number_format": "General"
             }
           ]
@@ -984,13 +984,13 @@
             {
               "column": 9,
               "address": "I27",
-              "value": 4346,
+              "value": 4349,
               "number_format": "General"
             },
             {
               "column": 10,
               "address": "J27",
-              "value": 5239,
+              "value": 5284,
               "number_format": "General"
             }
           ]
