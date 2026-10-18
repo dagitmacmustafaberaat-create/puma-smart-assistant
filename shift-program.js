@@ -31,7 +31,7 @@
     const tabs=document.getElementById("shiftProgramDays"), table=document.getElementById("shiftProgramTable"), status=document.getElementById("shiftProgramStatus");
     if(!table||!views.length)return;
     if(tabs)tabs.innerHTML="";
-    table.innerHTML=views.map(v=>'<section class="shift-week-day"><h2>'+esc(v.day)+' <small>'+esc(v.date)+'</small></h2>'+(v.people.filter(p=>p.details.length).length?'<div class="shift-staff-list">'+v.people.filter(p=>p.details.length).map(p=>'<article class="shift-staff-card"><h3>'+esc(p.name)+'</h3><div class="shift-staff-details">'+p.details.map(d=>'<span>'+esc(d)+'</span>').join("")+'</div></article>').join("")+'</div>':'<div class="shift-day-empty">—</div>')+'</section>').join("");
+    table.innerHTML=views.map(v=>'<section class="shift-week-day"><h2>'+esc(v.day)+' <small>'+esc(v.date)+'</small></h2>'+(v.people.length?'<div class="shift-staff-list">'+v.people.map(p=>'<article class="shift-staff-card"><h3>'+esc(p.name)+'</h3><div class="shift-staff-details">'+p.details.map(d=>'<span>'+esc(d)+'</span>').join("")+'</div></article>').join("")+'</div>':'<div class="shift-day-empty">—</div>')+'</section>').join("");
     if(status)status.textContent="";
   }
   const STAFF = ["Berat","Sinem","Serkan","Cem","Merve","Ecenur"];
