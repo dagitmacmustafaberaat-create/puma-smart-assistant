@@ -47,9 +47,9 @@
     const out=[];
     (cells||[]).map(clean).filter(Boolean).forEach(value=>{
       // Keep only schedule/break entries; discard explanatory notes and headings.
-      const parts=value.split(/\\r?\\n|;|\\|/).map(clean).filter(Boolean);
+      const parts=value.split(/\r?\n|;|\|/).map(clean).filter(Boolean);
       parts.forEach(part=>{
-        if(!/\\d{1,2}[:.]\\d{2}/.test(part))return;
+        if(!/\d{1,2}[:.]\d{2}/.test(part))return;
         if(!out.includes(part))out.push(part);
       });
     });
@@ -84,7 +84,7 @@
       const unique=found.filter((x,i,a)=>a.findIndex(y=>y.day===x.day)===i);
       if(unique.length>matches.length){best=r;matches=unique;}
     }
-    if(best>=0 && matches.length>=5){
+    if(best>=0 && matches.length>=3){
       createViews(matches,rows,best);
       return views.length>0;
     }
@@ -95,7 +95,7 @@
       const nonempty=cells.filter(Boolean);
       if(!nonempty.length)return;
       const day=nonempty.map(dayName).find(Boolean);
-      const hasTime=nonempty.some(v=>/\\d{1,2}[:.]\\d{2}/.test(v));
+      const hasTime=nonempty.some(v=>/\d{1,2}[:.]\d{2}/.test(v));
       if(day && !hasTime && nonempty.length<=3){
         current={day,date:dateLabel(day),people:[]};
         views.push(current);
@@ -160,9 +160,9 @@
       chooseDefaultDay();loaded=true;render();
     }catch(err){
       console.error("W43 programı okunamadı:",err);
-      if(status)status.textContent="";
+      if(status)status.textContent="Program yüklenemedi: "+(err && err.message ? err.message : "Bilinmeyen hata");
       const table=document.getElementById("shiftProgramTable");
-      if(table)table.innerHTML='<p class="shift-program-empty">Program yüklenemedi.</p>';
+      if(table)table.innerHTML='<p class="shift-program-empty">Program yüklenemedi: '+esc(err && err.message ? err.message : "Bilinmeyen hata")+'</p>';
     }
   }
 })();
