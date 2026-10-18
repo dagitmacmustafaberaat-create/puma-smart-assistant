@@ -34,52 +34,80 @@
     table.innerHTML=views.map(v=>'<section class="shift-week-day"><h2>'+esc(v.day)+' <small>'+esc(v.date)+'</small></h2>'+(v.people.filter(p=>p.details.length).length?'<div class="shift-staff-list">'+v.people.filter(p=>p.details.length).map(p=>'<article class="shift-staff-card"><h3>'+esc(p.name)+'</h3><div class="shift-staff-details">'+p.details.map(d=>'<span>'+esc(d)+'</span>').join("")+'</div></article>').join("")+'</div>':'<div class="shift-day-empty">—</div>')+'</section>').join("");
     if(status)status.textContent="";
   }
+  const STAFF = ["Berat","Sinem","Serkan","Cem","Merve","Ecenur"];
+  function staffName(row, firstDayCol) {
+    const before=(row||[]).slice(0,firstDayCol).map(clean).filter(Boolean);
+    const all=before.join(" ");
+    const match=STAFF.find(n=>new RegExp("(^|[^a-z])"+norm(n)+"([^a-z]|$)").test(norm(all)));
+    if(match)return match;
+    // If the sheet has a name column but uses a different spelling/case, retain its first useful cell.
+    return before.find(v=>/[a-zA-ZçğıöşüÇĞİÖŞÜ]/.test(v) && !dayName(v)) || "";
+  }
+  function timeDetails(cells) {
+    const out=[];
+    (cells||[]).map(clean).filter(Boolean).forEach(value=>{
+      // Keep only schedule/break entries; discard explanatory notes and headings.
+      const parts=value.split(/\\r?\\n|;|\\|/).map(clean).filter(Boolean);
+      parts.forEach(part=>{
+        if(!/\\d{1,2}[:.]\\d{2}/.test(part))return;
+        if(!out.includes(part))out.push(part);
+      });
+    });
+    return out;
+  }
   function createViews(dayCols, rows, headerIndex) {
     const firstDayCol=Math.min.apply(null,dayCols.map(x=>x.col));
-    dayCols.forEach(x=>{
-      const next=dayCols.filter(y=>y.col>x.col).sort((a,b)=>a.col-b.col)[0];
+    const ordered=dayCols.slice().sort((a,b)=>a.col-b.col);
+    const parsed=[];
+    ordered.forEach((x,dayIndex)=>{
+      const next=ordered[dayIndex+1];
       const end=next?next.col:Math.max.apply(null,rows.map(r=>r.length).concat([x.col+1]));
       const people=[];
       rows.slice(headerIndex+1).forEach(row=>{
-        const meta=(row||[]).slice(0,firstDayCol).map(clean).filter(Boolean);
-        const schedule=clean((row||[])[x.col]);
-        const extra=(row||[]).slice(x.col+1,end).map(clean).filter(Boolean);
-        if(!meta.length&&!schedule&&!extra.length)return;
-        // Skip decorative rows that have no person name and no shift information.
-        const name=meta.join(" • ") || (schedule ? "Vardiya" : "");
-        if(!name && !extra.length)return;
-        const details=[];
-        const isWorkOrBreak=v=>/(mola|ara|break)/i.test(v) || /\d{1,2}[:.]\d{2}/.test(v);
-        if(schedule && isWorkOrBreak(schedule))details.push(schedule);
-        extra.forEach(v=>{if(v && isWorkOrBreak(v) && !details.includes(v))details.push(v);});
-        if(name || details.length)people.push({name:name||"Personel",details});
+        const name=staffName(row,firstDayCol);
+        if(!name)return;
+        const cells=(row||[]).slice(x.col,end);
+        const details=timeDetails(cells);
+        // Keep every employee listed for every day, even if their cells contain no shift time.
+        if(!people.some(p=>norm(p.name)===norm(name)))people.push({name,details});
       });
-      views.push({day:x.day,date:dateLabel(x.day),people});
+      parsed.push({day:x.day,date:dateLabel(x.day),people});
     });
+    parsed.forEach(v=>views.push(v));
   }
   function parseWeek(rows) {
-    // Prefer a header row that contains all/most days as columns.
+    // Column layout: prefer a genuine weekday header spanning most of the week.
     let best=-1, matches=[];
-    for(let r=0;r<Math.min(rows.length,50);r++){
-      const m=[];
-      (rows[r]||[]).forEach((v,c)=>{const d=dayName(v);if(d)m.push({day:d,col:c});});
-      if(m.length>matches.length && m.length>=3){best=r;matches=m;}
+    for(let r=0;r<Math.min(rows.length,80);r++){
+      const found=[];
+      (rows[r]||[]).forEach((v,c)=>{const d=dayName(v);if(d)found.push({day:d,col:c});});
+      const unique=found.filter((x,i,a)=>a.findIndex(y=>y.day===x.day)===i);
+      if(unique.length>matches.length){best=r;matches=unique;}
     }
-    if(best>=0){
-      const unique=matches.filter((x,i,a)=>a.findIndex(y=>y.day===x.day)===i).sort((a,b)=>a.col-b.col);
-      createViews(unique,rows,best);
+    if(best>=0 && matches.length>=5){
+      createViews(matches,rows,best);
       return views.length>0;
     }
-    // Alternate layout: each day is a heading row, followed by that day's staff rows.
+    // Vertical layout: a weekday/date heading followed by employee rows.
     let current=null;
     rows.forEach(row=>{
-      const nonempty=(row||[]).map(clean).filter(Boolean);
+      const cells=(row||[]).map(clean);
+      const nonempty=cells.filter(Boolean);
       if(!nonempty.length)return;
       const day=nonempty.map(dayName).find(Boolean);
-      if(day){current={day,date:dateLabel(day),people:[]};views.push(current);return;}
+      const hasTime=nonempty.some(v=>/\\d{1,2}[:.]\\d{2}/.test(v));
+      if(day && !hasTime && nonempty.length<=3){
+        current={day,date:dateLabel(day),people:[]};
+        views.push(current);
+        return;
+      }
       if(current){
-        const name=clean(row[0]), details=(row||[]).slice(1).map(clean).filter(Boolean);
-        if(name||details.length)current.people.push({name:name||details.shift()||"Personel",details});
+        const name=STAFF.find(n=>norm(nonempty.join(" ")).includes(norm(n))) || clean(cells[0]);
+        if(!name)return;
+        const details=timeDetails(cells.slice(1));
+        const existing=current.people.find(p=>norm(p.name)===norm(name));
+        if(existing)details.forEach(d=>{if(!existing.details.includes(d))existing.details.push(d);});
+        else current.people.push({name,details});
       }
     });
     return views.length>0;
@@ -117,6 +145,11 @@
       if(!views.length)throw new Error("W43 bölümü bulunamadı.");
       views.sort((a,b)=>DAYS.indexOf(a.day)-DAYS.indexOf(b.day));
       views=views.filter((v,i,a)=>a.findIndex(x=>x.day===v.day)===i);
+      // Always render the complete Monday-Sunday week, not just the last parsed date.
+      DAYS.forEach(day=>{
+        if(!views.some(v=>v.day===day))views.push({day,date:dateLabel(day),people:[]});
+      });
+      views.sort((a,b)=>DAYS.indexOf(a.day)-DAYS.indexOf(b.day));
       chooseDefaultDay();loaded=true;render();
     }catch(err){
       console.error("W43 programı okunamadı:",err);
