@@ -41,7 +41,7 @@
     const role = document.getElementById("shiftSelectedRole");
     const schedule = document.getElementById("shiftSelectedSchedule");
     const detail = document.getElementById("shiftSelectedDetail");
-    if (!selectedStaff || !schedule) return;
+    if (selectedStaff === null || !schedule) return;
     const person = STAFF[selectedStaff];
     if (title) title.textContent = person.name;
     if (role) role.textContent = person.role + "  •  " + person.badge;
