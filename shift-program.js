@@ -1,5 +1,5 @@
 (function () {
-  const FILE_URL = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/%C3%87ALI%C5%9EMA%20PROGRAMI%20YEN%C4%B0%20NES%C4%B0L.xlsx";
+  const FILE_URL = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/W43.xlsx";
   const DAYS = ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"];
   const WEEK_START = new Date(2026, 9, 19);
   let views = [], active = 0, loaded = false;
@@ -8,7 +8,7 @@
   const esc = v => clean(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   function dayName(v) {
     const n=norm(v), aliases={pzt:"Pazartesi",pazartesi:"Pazartesi",sal:"Salı",sali:"Salı",cars:"Çarşamba",carsamba:"Çarşamba",per:"Perşembe",persembe:"Perşembe",cuma:"Cuma",cum:"Cuma",cts:"Cumartesi",cumartesi:"Cumartesi",paz:"Pazar",pazar:"Pazar"};
-    return aliases[n] || DAYS.find(d=>norm(d)===n) || null;
+    return aliases[n] || DAYS.find(d=>n===norm(d) || n.startsWith(norm(d)) || n.endsWith(norm(d))) || null;
   }
   function isWeek43(v) {
     const s=String(v == null ? "" : v);
@@ -108,7 +108,7 @@
       const sheets=(named.length?named:wb.SheetNames).map(name=>({name,rows:XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:false})}));
       for(const sheet of sheets){
         views=[];
-        const rows=named.length?sheet.rows:extractWeek43(sheet.rows);
+        const rows=(named.length || /\/W43\.xlsx(?:\?|$)/i.test(FILE_URL))?sheet.rows:extractWeek43(sheet.rows);
         if(!rows.length)continue;
         if(parseWeek(rows))break;
         views=[];
