@@ -29,11 +29,10 @@
   }
   function render() {
     const tabs=document.getElementById("shiftProgramDays"), table=document.getElementById("shiftProgramTable"), status=document.getElementById("shiftProgramStatus");
-    if(!tabs||!table||!views.length)return;
-    tabs.innerHTML=views.map((v,i)=>'<button type="button" class="shift-day-button '+(i===active?'active':'')+'" aria-pressed="'+(i===active)+'" onclick="selectShiftProgramDay('+i+')"><strong>'+esc(v.day)+'</strong><small>'+esc(v.date)+'</small></button>').join("");
-    const v=views[active];
-    table.innerHTML='<div class="shift-selected-day"><span>W43 • 2026</span><h2>'+esc(v.day)+'</h2><p>'+esc(v.date)+'</p></div>'+(v.people.length?'<div class="shift-staff-list">'+v.people.map(p=>'<article class="shift-staff-card"><h3>'+esc(p.name)+'</h3><div class="shift-staff-details">'+p.details.map(d=>'<span>'+esc(d)+'</span>').join("")+'</div></article>').join("")+'</div>':'<p class="shift-program-empty">Bu gün için personel vardiyası bulunamadı.</p>');
-    if(status)status.textContent="Yalnızca W43 • 19–25 Ekim 2026 • "+v.day+" programı";
+    if(!table||!views.length)return;
+    if(tabs)tabs.innerHTML="";
+    table.innerHTML=views.map(v=>'<section class="shift-week-day"><h2>'+esc(v.day)+' <small>'+esc(v.date)+'</small></h2>'+(v.people.filter(p=>p.details.length).length?'<div class="shift-staff-list">'+v.people.filter(p=>p.details.length).map(p=>'<article class="shift-staff-card"><h3>'+esc(p.name)+'</h3><div class="shift-staff-details">'+p.details.map(d=>'<span>'+esc(d)+'</span>').join("")+'</div></article>').join("")+'</div>':'<div class="shift-day-empty">—</div>')+'</section>').join("");
+    if(status)status.textContent="";
   }
   function createViews(dayCols, rows, headerIndex) {
     const firstDayCol=Math.min.apply(null,dayCols.map(x=>x.col));
@@ -50,8 +49,9 @@
         const name=meta.join(" • ") || (schedule ? "Vardiya" : "");
         if(!name && !extra.length)return;
         const details=[];
-        if(schedule)details.push(schedule);
-        extra.forEach(v=>{if(v && !details.includes(v))details.push(v);});
+        const isWorkOrBreak=v=>/(mola|ara|break)/i.test(v) || /\d{1,2}[:.]\d{2}/.test(v);
+        if(schedule && isWorkOrBreak(schedule))details.push(schedule);
+        extra.forEach(v=>{if(v && isWorkOrBreak(v) && !details.includes(v))details.push(v);});
         if(name || details.length)people.push({name:name||"Personel",details});
       });
       views.push({day:x.day,date:dateLabel(x.day),people});
@@ -120,9 +120,9 @@
       chooseDefaultDay();loaded=true;render();
     }catch(err){
       console.error("W43 programı okunamadı:",err);
-      if(status)status.textContent="W43 programı yüklenemedi.";
+      if(status)status.textContent="";
       const table=document.getElementById("shiftProgramTable");
-      if(table)table.innerHTML='<p class="shift-program-empty">Yalnızca W43 (19–25 Ekim 2026) gösterilir. Excel dosyasında W43 başlığı bulunamadıysa dosya yapısını kontrol etmek gerekir.</p>';
+      if(table)table.innerHTML='<p class="shift-program-empty">Program yüklenemedi.</p>';
     }
   }
 })();
