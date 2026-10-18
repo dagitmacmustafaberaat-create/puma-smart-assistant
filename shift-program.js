@@ -10,7 +10,7 @@
   ];
   const STAFF = [
     { name: "MUSTAFA BERAT DAĞITMAÇ", role: "MAĞAZA MÜDÜRÜ", badge: "COACH", emoji: "🧢", kind: "coach" },
-    { name: "SİNEM PALAZ", role: "ŞEF", badge: "COACH", emoji: "📣", kind: "chief" },
+    { name: "SİNEM PALAZ", role: "ŞEF", badge: "ASSISTANT COACH", emoji: "📣", kind: "chief" },
     { name: "SERKAN CANİK", role: "SATIŞ DANIŞMANI", badge: "RUNNER", emoji: "🏃🏻‍♂️", kind: "runner" },
     { name: "CEM AKTAŞ", role: "SATIŞ DANIŞMANI", badge: "RUNNER", emoji: "🏃🏻‍♂️", kind: "runner" },
     { name: "MERVE ÇETİN", role: "SATIŞ DANIŞMANI", badge: "RUNNER", emoji: "🏃🏻‍♀️", kind: "runner" },
@@ -84,6 +84,12 @@
     const schedule = document.getElementById("shiftSelectedView");
     if (roster) roster.style.display = "block";
     if (schedule) schedule.style.display = "none";
+    const scheduleContent = document.getElementById("shiftSelectedSchedule");
+    const scheduleTitle = document.getElementById("shiftSelectedName");
+    const scheduleRole = document.getElementById("shiftSelectedRole");
+    if (scheduleContent) scheduleContent.innerHTML = "";
+    if (scheduleTitle) scheduleTitle.textContent = "";
+    if (scheduleRole) scheduleRole.textContent = "";
     renderRoster();
     window.scrollTo({top:0,behavior:"smooth"});
   };
