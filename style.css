@@ -2004,3 +2004,21 @@ body{background-size:contain !important;background-position:center top !importan
 .shift-staff-details{display:flex;flex-direction:column;gap:6px}
 .shift-staff-details span{font-size:13px;line-height:1.45;color:#f0f0f0;overflow-wrap:anywhere}
 @media(max-width:600px){.shift-day-button{flex:1 1 calc(50% - 8px);min-width:0}.shift-staff-list{grid-template-columns:1fr;padding:9px}.shift-selected-day{padding:14px}}
+
+
+/* Çalışma programı: haftanın tamamı, yalnızca vardiya ve mola saatleri */
+.shift-program-heading > p:not(.education-eyebrow), .shift-program-status, .shift-program-days, .shift-program-source { display:none !important; }
+.shift-program-area { max-width:1200px; margin:0 auto; padding:20px; }
+.shift-program-heading { margin:18px 0 22px; }
+.shift-program-heading h1 { margin-top:10px; }
+.shift-program-table { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.shift-week-day { min-width:0; padding:16px; border:1px solid rgba(213,0,28,.38); border-radius:13px; background:linear-gradient(135deg,rgba(8,8,8,.96),rgba(25,8,11,.94)); box-shadow:0 8px 22px rgba(0,0,0,.32); }
+.shift-week-day > h2 { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(213,0,28,.45); font-size:19px; }
+.shift-week-day > h2 small { color:#ff6878; font-size:13px; font-weight:600; }
+.shift-week-day .shift-staff-list { display:grid; gap:8px; }
+.shift-week-day .shift-staff-card { padding:10px 12px; border:1px solid rgba(255,255,255,.10); border-radius:9px; background:rgba(255,255,255,.04); }
+.shift-week-day .shift-staff-card h3 { margin:0 0 7px; font-size:15px; }
+.shift-week-day .shift-staff-details { display:flex; flex-wrap:wrap; gap:6px; }
+.shift-week-day .shift-staff-details span { display:inline-block; padding:5px 8px; border-radius:6px; background:rgba(213,0,28,.15); color:#fff; font-size:13px; font-weight:700; }
+.shift-day-empty { color:#999; }
+@media(max-width:760px) { .shift-program-area{padding:12px;} .shift-program-table{grid-template-columns:1fr;gap:10px;} .shift-week-day{padding:13px;} }
