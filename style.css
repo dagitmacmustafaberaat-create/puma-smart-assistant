@@ -1989,3 +1989,18 @@ body{background-size:contain !important;background-position:center top !importan
 .shift-program-source{margin:12px 2px;color:#bbb;font-size:12px}
 .shift-program-source a{color:#ff5968;text-decoration:underline}
 @media(max-width:600px){.shift-program-area{width:calc(100% - 18px);margin-top:10px}.shift-program-heading{padding:17px}.shift-day-button{padding:9px 11px;font-size:12px}.shift-data-table th,.shift-data-table td{padding:7px;font-size:12px}}
+
+
+/* W43 günlük vardiya kartları */
+.shift-day-button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:118px;text-align:left}
+.shift-day-button small{font-size:11px;font-weight:500;opacity:.88}
+.shift-selected-day{padding:17px 20px;border-bottom:1px solid #383838;background:linear-gradient(135deg,rgba(213,0,28,.18),rgba(15,15,15,.94))}
+.shift-selected-day span{color:#ff6574;font-size:11px;font-weight:800;letter-spacing:.1em}
+.shift-selected-day h2{margin:5px 0;font-size:25px}
+.shift-selected-day p{margin:0;color:#ccc;font-size:13px}
+.shift-staff-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:12px}
+.shift-staff-card{border:1px solid #3a3a3a;border-left:3px solid #d5001c;border-radius:10px;padding:13px;background:rgba(255,255,255,.035);min-width:0}
+.shift-staff-card h3{font-size:15px;margin:0 0 9px;overflow-wrap:anywhere}
+.shift-staff-details{display:flex;flex-direction:column;gap:6px}
+.shift-staff-details span{font-size:13px;line-height:1.45;color:#f0f0f0;overflow-wrap:anywhere}
+@media(max-width:600px){.shift-day-button{flex:1 1 calc(50% - 8px);min-width:0}.shift-staff-list{grid-template-columns:1fr;padding:9px}.shift-selected-day{padding:14px}}
