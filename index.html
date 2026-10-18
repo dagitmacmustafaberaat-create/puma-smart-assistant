@@ -175,13 +175,19 @@
     <section id="shiftProgramArea" class="shift-program-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeShiftProgram()">← Ana Menü</button>
       <header class="shift-program-heading">
-        <p class="education-eyebrow">BUYAKA PUMA • MAĞAZA OPERASYONU</p>
-        <h1>Çalışma Programı</h1>
-        
+        <p class="education-eyebrow">BUYAKA PUMA • TEAM PERFORMANCE</p>
+        <h1>Haftalık Çalışma Programı</h1>
+        <p>İsmini seç, haftalık vardiya ve mola saatlerini görüntüle.</p>
       </header>
-      <div id="shiftProgramStatus" class="shift-program-status"></div>
-      <nav id="shiftProgramDays" class="shift-program-days" aria-label="Çalışma programı günleri"></nav>
-      <div id="shiftProgramTable" class="shift-program-table"></div>
+      <div id="shiftRosterView" class="shift-roster-view">
+        <div class="shift-roster-intro"><span class="shift-roster-kicker">ONE TEAM. ONE GOAL.</span><strong>Ekibimiz</strong><small>Ünvanına göre personel listesi</small></div>
+        <div id="shiftStaffRoster" class="shift-staff-roster"></div>
+      </div>
+      <div id="shiftSelectedView" class="shift-selected-view" style="display:none;">
+        <button type="button" class="shift-roster-back" onclick="backToShiftRoster()">← Personel Listesine Dön</button>
+        <div class="shift-selected-header"><span class="shift-selected-emblem">🏅</span><div><p id="shiftSelectedRole" class="shift-selected-role"></p><h2 id="shiftSelectedName"></h2><small id="shiftSelectedDetail"></small></div></div>
+        <div id="shiftSelectedSchedule" class="shift-selected-schedule"></div>
+      </div>
     </section>
 
     <section id="sdKarneArea" class="sd-karne-area" style="display:none;">
@@ -239,7 +245,7 @@
     <script src="script.js?v=20261018-sd-karne1"></script>
     <script src="education.js?v=20261016-directview2"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="shift-program.js?v=20261018-pitch5"></script>
+    <script src="shift-program.js?v=20261018-roster1"></script>
 
     <script>
       function showSDKarnesi() {
