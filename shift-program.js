@@ -1,5 +1,5 @@
 (function () {
-  const FILE_URL = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/W43.xlsx";
+  const FILE_URL = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/Shift.xlsx";
   const DAYS = ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"];
   const WEEK_START = new Date(2026, 9, 19);
   let views = [], active = 0, loaded = false;
@@ -104,11 +104,12 @@
       const response=await fetch(FILE_URL+"?v="+Date.now(),{cache:"no-store"});if(!response.ok)throw new Error("Excel indirilemedi.");
       const wb=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:true});
       // Only read a sheet explicitly labelled W43, or the W43 section in a combined sheet.
+      const dedicatedWeekFile=/\/Shift\.xlsx(?:\?|$)/i.test(FILE_URL);
       const named=wb.SheetNames.filter(n=>isWeek43(n));
-      const sheets=(named.length?named:wb.SheetNames).map(name=>({name,rows:XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:false})}));
+      const sheets=(dedicatedWeekFile ? wb.SheetNames : (named.length?named:wb.SheetNames)).map(name=>({name,rows:XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:false})}));
       for(const sheet of sheets){
         views=[];
-        const rows=(named.length || /\/W43\.xlsx(?:\?|$)/i.test(FILE_URL))?sheet.rows:extractWeek43(sheet.rows);
+        const rows=/\/Shift\.xlsx(?:\?|$)/i.test(FILE_URL) ? sheet.rows : (named.length ? sheet.rows : extractWeek43(sheet.rows));
         if(!rows.length)continue;
         if(parseWeek(rows))break;
         views=[];
