@@ -1968,3 +1968,24 @@ body{background-size:contain !important;background-position:center top !importan
 .sd-karne-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;padding:12px 14px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.06);font-size:13px;font-weight:700}.sd-karne-toolbar a{color:#fff;text-decoration:none;background:#d5001c;border:1px solid #ff4257;border-radius:8px;padding:9px 12px;white-space:nowrap}
 .sd-karne-viewer-wrap{width:100%;height:min(78vh,900px);min-height:520px;overflow:hidden;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:#fff}.sd-karne-viewer-wrap iframe{display:block;width:100%;height:100%;border:0;background:#fff}.sd-karne-note{margin-top:10px;color:#d7d7d7;font-size:12px;line-height:1.5}
 @media(max-width:600px){.sd-karne-area{width:calc(100% - 16px);margin:8px auto 20px;padding:12px;border-radius:13px}.sd-karne-viewer-wrap{height:72vh;min-height:420px}.sd-karne-toolbar{align-items:flex-start}.sd-karne-toolbar a{font-size:12px}}
+
+
+/* Çalışma Programı */
+.shift-program-area{width:min(1180px,calc(100% - 28px));margin:18px auto 42px;color:#fff}
+.shift-program-heading{padding:22px 24px;border:1px solid rgba(255,255,255,.14);border-top:4px solid #d5001c;border-radius:15px;background:rgba(10,10,10,.94);margin:14px 0}
+.shift-program-heading h1{font-size:clamp(25px,4vw,36px);margin:5px 0 8px}
+.shift-program-heading p:last-child{color:#ccc;line-height:1.5}
+.shift-program-status{color:#ddd;background:rgba(15,15,15,.92);border:1px solid #333;border-radius:10px;padding:12px 14px;margin:12px 0}
+.shift-program-days{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.shift-day-button{border:1px solid #484848;border-radius:9px;padding:10px 14px;background:#191919;color:#fff;font-weight:700;cursor:pointer}
+.shift-day-button.active{background:#d5001c;border-color:#ff3148}
+.shift-program-table{background:rgba(9,9,9,.94);border:1px solid #333;border-radius:12px;overflow:hidden}
+.shift-table-scroll{overflow:auto;max-width:100%}
+.shift-data-table{border-collapse:collapse;width:100%;min-width:520px;color:#f5f5f5;font-size:13px}
+.shift-data-table th{background:#d5001c;color:#fff;font-weight:800;text-align:left}
+.shift-data-table th,.shift-data-table td{border:1px solid #383838;padding:9px 11px;vertical-align:top;white-space:pre-wrap}
+.shift-data-table tbody tr:nth-child(even) td{background:rgba(255,255,255,.045)}
+.shift-program-empty{padding:18px;color:#ddd}
+.shift-program-source{margin:12px 2px;color:#bbb;font-size:12px}
+.shift-program-source a{color:#ff5968;text-decoration:underline}
+@media(max-width:600px){.shift-program-area{width:calc(100% - 18px);margin-top:10px}.shift-program-heading{padding:17px}.shift-day-button{padding:9px 11px;font-size:12px}.shift-data-table th,.shift-data-table td{padding:7px;font-size:12px}}
