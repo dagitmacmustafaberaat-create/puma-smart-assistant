@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261016-daily-email1">
+    <link rel="stylesheet" href="style.css?v=20261018-sd-karne1">
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#d5001c">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,6 +50,11 @@
           <button class="menu-button module-card module-card-education" type="button" onclick="showEducationCenter()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5L2 9Z"></path><path d="M6 11v5c3.5 3 8.5 3 12 0v-5M22 9v6"></path></svg></span>
             <span class="module-copy"><strong>Eğitim Merkezi</strong><small>Eğitim takvimi ve dokümanlar</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="menu-button module-card module-card-sd" type="button" onclick="showSDKarnesi()">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"></path><path d="M14 3.5V8h4M9 12h6M9 16h6"></path></svg></span>
+            <span class="module-copy"><strong>SD Karnesi</strong><small>Ekim 2026 personel karnesi</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
         </div>
@@ -156,6 +161,23 @@
       <footer class="education-footer"><p>Tüm eğitim dokümanları tek PDF dosyasında</p><button type="button" class="pdf-button" onclick="openEducationPDF()">📖 Tüm Eğitim Dokümanlarını Aç</button></footer>
     </section>
 
+    <section id="sdKarneArea" class="sd-karne-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeSDKarnesi()">← Ana Menü</button>
+      <header class="sd-karne-heading">
+        <p class="education-eyebrow">BUYAKA PUMA • PERSONEL GELİŞİMİ</p>
+        <h1>EKİM SD KARNE</h1>
+        <p>Orijinal Excel dosyası aşağıda görüntülenir. Dosyanın içeriği değiştirilmemiştir.</p>
+      </header>
+      <div class="sd-karne-toolbar">
+        <span>EKİM SD KARNE.xlsx</span>
+        <a href="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/EK%C4%B0M%20SD%20KARNE.xlsx" target="_blank" rel="noopener noreferrer">Dosyayı ayrı aç ↗</a>
+      </div>
+      <div class="sd-karne-viewer-wrap">
+        <iframe id="sdKarneViewer" title="Ekim SD Karne Excel görüntüleyici" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
+      </div>
+      <p class="sd-karne-note">Görüntüleyici yüklenmezse “Dosyayı ayrı aç” bağlantısını kullanabilirsin.</p>
+    </section>
+
     <section id="dailyTasksArea" class="work-module" style="display:none;">
       <button class="back-button" type="button" onclick="showMainMenu()">← Ana Menü</button>
       <header class="work-module-heading"><p class="education-eyebrow">MAĞAZA OPERASYONU</p><h1>Günlük Görevler</h1><p>Her kontrol maddesi için sonuç ve açıklama girin.</p></header>
@@ -191,9 +213,30 @@
       </div>
     </section>
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261016-github-daily-log1"></script>
+    <script src="script.js?v=20261018-sd-karne1"></script>
     <script src="education.js?v=20261016-directview2"></script>
 
+    <script>
+      function showSDKarnesi() {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea"].forEach(function(id) {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "none";
+        });
+        const area = document.getElementById("sdKarneArea");
+        const viewer = document.getElementById("sdKarneViewer");
+        if (area) area.style.display = "block";
+        if (viewer && !viewer.src) {
+          const fileUrl = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/EK%C4%B0M%20SD%20KARNE.xlsx";
+          viewer.src = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(fileUrl);
+        }
+        window.scrollTo(0, 0);
+      }
+      function closeSDKarnesi() {
+        const area = document.getElementById("sdKarneArea");
+        if (area) area.style.display = "none";
+        showMainMenu();
+      }
+    </script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
