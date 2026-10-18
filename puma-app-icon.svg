@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="92" fill="#090909"/>
-  <image href="./puma-wallpaper.png" x="0" y="0" width="512" height="512" preserveAspectRatio="xMidYMid meet"/>
-  <rect x="1.5" y="1.5" width="509" height="509" rx="91" fill="none" stroke="#d5001c" stroke-width="3"/>
+  <rect width="512" height="512" rx="96" fill="#090909"/>
+  <g fill="#fff" transform="translate(25 58) scale(.88)">
+    <path d="M60 205c32-2 56-14 76-38 17-20 28-46 39-72 8-18 19-29 35-33l30-8 18-27 16 4-6 28 20 13 37-2 22-20 12 8-13 27-25 16-28 8-26 2c-9 13-18 24-30 34l-27 23c-15 13-26 30-34 48l-20 45c-6 14-18 24-34 28l-44 10-24 30-18-4 10-34 28-19 34-8c9-2 15-7 19-16l14-31c-30 17-62 25-99 22l-31-3-24 15-13-10 20-27 26-8 39-1z"/>
+    <path d="M170 247l-33 46-9 39 17 7 28-31 32-42z"/>
+    <path d="M246 239l-1 44 16 35 18-4-4-42-7-38z"/>
+    <path d="M100 210l-37 22-35 2-14-13 8-13 27 1 28-15z"/>
+    <path d="M285 103l26-5 21-15 14 5-12 21-25 15-26 3z"/>
+  </g>
+  <path fill="#d5001c" d="M100 365h312l-20 28H80z"/>
+  <text x="256" y="449" text-anchor="middle" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="82" font-style="italic" font-weight="900" letter-spacing="-5">PUMA</text>
 </svg>
