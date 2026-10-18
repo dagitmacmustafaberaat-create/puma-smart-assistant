@@ -39,8 +39,9 @@
     function staffCard(day, i) {
       const s = day.shifts[i];
       const role = ROLES[i];
-      const icon = i === 0 ? "👔" : i === 1 ? "🧢" : "⚽";
-      return '<article class="shift-staff-card pitch-player"><div class="pitch-player-icon" aria-hidden="true">' + icon + '</div><h3>' + esc(STAFF[i]) + '</h3><p class="pitch-player-role">' + role + '</p><div class="shift-staff-details"><span>🚪 Giriş: ' + esc(s[0]) + '</span><span>🏁 Çıkış: ' + esc(s[1]) + '</span><span>☕ Mola: ' + esc(s[2]) + '</span></div></article>';
+      const avatar = ["👨🏻‍💼", "👩🏻‍💼", "👨🏻‍💼", "👨🏻‍💼", "👩🏻‍💼", "👩🏻‍💼"][i];
+      const avatarClass = ["manager", "chief", "male", "male", "female", "female"][i];
+      return '<article class="shift-staff-card pitch-player pitch-role-' + avatarClass + '" aria-label="' + esc(STAFF[i] + " - " + role) + '"><div class="pitch-avatar pitch-avatar-' + avatarClass + '" aria-hidden="true"><span>' + avatar + '</span><i></i></div><h3>' + esc(STAFF[i]) + '</h3><p class="pitch-player-role">' + role + '</p><div class="shift-staff-details"><span><b>GİRİŞ</b><strong>' + esc(s[0]) + '</strong></span><span><b>ÇIKIŞ</b><strong>' + esc(s[1]) + '</strong></span><span><b>MOLA</b><strong>' + esc(s[2]) + '</strong></span></div></article>';
     }
 
     const todayNotice = todayMissing ? '<div class="shift-today-missing">Bu haftalık programın tarih aralığı sona erdi. Yeni haftanın vardiya saatleri eklendiğinde burada otomatik gösterilecektir.</div>' : "";
