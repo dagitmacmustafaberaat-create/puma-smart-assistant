@@ -8,6 +8,11 @@
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
     <link rel="stylesheet" href="style.css?v=20261016-daily-email1">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#d5001c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="PUMA Assistant">
+    <meta name="mobile-web-app-capable" content="yes">
     <style>#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}</style>
 </head>
 
@@ -188,6 +193,16 @@
     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261016-github-daily-log1"></script>
     <script src="education.js?v=20261016-directview2"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+            console.error("Uygulama servis çalışanı kaydedilemedi:", error);
+          });
+        });
+      }
+    </script>
 
 </body>
 
