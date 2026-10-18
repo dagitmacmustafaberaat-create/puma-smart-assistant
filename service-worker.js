@@ -1,11 +1,11 @@
-const CACHE_NAME = "buyaka-puma-app-v1";
+const CACHE_NAME = "buyaka-puma-app-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./style.css?v=20261016-daily-email1",
   "./script.js",
   "./manifest.json",
-  "./puma-app-icon.svg"
+  "./puma-app-icon.svg",\n  "./puma-wallpaper.png"
 ];
 
 self.addEventListener("install", (event) => {
