@@ -14,11 +14,34 @@
     const table = document.getElementById("shiftProgramTable");
     const status = document.getElementById("shiftProgramStatus");
     if (!table) return;
-    table.innerHTML = DAYS.map(day => '<section class="shift-week-day"><h2>' + esc(day.day) + ' <small>' + esc(day.date) + '</small></h2><div class="shift-staff-list">' + STAFF.map((name,i) => {
+
+    // Tarih her açılışta cihazın yerel saatine göre hesaplanır; günler otomatik sıralanır.
+    const now = new Date();
+    const todayKey = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+    const dateKey = day => { const p = day.date.split("."); return p[2] + "-" + p[1] + "-" + p[0]; };
+    const todayIndex = DAYS.findIndex(day => dateKey(day) === todayKey);
+    const firstUpcomingIndex = DAYS.findIndex(day => dateKey(day) > todayKey);
+    let orderedDays;
+    let todayMissing = false;
+    if (todayIndex >= 0) {
+      orderedDays = DAYS.slice(todayIndex).concat(DAYS.slice(0, todayIndex));
+    } else if (firstUpcomingIndex >= 0) {
+      // Program haftası başlamadan önce ilk yaklaşan gün gösterilir.
+      orderedDays = DAYS.slice(firstUpcomingIndex).concat(DAYS.slice(0, firstUpcomingIndex));
+    } else {
+      // Bu haftalık programın tarihi geçtiyse eski bir günü bugünün programı gibi göstermeyiz.
+      orderedDays = DAYS.slice();
+      todayMissing = true;
+    }
+
+    const card = (day, isToday) => '<section class="shift-week-day' + (isToday ? ' is-today-shift' : '') + '"><h2>' + esc(day.day) + ' <small>' + esc(day.date) + '</small>' + (isToday ? '<span class="today-shift-badge">BUGÜN</span>' : '') + '</h2><div class="shift-staff-list">' + STAFF.map((name,i) => {
       const s = day.shifts[i];
-      return '<article class="shift-staff-card"><h3>' + esc(name) + '</h3><div class="shift-staff-details"><span>Giriş ' + esc(s[0]) + '</span><span>Çıkış ' + esc(s[1]) + '</span><span>Mola ' + esc(s[2]) + '</span></div></article>';
-    }).join("") + '</div></section>').join("");
-    if (status) status.textContent = "";
+      return '<article class="shift-staff-card"><h3>' + esc(name) + '</h3><div class="shift-staff-details"><span>🚪 Giriş: ' + esc(s[0]) + '</span><span>🏁 Çıkış: ' + esc(s[1]) + '</span><span>☕ Mola: ' + esc(s[2]) + '</span></div></article>';
+    }).join("") + '</div></section>';
+
+    const todayNotice = todayMissing ? '<div class="shift-today-missing">Bu haftalık programın tarih aralığı sona erdi. Yeni haftanın vardiya saatleri eklendiğinde burada otomatik gösterilecektir.</div>' : "";
+    table.innerHTML = todayNotice + orderedDays.map((day, i) => card(day, !todayMissing && i === 0)).join("");
+    if (status) status.textContent = todayMissing ? "19–25 Ekim 2026 haftalık programı" : (todayIndex >= 0 ? "Bugünün programı en üstte gösteriliyor." : "Haftalık program başlamak üzere; ilk gün en üstte gösteriliyor.");
   }
   window.showShiftProgram = function () {
     ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","sdKarneArea"].forEach(id => { const e=document.getElementById(id); if(e)e.style.display="none"; });
