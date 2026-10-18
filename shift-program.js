@@ -35,8 +35,6 @@
     }
 
     const ROLES = ["MAĞAZA MÜDÜRÜ", "ŞEF", "SATIŞ DANIŞMANI", "SATIŞ DANIŞMANI", "SATIŞ DANIŞMANI", "SATIŞ DANIŞMANI"];
-    const POSITIONS = ["manager", "chief", "advisor", "advisor", "advisor", "advisor"];
-    const ROLES = ["MAĞAZA MÜDÜRÜ", "ŞEF", "SATIŞ DANIŞMANI", "SATIŞ DANIŞMANI", "SATIŞ DANIŞMANI", "SATIŞ DANIŞMANI"];
     const card = (day, isToday) => '<section class="shift-week-day' + (isToday ? ' is-today-shift' : '') + '"><h2>' + esc(day.day) + ' <small>' + esc(day.date) + '</small>' + (isToday ? '<span class="today-shift-badge">BUGÜN</span>' : '') + '</h2><div class="shift-pitch" role="group" aria-label="' + esc(day.day) + ' çalışma programı saha düzeni"><div class="pitch-half-line"></div><div class="pitch-center-circle"><span>BUYAKA<br>PUMA</span></div><div class="pitch-goal pitch-goal-top"></div><div class="pitch-goal pitch-goal-bottom"></div><div class="shift-pitch-row shift-pitch-manager">' + [0].map(i => staffCard(day, i)).join("") + '</div><div class="shift-pitch-row shift-pitch-chief">' + [1].map(i => staffCard(day, i)).join("") + '</div><div class="shift-pitch-row shift-pitch-advisors">' + [2,3,4,5].map(i => staffCard(day, i)).join("") + '</div></div></section>';
     function staffCard(day, i) {
       const s = day.shifts[i];
