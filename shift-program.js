@@ -38,7 +38,7 @@
   function staffName(row, firstDayCol) {
     const before=(row||[]).slice(0,firstDayCol).map(clean).filter(Boolean);
     const all=before.join(" ");
-    const match=STAFF.find(n=>new RegExp("(^|[^a-z])"+norm(n)+"([^a-z]|$)").test(norm(all)));
+    const match=STAFF.find(n=>norm(all).includes(norm(n)));
     if(match)return match;
     // If the sheet has a name column but uses a different spelling/case, retain its first useful cell.
     return before.find(v=>/[a-zA-ZçğıöşüÇĞİÖŞÜ]/.test(v) && !dayName(v)) || "";
@@ -148,6 +148,13 @@
       // Always render the complete Monday-Sunday week, not just the last parsed date.
       DAYS.forEach(day=>{
         if(!views.some(v=>v.day===day))views.push({day,date:dateLabel(day),people:[]});
+      });
+      views.forEach(view=>{
+        const parsed=view.people.slice();
+        view.people=STAFF.map(name=>{
+          const found=parsed.find(p=>norm(p.name).includes(norm(name)) || norm(name).includes(norm(p.name)));
+          return found ? {name,details:found.details} : {name,details:[]};
+        });
       });
       views.sort((a,b)=>DAYS.indexOf(a.day)-DAYS.indexOf(b.day));
       chooseDefaultDay();loaded=true;render();
