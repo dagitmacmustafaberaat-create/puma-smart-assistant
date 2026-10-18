@@ -2145,3 +2145,97 @@ body{background-size:contain !important;background-position:center top !importan
  .shift-pitch .shift-staff-details strong { font-size:11px; }
  .pitch-center-circle { width:68px !important; height:68px !important; }
 }
+
+
+/* =========================================================
+   BUYAKA PUMA • TEAM PERFORMANCE / COACH & RUNNER
+   Çalışma programı: saha görünümü yerine premium spor perakende arayüzü
+   ========================================================= */
+.shift-program-area {
+  width: min(900px, calc(100% - 28px)) !important;
+  margin: 18px auto 48px !important;
+  padding: clamp(16px, 3vw, 30px) !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(213,0,28,.22), transparent 40%),
+    radial-gradient(ellipse at 0% 100%, rgba(95,110,125,.13), transparent 42%),
+    linear-gradient(145deg, rgba(18,20,23,.98), rgba(5,6,8,.985) 68%);
+  box-shadow: 0 24px 70px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.07);
+}
+.shift-program-area::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  opacity:.18;
+  pointer-events:none;
+  background-image: repeating-linear-gradient(135deg, transparent 0 34px, rgba(255,255,255,.055) 35px, transparent 36px 70px);
+  mask-image: linear-gradient(135deg, #000, transparent 72%);
+}
+.shift-program-heading { margin: 10px 0 25px !important; padding: 8px 2px 20px; border-bottom:1px solid rgba(255,255,255,.12); }
+.shift-program-heading h1 { font-size:clamp(25px,4vw,36px) !important; letter-spacing:-.035em; line-height:1.15; margin:5px 0 10px; }
+.shift-program-heading > p:last-child { color:#b7bdc4; font-size:14px; line-height:1.6; }
+.shift-roster-intro { display:flex; flex-direction:column; gap:5px; margin:0 0 18px; }
+.shift-roster-kicker { color:#ff4055; font-size:10px; font-weight:900; letter-spacing:.19em; }
+.shift-roster-intro strong { font-size:22px; letter-spacing:-.025em; }
+.shift-roster-intro small { color:#aeb4bc; font-size:12px; }
+.shift-roster-group { margin:0 0 22px; }
+.shift-roster-group h2 { margin:0 0 10px; padding:0 0 9px; border-bottom:1px solid rgba(255,255,255,.12); color:#b7bdc5; font-size:10px; letter-spacing:.16em; font-weight:900; }
+.shift-roster-list { display:flex; flex-direction:column; gap:9px; }
+.shift-person-button {
+  display:flex; align-items:center; gap:13px; width:100%; min-height:74px; padding:13px 15px;
+  border:1px solid rgba(255,255,255,.11); border-left:3px solid #d5001c; border-radius:13px;
+  background:linear-gradient(105deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+  color:#fff; text-align:left; cursor:pointer; transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.shift-person-button:hover,.shift-person-button:focus-visible { transform:translateX(3px); border-color:rgba(255,45,67,.75); background:linear-gradient(105deg,rgba(213,0,28,.18),rgba(255,255,255,.04)); box-shadow:0 8px 25px rgba(0,0,0,.22); outline:none; }
+.shift-person-coach { border-left-color:#d7b66d; }
+.shift-person-chief { border-left-color:#ef7891; }
+.shift-person-runner { border-left-color:#68b7ed; }
+.shift-person-emoji { flex:0 0 45px; width:45px; height:45px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.1); border-radius:12px; background:rgba(255,255,255,.055); font-size:25px; }
+.shift-person-coach .shift-person-emoji { background:rgba(215,182,109,.12); }
+.shift-person-chief .shift-person-emoji { background:rgba(239,120,145,.12); }
+.shift-person-runner .shift-person-emoji { background:rgba(104,183,237,.12); }
+.shift-person-copy { display:flex; flex:1; flex-direction:column; gap:5px; min-width:0; }
+.shift-person-copy strong { font-size:clamp(12px,2vw,15px); font-weight:850; letter-spacing:.015em; line-height:1.35; overflow-wrap:anywhere; }
+.shift-person-copy small { color:#aeb5be; font-size:10px; letter-spacing:.08em; font-weight:750; }
+.shift-person-tag { padding:5px 7px; border-radius:5px; border:1px solid rgba(255,255,255,.1); color:#cbd0d6; font-size:9px; font-weight:900; letter-spacing:.1em; }
+.shift-person-coach .shift-person-tag { color:#e4ca8d; border-color:rgba(215,182,109,.25); }
+.shift-person-chief .shift-person-tag { color:#f29caf; border-color:rgba(239,120,145,.25); }
+.shift-person-runner .shift-person-tag { color:#8bcafa; border-color:rgba(104,183,237,.25); }
+.shift-person-arrow { color:#ff4055; font-size:28px; line-height:1; margin-left:2px; }
+.shift-roster-back { display:inline-flex; align-items:center; gap:8px; padding:10px 13px; margin:0 0 20px; border:1px solid rgba(255,255,255,.15); border-radius:9px; color:#fff; background:rgba(255,255,255,.045); font-weight:750; font-size:12px; cursor:pointer; }
+.shift-roster-back:hover { border-color:#d5001c; background:rgba(213,0,28,.13); }
+.shift-selected-header { display:flex; align-items:center; gap:14px; padding:19px; margin-bottom:15px; border:1px solid rgba(255,255,255,.11); border-radius:15px; background:linear-gradient(120deg,rgba(213,0,28,.14),rgba(255,255,255,.035)); }
+.shift-selected-emblem { display:grid; place-items:center; width:54px; height:54px; flex:0 0 54px; border-radius:14px; background:rgba(213,0,28,.14); font-size:28px; }
+.shift-selected-role { color:#ff5b6d; font-size:10px; letter-spacing:.11em; font-weight:900; margin:0 0 5px; }
+.shift-selected-header h2 { font-size:clamp(15px,3vw,21px); line-height:1.3; overflow-wrap:anywhere; margin:0 0 5px; }
+.shift-selected-header small { color:#aeb5be; font-size:11px; }
+.shift-selected-schedule { display:flex; flex-direction:column; gap:8px; }
+.shift-person-day { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:13px 15px; border:1px solid rgba(255,255,255,.09); border-radius:12px; background:rgba(255,255,255,.035); }
+.shift-day-label { display:flex; flex-direction:column; gap:5px; min-width:105px; }
+.shift-day-label strong { font-size:13px; }
+.shift-day-label small { color:#aeb5be; font-size:11px; }
+.shift-time { display:grid; grid-template-columns:repeat(3,minmax(57px,1fr)); gap:8px; width:min(420px,65%); }
+.shift-time span { display:flex; flex-direction:column; gap:5px; padding:8px 9px; border-radius:8px; background:rgba(255,255,255,.045); }
+.shift-time small { color:#9fa7b0; font-size:9px; font-weight:850; letter-spacing:.08em; }
+.shift-time strong { color:#fff; font-size:14px; font-variant-numeric:tabular-nums; }
+.shift-day-off { background:rgba(255,255,255,.018); }
+.shift-day-off-label { padding:7px 11px; border:1px solid rgba(255,255,255,.11); border-radius:7px; color:#b6bdc5; font-size:10px; font-weight:900; letter-spacing:.12em; }
+@media(max-width:600px) {
+  .shift-program-area { width:calc(100% - 16px) !important; padding:14px !important; border-radius:18px; }
+  .shift-person-button { min-height:69px; gap:10px; padding:11px 10px; }
+  .shift-person-emoji { flex-basis:40px; width:40px; height:40px; font-size:23px; }
+  .shift-person-tag { font-size:8px; padding:4px 5px; }
+  .shift-selected-header { padding:14px; gap:11px; }
+  .shift-selected-emblem { width:45px; height:45px; flex-basis:45px; font-size:24px; }
+  .shift-person-day { align-items:stretch; flex-direction:column; gap:10px; padding:11px; }
+  .shift-day-label { flex-direction:row; align-items:center; justify-content:space-between; min-width:0; }
+  .shift-time { width:100%; gap:6px; }
+  .shift-time span { padding:8px 7px; }
+  .shift-time strong { font-size:13px; }
+}
