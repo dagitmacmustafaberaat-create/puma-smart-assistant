@@ -2022,3 +2022,10 @@ body{background-size:contain !important;background-position:center top !importan
 .shift-week-day .shift-staff-details span { display:inline-block; padding:5px 8px; border-radius:6px; background:rgba(213,0,28,.15); color:#fff; font-size:13px; font-weight:700; }
 .shift-day-empty { color:#999; }
 @media(max-width:760px) { .shift-program-area{padding:12px;} .shift-program-table{grid-template-columns:1fr;gap:10px;} .shift-week-day{padding:13px;} }
+
+
+/* Çalışma programı: bugün ilk sırada, diğer günler alt alta */
+.shift-program-table { display:flex !important; flex-direction:column !important; gap:14px !important; }
+.shift-week-day.is-today-shift { border:2px solid #d5001c !important; box-shadow:0 0 0 2px rgba(213,0,28,.12),0 10px 26px rgba(0,0,0,.35) !important; }
+.shift-week-day > h2 .today-shift-badge { margin-left:auto; padding:4px 8px; border-radius:999px; background:#d5001c; color:#fff; font-size:11px; letter-spacing:.05em; white-space:nowrap; }
+.shift-today-missing { padding:14px 16px; border:1px solid #d5001c; border-radius:10px; background:rgba(213,0,28,.12); color:#fff; line-height:1.5; }
