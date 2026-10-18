@@ -7,7 +7,7 @@
   const escapeHTML = value => String(value == null ? "" : value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   function dayName(value) {
     const n = norm(value);
-    const aliases = {pzt:"Pazartesi",pazartesi:"Pazartesi",sal:"Salı",sali:"Salı",carsamba:"Çarşamba",car:"Çarşamba",persembe:"Perşembe",per:"Perşembe",cuma:"Cuma",cum:"Cumartesi",cumartesi:"Cumartesi",cts:"Cumartesi",pazar:"Pazar",paz:"Pazar",sun:"Pazar"};
+    const aliases = {pzt:"Pazartesi",pazartesi:"Pazartesi",sal:"Salı",sali:"Salı",carsamba:"Çarşamba",car:"Çarşamba",persembe:"Perşembe",per:"Perşembe",cuma:"Cuma",cum:"Cuma",cumartesi:"Cumartesi",cts:"Cumartesi",pazar:"Pazar",paz:"Pazar",sun:"Pazar"};
     return aliases[n] || DAYS.find(day => norm(day) === n) || null;
   }
   function rowHasDay(row) { return row.some(cell => !!dayName(cell)); }
