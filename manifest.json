@@ -1,0 +1,20 @@
+{
+  "name": "BUYAKA PUMA SMART ASSISTANT",
+  "short_name": "PUMA Assistant",
+  "description": "BUYAKA PUMA mağaza operasyonları ve ürün sorgulama asistanı",
+  "lang": "tr-TR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#090909",
+  "theme_color": "#d5001c",
+  "icons": [
+    {
+      "src": "./puma-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
