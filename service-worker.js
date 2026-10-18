@@ -5,7 +5,7 @@ const APP_SHELL = [
   "./style.css?v=20261016-daily-email1",
   "./script.js",
   "./manifest.json",
-  "./puma-app-icon.svg",\n  "./puma-wallpaper.png"
+  "./puma-app-icon.svg"
 ];
 
 self.addEventListener("install", (event) => {
