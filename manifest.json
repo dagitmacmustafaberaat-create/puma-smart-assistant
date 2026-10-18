@@ -11,9 +11,9 @@
   "theme_color": "#d5001c",
   "icons": [
     {
-      "src": "./puma-app-icon.svg?v=20261018-classic-logo",
+      "src": "./puma-bg.jpg.jpg?v=20261018-bg-icon",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any"
     }
   ]
