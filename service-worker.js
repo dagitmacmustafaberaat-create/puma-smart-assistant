@@ -4,7 +4,6 @@ const APP_SHELL = [
   "./index.html",
   "./style.css?v=20261018-roster2",
   "./script.js",
-  "./product-quiz.js?v=20261018-quiz2",
   "./shift-program.js?v=20261018-roster4",
   "./manifest.json",
   "./puma-bg.jpg.jpg"
