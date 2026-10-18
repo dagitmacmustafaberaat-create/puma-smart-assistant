@@ -56,9 +56,7 @@
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5L2 9Z"></path><path d="M6 11v5c3.5 3 8.5 3 12 0v-5M22 9v6"></path></svg></span>
             <span class="module-copy"><strong>Eğitim Merkezi</strong><small>Eğitim takvimi ve dokümanlar</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
-          </button>
-          <button class="menu-button module-card" type="button" onclick="showProductQuiz()"><span class="module-icon" aria-hidden="true">✓</span><span class="module-copy"><strong>Ürün Bilgi Testi</strong><small>Günün konusundan 5 soruluk sınav</small></span><span class="module-arrow" aria-hidden="true">↗</span></button>
-          <button class="menu-button module-card module-card-sd" type="button" onclick="showSDKarnesi()">
+          </button><button class="menu-button module-card module-card-sd" type="button" onclick="showSDKarnesi()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"></path><path d="M14 3.5V8h4M9 12h6M9 16h6"></path></svg></span>
             <span class="module-copy"><strong>SD Karne</strong><small>Ekim 2026 personel karnesi</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
@@ -157,20 +155,7 @@
             class="results"
         ></div>
 
-    </div>
-
-    <section id="productQuizArea" class="product-quiz-area" style="display:none">
-      <button class="back-button" type="button" onclick="closeProductQuiz()">← Ana Menü</button>
-      <div class="quiz-panel"><h1>Ürün Bilgi Testi</h1>
-        <p>Günün eğitim konusu: <strong id="quizTopic">Yükleniyor…</strong></p>
-        <div id="quizSetup"><label for="quizStaff">Personel seçiniz</label><select id="quizStaff" class="quiz-select"><option value="">Personel seçiniz</option></select><button id="startQuizButton" class="quiz-primary" type="button" onclick="startProductQuiz()">5 Soruluk Testi Başlat</button></div>
-        <form id="quizForm" style="display:none" onsubmit="submitProductQuiz(event)"><div id="quizQuestions"></div><button id="submitQuizButton" class="quiz-primary" type="submit">Testi Bitir ve Kaydet</button></form>
-        <p id="quizStatus" role="status" aria-live="polite"></p><div id="quizResult"></div>
-        <button class="quiz-primary" type="button" onclick="showQuizReport()">Yönetici Sonuç Raporu</button>
-      </div>
-    </section>
-    <section id="quizReportArea" class="product-quiz-area" style="display:none"><button class="back-button" type="button" onclick="closeQuizReport()">← Ana Menü</button><div id="quizReportContent" class="quiz-panel">Rapor yükleniyor…</div></section>
-    <section id="educationArea" class="education-area" style="display:none;">
+    </div><section id="educationArea" class="education-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeEducationCenter()">← Ana Menü</button>
       <header class="education-heading">
         <p class="education-eyebrow">BUYAKA PUMA • PERSONEL GELİŞİMİ</p>
@@ -258,9 +243,7 @@
 
     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261018-sd-karne1"></script>
-    <script src="education.js?v=20261016-directview2"></script>
-    <script src="product-quiz.js?v=20261018-quiz2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="shift-program.js?v=20261018-roster4"></script>
 
     <script>
