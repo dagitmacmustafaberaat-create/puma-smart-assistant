@@ -41,7 +41,7 @@
             <p class="dashboard-eyebrow">HIZLI ERİŞİM</p>
             <h2 id="quickAccessTitle">Neye ihtiyacın var?</h2>
           </div>
-          <span class="quick-access-note">4 MODÜL</span>
+          <span class="quick-access-note">5 MODÜL</span>
         </div>
         <div class="module-card-grid">
           <button class="menu-button module-card" type="button" onclick="showProductSearch()">
@@ -61,6 +61,11 @@
           <button class="menu-button module-card module-card-sd" type="button" onclick="showSDKarnesi()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"></path><path d="M14 3.5V8h4M9 12h6M9 16h6"></path></svg></span>
             <span class="module-copy"><strong>SD Karne</strong><small>Ekim 2026 personel karnesi</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="menu-button module-card module-card-shift" type="button" onclick="showShiftProgram()">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h7"></path></svg></span>
+            <span class="module-copy"><strong>Çalışma Programı</strong><small>Haftalık vardiya ve izin planı</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
         </div>
@@ -167,6 +172,19 @@
       <footer class="education-footer"><p>Tüm eğitim dokümanları tek PDF dosyasında</p><button type="button" class="pdf-button" onclick="openEducationPDF()">📖 Tüm Eğitim Dokümanlarını Aç</button></footer>
     </section>
 
+    <section id="shiftProgramArea" class="shift-program-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeShiftProgram()">← Ana Menü</button>
+      <header class="shift-program-heading">
+        <p class="education-eyebrow">BUYAKA PUMA • MAĞAZA OPERASYONU</p>
+        <h1>Çalışma Programı</h1>
+        <p>Yüklenen Excel programındaki günleri seçerek vardiya ve izin bilgilerini inceleyin.</p>
+      </header>
+      <div id="shiftProgramStatus" class="shift-program-status">Çalışma programı yükleniyor…</div>
+      <nav id="shiftProgramDays" class="shift-program-days" aria-label="Çalışma programı günleri"></nav>
+      <div id="shiftProgramTable" class="shift-program-table"></div>
+      <p class="shift-program-source"><a href="https://github.com/dagitmacmustafaberaat-create/puma-smart-assistant/blob/main/%C3%87ALI%C5%9EMA%20PROGRAMI%20YEN%C4%B0%20NES%C4%B0L.xlsx" target="_blank" rel="noopener noreferrer">Orijinal Excel dosyasını GitHub’da aç ↗</a></p>
+    </section>
+
     <section id="sdKarneArea" class="sd-karne-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeSDKarnesi()">← Ana Menü</button>
       <header class="sd-karne-heading">
@@ -221,10 +239,12 @@
     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261018-sd-karne1"></script>
     <script src="education.js?v=20261016-directview2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="shift-program.js?v=20261018-shift1"></script>
 
     <script>
       function showSDKarnesi() {
-        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea"].forEach(function(id) {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea"].forEach(function(id) {
           const el = document.getElementById(id);
           if (el) el.style.display = "none";
         });
