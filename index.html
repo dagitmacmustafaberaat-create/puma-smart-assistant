@@ -19,12 +19,31 @@
     <style>
       #mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
       @media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+      .company-links-widget{position:fixed;top:14px;right:14px;z-index:10000;font-family:inherit}
+      .company-links-trigger{display:flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:8px 12px;background:#171717;color:#fff;font-size:12px;font-weight:700;box-shadow:0 5px 18px rgba(0,0,0,.2);cursor:pointer}
+      .company-links-trigger .company-arrow{font-size:17px;line-height:1}
+      .company-links-menu{position:absolute;top:calc(100% + 8px);right:0;width:190px;padding:7px;border:1px solid rgba(255,255,255,.2);border-radius:13px;background:#fff;box-shadow:0 12px 30px rgba(0,0,0,.2)}
+      .company-links-menu[hidden]{display:none}
+      .company-links-menu a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 10px;border-radius:8px;color:#171717;text-decoration:none;font-size:13px;font-weight:700}
+      .company-links-menu a:hover{background:#f2f2f2}
+      .company-links-menu a span{color:#d5001c;font-size:16px}
+      @media(max-width:480px){.company-links-widget{top:10px;right:10px}.company-links-trigger{padding:7px 10px;font-size:11px}}
     </style>
 </head>
 
 <body>
 
     <!-- SPORT TECH ANA EKRAN / MAĞAZA DURUMU -->
+    <div class="company-links-widget">
+      <button class="company-links-trigger" type="button" aria-haspopup="true" aria-controls="companyLinksMenu" onclick="const menu=document.getElementById('companyLinksMenu');menu.hidden=!menu.hidden;">
+        <span>Fast Perakende</span><span class="company-arrow" aria-hidden="true">↗</span>
+      </button>
+      <nav id="companyLinksMenu" class="company-links-menu" aria-label="Şirket bağlantıları" hidden>
+        <a href="http://www.fastperakende.com/" target="_blank" rel="noopener noreferrer">Biz Kimiz <span aria-hidden="true">↗</span></a>
+        <a href="https://www.fastspor.com/" target="_blank" rel="noopener noreferrer">İnternet Sitesi <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+
     <main id="mainMenu" class="menu home-dashboard">
       <header class="dashboard-header">
         <div class="dashboard-brand-mark" aria-hidden="true">P</div>
@@ -61,11 +80,7 @@
             <span class="module-copy"><strong>SD Karne</strong><small>Ekim 2026 personel karnesi</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
-          <a class="menu-button module-card module-card-fast" href="https://www.fastperakende.com/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;">
-            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
-            <span class="module-copy"><strong>Fast Perakende</strong><small>Tarayıcıda aç</small></span>
-            <span class="module-arrow" aria-hidden="true">↗</span>
-          </a>
+
           <button class="menu-button module-card module-card-shift" type="button" onclick="showShiftProgram()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h7"></path></svg></span>
             <span class="module-copy"><strong>Çalışma Programı</strong><small>Haftalık vardiya ve izin planı</small></span>
