@@ -61,6 +61,11 @@
             <span class="module-copy"><strong>SD Karne</strong><small>Ekim 2026 personel karnesi</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
+          <button class="menu-button module-card module-card-fast" type="button" onclick="showFastPerakende()">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
+            <span class="module-copy"><strong>Fast Perakende</strong><small>Şirket sistemini uygulama içinden aç</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
           <button class="menu-button module-card module-card-shift" type="button" onclick="showShiftProgram()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h7"></path></svg></span>
             <span class="module-copy"><strong>Çalışma Programı</strong><small>Haftalık vardiya ve izin planı</small></span>
@@ -203,6 +208,22 @@
       <p class="sd-karne-note">Görüntüleyici yüklenmezse “Dosyayı ayrı aç” bağlantısını kullanabilirsin.</p>
     </section>
 
+    <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeFastPerakende()">← Ana Menü</button>
+      <header class="work-module-heading">
+        <p class="education-eyebrow">BUYAKA PUMA • ŞİRKET SİSTEMİ</p>
+        <h1>Fast Perakende</h1>
+        <p>Şirketin Fast Perakende web sitesine buradan erişebilirsin.</p>
+      </header>
+      <div class="work-module-card fast-perakende-card">
+        <p id="fastPerakendeEmbedNote" class="work-module-note">Site aşağıda açılmayı deneyecek. Güvenlik ayarları gömülü görüntülemeyi engellerse aşağıdaki bağlantıyı kullan.</p>
+        <div class="fast-perakende-frame-wrap">
+          <iframe id="fastPerakendeFrame" title="Fast Perakende şirket sitesi" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.fastperakende.com/" allow="clipboard-read; clipboard-write"></iframe>
+        </div>
+        <p class="fast-perakende-external"><a href="https://www.fastperakende.com/" target="_blank" rel="noopener noreferrer">Fast Perakende'yi ayrı pencerede aç ↗</a></p>
+      </div>
+    </section>
+
     <section id="dailyTasksArea" class="work-module" style="display:none;">
       <button class="back-button" type="button" onclick="showMainMenu()">← Ana Menü</button>
       <header class="work-module-heading"><p class="education-eyebrow">MAĞAZA OPERASYONU</p><h1>Günlük Görevler</h1><p>Her kontrol maddesi için sonuç ve açıklama girin.</p></header>
@@ -247,6 +268,21 @@
     <script src="shift-program.js?v=20261018-roster4"></script>
 
     <script>
+      function showFastPerakende() {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea"].forEach(function(id) {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "none";
+        });
+        const area = document.getElementById("fastPerakendeArea");
+        if (area) area.style.display = "block";
+        window.scrollTo(0, 0);
+      }
+      function closeFastPerakende() {
+        const area = document.getElementById("fastPerakendeArea");
+        if (area) area.style.display = "none";
+        showMainMenu();
+      }
+
       function showSDKarnesi() {
         ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea"].forEach(function(id) {
           const el = document.getElementById(id);
