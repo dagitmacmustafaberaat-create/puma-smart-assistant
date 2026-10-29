@@ -73,7 +73,7 @@ def main():
         "productCode": ["Stok Kodu", "Stock Code", "Style", "Style Number", "Ürün Kodu", "Urun Kodu", "PRODUCTCODE", "PRODUCT CODE"],
         "productName": ["Ürün Adı", "Urun Adi", "Product Name", "Product", "Ürün İsmi", "Urun Ismi", "PRODUCTNAME", "PRODUCT NAME"],
         "size": ["Beden", "Size", "Beden No", "BEDEN NO", "BEDEN"],
-        "stock": ["Stok Adedi", "Fiili Stok Adedi", "Stok", "Stock", "STOK ADEDİ", "STOK_ADEDI", "STOK", "STOK MİKTARI", "Mevcut Stok"],
+        "stock": ["Fiili Stok Adedi", "Fiili Stok", "Mevcut Stok", "Stok Adedi", "Stok", "Stock", "STOK ADEDİ", "STOK_ADEDI", "STOK", "STOK MİKTARI"],
         "gender": ["Cinsiyet", "Gender", "Cinsiyet Adı", "Cinsiyet Adi"],
         "category": ["Kategori", "Category", "Ürün Grubu", "Urun Grubu"],
         "season": ["Sezon", "Season", "Sezon Kodu"],
