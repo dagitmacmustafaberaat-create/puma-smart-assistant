@@ -1,0 +1,17 @@
+// Vercel serverless endpoint for BUYAKA PUMA Performance League.
+const OWNER="dagitmacmustafaberaat-create",REPO="puma-smart-assistant",BRANCH="main",PATH="performance-league.json";
+const DEFAULT_DATA={month:"2026-11",entries:[]};
+module.exports=async(req,res)=>{
+res.setHeader("Cache-Control","no-store");const token=process.env.GITHUB_TOKEN;if(!token)return res.status(503).json({error:"GitHub kayıt bağlantısı yapılandırılmamış."});
+const base="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+PATH,headers={"Authorization":"Bearer "+token,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+try{const read=await fetch(base+"?ref="+BRANCH,{headers});let data=DEFAULT_DATA,sha=null;if(read.ok){const file=await read.json();sha=file.sha;data=JSON.parse(Buffer.from(file.content,"base64").toString("utf8"));if(!data||!Array.isArray(data.entries))data=DEFAULT_DATA;}else if(read.status!==404)return res.status(502).json({error:"Lig verisi GitHub'dan okunamadı."});
+if(req.method==="GET")return res.status(200).json(data);if(req.method!=="POST"){res.setHeader("Allow","GET, POST");return res.status(405).json({error:"GET ve POST desteklenir."});}
+const expected=process.env.LEAGUE_ADMIN_PIN;if(!expected)return res.status(503).json({error:"Yönetici kodu henüz tanımlı değil. Vercel'de LEAGUE_ADMIN_PIN ortam değişkenini tanımlayın."});if(String(req.headers["x-manager-pin"]||"")!==expected)return res.status(401).json({error:"Yönetici kodu hatalı."});
+const incoming=Array.isArray(req.body?.entries)?req.body.entries:[];if(incoming.length!==5)return res.status(400).json({error:"Beş personelin günlük verisi birlikte gönderilmelidir."});
+const allowed=new Set(["sinem","serkan","cem","merve","ecenur"]),normalized=incoming.map(e=>({date:String(e.date||""),staffId:String(e.staffId||""),invoices:Number(e.invoices)||0,units:Number(e.units)||0,revenue:Number(e.revenue)||0,traffic:Number(e.traffic)||0}));
+if(normalized.some(e=>!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(e.date)||!allowed.has(e.staffId)||[e.invoices,e.units,e.revenue,e.traffic].some(n=>!Number.isFinite(n)||n<0||!Number.isInteger(n))))return res.status(400).json({error:"Gönderilen günlük veri geçersiz."});
+const date=normalized[0].date;if(normalized.some(e=>e.date!==date)||new Set(normalized.map(e=>e.staffId)).size!==5)return res.status(400).json({error:"Aynı tarih için beş farklı personel kaydı gerekli."});
+const keyed=new Map(data.entries.map(e=>[e.date+"|"+e.staffId,e]));normalized.forEach(e=>keyed.set(e.date+"|"+e.staffId,e));data={month:"2026-11",entries:[...keyed.values()].sort((a,b)=>a.date.localeCompare(b.date)||a.staffId.localeCompare(b.staffId))};
+const write=await fetch(base,{method:"PUT",headers:{...headers,"Content-Type":"application/json"},body:JSON.stringify({message:"Performance League günlük veri: "+date,branch:BRANCH,...(sha?{sha}:{}),content:Buffer.from(JSON.stringify(data,null,2),"utf8").toString("base64")})});const result=await write.json().catch(()=>({}));if(!write.ok){console.error("League GitHub write failed",write.status,result);return res.status(502).json({error:"Lig verisi GitHub'a kaydedilemedi."});}return res.status(200).json({ok:true,data});
+}catch(error){console.error("Performance League API error",error);return res.status(502).json({error:"Lig kaydı sırasında bağlantı hatası oluştu."});}
+};
