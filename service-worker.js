@@ -37,7 +37,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   // Never cache live stock data or training documents; always fetch them from the network.
-  if (/data\.json$/i.test(url.pathname) || /\.(pdf|xlsx?)$/i.test(url.pathname)) return;
+  if (/data\.json$/i.test(url.pathname) || /performance-league\.json$/i.test(url.pathname) || /\.(pdf|xlsx?)$/i.test(url.pathname)) return;
 
   event.respondWith(
     fetch(request)
