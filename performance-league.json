@@ -1,0 +1,60 @@
+{
+  "month": "2026-11",
+  "currency": "TRY",
+  "scoring": {
+    "invoiceWeight": 50,
+    "unitWeight": 50
+  },
+  "staff": [
+    {
+      "id": "sinem",
+      "name": "Sinem Palaz",
+      "role": "STORE MANAGER",
+      "invoiceTarget": 119,
+      "unitTarget": 214,
+      "weight": 0.9
+    },
+    {
+      "id": "serkan",
+      "name": "Serkan Canik",
+      "role": "SALES ADVISOR",
+      "invoiceTarget": 133,
+      "unitTarget": 239,
+      "weight": 1
+    },
+    {
+      "id": "cem",
+      "name": "Cem Aktaş",
+      "role": "SALES ADVISOR",
+      "invoiceTarget": 133,
+      "unitTarget": 239,
+      "weight": 1
+    },
+    {
+      "id": "merve",
+      "name": "Merve Çetin",
+      "role": "SALES ADVISOR",
+      "invoiceTarget": 132,
+      "unitTarget": 238,
+      "weight": 1
+    },
+    {
+      "id": "ecenur",
+      "name": "Ecenur Temür",
+      "role": "SALES ADVISOR",
+      "invoiceTarget": 132,
+      "unitTarget": 238,
+      "weight": 1
+    }
+  ],
+  "storeTargets": {
+    "revenue": 3500000,
+    "invoices": 649,
+    "units": 1168,
+    "upt": 1.8,
+    "conversion": 0.07,
+    "asp": 3000,
+    "traffic": 9272
+  },
+  "entries": []
+}
