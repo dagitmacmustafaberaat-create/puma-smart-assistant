@@ -81,6 +81,12 @@
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
 
+          <button class="menu-button module-card league-menu-card" type="button" onclick="showPerformanceLeague()">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"></path><path d="M7 6H4v2a4 4 0 0 0 4 4M17 6h3v2a4 4 0 0 1-4 4"></path><path d="m12 6 1 2 2 .3-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9 8.3 11 8l1-2Z"></path></svg></span>
+            <span class="module-copy"><strong>Performance League</strong><small>Haftalık ve aylık personel yarışması</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+
           <button class="menu-button module-card" type="button" onclick="showPersonelHedefleri()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="m7 15 4-4 3 2 6-7"></path><path d="M17 6h3v3"></path></svg></span>
             <span class="module-copy"><strong>Personel Hedefleri</strong><small>Kasım 2026 fatura ve ürün hedefleri</small></span>
@@ -246,6 +252,25 @@
       <p class="sd-karne-note">Excel görüntüleyicisi yüklenmezse “Dosyayı ayrı aç” bağlantısını kullanabilirsin.</p>
     </section>
 
+    <section id="performanceLeagueArea" class="performance-league-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closePerformanceLeague()">← Ana Menü</button>
+      <header class="league-hero">
+        <div class="league-hero-top"><span class="league-kicker">BUYAKA PUMA • TEAM PERFORMANCE</span><span class="league-season">SEZON 2026</span></div>
+        <div class="league-title-row"><div><p class="league-overline">ONE TEAM. ONE RACE.</p><h1>PERFORMANCE <em>LEAGUE</em></h1><p>Her fatura bir puan. Her ürün bir adım. Hedefe birlikte, zirveye rekabetle.</p></div><div class="league-trophy">🏆</div></div>
+        <div class="league-hero-stats"><div><strong>05</strong><span>OYUNCU</span></div><div><strong>649</strong><span>FATURA HEDEFİ</span></div><div><strong>1.168</strong><span>ÜRÜN HEDEFİ</span></div><div><strong>30</strong><span>YARIŞ GÜNÜ</span></div></div>
+      </header>
+      <div class="league-toolbar"><div class="league-tabs" role="group" aria-label="Lig dönemi"><button type="button" class="league-tab active" data-period="monthly" onclick="setLeaguePeriod('monthly')">AYLIK LİG</button><button type="button" class="league-tab" data-period="weekly" onclick="setLeaguePeriod('weekly')">HAFTALIK LİG</button></div><label class="league-date-label">DÖNEM <input id="leagueDate" type="date" value="2026-11-01" onchange="renderPerformanceLeague()"></label></div>
+      <div class="league-kpi-grid"><article class="league-kpi"><span>TOPLAM CİRO</span><strong id="leagueRevenue">₺0</strong><small>Girilen gerçekleşen</small></article><article class="league-kpi"><span>FATURA</span><strong id="leagueInvoices">0 / 649</strong><small id="leagueInvoiceRate">%0 hedef</small></article><article class="league-kpi"><span>ÜRÜN</span><strong id="leagueUnits">0 / 1.168</strong><small id="leagueUnitRate">%0 hedef</small></article><article class="league-kpi"><span>UPT</span><strong id="leagueUpt">0,00</strong><small>Ürün / fatura</small></article></div>
+      <section class="league-panel"><div class="league-panel-heading"><div><span class="league-section-tag">THE LEADERBOARD</span><h2 id="leagueBoardTitle">AYLIK ŞAMPİYONLUK SIRALAMASI</h2></div><span class="league-live-dot">● CANLI TABLO</span></div><div id="leagueLeaderboard" class="league-leaderboard"><div class="league-empty">Lig verileri yükleniyor…</div></div><p class="league-scoring-note">Sıralama puanı: fatura hedef gerçekleşmesi %50 + ürün hedef gerçekleşmesi %50. Sinem Palaz'ın bireysel hedefleri mağaza şefi rolü nedeniyle %10 daha düşüktür.</p></section>
+      <section class="league-panel league-admin-panel"><div class="league-panel-heading"><div><span class="league-section-tag">MANAGER CONTROL</span><h2>YÖNETİCİ VERİ GİRİŞİ</h2><p>Günlük gerçekleşmeleri gir; sistem haftalık ve aylık ligi otomatik güncellesin.</p></div><span class="league-admin-icon">✎</span></div>
+        <div class="league-admin-top"><label>GÜN SEÇ <input id="leagueEntryDate" type="date" value="2026-11-01"></label><label>YÖNETİCİ KODU <input id="leagueManagerPin" type="password" inputmode="numeric" autocomplete="off" placeholder="Yönetici kodu"></label></div>
+        <div class="league-entry-table-wrap"><table class="league-entry-table"><thead><tr><th>PERSONEL</th><th>FATURA</th><th>ÜRÜN</th><th>CİRO (₺)</th><th>TRAFİK</th></tr></thead><tbody id="leagueEntryRows"></tbody></table></div>
+        <div class="league-admin-actions"><span id="leagueSaveStatus" role="status">Günlük verileri girip kaydedebilirsin.</span><button id="leagueSaveButton" type="button" onclick="saveLeagueEntries()">KAYDET VE LİGİ GÜNCELLE ↗</button></div>
+        <p class="league-admin-note">Kayıt için Vercel ortam değişkenindeki LEAGUE_ADMIN_PIN gerekir. Veriler GitHub'daki performance-league.json dosyasında saklanır ve tüm cihazlarda ortak görünür.</p>
+      </section>
+      <section class="league-panel"><div class="league-panel-heading"><div><span class="league-section-tag">MATCHDAY LOG</span><h2>SON GİRİLEN GÜNLER</h2></div></div><div id="leagueRecentEntries" class="league-recent-list"><span class="league-empty">Henüz kayıt yok.</span></div></section>
+    </section>
+
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeFastPerakende()">← Ana Menü</button>
       <header class="work-module-heading">
@@ -302,6 +327,7 @@
 
     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261018-sd-karne1"></script>
+    <script src="performance-league.js?v=20261101"></script>
     <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="shift-program.js?v=20261026-week44"></script>
 
@@ -342,7 +368,7 @@
       }
 
       function showPersonelHedefleri() {
-        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","fastPerakendeArea"].forEach(function(id) {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","performanceLeagueArea","fastPerakendeArea"].forEach(function(id) {
           const el = document.getElementById(id);
           if (el) el.style.display = "none";
         });
