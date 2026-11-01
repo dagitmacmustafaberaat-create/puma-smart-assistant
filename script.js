@@ -246,6 +246,12 @@ function showMainMenu() {
     if (educationArea) educationArea.style.display = "none";
     if (dailyTasksArea) dailyTasksArea.style.display = "none";
     if (vmStandardsArea) vmStandardsArea.style.display = "none";
+    const personelHedefleriArea = document.getElementById("personelHedefleriArea");
+    if (personelHedefleriArea) personelHedefleriArea.style.display = "none";
+    const fastPerakendeArea = document.getElementById("fastPerakendeArea");
+    if (fastPerakendeArea) fastPerakendeArea.style.display = "none";
+    const sdKarneArea = document.getElementById("sdKarneArea");
+    if (sdKarneArea) sdKarneArea.style.display = "none";
     if (results) results.innerHTML = "";
     if (sizeResults) sizeResults.innerHTML = "";
 }
