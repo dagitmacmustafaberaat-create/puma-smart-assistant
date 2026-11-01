@@ -16,7 +16,7 @@ async function loadLeagueData(){const status=document.getElementById("leagueSave
 function showPerformanceLeague(){["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","fastPerakendeArea"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});const area=document.getElementById("performanceLeagueArea");if(area)area.style.display="block";loadLeagueData();window.scrollTo(0,0);}
 function closePerformanceLeague(){const area=document.getElementById("performanceLeagueArea");if(area)area.style.display="none";showMainMenu();}
 function renderPerformanceLeague(){
-const month=document.getElementById("leagueDate")?.value||"2026-11",bounds=leagueMonthBounds(month),entries=leagueEntriesFor(month),tot=leagueTotals(entries),selectedDay=document.getElementById("leagueEntryDate")?.value||month+"-01",day=Math.max(1,Math.min(bounds.days,Number(selectedDay.slice(-2))||1)),elapsed=day;
+const month=document.getElementById("leagueDate")?.value||"2026-11";const entryDate=document.getElementById("leagueEntryDate");if(entryDate&&entryDate.value.slice(0,7)!==month)entryDate.value=month+"-01";const bounds=leagueMonthBounds(month),entries=leagueEntriesFor(month),tot=leagueTotals(entries),selectedDay=document.getElementById("leagueEntryDate")?.value||month+"-01",day=Math.max(1,Math.min(bounds.days,Number(selectedDay.slice(-2))||1)),elapsed=day;
 const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
 const invoiceTarget=LEAGUE_STAFF.reduce((n,s)=>n+s.invoiceTarget,0),unitTarget=LEAGUE_STAFF.reduce((n,s)=>n+s.unitTarget,0);
 put("leagueInvoices",leagueNumber(tot.invoices)+" / "+leagueNumber(invoiceTarget));put("leagueUnits",leagueNumber(tot.units)+" / "+leagueNumber(unitTarget));
@@ -37,4 +37,4 @@ const entries=Array.from(document.querySelectorAll("#leagueEntryRows tr")).map(r
 if(button){button.disabled=true;button.textContent="KAYDEDİLİYOR…";}if(status)status.textContent="Kayıt GitHub'a gönderiliyor…";
 try{const r=await fetch("/api/performance-league",{method:"POST",headers:{"Content-Type":"application/json","x-manager-pin":pin},body:JSON.stringify({entries})}),result=await r.json().catch(()=>({}));if(!r.ok)throw new Error(result.error||"Kayıt yapılamadı.");leagueData=result.data||leagueData;if(status)status.textContent="✓ "+date+" günlük verileri kaydedildi. Aylık lig güncellendi.";renderPerformanceLeague();}catch(e){if(status)status.textContent="Kayıt başarısız: "+e.message;}finally{if(button){button.disabled=false;button.textContent="KAYDET VE LİGİ GÜNCELLE ↗";}}
 }
-document.addEventListener("change",e=>{if(e.target?.id==="leagueEntryDate")renderPerformanceLeague();});
+document.addEventListener("change",e=>{if(e.target?.id==="leagueEntryDate"){const month=document.getElementById("leagueDate");if(month)month.value=e.target.value.slice(0,7);renderPerformanceLeague();}});
