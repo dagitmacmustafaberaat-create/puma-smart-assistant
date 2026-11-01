@@ -87,12 +87,6 @@
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
 
-          <button class="menu-button module-card" type="button" onclick="showPersonelHedefleri()">
-            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="m7 15 4-4 3 2 6-7"></path><path d="M17 6h3v3"></path></svg></span>
-            <span class="module-copy"><strong>Personel Hedefleri</strong><small>Kasım 2026 fatura ve ürün hedefleri</small></span>
-            <span class="module-arrow" aria-hidden="true">↗</span>
-          </button>
-
           <button class="menu-button module-card module-card-shift" type="button" onclick="showShiftProgram()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h7"></path></svg></span>
             <span class="module-copy"><strong>Çalışma Programı</strong><small>Haftalık vardiya ve izin planı</small></span>
@@ -235,23 +229,6 @@
       <p class="sd-karne-note">Görüntüleyici yüklenmezse “Dosyayı ayrı aç” bağlantısını kullanabilirsin.</p>
     </section>
 
-    <section id="personelHedefleriArea" class="sd-karne-area" style="display:none;">
-      <button class="back-button" type="button" onclick="closePersonelHedefleri()">← Ana Menü</button>
-      <header class="sd-karne-heading">
-        <p class="education-eyebrow">BUYAKA PUMA • TEAM PERFORMANCE</p>
-        <h1>KASIM 2026 PERSONEL HEDEFLERİ</h1>
-        <p>Personel bazlı aylık fatura ve ürün adedi hedefleri.</p>
-      </header>
-      <div class="sd-karne-toolbar">
-        <span>KASIM PERSONEL FATURA VE ÜRÜN ADEDİ HEDEF.xlsx</span>
-        <a href="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/KASIM%20PERSONEL%20FATURA%20VE%20%C3%9CR%C3%9CN%20ADED%C4%B0%20HEDEF.xlsx" target="_blank" rel="noopener noreferrer">Dosyayı ayrı aç ↗</a>
-      </div>
-      <div class="sd-karne-viewer-wrap">
-        <iframe id="personelHedefleriViewer" title="Kasım 2026 personel fatura ve ürün hedefleri" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
-      </div>
-      <p class="sd-karne-note">Excel görüntüleyicisi yüklenmezse “Dosyayı ayrı aç” bağlantısını kullanabilirsin.</p>
-    </section>
-
     <section id="performanceLeagueArea" class="performance-league-area" style="display:none;">
       <button class="back-button" type="button" onclick="closePerformanceLeague()">← Ana Menü</button>
       <header class="league-hero">
@@ -333,7 +310,7 @@
 
     <script>
       function showFastPerakende() {
-        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","personelHedefleriArea","sdKarneArea","personelHedefleriArea"].forEach(function(id) {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","personelHedefleriArea"].forEach(function(id) {
           const el = document.getElementById(id);
           if (el) el.style.display = "none";
         });
@@ -367,26 +344,7 @@
         showMainMenu();
       }
 
-      function showPersonelHedefleri() {
-        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","performanceLeagueArea","fastPerakendeArea"].forEach(function(id) {
-          const el = document.getElementById(id);
-          if (el) el.style.display = "none";
-        });
-        const area = document.getElementById("personelHedefleriArea");
-        const viewer = document.getElementById("personelHedefleriViewer");
-        if (area) area.style.display = "block";
-        if (viewer && !viewer.src) {
-          const fileUrl = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/KASIM%20PERSONEL%20FATURA%20VE%20%C3%9CR%C3%9CN%20ADED%C4%B0%20HEDEF.xlsx";
-          viewer.src = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(fileUrl);
-        }
-        window.scrollTo(0, 0);
-      }
-
-      function closePersonelHedefleri() {
-        const area = document.getElementById("personelHedefleriArea");
-        if (area) area.style.display = "none";
-        showMainMenu();
-      }
+}
     </script>
     <script>
       if ("serviceWorker" in navigator) {
