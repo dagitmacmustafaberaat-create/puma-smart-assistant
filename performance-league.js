@@ -1,5 +1,5 @@
 const LEAGUE_STAFF=[
-{id:"sinem",name:"Sinem Palaz",role:"STORE MANAGER",invoiceTarget:119,unitTarget:214},
+{id:"sinem",name:"Sinem Palaz",role:"SUPERVISOR",invoiceTarget:119,unitTarget:214},
 {id:"serkan",name:"Serkan Canik",role:"SALES ADVISOR",invoiceTarget:133,unitTarget:239},
 {id:"cem",name:"Cem Aktaş",role:"SALES ADVISOR",invoiceTarget:133,unitTarget:239},
 {id:"merve",name:"Merve Çetin",role:"SALES ADVISOR",invoiceTarget:132,unitTarget:238},
