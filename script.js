@@ -726,7 +726,7 @@ async function loadPerformanceDashboard() {
         groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
         groups.push(section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
             card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
-            card(String(raw("E25") || "HGO"), get("F25"), "metric-card-featured")
+            card(String(raw("E25") || "HGO"), { ...get("F25"), number_format: "0.00%" }, "metric-card-featured")
         ], "forecast-group"));
         groups.push(section("Kategori Bazlı Ciro Karşılaştırması", "Tabloda bulunan 2025 / 2026 ve büyüme değerleri", categoryCards, "comparison-group"));
         groups.push(section("Cinsiyet Bazlı Karşılaştırma", "Tablodaki değerler olduğu gibi gösterilir", genderCards, "comparison-group"));
