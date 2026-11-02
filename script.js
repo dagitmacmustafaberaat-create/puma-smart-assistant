@@ -603,14 +603,26 @@ async function loadPerformanceDashboard() {
     if (!root) return;
 
     try {
-        const response = await fetch("./performance-data.json?v=" + Date.now(), { cache: "no-store" });
-        if (!response.ok) throw new Error("Performans verisi yüklenemedi.");
-        const workbook = await response.json();
-        const sheet = (workbook.sheets || [])[0];
+        if (!window.XLSX) throw new Error("Excel okuma kütüphanesi yüklenemedi.");
+        const excelUrl = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/Kas%C4%B1m%202026%20Data.xlsx";
+        const response = await fetch(excelUrl + "?v=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) throw new Error("GitHub'daki Kasım 2026 Data.xlsx dosyasına erişilemedi.");
+        const workbook = XLSX.read(await response.arrayBuffer(), { type: "array", cellDates: true });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
         if (!sheet) throw new Error("Excel sayfası bulunamadı.");
 
         const cells = {};
-        (sheet.rows || []).forEach(row => (row.cells || []).forEach(cell => { cells[cell.address] = cell; }));
+        const range = XLSX.utils.decode_range(sheet["!ref"] || "A1");
+        for (let row = range.s.r; row <= range.e.r; row++) {
+            for (let column = range.s.c; column <= range.e.c; column++) {
+                const address = XLSX.utils.encode_cell({ r: row, c: column });
+                const sourceCell = sheet[address];
+                if (!sourceCell) continue;
+                const value = sourceCell.t === "e" ? (sourceCell.w || "#EXCEL HATASI") : sourceCell.v;
+                if (value === undefined || value === null || value === "") continue;
+                cells[address] = { value, number_format: sourceCell.z || "General" };
+            }
+        }
         const get = address => cells[address] || null;
         const raw = address => { const c = get(address); return c ? c.value : null; };
         const safe = value => escapeHTML(value === null || value === undefined || value === "" ? "—" : value);
