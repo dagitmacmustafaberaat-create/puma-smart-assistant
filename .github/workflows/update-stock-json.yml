@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "Güncel Stok.xlsx"
-      - "Ekim 2026 Data.xlsx"
+      - "Kasım 2026 Data.xlsx"
       - "generate_data_json.py"
       - "generate_performance_json.py"
       - ".github/workflows/update-stock-json.yml"
