@@ -1,39 +1,74 @@
 const LEAGUE_STAFF=[
-{id:"sinem",name:"Sinem Palaz",role:"SUPERVISOR",invoiceTarget:119,unitTarget:214},
-{id:"serkan",name:"Serkan Canik",role:"SALES ADVISOR",invoiceTarget:133,unitTarget:239},
-{id:"cem",name:"Cem Aktaş",role:"SALES ADVISOR",invoiceTarget:133,unitTarget:239},
-{id:"merve",name:"Merve Çetin",role:"SALES ADVISOR",invoiceTarget:132,unitTarget:238},
-{id:"ecenur",name:"Ecenur Temür",role:"SALES ADVISOR",invoiceTarget:132,unitTarget:238}
+  {id:"sinem",name:"Sinem Palaz",role:"SUPERVISOR"},
+  {id:"serkan",name:"Serkan Canik",role:"SALES ADVISOR"},
+  {id:"cem",name:"Cem Aktaş",role:"SALES ADVISOR"},
+  {id:"merve",name:"Merve Çetin",role:"SALES ADVISOR"},
+  {id:"ecenur",name:"Ecenur Temür",role:"SALES ADVISOR"}
 ];
-let leagueData={month:"2026-11",entries:[]};
-function leagueDateValue(id){return document.getElementById(id)?.value||"2026-11-01";}
-function leagueMonthBounds(v){const p=v.split("-").map(Number),a=new Date(p[0],p[1]-1,1),b=new Date(p[0],p[1],0);return{start:v+"-01",end:[p[0],String(p[1]).padStart(2,"0"),String(b.getDate()).padStart(2,"0")].join("-"),days:b.getDate()};}
+const LEAGUE_WORKBOOK_URL="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/KASIM%20PERSONEL%20FATURA%20VE%20%C3%9CR%C3%9CN%20ADED%C4%B0%20HEDEF.xlsx";
+let leagueData={month:"2026-11",staff:[],source:""};
 function leagueNumber(v,d=0){return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:d,minimumFractionDigits:d}).format(Number(v)||0);}
 function leagueEsc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function leagueEntriesFor(v){const m=leagueMonthBounds(v);return leagueData.entries.filter(e=>e.date>=m.start&&e.date<=m.end);}
-function leagueTotals(list){return list.reduce((a,e)=>{a.invoices+=Number(e.invoices)||0;a.units+=Number(e.units)||0;return a;},{invoices:0,units:0});}
-async function loadLeagueData(){const status=document.getElementById("leagueSaveStatus");try{const r=await fetch("/api/performance-league",{cache:"no-store"});if(!r.ok)throw new Error("Lig veri dosyası okunamadı.");leagueData=await r.json();if(!Array.isArray(leagueData.entries))leagueData.entries=[];if(status)status.textContent="Ortak lig verisi yüklendi.";}catch(e){if(status)status.textContent="Lig verisi yüklenemedi: "+e.message;}renderPerformanceLeague();}
-function showPerformanceLeague(){["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","fastPerakendeArea"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});const area=document.getElementById("performanceLeagueArea");if(area)area.style.display="block";loadLeagueData();window.scrollTo(0,0);}
+function leagueNameKey(v){return String(v||"").toLocaleLowerCase("tr-TR").replace(/ı/g,"i").replace(/İ/g,"i").replace(/ç/g,"c").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/\s+/g," ").trim();}
+function leagueMonthFromTitle(v){const m=String(v||"").toLocaleUpperCase("tr-TR").match(/(OCAK|ŞUBAT|MART|NİSAN|MAYIS|HAZİRAN|TEMMUZ|AĞUSTOS|EYLÜL|EKİM|KASIM|ARALIK)\s+(20\d{2})/);if(!m)return"2026-11";const months={"OCAK":"01","ŞUBAT":"02","MART":"03","NİSAN":"04","MAYIS":"05","HAZİRAN":"06","TEMMUZ":"07","AĞUSTOS":"08","EYLÜL":"09","EKİM":"10","KASIM":"11","ARALIK":"12"};return m[2]+"-"+months[m[1]];}
+function leagueMonthLabel(v){const p=v.split("-");const names=["","OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];return names[Number(p[1])]+" "+p[0];}
+function leagueMonthBounds(v){const p=v.split("-").map(Number),last=new Date(p[0],p[1],0).getDate();return{days:last};}
+async function loadLeagueData(){
+ const status=document.getElementById("leagueDataStatus");
+ try{
+  if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi. Sayfayı yenileyip tekrar deneyin.");
+  const response=await fetch(LEAGUE_WORKBOOK_URL+"?v="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw new Error("GitHub'daki Kasım hedef Excel dosyasına erişilemedi ("+response.status+").");
+  const bytes=await response.arrayBuffer(),book=XLSX.read(bytes,{type:"array",cellDates:false});
+  const sheet=book.Sheets["Sayfa1"]||book.Sheets[book.SheetNames[0]];
+  if(!sheet)throw new Error("Excel içinde okunabilir sayfa bulunamadı.");
+  const rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:null,raw:true});
+  const month=leagueMonthFromTitle(rows?.[0]?.[0]);
+  const staff=LEAGUE_STAFF.map(person=>{
+   const targetRow=rows.slice(3,8).find(r=>leagueNameKey(r?.[0])===leagueNameKey(person.name));
+   const actualRow=rows.slice(3,9).find(r=>leagueNameKey(r?.[6])===leagueNameKey(person.name));
+   const dailyRow=rows.slice(12,17).find(r=>leagueNameKey(r?.[0])===leagueNameKey(person.name));
+   if(!targetRow||!actualRow||!dailyRow)throw new Error(person.name+" için Excel satırı bulunamadı.");
+   return {...person,invoiceTarget:Number(targetRow[2])||0,unitTarget:Number(targetRow[3])||0,invoices:Number(actualRow[8])||0,units:Number(actualRow[9])||0,dailyInvoice:Number(dailyRow[1])||0,dailyUnits:Number(dailyRow[2])||0};
+  });
+  if(staff.some(s=>!s.invoiceTarget||!s.unitTarget))throw new Error("Excel hedef değerleri boş veya hatalı.");
+  leagueData={month,staff,source:"GitHub Excel"};
+  if(status)status.textContent="✓ GitHub Excel dosyasından güncel veriler yüklendi · "+new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+ }catch(error){
+  if(status)status.textContent="Excel verisi yüklenemedi: "+error.message;
+  console.error("Performance League Excel load error:",error);
+  const board=document.getElementById("leagueLeaderboard");
+  if(board)board.innerHTML='<tr><td colspan="10" class="league-empty">Excel verileri okunamadı. GitHub dosya adını ve erişimini kontrol edin.</td></tr>';
+  return;
+ }
+ renderPerformanceLeague();
+}
+function showPerformanceLeague(){
+ ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","fastPerakendeArea"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+ const area=document.getElementById("performanceLeagueArea");if(area)area.style.display="block";
+ loadLeagueData();window.scrollTo(0,0);
+}
 function closePerformanceLeague(){const area=document.getElementById("performanceLeagueArea");if(area)area.style.display="none";showMainMenu();}
 function renderPerformanceLeague(){
-const month=document.getElementById("leagueDate")?.value||"2026-11";const entryDate=document.getElementById("leagueEntryDate");if(entryDate&&entryDate.value.slice(0,7)!==month)entryDate.value=month+"-01";const bounds=leagueMonthBounds(month),entries=leagueEntriesFor(month),tot=leagueTotals(entries),selectedDay=document.getElementById("leagueEntryDate")?.value||month+"-01",day=Math.max(1,Math.min(bounds.days,Number(selectedDay.slice(-2))||1)),elapsed=day;
-const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
-const invoiceTarget=LEAGUE_STAFF.reduce((n,s)=>n+s.invoiceTarget,0),unitTarget=LEAGUE_STAFF.reduce((n,s)=>n+s.unitTarget,0);
-put("leagueInvoices",leagueNumber(tot.invoices)+" / "+leagueNumber(invoiceTarget));put("leagueUnits",leagueNumber(tot.units)+" / "+leagueNumber(unitTarget));
-put("leagueInvoiceRate","%"+leagueNumber(invoiceTarget?tot.invoices/invoiceTarget*100:0,1)+" aylık hedef");put("leagueUnitRate","%"+leagueNumber(unitTarget?tot.units/unitTarget*100:0,1)+" aylık hedef");
-const rows=LEAGUE_STAFF.map(s=>{const own=entries.filter(e=>e.staffId===s.id),a=leagueTotals(own),ip=s.invoiceTarget?a.invoices/s.invoiceTarget*100:0,up=s.unitTarget?a.units/s.unitTarget*100:0,score=(ip+up)/2,invoiceDaily=s.invoiceTarget/bounds.days,unitDaily=s.unitTarget/bounds.days,invoicePace=invoiceDaily*elapsed,unitPace=unitDaily*elapsed,invoiceTrack=invoicePace?a.invoices/invoicePace*100:0,unitTrack=unitPace?a.units/unitPace*100:0;return{...s,...a,ip,up,score,invoiceDaily,unitDaily,invoiceTrack,unitTrack,invoicePace,unitPace};}).sort((a,b)=>b.score-a.score);
-const leader=rows[0],best=document.getElementById("leagueBestCard");
-if(leader){put("leagueBestName",leader.name);put("leagueBestDetail","Aylık hedefinin %"+leagueNumber(leader.score,1)+" seviyesinde · "+leagueNumber(leader.invoices)+" fatura · "+leagueNumber(leader.units)+" ürün");put("leagueBestScore","%"+leagueNumber(leader.score,1));if(best)best.classList.toggle("league-best-empty",leader.score===0);}
-const board=document.getElementById("leagueLeaderboard");
-if(board)board.innerHTML=rows.map((r,i)=>'<tr class="'+(i===0?"league-table-first":"")+'"><td><strong>'+(i===0?"🏆 ":"")+leagueEsc(r.name)+'</strong><small>'+r.role+'</small></td><td>'+leagueNumber(r.invoiceTarget)+'</td><td>'+leagueNumber(r.invoiceDaily,1)+'</td><td>'+leagueNumber(r.invoices)+'</td><td><div class="league-pace-cell"><strong>%'+leagueNumber(r.invoiceTrack,0)+'</strong><small>Beklenen '+leagueNumber(r.invoicePace,1)+'</small></div></td><td>'+leagueNumber(r.unitTarget)+'</td><td>'+leagueNumber(r.unitDaily,1)+'</td><td>'+leagueNumber(r.units)+'</td><td><div class="league-pace-cell"><strong>%'+leagueNumber(r.unitTrack,0)+'</strong><small>Beklenen '+leagueNumber(r.unitPace,1)+'</small></div></td><td><strong class="league-score-value">%'+leagueNumber(r.score,1)+'</strong></td></tr>').join("");
-const recent=document.getElementById("leagueRecentEntries");if(recent){const list=leagueData.entries.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,7);recent.innerHTML=list.length?list.map(e=>'<div class="league-recent-row"><span>'+leagueEsc(e.date)+'</span><strong>'+leagueEsc((LEAGUE_STAFF.find(s=>s.id===e.staffId)||{}).name||e.staffId)+'</strong><span>'+leagueNumber(e.invoices)+' fatura</span><span>'+leagueNumber(e.units)+' ürün</span></div>').join(""):'<span class="league-empty">Henüz kayıt yok.</span>';}
-renderLeagueEntryForm();
+ if(!leagueData.staff?.length)return;
+ const month=leagueData.month,bounds=leagueMonthBounds(month),now=new Date(),todayMonth=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+ const elapsed=month===todayMonth?now.getDate():(month<todayMonth?bounds.days:1);
+ const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+ put("leagueMonthLabel",leagueMonthLabel(month));
+ const invoiceTarget=leagueData.staff.reduce((n,s)=>n+s.invoiceTarget,0),unitTarget=leagueData.staff.reduce((n,s)=>n+s.unitTarget,0);
+ const invoices=leagueData.staff.reduce((n,s)=>n+s.invoices,0),units=leagueData.staff.reduce((n,s)=>n+s.units,0);
+ put("leagueTargetInvoices",leagueNumber(invoiceTarget));put("leagueTargetUnits",leagueNumber(unitTarget));
+ put("leagueInvoices",leagueNumber(invoices)+" / "+leagueNumber(invoiceTarget));put("leagueUnits",leagueNumber(units)+" / "+leagueNumber(unitTarget));
+ put("leagueInvoiceRate","%"+leagueNumber(invoiceTarget?invoices/invoiceTarget*100:0,1)+" aylık hedef");
+ put("leagueUnitRate","%"+leagueNumber(unitTarget?units/unitTarget*100:0,1)+" aylık hedef");
+ const ranked=leagueData.staff.map(s=>{
+  const ip=s.invoiceTarget?s.invoices/s.invoiceTarget*100:0,up=s.unitTarget?s.units/s.unitTarget*100:0,score=(ip+up)/2;
+  const invoicePace=s.dailyInvoice*elapsed,unitPace=s.dailyUnits*elapsed;
+  return {...s,score,invoiceTrack:invoicePace?s.invoices/invoicePace*100:0,unitTrack:unitPace?s.units/unitPace*100:0,invoicePace,unitPace};
+ }).sort((a,b)=>b.score-a.score);
+ const leader=ranked[0],best=document.getElementById("leagueBestCard");
+ if(leader){put("leagueBestName",leader.name);put("leagueBestDetail","Aylık hedefinin %"+leagueNumber(leader.score,1)+" seviyesinde · "+leagueNumber(leader.invoices)+" fatura · "+leagueNumber(leader.units)+" ürün");put("leagueBestScore","%"+leagueNumber(leader.score,1));if(best)best.classList.toggle("league-best-empty",leader.score===0);}
+ const board=document.getElementById("leagueLeaderboard");
+ if(board)board.innerHTML=ranked.map((r,i)=>'<tr class="'+(i===0?"league-table-first":"")+'"><td><strong>'+(i===0?"🏆 ":"")+leagueEsc(r.name)+'</strong><small>'+r.role+'</small></td><td>'+leagueNumber(r.invoiceTarget)+'</td><td>'+leagueNumber(r.dailyInvoice,1)+'</td><td>'+leagueNumber(r.invoices)+'</td><td><div class="league-pace-cell"><strong>%'+leagueNumber(r.invoiceTrack,0)+'</strong><small>Beklenen '+leagueNumber(r.invoicePace,1)+'</small></div></td><td>'+leagueNumber(r.unitTarget)+'</td><td>'+leagueNumber(r.dailyUnits,1)+'</td><td>'+leagueNumber(r.units)+'</td><td><div class="league-pace-cell"><strong>%'+leagueNumber(r.unitTrack,0)+'</strong><small>Beklenen '+leagueNumber(r.unitPace,1)+'</small></div></td><td><strong class="league-score-value">%'+leagueNumber(r.score,1)+'</strong></td></tr>').join("");
 }
-function renderLeagueEntryForm(){const d=leagueDateValue("leagueEntryDate"),body=document.getElementById("leagueEntryRows");if(!body)return;body.innerHTML=LEAGUE_STAFF.map(s=>{const e=leagueData.entries.find(x=>x.date===d&&x.staffId===s.id)||{};return'<tr data-staff-id="'+s.id+'"><td><strong>'+leagueEsc(s.name)+'</strong><small>'+s.role+'</small></td><td><input type="number" min="0" step="1" inputmode="numeric" class="league-entry-input" data-field="invoices" value="'+(e.invoices??"")+'" placeholder="Fatura" aria-label="'+s.name+' fatura"></td><td><input type="number" min="0" step="1" inputmode="numeric" class="league-entry-input" data-field="units" value="'+(e.units??"")+'" placeholder="Ürün" aria-label="'+s.name+' ürün"></td></tr>';}).join("");}
-async function saveLeagueEntries(){
-const date=leagueDateValue("leagueEntryDate"),status=document.getElementById("leagueSaveStatus"),button=document.getElementById("leagueSaveButton");
-const entries=Array.from(document.querySelectorAll("#leagueEntryRows tr")).filter(row=>{const a=row.querySelector('[data-field="invoices"]')?.value,b=row.querySelector('[data-field="units"]')?.value;return a!==""||b!=="";}).map(row=>({date,staffId:row.dataset.staffId,invoices:Number(row.querySelector('[data-field="invoices"]')?.value)||0,units:Number(row.querySelector('[data-field="units"]')?.value)||0}));if(!entries.length){if(status)status.textContent="Kaydetmek için en az bir personelin fatura veya ürün rakamını gir.";return;}
-if(button){button.disabled=true;button.textContent="KAYDEDİLİYOR…";}if(status)status.textContent="Ortak lig tablosu güncelleniyor…";
-try{const r=await fetch("/api/performance-league",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({entries})}),result=await r.json().catch(()=>({}));if(!r.ok)throw new Error(result.error||"Kayıt yapılamadı.");leagueData=result.data||leagueData;if(status)status.textContent="✓ "+date+" kayıtları tüm cihazlar için güncellendi.";renderPerformanceLeague();}catch(e){if(status)status.textContent="Kayıt başarısız: "+e.message;}finally{if(button){button.disabled=false;button.textContent="KAYDET VE LİGİ GÜNCELLE ↗";}}
-}
-document.addEventListener("change",e=>{if(e.target?.id==="leagueEntryDate"){const month=document.getElementById("leagueDate");if(month)month.value=e.target.value.slice(0,7);renderPerformanceLeague();}});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&document.getElementById("performanceLeagueArea")?.style.display!=="none")loadLeagueData();});
