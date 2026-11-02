@@ -228,29 +228,22 @@
     <section id="performanceLeagueArea" class="performance-league-area" style="display:none;">
       <button class="back-button" type="button" onclick="closePerformanceLeague()">← Ana Menü</button>
       <header class="league-hero">
-        <div class="league-hero-top"><span class="league-kicker">BUYAKA PUMA • TEAM PERFORMANCE</span><span class="league-season">AYLIK SEZON 2026</span></div>
+        <div class="league-hero-top"><span class="league-kicker">BUYAKA PUMA • TEAM PERFORMANCE</span><span class="league-season" id="leagueMonthLabel">KASIM 2026</span></div>
         <div class="league-title-row"><div><p class="league-overline">ONE TEAM. ONE GOAL.</p><h1>PERFORMANCE <em>LEAGUE</em></h1><p>Aylık hedefler, günlük tempo ve hedefe göre ilerleme. Her gün bir adım daha yukarı.</p></div><div class="league-trophy">🏆</div></div>
-        <div class="league-hero-stats"><div><strong>05</strong><span>OYUNCU</span></div><div><strong>649</strong><span>AYLIK FATURA HEDEFİ</span></div><div><strong>1.168</strong><span>AYLIK ÜRÜN HEDEFİ</span></div></div>
+        <div class="league-hero-stats"><div><strong id="leaguePlayerCount">05</strong><span>OYUNCU</span></div><div><strong id="leagueTargetInvoices">—</strong><span>AYLIK FATURA HEDEFİ</span></div><div><strong id="leagueTargetUnits">—</strong><span>AYLIK ÜRÜN HEDEFİ</span></div></div>
       </header>
-      <div class="league-toolbar"><label class="league-date-label">AY SEÇ <input id="leagueDate" type="month" value="2026-11" onchange="renderPerformanceLeague()"></label></div>
       <section class="league-best-card" id="leagueBestCard" aria-live="polite">
-        <div class="league-best-icon">🏆</div><div class="league-best-copy"><span>AYIN EN İYİSİ</span><strong id="leagueBestName">Veriler yükleniyor…</strong><small id="leagueBestDetail">Aylık hedeflerine göre en iyi ilerleyen personel</small></div><div class="league-best-score" id="leagueBestScore">—</div>
+        <div class="league-best-icon">🏆</div><div class="league-best-copy"><span>AYIN EN İYİSİ</span><strong id="leagueBestName">Veriler yükleniyor…</strong><small id="leagueBestDetail">Excel hedeflerine göre en iyi ilerleyen personel</small></div><div class="league-best-score" id="leagueBestScore">—</div>
       </section>
       <div class="league-kpi-grid league-monthly-kpis">
-        <article class="league-kpi"><span>AYLIK FATURA İLERLEMESİ</span><strong id="leagueInvoices">0 / 649</strong><small id="leagueInvoiceRate">%0 hedef gerçekleşmesi</small></article>
-        <article class="league-kpi"><span>AYLIK ÜRÜN İLERLEMESİ</span><strong id="leagueUnits">0 / 1.168</strong><small id="leagueUnitRate">%0 hedef gerçekleşmesi</small></article>
+        <article class="league-kpi"><span>AYLIK FATURA İLERLEMESİ</span><strong id="leagueInvoices">0 / —</strong><small id="leagueInvoiceRate">%0 hedef gerçekleşmesi</small></article>
+        <article class="league-kpi"><span>AYLIK ÜRÜN İLERLEMESİ</span><strong id="leagueUnits">0 / —</strong><small id="leagueUnitRate">%0 hedef gerçekleşmesi</small></article>
       </div>
-      <section class="league-panel"><div class="league-panel-heading"><div><span class="league-section-tag">MONTHLY PERFORMANCE</span><h2>AYLIK HEDEF &amp; GÜNLÜK GİDİŞAT</h2><p>Günlük hedef, ayın toplam hedefinin gün sayısına bölünmesiyle hesaplanır. Gidişat, ayın seçilen gününe kadar ulaşılması gereken seviyeye göre gösterilir.</p></div><span class="league-live-dot">● CANLI TABLO</span></div>
-        <div class="league-entry-table-wrap league-progress-table-wrap"><table class="league-entry-table league-progress-table"><thead><tr><th>PERSONEL</th><th>AYLIK FATURA HEDEFİ</th><th>GÜNLÜK FATURA HEDEFİ</th><th>GERÇEK FATURA</th><th>FATURA GİDİŞATI</th><th>AYLIK ÜRÜN HEDEFİ</th><th>GÜNLÜK ÜRÜN HEDEFİ</th><th>GERÇEK ÜRÜN</th><th>ÜRÜN GİDİŞATI</th><th>GENEL İLERLEME</th></tr></thead><tbody id="leagueLeaderboard"><tr><td colspan="10" class="league-empty">Lig verileri yükleniyor…</td></tr></tbody></table></div>
-        <p class="league-scoring-note">Ayın en iyisi ve genel ilerleme puanı: fatura hedefi gerçekleşmesi %50 + ürün hedefi gerçekleşmesi %50. Sinem Palaz'ın Supervisor ünvanı nedeniyle bireysel hedefleri %10 daha düşüktür.</p>
+      <section class="league-panel"><div class="league-panel-heading"><div><span class="league-section-tag">MONTHLY PERFORMANCE</span><h2>AYLIK HEDEF &amp; GÜNLÜK GİDİŞAT</h2><p>Hedef ve gerçekleşen rakamlar GitHub'daki Kasım Excel dosyasından otomatik alınır. Günlük gidişat, Excel'deki günlük hedefin ayın geçen gün sayısıyla çarpılmasıyla hesaplanır.</p></div><span class="league-live-dot">● EXCEL CANLI VERİ</span></div>
+        <div class="league-entry-table-wrap league-progress-table-wrap"><table class="league-entry-table league-progress-table"><thead><tr><th>PERSONEL</th><th>AYLIK FATURA HEDEFİ</th><th>GÜNLÜK FATURA HEDEFİ</th><th>GERÇEK FATURA</th><th>FATURA GİDİŞATI</th><th>AYLIK ÜRÜN HEDEFİ</th><th>GÜNLÜK ÜRÜN HEDEFİ</th><th>GERÇEK ÜRÜN</th><th>ÜRÜN GİDİŞATI</th><th>GENEL İLERLEME</th></tr></thead><tbody id="leagueLeaderboard"><tr><td colspan="10" class="league-empty">Excel verileri yükleniyor…</td></tr></tbody></table></div>
+        <p class="league-scoring-note">Ayın en iyisi ve genel ilerleme puanı: fatura hedefi gerçekleşmesi %50 + ürün hedefi gerçekleşmesi %50. Sinem Palaz'ın Supervisor ünvanı nedeniyle bireysel hedefleri Excel dosyasında tanımlandığı şekilde esas alınır.</p>
       </section>
-      <section class="league-panel league-admin-panel"><div class="league-panel-heading"><div><span class="league-section-tag">TEAM ENTRY</span><h2>GÜNLÜK MANUEL VERİ GİRİŞİ</h2><p>Her personel kendi satırına günlük fatura ve ürün adetini girip kaydedebilir. Girilen kayıt tüm cihazlarda ortak güncellenir.</p></div><span class="league-admin-icon">✎</span></div>
-        <div class="league-admin-top"><label>GÜN SEÇ <input id="leagueEntryDate" type="date" value="2026-11-01"></label></div>
-        <div class="league-entry-table-wrap"><table class="league-entry-table league-manual-table"><thead><tr><th>PERSONEL</th><th>GÜNLÜK FATURA</th><th>GÜNLÜK ÜRÜN ADEDİ</th></tr></thead><tbody id="leagueEntryRows"></tbody></table></div>
-        <div class="league-admin-actions"><span id="leagueSaveStatus" role="status">Günlük fatura ve ürün adetlerini girip kaydedebilirsin.</span><button id="leagueSaveButton" type="button" onclick="saveLeagueEntries()">KAYDET VE LİGİ GÜNCELLE ↗</button></div>
-        <p class="league-admin-note">Kaydedilen günlük rakamlar ortak lig tablosuna işlenir ve tüm personelin ekranında güncellenir.</p>
-      </section>
-      <section class="league-panel"><div class="league-panel-heading"><div><span class="league-section-tag">MATCHDAY LOG</span><h2>SON GİRİLEN GÜNLER</h2></div></div><div id="leagueRecentEntries" class="league-recent-list"><span class="league-empty">Henüz kayıt yok.</span></div></section>
+      <div class="league-toolbar league-data-toolbar"><span id="leagueDataStatus" role="status">GitHub Excel dosyasından veriler yükleniyor…</span><button type="button" onclick="loadLeagueData()">EXCEL VERİSİNİ YENİLE ↻</button></div>
     </section>
 
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
@@ -276,7 +269,7 @@
 
     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261018-sd-karne1"></script>
-    <script src="performance-league.js?v=20261101-monthly"></script>
+    <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="shift-program.js?v=20261026-week44"></script>
 
