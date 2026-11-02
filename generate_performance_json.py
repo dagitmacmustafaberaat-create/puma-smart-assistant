@@ -3,7 +3,7 @@ from datetime import date, datetime, time
 from pathlib import Path
 from openpyxl import load_workbook
 
-SOURCE = Path("Ekim 2026 Data.xlsx")
+SOURCE = Path("Kasım 2026 Data.xlsx")
 OUTPUT = Path("performance-data.json")
 
 def clean(value):
