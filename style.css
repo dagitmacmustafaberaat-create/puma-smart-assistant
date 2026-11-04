@@ -2280,3 +2280,22 @@ body{background-size:contain !important;background-position:center top !importan
 .sd-karne-viewer-wrap{width:100%;height:min(78vh,900px);min-height:520px;overflow:hidden;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:#fff}.sd-karne-viewer-wrap[hidden]{display:none}.sd-karne-viewer-wrap iframe{display:block;width:100%;height:100%;border:0;background:#fff}
 @media(max-width:760px){.sd-awards-grid{grid-template-columns:1fr}.sd-award-card{min-height:130px}.sd-staff-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.sd-karne-area{width:calc(100% - 16px);margin:8px auto 20px;padding:12px;border-radius:13px}.sd-staff-card{padding:14px}.sd-staff-metrics{gap:6px}.sd-staff-metrics>div{padding:9px 7px}.sd-staff-metrics span{font-size:8px}.sd-staff-metrics strong{font-size:13px}.sd-karne-toolbar button{font-size:10px}}
+
+
+/* Bugünün çalışma programı - personel listesinin üzerinde */
+.shift-today-overview{margin:0 0 28px;padding:18px;border:1px solid rgba(213,0,28,.42);border-radius:16px;background:linear-gradient(145deg,rgba(213,0,28,.10),rgba(12,14,16,.98) 42%);box-shadow:0 12px 30px rgba(0,0,0,.22)}
+.shift-today-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-bottom:13px;border-bottom:1px solid rgba(255,255,255,.12)}
+.shift-today-heading span,.shift-today-empty span{color:#ff596d;font-size:10px;font-weight:900;letter-spacing:.16em}
+.shift-today-heading h2{margin:5px 0 0;font-size:clamp(19px,3vw,25px);letter-spacing:-.02em}
+.shift-today-heading>b{padding:7px 10px;border:1px solid rgba(255,255,255,.12);border-radius:7px;background:rgba(255,255,255,.05);font-size:10px;letter-spacing:.08em;white-space:nowrap}
+.shift-today-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.shift-today-card{min-width:0;padding:13px;border:1px solid rgba(255,255,255,.1);border-left:3px solid #d5001c;border-radius:11px;background:rgba(255,255,255,.045)}
+.shift-today-card h3{margin:0 0 10px;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.shift-today-time{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.shift-today-time span{display:flex;flex-direction:column;gap:4px;padding:8px;border-radius:7px;background:rgba(0,0,0,.22);min-width:0}
+.shift-today-time small{color:#aeb5be;font-size:9px;font-weight:850;letter-spacing:.07em}
+.shift-today-time strong{font-size:13px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.shift-today-empty{padding:15px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.035);color:#dce0e4;display:flex;flex-direction:column;gap:7px}
+.shift-today-empty strong{font-size:14px}
+.shift-today-empty small{color:#aeb5be;font-size:11px}
+@media(max-width:600px){.shift-today-overview{padding:13px;margin-bottom:23px}.shift-today-grid{grid-template-columns:1fr;gap:8px}.shift-today-card{padding:11px}.shift-today-time strong{font-size:12px}}
