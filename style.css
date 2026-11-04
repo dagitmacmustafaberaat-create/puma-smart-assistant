@@ -2377,3 +2377,11 @@ body{background-size:contain !important;background-position:center top !importan
 #sdKarneArea .sd-award-sticker{display:none !important}
 @media(max-width:900px){#sdKarneArea .sd-award-card.sd-award-card-premium{min-height:190px}#sdKarneArea .sd-award-photo{flex-basis:40%;width:40%;min-height:130px}#sdKarneArea .sd-award-photo img{min-height:130px}}
 @media(max-width:600px){#sdKarneArea .sd-award-card.sd-award-card-premium{min-height:160px;padding:13px !important}#sdKarneArea .sd-award-winner{gap:11px;padding-top:12px}#sdKarneArea .sd-award-photo{flex-basis:42%;width:42%;min-height:118px}#sdKarneArea .sd-award-photo img{min-height:118px}#sdKarneArea .sd-award-winner-copy strong{font-size:17px}#sdKarneArea .sd-award-winner-copy b{font-size:18px;padding:7px 9px;white-space:normal}}
+
+/* SD KARNE — ŞAMPİYONLAR sd-karne-hero.jpg takım fotoğrafından kırpılır */
+#sdKarneArea .sd-award-photo{
+  background-repeat:no-repeat !important;
+  background-color:#171717;
+  background-size:1536px 432px;
+}
+#sdKarneArea .sd-award-photo img{display:none !important}
