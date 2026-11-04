@@ -59,11 +59,10 @@ function renderSDKarne(){
  winners.forEach(w=>{
   const p=sdWinner(sdKarneRows,w.metric),el=document.getElementById(w.id);
   if(!el)return;
-  const gender=p.name==="Cem Aktaş"?"male":"female";
-  const sticker=gender==="male"?"🏃‍♂️":"🏃‍♀️";
+  const photoPositions={upt:"22% center",cr:"50% center",ciro:"78% center"};
   const value=w.metric==="ciro"?sdFmt(p[w.metric],0)+" TL":sdFmt(p[w.metric],2);
   el.classList.add("sd-award-card-premium");
-  el.innerHTML='<div class="sd-award-heading"><span class="sd-award-icon">'+w.icon+'</span><span class="sd-award-label">'+w.label+'</span></div><div class="sd-award-winner"><div class="sd-award-sticker sd-award-sticker-'+gender+'" aria-hidden="true"><span>'+sticker+'</span><i>★</i></div><div class="sd-award-winner-copy"><strong>'+p.name+'</strong><small>'+w.unit+' PERFORMANSI</small><b>'+value+'</b></div></div>';
+  el.innerHTML='<div class="sd-award-heading"><span class="sd-award-icon">'+w.icon+'</span><span class="sd-award-label">'+w.label+'</span></div><div class="sd-award-winner"><div class="sd-award-photo sd-award-photo-'+w.metric+'" aria-hidden="true"><img src="./sd-karne-hero.jpg?v=20261105-team-winners" alt="" loading="lazy" style="object-position:'+photoPositions[w.metric]+'"></div><div class="sd-award-winner-copy"><strong>'+p.name+'</strong><small>'+w.unit+' PERFORMANSI</small><b>'+value+'</b></div></div>';
  });
  const cards=document.getElementById("sdStaffCards");
  if(cards)cards.innerHTML=sdKarneRows.map(p=>'<article class="sd-staff-card"><div class="sd-staff-top"><h3>'+p.name+'</h3><span class="sd-bonus-chip">AY SONU KAZANÇ <strong>'+sdFmt(p.bonus,0)+' TL</strong></span></div><div class="sd-staff-metrics"><div><span>CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div><div><span>KİŞİSEL UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div><div><span>KİŞİSEL CR</span><strong>'+sdFmt(p.cr,2)+'%</strong></div></div></article>').join("");
