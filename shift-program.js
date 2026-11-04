@@ -69,6 +69,26 @@
   const esc = v => String(v == null ? "" : v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   let selectedStaff = null;
 
+
+  function renderTodayOverview() {
+    const target = document.getElementById("shiftTodayOverview");
+    if (!target) return;
+    const now = new Date();
+    const todayKey = String(now.getDate()).padStart(2,"0")+"."+String(now.getMonth()+1).padStart(2,"0")+"."+now.getFullYear();
+    const today = DAYS.find(day => day.date === todayKey);
+    if (!today) {
+      target.innerHTML = '<div class="shift-today-empty"><span>BUGÜNÜN PROGRAMI</span><strong>Bugüne ait vardiya kaydı bulunamadı.</strong><small>Güncel haftalık program yüklendiğinde burada otomatik görünecek.</small></div>';
+      return;
+    }
+    const working = today.shifts.map((s,i)=>({s,i})).filter(({s})=>!(s[0]==="00:00"&&s[1]==="00:00"));
+    const dateLabel = today.day+" • "+today.date;
+    target.innerHTML = '<div class="shift-today-heading"><div><span>BUGÜNÜN PROGRAMI</span><h2>'+esc(dateLabel)+'</h2></div><b>'+working.length+' PERSONEL</b></div>'+
+      (working.length ? '<div class="shift-today-grid">'+working.map(({s,i})=>{
+        const p=STAFF[i];
+        return '<article class="shift-today-card"><h3>'+esc(p.name)+'</h3><div class="shift-today-time"><span><small>VARDİYA</small><strong>'+esc(s[0])+' – '+esc(s[1])+'</strong></span><span><small>ÇALIŞMA SAATİ</small><strong>'+esc(s[2])+'</strong></span><span><small>MOLA SAATİ</small><strong>'+esc(s[3])+'</strong></span><span><small>NET ÇALIŞMA</small><strong>'+esc(s[4])+'</strong></span></div></article>';
+      }).join("")+'</div>' : '<div class="shift-today-empty">Bugün ekipte vardiyası olan personel bulunmuyor.</div>');
+  }
+
   function renderRoster() {
     const roster = document.getElementById("shiftStaffRoster");
     if (!roster) return;
@@ -140,6 +160,7 @@
     if (scheduleContent) scheduleContent.innerHTML = "";
     if (scheduleTitle) scheduleTitle.textContent = "";
     if (scheduleRole) scheduleRole.textContent = "";
+    renderTodayOverview();
     renderRoster();
     window.scrollTo({top:0,behavior:"smooth"});
   };
