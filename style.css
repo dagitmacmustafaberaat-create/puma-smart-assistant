@@ -2482,3 +2482,17 @@ body{background-size:contain !important;background-position:center top !importan
  #sdKarneArea .sd-award-winner-copy strong{font-size:17px !important}
  #sdKarneArea .sd-award-winner-copy b{font-size:13px !important}
 }
+
+/* SD KARNE — görünür özgün sporcu illüstrasyonları */
+.sd-award-card.sd-award-card-premium,
+#sdUptWinner,#sdCrWinner,#sdCiroWinner{position:relative!important;overflow:visible!important;isolation:isolate}
+.sd-award-card.sd-award-card-premium{min-height:190px!important;padding:22px 18px 20px 43%!important;border:1px solid rgba(255,255,255,.16)!important;border-top:3px solid #d5001c!important;border-radius:15px!important;background:radial-gradient(ellipse at 15% 90%,rgba(213,0,28,.22),transparent 55%),linear-gradient(145deg,#242424,#090909 72%,#21080d)!important}
+.sd-award-winner{display:block!important;position:static!important;padding:0!important;min-height:140px}
+.sd-award-photo{position:absolute!important;z-index:1;left:-18px;top:-38px;bottom:-25px;width:52%;overflow:visible!important;pointer-events:none}
+.sd-award-photo img{display:block!important;position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center bottom!important;filter:drop-shadow(0 9px 13px rgba(0,0,0,.62))}
+.sd-award-winner-copy{position:relative!important;z-index:2;display:flex!important;flex-direction:column;align-items:flex-start;justify-content:center;min-height:140px;gap:7px;padding:8px 0}
+.sd-award-winner-copy small{color:#ff5268!important;font-size:clamp(10px,1.1vw,13px)!important;font-weight:950;letter-spacing:1.2px}
+.sd-award-winner-copy strong{color:#fff!important;font-size:clamp(18px,2vw,25px)!important;font-weight:950;line-height:1.12}
+.sd-award-winner-copy b{color:#fff!important;font-size:clamp(17px,2vw,24px)!important;font-weight:950;line-height:1.2;overflow-wrap:anywhere}
+.sd-award-winner-copy b span{display:block;color:#ff4058!important;font-size:10px!important;letter-spacing:.8px;margin-bottom:4px}
+@media(max-width:600px){.sd-award-card.sd-award-card-premium{min-height:158px!important;padding:15px 10px 15px 42%!important}.sd-award-photo{left:-10px;top:-24px;bottom:-17px;width:49%}.sd-award-winner-copy{min-height:125px;gap:5px}.sd-award-winner-copy strong{font-size:17px!important}.sd-award-winner-copy b{font-size:16px!important}.sd-award-winner-copy b span{font-size:9px!important}}
