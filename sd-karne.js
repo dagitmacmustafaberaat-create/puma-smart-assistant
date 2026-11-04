@@ -18,34 +18,20 @@ function sdMetricIndex(headers,type){
  return found[0].i;
 }
 function sdFindTable(book){
- let best=null;
- for(const sheetName of book.SheetNames){
-  const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
-  const maxCols=Math.max(0,...rows.slice(0,120).map(r=>r.length));
-  for(let r=0;r<Math.min(rows.length,120);r++){
-   for(let span=1;span<=4&&r+span<=rows.length;span++){
-    const headers=Array.from({length:maxCols},(_,c)=>{
-     const parts=[];
-     for(let k=0;k<span;k++){const v=rows[r+k]?.[c];if(v!==null&&v!==undefined&&String(v).trim())parts.push(String(v));}
-     return parts.join(" ");
-    });
-    const map={ciro:sdMetricIndex(headers,"ciro"),upt:sdMetricIndex(headers,"upt"),cr:sdMetricIndex(headers,"cr"),bonus:sdMetricIndex(headers,"bonus")};
-    const score=Object.values(map).filter(i=>i>=0).length;
-    if(score>(best?best.score:0))best={rows,headerRow:r,headerSpan:span,map,score,sheetName};
-    if(score===4)break;
-   }
-   if(best&&best.score===4)break;
-  }
-  if(best&&best.score===4)break;
- }
- if(!best||best.score<4) {
-  const sheets=book.SheetNames.map(n=>{
-   const rows=XLSX.utils.sheet_to_json(book.Sheets[n],{header:1,defval:null,raw:true});
-   return n+": "+rows.slice(0,16).map((r,i)=>i+": "+(r||[]).filter(v=>v!==null&&v!==undefined&&String(v).trim()).join(" | ")).join(" || ");
-  }).join(" ### ");
-  throw new Error("Excel başlıkları eşleştirilemedi. Sayfa önizlemesi: "+sheets.slice(0,1600));
- }
- return best;
+ const sheetName=book.SheetNames.find(n=>sdNorm(n)==="sd karne")||book.SheetNames[0];
+ const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
+ // SD KARNE sayfasında personel tablosunun başlıkları 12. satırda (0-based index 11).
+ const headerRow=11, headers=rows[headerRow]||[];
+ const findHeader=(name)=>headers.findIndex(v=>sdNorm(v)===sdNorm(name));
+ const map={
+  upt:findHeader("UPT"),
+  ciro:findHeader("GERÇEKLEŞEN CİRO"),
+  bonus:findHeader("AYSONU KAZANÇ"),
+  cr:findHeader("KİŞİSEL CR")
+ };
+ const missing=Object.entries(map).filter(([,i])=>i<0).map(([k])=>k);
+ if(missing.length)throw new Error("SD KARNE sayfasında 12. satırdaki başlıklarda şu alanlar bulunamadı: "+missing.join(", "));
+ return {rows,headerRow,map,sheetName};
 }
 function sdReadData(book){
  const table=sdFindTable(book),out=[];
@@ -53,8 +39,11 @@ function sdReadData(book){
   const key=sdNorm(name);
   const row=table.rows.find((r,i)=>i>table.headerRow&&r.some(v=>sdNorm(v)===key));
   if(!row)throw new Error(name+" için personel satırı bulunamadı.");
-  const val=k=>table.map[k]>=0?sdNum(row[table.map[k]]):0;
-  out.push({name,ciro:val("ciro"),upt:val("upt"),cr:val("cr"),bonus:val("bonus")});
+  const val=k=>sdNum(row[table.map[k]]);
+  let cr=val("cr");
+  // Excel yüzde hücreleri 0,08 olarak saklanıyorsa ekranda 8,00% göster.
+  if(cr>0&&cr<=1)cr*=100;
+  out.push({name,ciro:val("ciro"),upt:val("upt"),cr,bonus:val("bonus")});
  }
  return out;
 }
