@@ -61,7 +61,7 @@ function renderSDKarne(){
   if(!el)return;
   const maleNames=["Cem Aktaş","Serkan Canik"];
   const isMale=maleNames.includes(p.name);
-  const championImage=isMale?"./sd-champion-male.svg?v=20261106-cutout":"./sd-champion-female.svg?v=20261106-cutout";
+  const championImage=isMale?"./sd-champion-male.svg?v=20261104-athlete2":"./sd-champion-female.svg?v=20261104-athlete2";
   const value=w.metric==="ciro"?sdFmt(p[w.metric],0)+" TL":sdFmt(p[w.metric],2);
   el.classList.add("sd-award-card-premium");
   el.innerHTML='<div class="sd-award-winner"><div class="sd-award-photo"><img src="'+championImage+'" alt="" loading="eager"></div><div class="sd-award-winner-copy"><small>'+w.label+'</small><strong>'+p.name+'</strong><b><span>GERÇEKLEŞEN '+w.unit+':</span> '+value+'</b></div></div>';
