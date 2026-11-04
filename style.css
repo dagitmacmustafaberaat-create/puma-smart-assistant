@@ -2299,3 +2299,7 @@ body{background-size:contain !important;background-position:center top !importan
 .shift-today-empty strong{font-size:14px}
 .shift-today-empty small{color:#aeb5be;font-size:11px}
 @media(max-width:600px){.shift-today-overview{padding:13px;margin-bottom:23px}.shift-today-grid{grid-template-columns:1fr;gap:8px}.shift-today-card{padding:11px}.shift-today-time strong{font-size:12px}}
+
+
+/* Bugünün vardiya listesi: personel kartları tek sütun, alt alta */
+.shift-today-grid{grid-template-columns:1fr !important}
