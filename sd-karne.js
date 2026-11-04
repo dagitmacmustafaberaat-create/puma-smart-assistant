@@ -64,7 +64,7 @@ function renderSDKarne(){
   const championPhoto=isMale
    ?"https://images.pexels.com/photos/32082422/pexels-photo-32082422.jpeg?auto=compress&cs=tinysrgb&w=1200"
    :"https://images.pexels.com/photos/9855173/pexels-photo-9855173.jpeg?auto=compress&cs=tinysrgb&w=1200";
-  const photoPosition=isMale?"50% center":"35% center";
+  const photoPosition=isMale?"50% 22%":"35% center";
   const value=w.metric==="ciro"?sdFmt(p[w.metric],0)+" TL":sdFmt(p[w.metric],2);
   el.classList.add("sd-award-card-premium");
   el.innerHTML='<div class="sd-award-heading"><span class="sd-award-icon">'+w.icon+'</span><span class="sd-award-label">'+w.label+'</span></div><div class="sd-award-winner"><div class="sd-award-photo sd-award-photo-'+w.metric+'" aria-hidden="true"><img src="'+championPhoto+'" alt="" loading="lazy" style="object-position:'+photoPosition+'"></div><div class="sd-award-winner-copy"><strong>'+p.name+'</strong><small>'+w.unit+' PERFORMANSI</small><b>'+value+'</b></div></div>';
