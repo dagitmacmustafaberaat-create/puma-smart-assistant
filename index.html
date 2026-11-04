@@ -211,17 +211,28 @@
     <section id="sdKarneArea" class="sd-karne-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeSDKarnesi()">← Ana Menü</button>
       <header class="sd-karne-heading">
-        <p class="education-eyebrow">BUYAKA PUMA • PERSONEL GELİŞİMİ</p>
+        <p class="education-eyebrow">BUYAKA PUMA • TEAM PERFORMANCE</p>
         <h1>EKİM SD KARNE</h1>
+        <p>Personel performansı ve ay sonu kazançları</p>
       </header>
+      <div id="sdKarneStatus" class="sd-karne-status" role="status">SD Karne verileri yükleniyor…</div>
+      <section class="sd-awards-grid" aria-label="Aylık şampiyonlar">
+        <article id="sdUptWinner" class="sd-award-card"></article>
+        <article id="sdCrWinner" class="sd-award-card"></article>
+        <article id="sdCiroWinner" class="sd-award-card"></article>
+      </section>
+      <section class="sd-staff-section">
+        <div class="league-panel-heading"><div><span class="league-section-tag">INDIVIDUAL PERFORMANCE</span><h2>PERSONEL KARNESİ</h2></div></div>
+        <div id="sdStaffCards" class="sd-staff-grid"><div class="league-empty">Excel verileri yükleniyor…</div></div>
+      </section>
       <div class="sd-karne-toolbar">
         <span>EKİM SD KARNE.xlsx</span>
-        <a href="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/EK%C4%B0M%20SD%20KARNE.xlsx?v=20261102" target="_blank" rel="noopener noreferrer">Dosyayı ayrı aç ↗</a>
+        <button type="button" onclick="toggleSDKarneExcel()">ORİJİNAL EXCEL TABLOSUNU GÖRÜNTÜLE ↗</button>
       </div>
-      <div class="sd-karne-viewer-wrap">
+      <div id="sdKarneViewerWrap" class="sd-karne-viewer-wrap" hidden>
         <iframe id="sdKarneViewer" title="Ekim SD Karne Excel görüntüleyici" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
       </div>
-    </section>
+    </section>ion>
     <section id="performanceLeagueArea" class="performance-league-area" style="display:none;">
       <button class="back-button" type="button" onclick="closePerformanceLeague()">← Ana Menü</button>
       <header class="league-hero">
@@ -268,7 +279,7 @@
     <script src="script.js?v=20261102-hgo-percent"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="shift-program.js?v=20261102-week45"></script>
+    <script src="shift-program.js?v=20261102-week45"></script>\n    <script src="sd-karne.js?v=20261104-dashboard"></script>
 
     <script>
       function showFastPerakende() {
@@ -287,17 +298,13 @@
       }
 
       function showSDKarnesi() {
-        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","performanceLeagueArea"].forEach(function(id) {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","performanceLeagueArea","fastPerakendeArea"].forEach(function(id) {
           const el = document.getElementById(id);
           if (el) el.style.display = "none";
         });
         const area = document.getElementById("sdKarneArea");
-        const viewer = document.getElementById("sdKarneViewer");
         if (area) area.style.display = "block";
-        if (viewer && !viewer.src) {
-          const fileUrl = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/EK%C4%B0M%20SD%20KARNE.xlsx?v=20261102";
-          viewer.src = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(fileUrl);
-        }
+        loadSDKarneData();
         window.scrollTo(0, 0);
       }
       function closeSDKarnesi() {
