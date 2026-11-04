@@ -61,11 +61,10 @@ function renderSDKarne(){
   if(!el)return;
   const maleNames=["Cem Aktaş","Serkan Canik"];
   const isMale=maleNames.includes(p.name);
-  // Fotoğraf, uygulamanın kendi sd-karne-hero.jpg takım görselinden alınır.
-  const photoPosition=isMale?"52% center":"65% center";
+  const championImage=isMale?"./sd-champion-male.svg?v=20261106-cutout":"./sd-champion-female.svg?v=20261106-cutout";
   const value=w.metric==="ciro"?sdFmt(p[w.metric],0)+" TL":sdFmt(p[w.metric],2);
   el.classList.add("sd-award-card-premium");
-  el.innerHTML='<div class="sd-award-winner"><div class="sd-award-photo sd-award-photo-'+w.metric+(isMale?' sd-award-photo-male':' sd-award-photo-female')+'"><img src="./sd-karne-hero.jpg?v=20261106" alt="" loading="eager" style="object-position:'+photoPosition+'"></div><div class="sd-award-winner-copy"><small>'+w.label+'</small><strong>'+p.name+'</strong><b>GERÇEKLEŞEN '+w.unit+': '+value+'</b></div></div>';
+  el.innerHTML='<div class="sd-award-winner"><div class="sd-award-photo"><img src="'+championImage+'" alt="" loading="eager"></div><div class="sd-award-winner-copy"><small>'+w.label+'</small><strong>'+p.name+'</strong><b><span>GERÇEKLEŞEN '+w.unit+':</span> '+value+'</b></div></div>';
  });
  const cards=document.getElementById("sdStaffCards");
  if(cards)cards.innerHTML=sdKarneRows.map(p=>'<article class="sd-staff-card"><div class="sd-staff-top"><h3>'+p.name+'</h3><span class="sd-bonus-chip">AY SONU KAZANÇ <strong>'+sdFmt(p.bonus,0)+' TL</strong></span></div><div class="sd-staff-metrics"><div><span>CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div><div><span>KİŞİSEL UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div><div><span>KİŞİSEL CR</span><strong>'+sdFmt(p.cr,2)+'%</strong></div></div></article>').join("");
