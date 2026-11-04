@@ -1,4 +1,4 @@
-const SD_KARNE_URL="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/EK%C4%B0M%20SD%20KARNE.xlsx";
+const SD_KARNE_URL="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/SD%20Karne.xlsx";
 const SD_STAFF=["Sinem Palaz","Serkan Canik","Cem Aktaş","Merve Çetin","Ecenur Temür"];
 let sdKarneRows=[];
 function sdNorm(v){return String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/\s+/g," ").trim();}
@@ -73,7 +73,7 @@ async function loadSDKarneData(){
   const book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
   sdKarneRows=sdReadData(book);
   renderSDKarne();
-  if(status)status.textContent="✓ Ekim 2026 SD Karne verileri güncel olarak yüklendi.";
+  if(status)status.textContent="✓ Kasım 2026 SD Karne verileri güncel olarak yüklendi.";
  }catch(error){
   console.error("SD Karne yükleme hatası:",error);
   if(status)status.textContent="Veriler yüklenemedi: "+error.message;
@@ -88,7 +88,7 @@ function toggleSDKarneExcel(){
  const opening=wrap.hidden;
  wrap.hidden=!opening;
  if(opening&&viewer&&!viewer.src){
-  const fileUrl=SD_KARNE_URL+"?v=20261104";
+  const fileUrl=SD_KARNE_URL+"?v=20261105";
   viewer.src="https://view.officeapps.live.com/op/embed.aspx?src="+encodeURIComponent(fileUrl);
  }
 }
