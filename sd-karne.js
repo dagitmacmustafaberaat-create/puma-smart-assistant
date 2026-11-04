@@ -28,7 +28,7 @@ function sdFindTable(book){
    if(score>=(best?best.score:2))best={rows,headerRow:r,map,score,sheetName};
   }
  }
- if(!best||best.score<3)throw new Error("Excel içinde Ciro, UPT, Kişisel CR ve Ay Sonu Kazanç başlıkları bulunamadı.");
+ if(!best||best.score<4)throw new Error("Excel içinde Ciro, Kişisel UPT, Kişisel CR ve Ay Sonu Kazanç başlıklarının tamamı bulunamadı.");
  return best;
 }
 function sdReadData(book){
