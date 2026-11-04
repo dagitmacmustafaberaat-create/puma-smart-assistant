@@ -21,14 +21,30 @@ function sdFindTable(book){
  let best=null;
  for(const sheetName of book.SheetNames){
   const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
-  for(let r=0;r<Math.min(rows.length,100);r++){
-   const headers=rows[r]||[];
-   const map={ciro:sdMetricIndex(headers,"ciro"),upt:sdMetricIndex(headers,"upt"),cr:sdMetricIndex(headers,"cr"),bonus:sdMetricIndex(headers,"bonus")};
-   const score=Object.values(map).filter(i=>i>=0).length;
-   if(score>=(best?best.score:2))best={rows,headerRow:r,map,score,sheetName};
+  const maxCols=Math.max(0,...rows.slice(0,120).map(r=>r.length));
+  for(let r=0;r<Math.min(rows.length,120);r++){
+   for(let span=1;span<=4&&r+span<=rows.length;span++){
+    const headers=Array.from({length:maxCols},(_,c)=>{
+     const parts=[];
+     for(let k=0;k<span;k++){const v=rows[r+k]?.[c];if(v!==null&&v!==undefined&&String(v).trim())parts.push(String(v));}
+     return parts.join(" ");
+    });
+    const map={ciro:sdMetricIndex(headers,"ciro"),upt:sdMetricIndex(headers,"upt"),cr:sdMetricIndex(headers,"cr"),bonus:sdMetricIndex(headers,"bonus")};
+    const score=Object.values(map).filter(i=>i>=0).length;
+    if(score>(best?best.score:0))best={rows,headerRow:r,headerSpan:span,map,score,sheetName};
+    if(score===4)break;
+   }
+   if(best&&best.score===4)break;
   }
+  if(best&&best.score===4)break;
  }
- if(!best||best.score<4)throw new Error("Excel içinde Ciro, Kişisel UPT, Kişisel CR ve Ay Sonu Kazanç başlıklarının tamamı bulunamadı.");
+ if(!best||best.score<4) {
+  const sheets=book.SheetNames.map(n=>{
+   const rows=XLSX.utils.sheet_to_json(book.Sheets[n],{header:1,defval:null,raw:true});
+   return n+": "+rows.slice(0,16).map((r,i)=>i+": "+(r||[]).filter(v=>v!==null&&v!==undefined&&String(v).trim()).join(" | ")).join(" || ");
+  }).join(" ### ");
+  throw new Error("Excel başlıkları eşleştirilemedi. Sayfa önizlemesi: "+sheets.slice(0,1600));
+ }
  return best;
 }
 function sdReadData(book){
