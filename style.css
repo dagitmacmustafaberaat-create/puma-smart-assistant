@@ -2385,3 +2385,102 @@ body{background-size:contain !important;background-position:center top !importan
   background-size:1536px 432px;
 }
 #sdKarneArea .sd-award-photo img{display:none !important}
+
+/* SD KARNE — şampiyon portresi kartın solundan taşar, metin sağda kırmızı/beyaz */
+#sdKarneArea .sd-award-card.sd-award-card-premium{
+  position:relative !important;
+  min-height:190px !important;
+  overflow:visible !important;
+  padding:0 16px 0 0 !important;
+  isolation:isolate;
+}
+#sdKarneArea .sd-award-card.sd-award-card-premium .sd-award-heading{display:none !important}
+#sdKarneArea .sd-award-winner{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  min-height:190px !important;
+  padding:16px 12px 16px 43% !important;
+  gap:8px !important;
+  overflow:visible !important;
+}
+#sdKarneArea .sd-award-photo{
+  position:absolute !important;
+  z-index:2 !important;
+  left:-12px !important;
+  top:-22px !important;
+  bottom:-18px !important;
+  width:49% !important;
+  height:auto !important;
+  min-height:0 !important;
+  flex:none !important;
+  overflow:hidden !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+#sdKarneArea .sd-award-photo:after{display:none !important}
+#sdKarneArea .sd-award-photo img{
+  display:block !important;
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  max-width:none !important;
+  object-fit:cover !important;
+}
+#sdKarneArea .sd-award-winner-copy{
+  position:relative !important;
+  z-index:3 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:8px !important;
+  min-width:0 !important;
+  flex:1 !important;
+  text-align:left !important;
+}
+#sdKarneArea .sd-award-winner-copy small{
+  color:#f12b43 !important;
+  font-size:clamp(11px,1.05vw,15px) !important;
+  font-weight:1000 !important;
+  letter-spacing:1px !important;
+  line-height:1.2 !important;
+}
+#sdKarneArea .sd-award-winner-copy strong{
+  color:#fff !important;
+  font-size:clamp(17px,1.65vw,25px) !important;
+  font-weight:950 !important;
+  line-height:1.12 !important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:#fff !important;
+  background:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  font-size:clamp(14px,1.35vw,20px) !important;
+  font-weight:950 !important;
+  line-height:1.25 !important;
+  white-space:normal !important;
+}
+#sdKarneArea .sd-award-winner-copy b::first-letter{color:#ed1c35}
+@media(max-width:900px){
+ #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:170px !important}
+ #sdKarneArea .sd-award-winner{min-height:170px !important;padding-left:43% !important}
+ #sdKarneArea .sd-award-photo{top:-17px !important;bottom:-14px !important;width:48% !important}
+}
+@media(max-width:600px){
+ #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:150px !important;padding-right:10px !important}
+ #sdKarneArea .sd-award-winner{min-height:150px !important;padding:12px 5px 12px 42% !important}
+ #sdKarneArea .sd-award-photo{left:-8px !important;top:-12px !important;bottom:-10px !important;width:48% !important}
+ #sdKarneArea .sd-award-winner-copy{gap:6px !important}
+ #sdKarneArea .sd-award-winner-copy small{font-size:10px !important}
+ #sdKarneArea .sd-award-winner-copy strong{font-size:17px !important}
+ #sdKarneArea .sd-award-winner-copy b{font-size:13px !important}
+}
