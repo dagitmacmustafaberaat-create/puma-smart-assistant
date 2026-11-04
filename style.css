@@ -2378,43 +2378,38 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:900px){#sdKarneArea .sd-award-card.sd-award-card-premium{min-height:190px}#sdKarneArea .sd-award-photo{flex-basis:40%;width:40%;min-height:130px}#sdKarneArea .sd-award-photo img{min-height:130px}}
 @media(max-width:600px){#sdKarneArea .sd-award-card.sd-award-card-premium{min-height:160px;padding:13px !important}#sdKarneArea .sd-award-winner{gap:11px;padding-top:12px}#sdKarneArea .sd-award-photo{flex-basis:42%;width:42%;min-height:118px}#sdKarneArea .sd-award-photo img{min-height:118px}#sdKarneArea .sd-award-winner-copy strong{font-size:17px}#sdKarneArea .sd-award-winner-copy b{font-size:18px;padding:7px 9px;white-space:normal}}
 
-/* SD KARNE — ŞAMPİYONLAR sd-karne-hero.jpg takım fotoğrafından kırpılır */
-#sdKarneArea .sd-award-photo{
-  background-repeat:no-repeat !important;
-  background-color:#171717;
-  background-size:1536px 432px;
-}
-#sdKarneArea .sd-award-photo img{display:none !important}
 
-/* SD KARNE — şampiyon portresi kartın solundan taşar, metin sağda kırmızı/beyaz */
+/* SD KARNE CHAMPIONS — transparent people cutouts, intentionally overflowing the card */
+#sdKarneArea .sd-awards-grid{overflow:visible !important}
 #sdKarneArea .sd-award-card.sd-award-card-premium{
   position:relative !important;
-  min-height:190px !important;
+  min-height:214px !important;
+  padding:20px 18px 18px 0 !important;
   overflow:visible !important;
-  padding:0 16px 0 0 !important;
   isolation:isolate;
+  border-top:2px solid #e3223b !important;
+  background:linear-gradient(110deg,rgba(20,20,20,.96),rgba(10,10,10,.94) 62%,rgba(70,0,12,.88)) !important;
 }
 #sdKarneArea .sd-award-card.sd-award-card-premium .sd-award-heading{display:none !important}
 #sdKarneArea .sd-award-winner{
   position:relative !important;
   display:flex !important;
   align-items:center !important;
-  min-height:190px !important;
-  padding:16px 12px 16px 43% !important;
-  gap:8px !important;
+  min-height:174px !important;
+  padding:8px 12px 8px 46% !important;
+  gap:0 !important;
   overflow:visible !important;
 }
 #sdKarneArea .sd-award-photo{
   position:absolute !important;
   z-index:2 !important;
-  left:-12px !important;
-  top:-22px !important;
-  bottom:-18px !important;
-  width:49% !important;
+  left:-18px !important;
+  top:-42px !important;
+  bottom:-28px !important;
+  width:53% !important;
   height:auto !important;
   min-height:0 !important;
-  flex:none !important;
-  overflow:hidden !important;
+  overflow:visible !important;
   border:0 !important;
   border-radius:0 !important;
   background:transparent !important;
@@ -2429,7 +2424,9 @@ body{background-size:contain !important;background-position:center top !importan
   height:100% !important;
   min-height:0 !important;
   max-width:none !important;
-  object-fit:cover !important;
+  object-fit:contain !important;
+  object-position:center bottom !important;
+  filter:drop-shadow(0 7px 12px rgba(0,0,0,.48));
 }
 #sdKarneArea .sd-award-winner-copy{
   position:relative !important;
@@ -2438,21 +2435,21 @@ body{background-size:contain !important;background-position:center top !importan
   flex-direction:column !important;
   align-items:flex-start !important;
   justify-content:center !important;
-  gap:8px !important;
+  gap:9px !important;
   min-width:0 !important;
   flex:1 !important;
   text-align:left !important;
 }
 #sdKarneArea .sd-award-winner-copy small{
-  color:#f12b43 !important;
-  font-size:clamp(11px,1.05vw,15px) !important;
+  color:#f02b45 !important;
+  font-size:clamp(12px,1.05vw,15px) !important;
   font-weight:1000 !important;
-  letter-spacing:1px !important;
+  letter-spacing:1.2px !important;
   line-height:1.2 !important;
 }
 #sdKarneArea .sd-award-winner-copy strong{
   color:#fff !important;
-  font-size:clamp(17px,1.65vw,25px) !important;
+  font-size:clamp(18px,1.7vw,25px) !important;
   font-weight:950 !important;
   line-height:1.12 !important;
 }
@@ -2464,23 +2461,24 @@ body{background-size:contain !important;background-position:center top !importan
   background:none !important;
   box-shadow:none !important;
   border-radius:0 !important;
-  font-size:clamp(14px,1.35vw,20px) !important;
+  font-size:clamp(14px,1.3vw,19px) !important;
   font-weight:950 !important;
-  line-height:1.25 !important;
+  line-height:1.3 !important;
   white-space:normal !important;
+  font-variant-numeric:tabular-nums;
 }
-#sdKarneArea .sd-award-winner-copy b::first-letter{color:#ed1c35}
+#sdKarneArea .sd-award-winner-copy b span{color:#f02b45 !important}
 @media(max-width:900px){
- #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:170px !important}
- #sdKarneArea .sd-award-winner{min-height:170px !important;padding-left:43% !important}
- #sdKarneArea .sd-award-photo{top:-17px !important;bottom:-14px !important;width:48% !important}
+ #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:194px !important}
+ #sdKarneArea .sd-award-winner{min-height:160px !important;padding-left:44% !important}
+ #sdKarneArea .sd-award-photo{left:-12px !important;top:-32px !important;bottom:-22px !important;width:52% !important}
 }
 @media(max-width:600px){
- #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:150px !important;padding-right:10px !important}
- #sdKarneArea .sd-award-winner{min-height:150px !important;padding:12px 5px 12px 42% !important}
- #sdKarneArea .sd-award-photo{left:-8px !important;top:-12px !important;bottom:-10px !important;width:48% !important}
- #sdKarneArea .sd-award-winner-copy{gap:6px !important}
- #sdKarneArea .sd-award-winner-copy small{font-size:10px !important}
+ #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:176px !important;padding:12px 10px 12px 0 !important}
+ #sdKarneArea .sd-award-winner{min-height:150px !important;padding:8px 5px 8px 43% !important}
+ #sdKarneArea .sd-award-photo{left:-9px !important;top:-25px !important;bottom:-18px !important;width:51% !important}
+ #sdKarneArea .sd-award-winner-copy{gap:7px !important}
+ #sdKarneArea .sd-award-winner-copy small{font-size:10px !important;letter-spacing:.8px !important}
  #sdKarneArea .sd-award-winner-copy strong{font-size:17px !important}
  #sdKarneArea .sd-award-winner-copy b{font-size:13px !important}
 }
