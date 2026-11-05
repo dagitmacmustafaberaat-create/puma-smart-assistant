@@ -3034,3 +3034,39 @@ body{background-size:contain !important;background-position:center top !importan
 #sdKarneArea .sd-champion-title-wrap small{
   margin:0!important;
 }
+
+
+/* SD KARNE — PREMIUM METALİK KRAL / KRALİÇE TACİ */
+#sdKarneArea .sd-champion-title-wrap{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  gap:3px!important;
+  width:100%!important;
+  margin:0 0 2px!important;
+}
+#sdKarneArea .sd-champion-crown{
+  display:block!important;
+  width:clamp(32px,3.4vw,46px)!important;
+  height:clamp(23px,2.5vw,34px)!important;
+  color:#e6bd62!important;
+  opacity:.98!important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.55)) drop-shadow(0 0 5px rgba(224,181,83,.22))!important;
+  line-height:0!important;
+  transform:none!important;
+}
+#sdKarneArea .sd-champion-crown svg{
+  display:block!important;width:100%!important;height:100%!important;overflow:visible!important;
+}
+#sdKarneArea .sd-champion-crown-king,
+#sdKarneArea .sd-champion-crown-queen{
+  color:#e6bd62!important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.55)) drop-shadow(0 0 5px rgba(224,181,83,.22))!important;
+}
+#sdKarneArea .sd-champion-title-wrap small{
+  margin:0!important;
+}
+@media(max-width:480px){
+  #sdKarneArea .sd-champion-crown{width:30px!important;height:22px!important}
+}
