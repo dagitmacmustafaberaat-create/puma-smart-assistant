@@ -2969,3 +2969,33 @@ body{background-size:contain !important;background-position:center top !importan
   font-synthesis:none!important;
   transform:none!important;
 }
+
+
+/* SD KARNE — RENKLERİ TERS ÇEVİR, PERSONEL ADINI TEK SATIRDA KÜÇÜLT */
+#sdKarneArea .sd-award-winner-copy small,
+#sdKarneArea .sd-award-winner-copy strong,
+#sdKarneArea .sd-award-winner-copy b,
+#sdKarneArea .sd-award-winner-copy b span{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  -webkit-text-stroke:1px #d5001c!important;
+  text-shadow:0 0 2px rgba(213,0,28,.55),0 0 6px rgba(213,0,28,.25)!important;
+}
+#sdKarneArea .sd-award-winner-copy strong{
+  font-size:clamp(17px,1.65vw,23px)!important;
+  line-height:1.05!important;
+  white-space:nowrap!important;
+  letter-spacing:.15px!important;
+  display:block!important;
+  max-width:100%!important;
+}
+#sdKarneArea .sd-award-winner-copy{
+  min-width:0!important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  font-size:clamp(15px,1.55vw,21px)!important;
+}
+@media(max-width:480px){
+  #sdKarneArea .sd-award-winner-copy strong{font-size:clamp(15px,4.1vw,19px)!important;white-space:nowrap!important}
+  #sdKarneArea .sd-award-winner-copy b{font-size:clamp(13px,3.5vw,16px)!important}
+}
