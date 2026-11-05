@@ -995,7 +995,7 @@ function renderStoreStatusVerticalDashboard(cells) {
       return out;
     };
     const genderRows=findRows(15,19);
-    const categoryRows=findRows(4,23,businessUnits);
+    const categoryRows=findRows(4,14,businessUnits);
     const stockRows=findRows(24,40,businessUnits);
     const period="1–"+elapsed+" "+String(raw("B7")||"Kasım 2026").replace(/.*?(Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık).*?/i,"$1");
     const compareRows=(rows,currency=true)=>rows.length?rows.map(r=>{
