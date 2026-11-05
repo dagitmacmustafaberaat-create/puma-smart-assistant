@@ -3270,3 +3270,76 @@ body{background-size:contain !important;background-position:center top !importan
   #mainMenu .store-status-panel .kpi-filter-select{width:100%!important}
   #mainMenu .store-status-panel .kpi-values{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
+
+
+/* SECİLEN KPI — VERİLER VE YORUM YAN YANA, FERAH DÜZEN */
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected{
+  width:100%!important;
+  grid-column:1 / -1!important;
+  padding:22px!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr)!important;
+  align-items:stretch!important;
+  gap:22px!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .kpi-values{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-content:center!important;
+  gap:18px 22px!important;
+  padding:8px 4px!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .kpi-values>div{
+  min-width:0!important;
+  padding:13px 15px!important;
+  border:1px solid rgba(255,255,255,.13)!important;
+  border-radius:12px!important;
+  background:rgba(0,0,0,.2)!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .kpi-values span{
+  display:block!important;
+  font-size:15px!important;
+  margin-bottom:8px!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .kpi-values strong{
+  display:block!important;
+  font-size:clamp(20px,2vw,25px)!important;
+  line-height:1.35!important;
+  overflow-wrap:anywhere!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .action-insight{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:22px!important;
+  border:1px solid rgba(227,34,59,.45)!important;
+  border-radius:16px!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.25)!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .action-insight strong{
+  font-size:19px!important;
+  line-height:1.4!important;
+  margin-bottom:12px!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .action-insight p{
+  font-size:16px!important;
+  line-height:1.65!important;
+  margin:0 0 14px!important;
+}
+#mainMenu .store-status-panel .kpi-selected-layout .action-insight small{
+  font-size:14px!important;
+  line-height:1.5!important;
+}
+#mainMenu .store-status-panel #storeActionSummary[hidden]{display:none!important}
+@media(max-width:760px){
+  #mainMenu .store-status-panel .kpi-selected-layout{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:16px!important;
+  }
+  #mainMenu .store-status-panel .kpi-selected-layout .kpi-values{gap:12px!important}
+  #mainMenu .store-status-panel .kpi-selected-layout .action-insight{padding:18px!important}
+}
