@@ -254,23 +254,40 @@
       <button class="back-button" type="button" onclick="closeTop5Analysis()">← Ana Menü</button>
       <header class="top5-hero">
         <p class="education-eyebrow">BUYAKA PUMA • PRODUCT PERFORMANCE</p>
-        <h1>KATEGORİ &amp; ÜRÜN TOP 5</h1>
-        <p>Tekstil, ayakkabı ve aksesuar kategorilerinde en çok satan beş ürünün satış ve güncel envanter görünümü.</p>
+        <h1>SATIŞ &amp; ENVANTER ANALİZİ</h1>
+        <p>Kategori, cinsiyet ve business unit kırılımında satış performansı ve güncel stok görünümü.</p>
       </header>
-      <div class="top5-toolbar">
-        <span id="top5DataStatus" role="status">Satış ve stok raporları yükleniyor…</span>
-        <button type="button" onclick="loadTop5Analysis()">VERİLERİ YENİLE ↻</button>
-      </div>
-      <nav class="top5-category-tabs" aria-label="Ürün kategorileri">
-        <button type="button" class="top5-category-tab active" data-top5-category="TEKSTİL" onclick="selectTop5Category('TEKSTİL')">TEKSTİL</button>
-        <button type="button" class="top5-category-tab" data-top5-category="AYAKKABI" onclick="selectTop5Category('AYAKKABI')">AYAKKABI</button>
-        <button type="button" class="top5-category-tab" data-top5-category="AKSESUAR" onclick="selectTop5Category('AKSESUAR')">AKSESUAR</button>
-      </nav>
-      <section id="top5CategorySummary" class="top5-category-summary"></section>
-      <section id="top5ProductList" class="top5-product-list" aria-live="polite">
-        <div class="top5-empty">Raporlar yükleniyor…</div>
+      <div class="top5-toolbar"><span id="top5DataStatus" role="status">Satış ve stok raporları yükleniyor…</span><button type="button" onclick="loadTop5Analysis()">EXCEL VERİSİNİ YENİLE ↻</button></div>
+      <section class="top5-filter-panel" aria-label="Rapor filtreleri">
+        <label>BUSINESS UNIT<select id="top5FilterBU" onchange="setTop5Filter('bu',this.value)"><option value="">TÜMÜ</option><option>SPORTSTYLE PRIME</option><option>MOTORSPORT</option><option>RTF</option></select></label>
+        <label>CİNSİYET<select id="top5FilterGender" onchange="setTop5Filter('gender',this.value)"><option value="">TÜMÜ</option><option>ERKEK</option><option>KADIN</option><option>UNISEX</option></select></label>
+        <label>KATEGORİ<select id="top5FilterCategory" onchange="setTop5Filter('category',this.value)"><option value="">TÜMÜ</option><option>TEKSTİL</option><option>AYAKKABI</option><option>AKSESUAR</option></select></label>
       </section>
-      <p class="top5-footnote">Sıralama net satış adedine göre yapılır. Envanter, Güncel Stok raporundaki beden/renk kayıtlarının toplamıdır.</p>
+      <section class="top5-kpi-grid" aria-label="Satış ve envanter göstergeleri">
+        <article><span>NET SATIŞ TUTARI</span><strong id="top5KpiAmount">—</strong><small>Seçili filtrelere göre</small></article>
+        <article><span>NET SATIŞ ADEDİ</span><strong id="top5KpiUnits">—</strong><small>Seçili filtrelere göre</small></article>
+        <article><span>GÜNCEL ENVANTER</span><strong id="top5KpiInventory">—</strong><small>Eşleşen ürün kodlarının toplam stoğu</small></article>
+      </section>
+      <nav class="top5-view-tabs" role="tablist" aria-label="Rapor görünümleri">
+        <button class="top5-view-tab active" data-view="overview" role="tab" aria-selected="true" onclick="setTop5View('overview')">GENEL BAKIŞ</button>
+        <button class="top5-view-tab" data-view="top5" role="tab" aria-selected="false" onclick="setTop5View('top5')">ÜRÜN TOP 5</button>
+        <button class="top5-view-tab" data-view="analysis" role="tab" aria-selected="false" onclick="setTop5View('analysis')">ANALİZ</button>
+      </nav>
+      <div id="top5FilterSummary" class="top5-filter-summary"></div>
+      <section class="top5-view-panel" data-panel="overview">
+        <div class="top5-overview-grid">
+          <article class="top5-report-card"><h2>KATEGORİ DAĞILIMI</h2><div id="top5CategoryMix"></div></article>
+          <article class="top5-report-card"><h2>EN ÇOK SATAN 5 ÜRÜN</h2><div id="top5OverviewLeaders"></div></article>
+        </div>
+      </section>
+      <section class="top5-view-panel" data-panel="top5" hidden>
+        <div id="top5CategorySummary" class="top5-category-summary"></div>
+        <div id="top5ProductList" class="top5-product-list"><div class="top5-empty">Raporlar yükleniyor…</div></div>
+      </section>
+      <section class="top5-view-panel" data-panel="analysis" hidden>
+        <article class="top5-report-card"><h2>ÜRÜN BAZLI DETAYLI ANALİZ</h2><div id="top5AnalysisTable"></div></article>
+      </section>
+      <p class="top5-footnote">Envanter, Güncel Stok Excel dosyasındaki beden/renk satırları ürün koduna göre toplanarak eşleştirilir.</p>
     </section>
 
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
@@ -298,7 +315,7 @@
     <script src="script.js?v=20261105-kpi-layout-v3"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="top5-analysis.js?v=20261105-top5-v1"></script>
+    <script src="top5-analysis.js?v=20261105-sales-inventory-v2"></script>
     <script src="shift-program.js?v=20261105-shift-horizontal-v2"></script>\n    <script src="sd-karne.js?v=20261105-premium-crowns"></script>
 
     <script>
