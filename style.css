@@ -3470,3 +3470,52 @@ body{background-size:contain !important;background-position:center top !importan
   #mainMenu .store-status-panel .kpi-row-card.kpi-card-selected{padding:15px!important}
   #mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-values{grid-template-columns:minmax(0,1fr)!important}
 }
+
+
+/* MAGAZA DURUMU / KATEGORI & STOK SEKME BUTONLARI — PREMIUM PUMA STILI */
+#mainMenu .store-status-panel .store-status-tabs{
+  display:flex!important;
+  gap:10px!important;
+  padding:6px!important;
+  border:1px solid rgba(213,0,28,.42)!important;
+  border-radius:14px!important;
+  background:linear-gradient(135deg,rgba(8,8,8,.96),rgba(28,28,28,.92))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.22)!important;
+}
+#mainMenu .store-status-panel .store-status-tab{
+  flex:1 1 0!important;
+  min-width:0!important;
+  min-height:50px!important;
+  padding:12px 18px!important;
+  border:1px solid rgba(213,0,28,.72)!important;
+  border-radius:10px!important;
+  background:linear-gradient(180deg,#fff,#f1f1f1)!important;
+  color:#c9001b!important;
+  font-family:"Californian FB",Georgia,serif!important;
+  font-size:clamp(15px,1.5vw,18px)!important;
+  font-weight:700!important;
+  font-style:normal!important;
+  letter-spacing:.25px!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 3px 9px rgba(0,0,0,.16)!important;
+  transition:background .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease!important;
+}
+#mainMenu .store-status-panel .store-status-tab.active,
+#mainMenu .store-status-panel .store-status-tab[aria-selected="true"]{
+  background:linear-gradient(135deg,#d5001c,#a90017)!important;
+  border-color:#ff5265!important;
+  color:#fff!important;
+  box-shadow:0 5px 16px rgba(213,0,28,.3),inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+#mainMenu .store-status-panel .store-status-tab:focus-visible{
+  outline:2px solid #fff!important;
+  outline-offset:3px!important;
+}
+@media(max-width:650px){
+  #mainMenu .store-status-panel .store-status-tabs{gap:7px!important;padding:5px!important}
+  #mainMenu .store-status-panel .store-status-tab{min-height:46px!important;padding:10px 8px!important;font-size:15px!important}
+}
