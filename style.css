@@ -3070,3 +3070,19 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:480px){
   #sdKarneArea .sd-champion-crown{width:30px!important;height:22px!important}
 }
+
+
+/* SD KARNE — ÜST ŞAMPİYONLAR KULÜBÜ GÖRSELİNİ ORANINI KORUYARAK HAFİF KÜÇÜLT */
+#sdKarneArea .sd-karne-team-banner{
+  width:92%!important;
+  max-width:1180px!important;
+  margin:0 auto 16px!important;
+}
+#sdKarneArea .sd-karne-team-banner .sd-karne-team-image{
+  width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+}
+@media(max-width:600px){
+  #sdKarneArea .sd-karne-team-banner{width:96%!important}
+}
