@@ -3815,3 +3815,35 @@ body{background-size:contain !important;background-position:center top !importan
 .store-status-area{width:min(1240px,calc(100% - 36px));margin:0 auto;padding:22px 0 26px;animation:dashboard-enter 240ms ease both}
 .store-status-area>.back-button{margin-bottom:16px}
 @media(max-width:600px){.store-status-area{width:calc(100% - 24px);padding-top:14px}}
+
+
+/* MAĞAZA DURUMU — grafik tabanlı performans görünümü */
+.store-charts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:4px 0 22px}
+.store-chart-card{min-width:0;padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:linear-gradient(145deg,rgba(25,26,31,.98),rgba(12,13,16,.98));box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.store-chart-kpi{grid-column:1/-1}
+.store-chart-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+.store-chart-kicker{display:block;color:#ff5267;font-size:9px;font-weight:900;letter-spacing:1.6px;margin-bottom:6px}
+.store-chart-heading h3{color:#fff;font-size:16px;line-height:1.25;margin:0}
+.store-chart-legend{display:flex;align-items:center;gap:7px;flex-wrap:wrap;color:#bfc1c8;font-size:10px;white-space:nowrap}
+.store-chart-legend i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-left:5px}
+.store-chart-legend i:first-child{margin-left:0}
+.store-chart-legend i.previous{background:#777b85}
+.store-chart-legend i.actual{background:#e31837}
+.store-attainment-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 22px}
+.store-attainment-row{min-width:0}
+.store-attainment-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
+.store-attainment-meta strong{color:#fff;font-size:12px}
+.store-attainment-meta span{color:#ff5368;font-size:12px;font-weight:900;font-variant-numeric:tabular-nums}
+.store-attainment-track{height:9px;border-radius:20px;background:#35363c;overflow:hidden}
+.store-attainment-track span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#a9001b,#ff304c);box-shadow:0 0 12px rgba(227,24,55,.28)}
+.store-attainment-values{display:flex;justify-content:space-between;gap:8px;margin-top:6px;color:#9699a2;font-size:9px;font-variant-numeric:tabular-nums}
+.store-compare-list{display:grid;gap:14px}
+.store-compare-row{display:grid;grid-template-columns:minmax(80px,.72fr) minmax(0,1.6fr);gap:12px;align-items:center}
+.store-compare-label{color:#fff;font-size:11px;font-weight:800;overflow-wrap:anywhere}
+.store-compare-bars{display:grid;gap:6px;min-width:0}
+.store-compare-bar-line{display:flex;align-items:center;gap:8px;min-width:0}
+.store-compare-bar-line span{display:block;height:8px;min-width:2px;max-width:100%;border-radius:8px;background:#777b85;flex:0 0 auto}
+.store-compare-bar-line span.actual{background:linear-gradient(90deg,#a9001b,#ed1b3b)}
+.store-compare-bar-line b{color:#c8c9ce;font-size:9px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.store-chart-empty{color:#9ea1aa;font-size:12px;padding:14px 0}
+@media(max-width:760px){.store-charts-grid{grid-template-columns:1fr}.store-chart-kpi{grid-column:auto}.store-attainment-list{grid-template-columns:1fr;gap:13px}.store-chart-card{padding:15px}.store-compare-row{grid-template-columns:minmax(72px,.65fr) minmax(0,1.35fr);gap:8px}.store-compare-bar-line b{font-size:8px}.store-chart-heading h3{font-size:15px}}

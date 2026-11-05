@@ -768,7 +768,57 @@ async function loadPerformanceDashboard() {
         groups.push(section("Cinsiyet Bazlı Karşılaştırma", "Tablodaki değerler olduğu gibi gösterilir", genderCards, "comparison-group"));
         groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group"));
 
-        root.innerHTML = groups.join("");
+
+        const numeric = address => {
+            const value = Number(raw(address));
+            return Number.isFinite(value) ? value : null;
+        };
+        const chartNumber = (value, currency = false) => {
+            if (value === null || value === undefined) return "—";
+            return new Intl.NumberFormat("tr-TR", {
+                maximumFractionDigits: currency ? 0 : 2
+            }).format(value) + (currency ? " TL" : "");
+        };
+        const safeChartLabel = value => escapeHTML(value === null || value === undefined ? "—" : value);
+        const kpiChartRows = kpiRows.map(([label, row]) => ({
+            label, target: numeric("C" + row), actual: numeric("D" + row)
+        })).filter(item => item.target !== null && item.actual !== null);
+        const attainmentChart = () => {
+            if (!kpiChartRows.length) return '<div class="store-chart-empty">KPI grafiği için Excel verisi bulunamadı.</div>';
+            return '<article class="store-chart-card store-chart-kpi"><div class="store-chart-heading"><div><span class="store-chart-kicker">HEDEF / GERÇEKLEŞEN</span><h3>KPI Hedef Gerçekleşme</h3></div><span class="store-chart-legend"><i class="actual"></i> Gerçekleşen</span></div><div class="store-attainment-list">' +
+                kpiChartRows.map(item => {
+                    const rate = item.target === 0 ? 0 : item.actual / item.target * 100;
+                    const width = Math.max(0, Math.min(100, rate));
+                    return '<div class="store-attainment-row"><div class="store-attainment-meta"><strong>' + safeChartLabel(item.label) + '</strong><span>' + chartNumber(rate) + '%</span></div><div class="store-attainment-track"><span style="width:' + width + '%"></span></div><div class="store-attainment-values"><span>Hedef ' + chartNumber(item.target) + '</span><span>Gerçekleşen ' + chartNumber(item.actual) + '</span></div></div>';
+                }).join("") + '</div></article>';
+        };
+        const compareChart = (title, kicker, entries, oldLabel, newLabel, currency = false, extraClass = "") => {
+            const valid = entries.filter(item => item.old !== null || item.current !== null);
+            if (!valid.length) return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div></div><div class="store-chart-empty">Karşılaştırma verisi bulunamadı.</div></article>';
+            const max = Math.max(1, ...valid.flatMap(item => [item.old || 0, item.current || 0]));
+            return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div><div class="store-chart-legend"><i class="previous"></i> ' + oldLabel + '<i class="actual"></i> ' + newLabel + '</div></div><div class="store-compare-list">' +
+                valid.map(item => '<div class="store-compare-row"><div class="store-compare-label">' + safeChartLabel(item.name) + '</div><div class="store-compare-bars"><div class="store-compare-bar-line"><span class="previous" style="width:' + Math.max(0, (item.old || 0) / max * 100) + '%"></span><b>' + chartNumber(item.old, currency) + '</b></div><div class="store-compare-bar-line"><span class="actual" style="width:' + Math.max(0, (item.current || 0) / max * 100) + '%"></span><b>' + chartNumber(item.current, currency) + '</b></div></div></div>').join("") +
+                '</div></article>';
+        };
+        const categoryChartEntries = [
+            {name:raw("H4"),old:numeric("I5"),current:numeric("J5")},
+            {name:raw("H7"),old:numeric("I8"),current:numeric("J8")},
+            {name:raw("H10"),old:numeric("I11"),current:numeric("J11")}
+        ].filter(item => item.name !== null && item.name !== undefined);
+        const genderChartEntries = [15,16,17,18,19].map(row => ({
+            name:raw("H"+row),old:numeric("I"+row),current:numeric("J"+row)
+        })).filter(item => item.name !== null && item.name !== undefined);
+        const stockChartEntries = [24,25,26,27].map(row => ({
+            name:raw("H"+row),old:numeric("I"+row),current:numeric("J"+row)
+        })).filter(item => item.name !== null && item.name !== undefined);
+        const charts = '<section class="store-charts-grid" aria-label="Grafiklerle mağaza performansı">' +
+            attainmentChart() +
+            compareChart("Kategori Bazlı Ciro","KATEGORİ PERFORMANSI",categoryChartEntries,"2025","2026",true,"store-chart-category") +
+            compareChart("Cinsiyet Bazlı Ciro","CİNSİYET KIRILIMI",genderChartEntries,"2025","2026",true,"store-chart-gender") +
+            compareChart("Kategori Bazlı Stok","ENVANTER KARŞILAŞTIRMASI",stockChartEntries,"2025","2026",false,"store-chart-stock") +
+            '</section>';
+
+        root.innerHTML = charts + groups.join("");
         const kpiSection = root.querySelector(".kpi-group");
         const kpiHeading = kpiSection && kpiSection.querySelector(".performance-group-heading");
         const kpiGrid = kpiSection && kpiSection.querySelector(".metric-card-grid");
@@ -882,6 +932,7 @@ function organizeStoreStatusTabs() {
     const kpi = root.querySelector(".kpi-group");
     const forecast = root.querySelector(".forecast-group");
     const comparisons = [...root.querySelectorAll(".comparison-group")];
+    const detailCharts = [...root.querySelectorAll(".store-chart-category, .store-chart-gender, .store-chart-stock")];
     if (!period || !targets || !daily || !kpi || !forecast || comparisons.length < 3) return;
     panel.dataset.tabsReady = "true";
     const tabs = document.createElement("div");
@@ -917,7 +968,7 @@ function organizeStoreStatusTabs() {
     panel.querySelector(".store-status-heading").insertAdjacentElement("afterend", tabs);
     tabs.insertAdjacentElement("afterend", first);
     first.append(root, summary);
-    second.append(title, ...comparisons, commentary);
+    second.append(title, ...detailCharts, ...comparisons, commentary);
     first.insertAdjacentElement("afterend", second);
 }
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
