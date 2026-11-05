@@ -2727,3 +2727,51 @@ body{background-size:contain !important;background-position:center top !importan
   #sdKarneArea .sd-award-winner-copy b{font-size:clamp(18px,5vw,24px)!important}
 }
 
+
+
+/* SD KARNE — FOTOĞRAF YERİNE PUMA LOGOLU KUPA */
+#sdKarneArea .sd-awards-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important;align-items:stretch!important}
+#sdKarneArea .sd-award-card.sd-award-card-premium{
+ position:relative!important;display:block!important;min-width:0!important;min-height:0!important;
+ aspect-ratio:1.72/1!important;padding:0!important;overflow:hidden!important;isolation:isolate!important;
+ border:1px solid rgba(255,255,255,.16)!important;border-left:4px solid #d5001c!important;border-radius:16px!important;
+ background:radial-gradient(ellipse at 18% 80%,rgba(213,0,28,.32),transparent 52%),linear-gradient(115deg,#292929 0%,#111 58%,#080808 100%)!important;
+ box-shadow:0 14px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.05)!important
+}
+#sdKarneArea .sd-award-winner{position:absolute!important;inset:0!important;display:block!important;width:100%!important;min-height:0!important;padding:0!important}
+#sdKarneArea .sd-award-winner:after{content:none!important;display:none!important}
+#sdKarneArea .sd-award-photo{display:none!important}
+#sdKarneArea .sd-award-trophy{
+ position:absolute!important;z-index:1!important;left:5%!important;top:8%!important;bottom:7%!important;width:39%!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ background:radial-gradient(ellipse at center,rgba(213,0,28,.20),transparent 68%)!important;pointer-events:none!important
+}
+#sdKarneArea .sd-award-trophy svg{display:block!important;width:100%!important;height:100%!important;max-width:190px!important;filter:drop-shadow(0 8px 13px rgba(0,0,0,.55))!important}
+#sdKarneArea .sd-award-winner-copy{
+ position:absolute!important;z-index:2!important;left:47%!important;right:5%!important;top:8%!important;bottom:8%!important;
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;
+ gap:clamp(5px,.8vw,11px)!important;min-width:0!important;min-height:0!important;padding:0!important;text-align:left!important
+}
+#sdKarneArea .sd-award-winner-copy small{display:block!important;color:#ff4058!important;font-size:clamp(10px,1.05vw,14px)!important;font-weight:950!important;letter-spacing:1.1px!important;line-height:1.25!important}
+#sdKarneArea .sd-award-winner-copy strong{display:block!important;width:100%!important;color:#fff!important;font-size:clamp(16px,1.65vw,25px)!important;font-weight:950!important;line-height:1.12!important;overflow-wrap:anywhere!important}
+#sdKarneArea .sd-award-winner-copy b{
+ display:block!important;width:100%!important;margin:3px 0 0!important;padding:clamp(7px,.8vw,11px) 8px!important;
+ border:0!important;border-radius:7px!important;background:linear-gradient(110deg,#ed1c35,#a9001d)!important;
+ color:#fff!important;font-size:clamp(14px,1.7vw,24px)!important;font-weight:950!important;line-height:1.12!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;box-shadow:0 5px 16px rgba(213,0,28,.25)!important
+}
+#sdKarneArea .sd-award-winner-copy b span{display:block!important;margin-bottom:4px!important;color:#fff!important;font-size:9px!important;letter-spacing:.7px!important}
+@media(max-width:900px){
+ #sdKarneArea .sd-awards-grid{grid-template-columns:1fr!important;gap:13px!important}
+ #sdKarneArea .sd-award-card.sd-award-card-premium{width:min(100%,650px)!important;aspect-ratio:1.9/1!important;margin-inline:auto!important}
+ #sdKarneArea .sd-award-winner-copy strong{font-size:clamp(20px,4vw,26px)!important}
+ #sdKarneArea .sd-award-winner-copy b{font-size:clamp(19px,4.5vw,27px)!important}
+}
+@media(max-width:480px){
+ #sdKarneArea .sd-award-card.sd-award-card-premium{aspect-ratio:1.72/1!important}
+ #sdKarneArea .sd-award-trophy{left:3%!important;width:40%!important}
+ #sdKarneArea .sd-award-winner-copy{left:46%!important;right:4%!important;gap:6px!important}
+ #sdKarneArea .sd-award-winner-copy small{font-size:10px!important}
+ #sdKarneArea .sd-award-winner-copy strong{font-size:18px!important}
+ #sdKarneArea .sd-award-winner-copy b{font-size:16px!important;padding:7px 5px!important}
+}
