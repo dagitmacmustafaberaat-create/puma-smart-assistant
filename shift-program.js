@@ -82,11 +82,21 @@
     }
     const working = today.shifts.map((s,i)=>({s,i})).filter(({s})=>!(s[0]==="00:00"&&s[1]==="00:00"));
     const dateLabel = today.day+" • "+today.date;
+    const groups = [
+      { title:"MÜDÜR", subtitle:"STORE MANAGER", kind:"coach", ids:[0] },
+      { title:"ŞEF", subtitle:"SUPERVISOR", kind:"chief", ids:[1] },
+      { title:"PERSONEL", subtitle:"SALES TEAM", kind:"runner", ids:[2,3,4,5] }
+    ];
+    const columns = groups.map(group => {
+      const people = group.ids.map(i => ({s:today.shifts[i],i})).filter(({s})=>s && !(s[0]==="00:00"&&s[1]==="00:00"));
+      return '<section class="shift-today-role-column shift-today-role-'+group.kind+'"><header class="shift-today-role-heading"><span>'+group.title+'</span><small>'+group.subtitle+'</small></header>'+
+        (people.length ? '<div class="shift-today-role-list">'+people.map(({s,i})=>{
+          const p=STAFF[i];
+          return '<article class="shift-today-card"><button type="button" class="shift-today-person-link" onclick="window.openStaffWeeklySchedule('+i+',event)" aria-label="'+esc(p.name+' haftalık çalışma programını aç')+'">'+esc(p.name)+' <span aria-hidden="true">↗</span></button><div class="shift-today-time"><span><small>VARDİYA</small><strong>'+esc(s[0])+' – '+esc(s[1])+'</strong></span><span><small>ÇALIŞMA</small><strong>'+esc(s[2])+'</strong></span><span><small>MOLA</small><strong>'+esc(s[3])+'</strong></span><span><small>NET</small><strong>'+esc(s[4])+'</strong></span></div></article>';
+        }).join("")+'</div>' : '<div class="shift-today-role-empty">Bugün vardiyası yok</div>')+'</section>';
+    }).join("");
     target.innerHTML = '<div class="shift-today-heading"><div><span>BUGÜNÜN PROGRAMI</span><h2>'+esc(dateLabel)+'</h2></div><b>'+working.length+' PERSONEL</b></div>'+
-      (working.length ? '<div class="shift-today-grid">'+working.map(({s,i})=>{
-        const p=STAFF[i];
-        return '<article class="shift-today-card"><h3>'+esc(p.name)+'</h3><div class="shift-today-time"><span><small>VARDİYA</small><strong>'+esc(s[0])+' – '+esc(s[1])+'</strong></span><span><small>ÇALIŞMA SAATİ</small><strong>'+esc(s[2])+'</strong></span><span><small>MOLA SAATİ</small><strong>'+esc(s[3])+'</strong></span><span><small>NET ÇALIŞMA</small><strong>'+esc(s[4])+'</strong></span></div></article>';
-      }).join("")+'</div>' : '<div class="shift-today-empty">Bugün ekipte vardiyası olan personel bulunmuyor.</div>');
+      (working.length ? '<div class="shift-today-grid">'+columns+'</div>' : '<div class="shift-today-empty">Bugün ekipte vardiyası olan personel bulunmuyor.</div>');
   }
 
   function renderRoster() {
@@ -125,11 +135,14 @@
     if (detail) detail.textContent = "2–8 Kasım 2026 • Haftalık çalışma programı";
   }
 
-  window.openStaffWeeklySchedule = function (index) {
+  window.openStaffWeeklySchedule = function (index, event) {
+    if (event) { event.preventDefault(); event.stopPropagation(); }
     if (!Number.isInteger(index) || !STAFF[index]) return;
     selectedStaff = index;
+    const area = document.getElementById("shiftProgramArea");
     const roster = document.getElementById("shiftRosterView");
     const schedule = document.getElementById("shiftSelectedView");
+    if (area) area.style.display = "block";
     if (roster) roster.style.display = "none";
     if (schedule) schedule.style.display = "block";
     renderSelectedSchedule();

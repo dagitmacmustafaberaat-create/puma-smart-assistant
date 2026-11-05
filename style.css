@@ -2301,8 +2301,6 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:600px){.shift-today-overview{padding:13px;margin-bottom:23px}.shift-today-grid{grid-template-columns:1fr;gap:8px}.shift-today-card{padding:11px}.shift-today-time strong{font-size:12px}}
 
 
-/* Bugünün vardiya listesi: personel kartları tek sütun, alt alta */
-.shift-today-grid{grid-template-columns:1fr !important}
 
 
 /* SD KARNE — KASIM ŞAMPİYONLUK HERO */
@@ -3584,3 +3582,111 @@ body{background-size:contain !important;background-position:center top !importan
 .top5-empty{padding:24px;border:1px dashed #555;border-radius:12px;color:#ccc;text-align:center;background:rgba(0,0,0,.55)}
 .top5-footnote{margin:14px 2px;color:#aaa;font-size:11px;line-height:1.6}
 @media(max-width:650px){.top5-analysis-area{width:calc(100% - 18px);margin:10px auto 28px}.top5-hero{padding:18px 15px}.top5-category-tabs{gap:6px}.top5-category-tab{min-height:44px;padding:8px 4px;font-size:12px}.top5-product-card{grid-template-columns:42px minmax(0,1fr);gap:9px;padding:12px}.top5-rank{width:38px;height:38px;font-size:20px}.top5-product-name{font-size:14px}.top5-metrics{gap:6px}.top5-metric{padding:8px 6px}.top5-metric small{font-size:8px;letter-spacing:0}.top5-metric strong{font-size:12px}}
+
+
+/* SHIFT PROGRAM - premium role columns and Californian FB typography */
+.shift-program-area,
+.shift-program-area button,
+.shift-program-area h1,
+.shift-program-area h2,
+.shift-program-area h3,
+.shift-program-area p,
+.shift-program-area small,
+.shift-program-area strong,
+.shift-program-area span,
+.shift-program-area div,
+.shift-program-area article {
+  font-family:"Californian FB","Book Antiqua",Georgia,serif !important;
+}
+.shift-today-grid {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  align-items:start;
+  gap:12px !important;
+}
+.shift-today-role-column {
+  min-width:0;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:13px;
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(0,0,0,.16));
+  box-shadow:0 10px 24px rgba(0,0,0,.16);
+}
+.shift-today-role-heading {
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  min-height:42px;
+  margin-bottom:10px;
+  padding:0 0 9px;
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+.shift-today-role-heading span {
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.shift-today-role-heading small {
+  color:#ff6575;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.12em;
+}
+.shift-today-role-list { display:flex; flex-direction:column; gap:9px; min-width:0; }
+.shift-today-role-column .shift-today-card {
+  padding:10px;
+  border-left:2px solid #d5001c;
+  border-radius:9px;
+  background:rgba(255,255,255,.045);
+}
+.shift-today-role-coach .shift-today-role-heading span { color:#e4ca8d; }
+.shift-today-role-chief .shift-today-role-heading span { color:#f29caf; }
+.shift-today-role-runner .shift-today-role-heading span { color:#a7d7fa; }
+.shift-today-person-link {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:4px;
+  width:100%;
+  margin:0 0 9px;
+  padding:0;
+  border:0;
+  color:#fff;
+  background:transparent;
+  text-align:left;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.3;
+  overflow-wrap:anywhere;
+  cursor:pointer;
+}
+.shift-today-person-link span { flex:0 0 auto; color:#ff596d; }
+.shift-today-person-link:hover { color:#ff8793; }
+.shift-today-role-column .shift-today-time { grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px; }
+.shift-today-role-column .shift-today-time span { min-width:0; padding:6px 5px; }
+.shift-today-role-column .shift-today-time small { font-size:8px; }
+.shift-today-role-column .shift-today-time strong { font-size:11px; line-height:1.2; overflow-wrap:anywhere; }
+.shift-today-role-empty {
+  padding:12px 7px;
+  border:1px dashed rgba(255,255,255,.15);
+  border-radius:8px;
+  color:#aeb5be;
+  text-align:center;
+  font-size:11px;
+}
+@media(max-width:600px) {
+  .shift-today-overview { padding:11px !important; }
+  .shift-today-grid { grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:6px !important; }
+  .shift-today-role-column { padding:7px 5px; border-radius:9px; }
+  .shift-today-role-heading { min-height:37px; margin-bottom:7px; padding-bottom:7px; }
+  .shift-today-role-heading span { font-size:10px; letter-spacing:.06em; }
+  .shift-today-role-heading small { font-size:7px; letter-spacing:.04em; }
+  .shift-today-role-list { gap:6px; }
+  .shift-today-role-column .shift-today-card { padding:7px 5px; }
+  .shift-today-person-link { font-size:10px; margin-bottom:6px; }
+  .shift-today-role-column .shift-today-time { gap:4px; }
+  .shift-today-role-column .shift-today-time span { padding:5px 3px; }
+  .shift-today-role-column .shift-today-time small { font-size:7px; letter-spacing:0; }
+  .shift-today-role-column .shift-today-time strong { font-size:9px; }
+}
