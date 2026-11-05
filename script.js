@@ -750,9 +750,11 @@ async function loadPerformanceDashboard() {
             filter.innerHTML = '<option value="all">Tüm KPI’lar</option>' +
                 kpiRows.map(([label]) => '<option value="' + escapeHTML(label) + '">' + escapeHTML(label) + '</option>').join("");
             filter.addEventListener("change", () => {
-                kpiGrid.querySelectorAll(".kpi-row-card").forEach(card => {
-                    card.hidden = filter.value !== "all" && card.querySelector("h4")?.textContent !== filter.value;
+                const selected = filter.value;
+                kpiGrid.querySelectorAll(".kpi-row-card").forEach(item => {
+                    item.hidden = selected !== "all" && item.querySelector("h4")?.textContent !== selected;
                 });
+                renderStoreActionSummary(cells, selected);
             });
             kpiHeading.appendChild(filter);
         }
@@ -764,7 +766,7 @@ async function loadPerformanceDashboard() {
     }
 }
 
-function renderStoreActionSummary(cells) {
+function renderStoreActionSummary(cells, selectedKpi = "all") {
     const root = document.getElementById("storeActionSummary");
     if (!root) return;
     const getValue = address => {
@@ -785,7 +787,7 @@ function renderStoreActionSummary(cells) {
     const fmtNumber = (n, digits=1) => new Intl.NumberFormat("tr-TR", {maximumFractionDigits:digits}).format(n);
     const fmtPercent = n => new Intl.NumberFormat("tr-TR", {style:"percent",maximumFractionDigits:1}).format(n);
     const insights = [];
-    definitions.forEach(item => {
+    definitions.filter(item => selectedKpi === "all" || item.name === selectedKpi).forEach(item => {
         const target = getValue(item.target);
         const actual = getValue(item.actual);
         const gap = getValue(item.gap);
