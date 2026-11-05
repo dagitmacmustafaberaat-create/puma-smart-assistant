@@ -3343,3 +3343,18 @@ body{background-size:contain !important;background-position:center top !importan
   #mainMenu .store-status-panel .kpi-selected-layout .kpi-values{gap:12px!important}
   #mainMenu .store-status-panel .kpi-selected-layout .action-insight{padding:18px!important}
 }
+
+
+/* KPI SEÇİMİ — SON DÜZEN: DÖRT NET VERİ ALANI + YANINDA YORUM */
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected{display:block!important;width:100%!important;max-width:none!important;grid-column:1 / -1!important;padding:22px!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout{display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr)!important;width:100%!important;gap:20px!important;align-items:stretch!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .kpi-values{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important;min-width:0!important;gap:12px!important;align-content:stretch!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .kpi-values>div{display:flex!important;flex-direction:column!important;justify-content:center!important;min-width:0!important;padding:14px 16px!important;gap:8px!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:12px!important;background:rgba(0,0,0,.24)!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .kpi-values span{font-size:14px!important;line-height:1.35!important;white-space:normal!important;overflow-wrap:normal!important;word-break:keep-all!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .kpi-values strong{font-size:clamp(17px,1.45vw,21px)!important;line-height:1.3!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;font-variant-numeric:tabular-nums!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .action-insight{display:flex!important;width:100%!important;min-width:0!important;height:100%!important;margin:0!important;padding:20px!important;flex-direction:column!important;justify-content:center!important;border-radius:14px!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .action-insight strong{font-size:18px!important;line-height:1.4!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .action-insight p{font-size:15px!important;line-height:1.6!important}
+#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .action-insight small{font-size:13px!important;line-height:1.5!important}
+@media(max-width:760px){#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout{grid-template-columns:minmax(0,1fr)!important}}
+@media(max-width:430px){#mainMenu .store-status-panel .kpi-row-card.kpi-card-selected .kpi-selected-layout .kpi-values{grid-template-columns:minmax(0,1fr)!important}}
