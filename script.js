@@ -951,7 +951,8 @@ function organizeStoreStatusTabs() {
         panel.querySelector(".store-status-heading").insertAdjacentElement("afterend", page);
     }
     source.hidden = true;
-    if (summary) summary.hidden = true;
+    source.textContent = "";
+    if (summary) { summary.hidden = true; summary.textContent = ""; }
 }
 function renderStoreStatusVerticalDashboard(cells) {
     const page = document.getElementById("storePerformancePage");
