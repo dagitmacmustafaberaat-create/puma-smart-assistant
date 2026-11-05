@@ -57,8 +57,8 @@
   }
   function stockIndexes(headers){
     const code=indexOf(headers,["STOK KODU","URUN KODU","STOCK CODE","PRODUCT CODE","STYLE NUMBER","STYLE","MODEL KODU","MODEL NO","URUN KOD"]);
-    let qty=indexOf(headers,["STOK ADEDİ","STOK ADEDI","STOK ADED","FIILI STOK ADEDI","FIILI STOK ADEDİ","MEVCUT STOK","TOPLAM STOK","STOK MIKTARI","STOK MİKTARI","STOCK QTY","STOCK QUANTITY","AVAILABLE STOCK","ON HAND","QUANTITY","QTY","ADET"]);
-    if(qty<0)qty=headers.findIndex(v=>{const x=normalize(v);return x.includes("STOK")&&(/ADET|MIKTAR|QTY|QUANTITY/.test(x));});
+    let qty=indexOf(headers,["STOK ADEDİ","STOK ADEDI","STOK ADED","FIILI STOK ADEDI","FIILI STOK ADEDİ","FIILI STOK","MEVCUT STOK","TOPLAM STOK","STOK MIKTARI","STOK MİKTARI","STOCK QTY","STOCK QUANTITY","AVAILABLE STOCK","AVAILABLE QTY","ON HAND QTY","ON HAND","PHYSICAL STOCK","MEVCUT ADET","TOPLAM ADET","MIKTAR","QUANTITY","QTY","ADET","STOK"]);
+    if(qty<0)qty=headers.findIndex(v=>{const x=normalize(v);return /(STOK|MIKTAR|ADET|QTY|QUANTITY|ON HAND)/.test(x)&&!/(KOD|CODE|ADI|NAME|GRUP|GROUP|TARIH|DATE)/.test(x);});
     return {code,qty};
   }
   function setStatus(message){const el=document.getElementById("top5DataStatus");if(el)el.textContent=message;}
