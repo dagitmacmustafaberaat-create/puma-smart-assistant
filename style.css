@@ -2919,3 +2919,41 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:480px){
   #sdKarneArea .sd-award-winner-copy{align-self:center!important;justify-content:center!important;padding-top:0!important}
 }
+
+
+/* SD KARNE — TÜM ŞAMPİYON METİNLERİ: ŞEFFAF ZEMİN, KIRMIZI DOLGU, BEYAZ KONTUR */
+#sdKarneArea .sd-award-winner-copy small,
+#sdKarneArea .sd-award-winner-copy strong,
+#sdKarneArea .sd-award-winner-copy b,
+#sdKarneArea .sd-award-winner-copy b span{
+  color:#e00024!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+  margin:0!important;
+  -webkit-text-fill-color:#e00024!important;
+  -webkit-text-stroke:1px #fff!important;
+  paint-order:stroke fill!important;
+  text-shadow:0 0 2px rgba(255,255,255,.95),0 0 7px rgba(255,255,255,.55)!important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  display:block!important;
+  white-space:normal!important;
+  font-size:clamp(16px,1.75vw,24px)!important;
+  line-height:1.08!important;
+  margin-top:3px!important;
+}
+#sdKarneArea .sd-award-winner-copy b span{
+  display:inline!important;
+  font:inherit!important;
+  letter-spacing:inherit!important;
+}
+#sdKarneArea .sd-award-winner-copy small,
+#sdKarneArea .sd-award-winner-copy strong{
+  display:block!important;
+}
+@media(max-width:480px){
+  #sdKarneArea .sd-award-winner-copy b{font-size:clamp(14px,3.8vw,18px)!important}
+}
