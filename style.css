@@ -2496,3 +2496,122 @@ body{background-size:contain !important;background-position:center top !importan
 .sd-award-winner-copy b{color:#fff!important;font-size:clamp(17px,2vw,24px)!important;font-weight:950;line-height:1.2;overflow-wrap:anywhere}
 .sd-award-winner-copy b span{display:block;color:#ff4058!important;font-size:10px!important;letter-spacing:.8px;margin-bottom:4px}
 @media(max-width:600px){.sd-award-card.sd-award-card-premium{min-height:158px!important;padding:15px 10px 15px 42%!important}.sd-award-photo{left:-10px;top:-24px;bottom:-17px;width:49%}.sd-award-winner-copy{min-height:125px;gap:5px}.sd-award-winner-copy strong{font-size:17px!important}.sd-award-winner-copy b{font-size:16px!important}.sd-award-winner-copy b span{font-size:9px!important}}
+
+
+/* SD KARNE — DASHBOARD REFERANSINA UYGUN BÜTÜNLEŞİK ŞAMPİYON KARTLARI */
+#sdKarneArea .sd-awards-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:18px!important;
+  align-items:stretch!important;
+}
+#sdKarneArea .sd-award-card.sd-award-card-premium{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  min-width:0!important;
+  min-height:310px!important;
+  padding:24px 20px 24px 49%!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-left:4px solid #d5001c!important;
+  border-top:1px solid rgba(255,255,255,.18)!important;
+  border-radius:17px!important;
+  background:
+    radial-gradient(ellipse at 15% 80%,rgba(213,0,28,.25),transparent 58%),
+    linear-gradient(115deg,#242424 0%,#111 56%,#080808 100%)!important;
+  box-shadow:0 16px 38px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+#sdKarneArea .sd-award-winner{
+  position:static!important;
+  display:block!important;
+  width:100%!important;
+  min-height:0!important;
+  padding:0!important;
+}
+#sdKarneArea .sd-award-photo{
+  position:absolute!important;
+  z-index:1!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:49%!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  background:linear-gradient(90deg,rgba(0,0,0,.02),rgba(0,0,0,.10) 72%,rgba(0,0,0,.35))!important;
+}
+#sdKarneArea .sd-award-photo img{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.7))!important;
+}
+#sdKarneArea .sd-award-winner-copy{
+  position:relative!important;
+  z-index:2!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  min-height:220px!important;
+  gap:9px!important;
+  padding:8px 0!important;
+}
+#sdKarneArea .sd-award-winner-copy small{
+  color:#ff4058!important;
+  font-size:clamp(10px,1.05vw,13px)!important;
+  font-weight:950!important;
+  letter-spacing:1.25px!important;
+  line-height:1.35!important;
+}
+#sdKarneArea .sd-award-winner-copy strong{
+  color:#fff!important;
+  font-size:clamp(19px,1.8vw,27px)!important;
+  font-weight:950!important;
+  line-height:1.12!important;
+  overflow-wrap:anywhere!important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  margin-top:5px!important;
+  color:#fff!important;
+  font-size:clamp(17px,1.65vw,24px)!important;
+  font-weight:950!important;
+  line-height:1.22!important;
+  overflow-wrap:anywhere!important;
+}
+#sdKarneArea .sd-award-winner-copy b span{
+  display:block!important;
+  margin-bottom:6px!important;
+  color:#ff4058!important;
+  font-size:10px!important;
+  letter-spacing:.8px!important;
+}
+@media(max-width:900px){
+  #sdKarneArea .sd-awards-grid{grid-template-columns:1fr!important;gap:14px!important}
+  #sdKarneArea .sd-award-card.sd-award-card-premium{
+    min-height:250px!important;
+    padding:22px 22px 22px 43%!important;
+  }
+  #sdKarneArea .sd-award-photo{width:43%!important}
+  #sdKarneArea .sd-award-winner-copy{min-height:195px!important}
+}
+@media(max-width:600px){
+  #sdKarneArea .sd-award-card.sd-award-card-premium{
+    min-height:205px!important;
+    padding:17px 13px 17px 43%!important;
+    border-radius:13px!important;
+  }
+  #sdKarneArea .sd-award-photo{width:43%!important}
+  #sdKarneArea .sd-award-winner-copy{min-height:165px!important;gap:7px!important}
+  #sdKarneArea .sd-award-winner-copy small{font-size:9px!important}
+  #sdKarneArea .sd-award-winner-copy strong{font-size:18px!important}
+  #sdKarneArea .sd-award-winner-copy b{font-size:16px!important}
+}
