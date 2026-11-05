@@ -1,8 +1,8 @@
-const CACHE_NAME = "buyaka-puma-app-v47";
+const CACHE_NAME = "buyaka-puma-app-v48";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261105-red-trophy",
+  "./style.css?v=20261105-champions-club",
   "./performance-league.js?v=20261102-excel-source",
   "./script.js?v=20261102-hgo-percent",
   "./shift-program.js?v=20261102-week45",
