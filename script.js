@@ -662,8 +662,14 @@ async function loadPerformanceDashboard() {
             ["Ciro", 17], ["UPT", 18], ["CR", 19], ["ASP", 20],
             ["Fatura", 21], ["Ürün Adedi", 22], ["Trafik", 23]
         ];
-        const kpiCards = kpiRows.map(([label, row]) => `
-            <article class="kpi-row-card">
+        const kpiCards = kpiRows.map(([label, row]) => {
+            const targetValue = Number(raw("C" + row));
+            const actualValue = Number(raw("D" + row));
+            const statusClass = Number.isFinite(targetValue) && Number.isFinite(actualValue)
+                ? (actualValue >= targetValue ? "status-positive" : "status-negative")
+                : "status-neutral";
+            return `
+            <article class="kpi-row-card ${statusClass}">
               <h4>${safe(label)}</h4>
               <div class="kpi-values">
                 <div><span>Gerçekleşmesi Gereken</span><strong>${format(get("C" + row))}</strong></div>
@@ -671,7 +677,8 @@ async function loadPerformanceDashboard() {
                 <div><span>Fark</span><strong>${format(get("E" + row))}</strong></div>
                 <div><span>Sapma</span><strong>${format(get("F" + row))}</strong></div>
               </div>
-            </article>`);
+            </article>`;
+        });
 
         const categoryCards = [
             {name: raw("H4"),  y25: "I5", y26: "J5", growth: "I6"},
