@@ -3103,3 +3103,49 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:600px){
   #sdKarneArea .sd-karne-team-banner{width:93%!important}
 }
+
+
+/* SD KARNE — PERSONEL KARNESİ: CALIFORNIAN FB + ŞAMPİYON KARTLARIYLA UYUMLU TONLAMA */
+#sdKarneArea .sd-staff-section,
+#sdKarneArea .sd-staff-section *{
+  font-family:"Californian FB","Californian",Georgia,serif!important;
+  font-style:normal!important;
+}
+#sdKarneArea .sd-staff-section .league-panel-heading h2,
+#sdKarneArea .sd-staff-section .league-section-tag{
+  color:#fff!important;
+  letter-spacing:1.2px!important;
+}
+#sdKarneArea .sd-staff-card{
+  border:1px solid rgba(255,255,255,.24)!important;
+  border-top:2px solid rgba(255,255,255,.25)!important;
+  border-left:3px solid #e3223b!important;
+  border-radius:15px!important;
+  background:
+    radial-gradient(ellipse at 10% 100%,rgba(213,0,28,.22),transparent 56%),
+    linear-gradient(145deg,#242424 0%,#111 62%,#19080b 100%)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.36),inset 0 0 24px rgba(255,255,255,.025)!important;
+}
+#sdKarneArea .sd-staff-top h3{
+  color:#fff!important;
+  letter-spacing:.35px!important;
+}
+#sdKarneArea .sd-staff-metrics>div{
+  border:1px solid rgba(255,255,255,.14)!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(8,8,8,.52) 72%,rgba(213,0,28,.12))!important;
+}
+#sdKarneArea .sd-staff-metrics span{
+  color:#e8b8bf!important;
+  letter-spacing:.45px!important;
+}
+#sdKarneArea .sd-staff-metrics strong{
+  color:#fff!important;
+}
+#sdKarneArea .sd-bonus-chip{
+  border-color:rgba(227,34,59,.5)!important;
+  background:linear-gradient(110deg,rgba(213,0,28,.3),rgba(90,0,15,.28))!important;
+  color:#ffd5da!important;
+}
+#sdKarneArea .sd-bonus-chip strong{
+  color:#fff!important;
+}
