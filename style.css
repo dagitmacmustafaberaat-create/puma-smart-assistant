@@ -2804,3 +2804,23 @@ body{background-size:contain !important;background-position:center top !importan
   margin:0!important;transform:none!important;object-fit:contain!important;
   object-position:center!important;filter:none!important;
 }
+
+/* SD KARNE — ŞAMPİYON ETİKETLERİNDE CHAMPIONS CLUB YAZI STİLİ */
+#sdKarneArea .sd-award-winner-copy small{
+  display:block!important;
+  width:100%!important;
+  color:#fff!important;
+  font-family:Impact,"Arial Narrow",Haettenschweiler,sans-serif!important;
+  font-size:clamp(12px,1.25vw,17px)!important;
+  font-style:italic!important;
+  font-weight:900!important;
+  letter-spacing:1.5px!important;
+  line-height:1.05!important;
+  text-transform:uppercase!important;
+  -webkit-text-stroke:.35px rgba(213,0,28,.9);
+  text-shadow:2px 2px 0 #a9001d,0 0 9px rgba(213,0,28,.35)!important;
+  transform:skewX(-5deg);
+}
+@media(max-width:480px){
+  #sdKarneArea .sd-award-winner-copy small{font-size:12px!important;letter-spacing:1.1px!important}
+}
