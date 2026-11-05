@@ -3519,3 +3519,21 @@ body{background-size:contain !important;background-position:center top !importan
   #mainMenu .store-status-panel .store-status-tabs{gap:7px!important;padding:5px!important}
   #mainMenu .store-status-panel .store-status-tab{min-height:46px!important;padding:10px 8px!important;font-size:15px!important}
 }
+
+
+/* PERFORMANCE LEAGUE — ÜST KAPAK GÖRSELİ + CALIFORNIAN FB */
+#performanceLeagueArea,
+#performanceLeagueArea *{
+  font-family:"Californian FB","Californian",Georgia,serif!important;
+  font-style:normal!important;
+}
+#performanceLeagueArea .league-top-banner{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  max-height:300px!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  margin:0 auto 14px!important;
+  border-radius:16px!important;
+}
