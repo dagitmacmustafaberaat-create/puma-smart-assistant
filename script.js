@@ -935,59 +935,142 @@ function renderStoreActionSummary(cells, selectedKpi = "all") {
 
 
 
-/* MAĞAZA DURUMU — aylık/günlük hedef, gerçekleşen ve yüzde sapma */
+/* MAĞAZA DURUMU — 1.png / 2.png / 3.png referans tasarımı */
 function renderStoreStatusVerticalDashboard(cells) {
     const page = document.getElementById("storePerformancePage");
     if (!page) return;
-    const metrics = [
-        {name:"Ciro", monthly:"C8", daily:"F8", target:"C17", actual:"D17", currency:true},
-        {name:"UPT", monthly:"C9", daily:"F9", target:"C18", actual:"D18"},
-        {name:"CR", monthly:"C10", daily:"F10", target:"C19", actual:"D19", percent:true},
-        {name:"Trafik", monthly:"C14", daily:"F14", target:"C23", actual:"D23"},
-        {name:"Fatura", monthly:"C12", daily:"F12", target:"C21", actual:"D21"},
-        {name:"Ürün Adedi", monthly:"C13", daily:"F13", target:"C22", actual:"D22"}
-    ];
-    const value = address => {
-        const cell = cells[address];
-        if (!cell || cell.value === "" || cell.value === null || cell.value === undefined) return null;
-        const n = Number(cell.value);
+    const raw = address => cells[address]?.value ?? null;
+    const num = address => {
+        const v = raw(address);
+        if (v === null || v === "" || v === undefined) return null;
+        const n = Number(v);
         return Number.isFinite(n) ? n : null;
     };
-    const fmt = (n, item) => {
-        if (n === null) return "Veri yok";
-        if (item.currency) return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n)+" TL";
-        if (item.percent) return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:2}).format(n*100)+"%";
-        return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:2}).format(n);
+    const fmt = (n, digits=0) => n === null || n === undefined ? "—" :
+        new Intl.NumberFormat("tr-TR",{maximumFractionDigits:digits}).format(n);
+    const money = n => n === null || n === undefined ? "—" :
+        "₺"+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n);
+    const percent = (n, signed=false) => n === null || n === undefined ? "—" :
+        (signed && n>0?"+":"")+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(n)+"%";
+    const growth = (oldV,newV) => oldV === null || newV === null || oldV === 0 ? null : (newV/oldV-1)*100;
+    const kpis = [
+        {name:"Ciro",target:"C17",actual:"D17",money:true},
+        {name:"UPT",target:"C18",actual:"D18"},
+        {name:"CR",target:"C19",actual:"D19",percent:true},
+        {name:"ASP",target:"C20",actual:"D20",money:true}
+    ];
+    const categories = [
+        {name:raw("H4")||"Sportstyle Prime",old:num("I5"),current:num("J5"),rate:num("I6")},
+        {name:raw("H7")||"Motorsport",old:num("I8"),current:num("J8"),rate:num("I9")},
+        {name:raw("H10")||"Running",old:num("I11"),current:num("J11"),rate:num("I12")}
+    ].filter(x=>x.name);
+    const genders = [15,16,17,18,19].map(r=>({
+        name:raw("H"+r),old:num("I"+r),current:num("J"+r),rate:num("K"+r)
+    })).filter(x=>x.name);
+    const stocks = [24,25,26,27].map(r=>({
+        name:raw("H"+r),old:num("I"+r),current:num("J"+r)
+    })).filter(x=>x.name);
+    const period = String(raw("B7") || "Kasım 2026").replace(/\\s+Hedefler.*$/i,"");
+    const chartCurrency = (n, isMoney) => isMoney ? money(n) : fmt(n,2);
+    const barChart = (title,kicker,rows,oldLabel,newLabel,isMoney=false,rateLabel="Değişim") => {
+        if (!rows.length) return '<div class="bp-empty">Bu bölüm için Excel’de karşılaştırma verisi bulunamadı.</div>';
+        const max=Math.max(1,...rows.flatMap(r=>[r.old||0,r.current||0]));
+        return '<section class="bp-chart"><div class="bp-chart-head"><div><small>'+kicker+'</small><h3>'+title+'</h3><p>'+oldLabel+' / '+newLabel+' karşılaştırması</p></div><span class="bp-period">'+escapeHTML(period)+'</span></div><div class="bp-legend"><i class="bp-grey"></i>'+oldLabel+' <i class="bp-red"></i>'+newLabel+'</div>'+
+        rows.map(r=>{
+            const rate=r.rate!==undefined?r.rate:growth(r.old,r.current);
+            return '<article class="bp-row"><div class="bp-row-label"><strong>'+escapeHTML(r.name)+'</strong><small>'+percent(rate,true)+'</small></div><div class="bp-bars"><div class="bp-bar-line"><i class="bp-track"><b class="bp-grey" style="width:'+Math.max(0,(r.old||0)/max*100)+'%"></b></i><strong>'+chartCurrency(r.old,isMoney)+'</strong></div><div class="bp-bar-line"><i class="bp-track"><b class="bp-red" style="width:'+Math.max(0,(r.current||0)/max*100)+'%"></b></i><strong>'+chartCurrency(r.current,isMoney)+'</strong></div></div></article>';
+        }).join("")+'</section>';
     };
-    const cards = metrics.map(item => {
-        const monthly=value(item.monthly), daily=value(item.daily), target=value(item.target), actual=value(item.actual);
-        const rate = target !== null && target !== 0 && actual !== null ? (actual/target-1)*100 : null;
-        const rateText = rate === null ? "Karşılaştırma verisi yok" : (rate>0?"+":"")+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(rate)+"%";
-        const rateClass = rate === null ? "neutral" : rate >= 0 ? "positive" : "negative";
-        const vals=[monthly,daily,actual].filter(v=>v!==null);
-        const max=Math.max(1,...vals);
-        const bar=(label,n,kind)=>'<div class="ms-vbar-item"><div class="ms-vbar-value">'+fmt(n,item)+'</div><div class="ms-vbar-track"><i class="'+kind+'" style="height:'+(n===null?0:Math.max(5,n/max*100))+'%"></i></div><span>'+label+'</span></div>';
-        return '<article class="ms-metric-card"><header><h4>'+item.name+'</h4><strong class="ms-rate '+rateClass+'">'+rateText+'</strong></header><div class="ms-vbar-chart">'+
-            bar("Aylık hedef",monthly,"monthly")+bar("Günlük hedef",daily,"daily")+bar("Gerçekleşen",actual,"actual")+
-            '</div><div class="ms-metric-foot"><span>Hedeflenen: <b>'+fmt(target,item)+'</b></span><span>Gerçekleşen: <b>'+fmt(actual,item)+'</b></span></div></article>';
+    const kpiBars = kpis.map(k=>{
+        const target=num(k.target),actual=num(k.actual);
+        return {name:k.name,old:target,current:actual,rate:target!==null&&target!==0&&actual!==null?(actual/target-1)*100:null};
+    });
+    const bestCategory=[...categories].filter(x=>x.current!==null).sort((a,b)=>(b.current||0)-(a.current||0))[0];
+    const bestGrowth=[...categories].filter(x=>x.rate!==null).sort((a,b)=>b.rate-a.rate)[0];
+    const attainment = (target,actual) => target===null||target===0||actual===null?null:actual/target*100;
+    const kpiList=kpis.map(k=>{
+        const value=attainment(num(k.target),num(k.actual));
+        return '<li><span>'+k.name+'</span><strong>'+(value===null?"—":percent(value))+'</strong></li>';
     }).join("");
-    const notes = metrics.map(item => {
-        const target=value(item.target),actual=value(item.actual);
-        if(target===null||actual===null||target===0) return null;
-        return {name:item.name,rate:(actual/target-1)*100};
-    }).filter(Boolean);
-    const winners=notes.filter(x=>x.rate>=0).sort((a,b)=>b.rate-a.rate);
-    const gaps=notes.filter(x=>x.rate<0).sort((a,b)=>a.rate-b.rate);
-    const avg=notes.length?notes.reduce((sum,x)=>sum+x.rate,0)/notes.length:null;
-    const summary=notes.length
-        ? '<p>Değerlendirilebilen '+notes.length+' KPI üzerinden ortalama hedef sapması <b>'+(avg>0?"+":"")+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(avg)+'%</b>. '+
-          (winners.length?'Hedefin üzerinde olanlar: <b>'+winners.map(x=>x.name).join(", ")+'</b>. ':'')+
-          (gaps.length?'Hedefin gerisinde kalanlar: <b>'+gaps.map(x=>x.name).join(", ")+'</b>. ':'')+
-          (gaps.length?'Öncelik, geride kalan KPI’larda günlük hedefe yönelik aksiyon almak ve gün içi gerçekleşmeleri takip etmektir.':'Tüm ölçülebilen KPI’lar hedef seviyesinde veya üzerinde; mevcut performans korunmalı.')+'</p>'
-        : '<p>Genel değerlendirme oluşturmak için hedef ve gerçekleşen veriler henüz yeterli değil.</p>';
-    page.innerHTML='<section class="ms-dashboard"><div class="ms-dashboard-heading"><span>BUYAKA PUMA • PERFORMANS RAPORU</span><h2>MAĞAZA DURUMU</h2><p>Aylık hedef · Günlük hedef · Gerçekleşen · Hedef sapması</p></div><div class="ms-metric-grid">'+cards+'</div><section class="ms-overall-comment"><span>GENEL PERFORMANS DEĞERLENDİRMESİ</span><h3>Sonuç ve Aksiyon</h3>'+summary+'</section></section>';
+    const totalSales=num("D17");
+    const salesTarget=num("C17");
+    const salesChange=salesTarget!==null&&salesTarget!==0&&totalSales!==null?(totalSales/salesTarget-1)*100:null;
+    const styles = `
+    <style>
+    .bp-dashboard{color:#f7f7f8;font-family:inherit}
+    .bp-hero{padding:8px 2px 20px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+    .bp-eyebrow,.bp-chart-head small,.bp-insight small{display:block;color:#ff3158;font-size:11px;font-weight:900;letter-spacing:2px}
+    .bp-hero h2{font-size:clamp(27px,4vw,38px);line-height:1;margin:9px 0 0;font-weight:900;letter-spacing:-1.2px}
+    .bp-hero h2 em{font-style:normal;color:#f32650;margin-left:8px}
+    .bp-hero p{color:#c3c5cc;max-width:300px;text-align:right;font-size:12px;line-height:1.7;margin:0}
+    .bp-tabs{display:flex;gap:9px;overflow-x:auto;padding:2px 0 18px;scrollbar-width:thin}
+    .bp-tab{flex:0 0 auto;border:1px solid #30333a;border-radius:12px;background:#14171c;color:#cdd0d8;padding:13px 17px;font-weight:800;font-size:12px;cursor:pointer}
+    .bp-tab.active{background:#f31d4d;border-color:#f31d4d;color:#fff}
+    .bp-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 16px}
+    .bp-panel{background:linear-gradient(145deg,#1b1e23,#111318);border:1px solid #30333a;border-radius:20px;padding:20px;min-width:0;box-shadow:0 10px 26px #0002}
+    .bp-panel h3{font-size:18px;margin:8px 0 14px;font-weight:900;letter-spacing:.3px}
+    .bp-big{display:block;font-size:clamp(27px,4vw,38px);font-weight:950;line-height:1.1;margin:4px 0 7px;letter-spacing:-1px}
+    .bp-sub{font-size:10px;color:#aeb2bc;letter-spacing:1.4px;text-transform:uppercase}
+    .bp-delta{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #30333a;padding-top:11px;margin-top:10px;font-size:12px}
+    .bp-up{color:#5ce0ad}.bp-down{color:#ff5674}
+    .bp-kpi-list{list-style:none;padding:0;margin:0}
+    .bp-kpi-list li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #30333a;font-size:13px}
+    .bp-kpi-list li:last-child{border:0}
+    .bp-kpi-list strong{font-size:15px}
+    .bp-note{font-size:12px;line-height:1.75;color:#c4c7cf;margin:0}
+    .bp-chart{background:linear-gradient(145deg,#1b1e23,#121419);border:1px solid #30333a;border-radius:20px;padding:22px;margin:0 0 16px}
+    .bp-chart-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+    .bp-chart-head h3{font-size:23px;margin:5px 0 4px;font-weight:900}
+    .bp-chart-head p{color:#b8bbc4;font-size:12px;margin:0}
+    .bp-period{border:1px solid #343740;border-radius:24px;padding:9px 13px;color:#d5d7de;font-size:10px;letter-spacing:1px;white-space:nowrap}
+    .bp-legend{display:flex;align-items:center;gap:8px;color:#c8cbd3;font-size:10px;margin:20px 0 18px}
+    .bp-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+    .bp-grey{background:#858d99}.bp-red{background:#f32350}
+    .bp-row{display:grid;grid-template-columns:155px minmax(0,1fr);gap:14px;align-items:center;margin:17px 0 22px}
+    .bp-row-label strong{display:block;font-size:13px}.bp-row-label small{display:block;color:#ff5272;font-size:10px;font-weight:900;margin-top:7px}
+    .bp-bars{display:grid;gap:7px;min-width:0}
+    .bp-bar-line{display:grid;grid-template-columns:minmax(0,1fr) 94px;gap:12px;align-items:center}
+    .bp-track{display:block;height:15px;background:#2b2f37;border-radius:4px;overflow:hidden}
+    .bp-track b{display:block;height:100%;border-radius:4px}
+    .bp-bar-line>strong{text-align:right;font-size:11px;white-space:nowrap}
+    .bp-bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .bp-insight{background:linear-gradient(145deg,#1b1e23,#111318);border:1px solid #30333a;border-radius:20px;padding:22px;min-width:0}
+    .bp-insight.accent{background:linear-gradient(145deg,#260d16,#160b10);border-color:#8e1733}
+    .bp-insight h3{font-size:20px;line-height:1.2;margin:7px 0 14px;font-weight:900}
+    .bp-insight-row{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid #343740;font-size:12px}
+    .bp-insight-row strong{text-align:right}
+    .bp-insight p{color:#c5c7ce;font-size:12px;line-height:1.7;margin:0}
+    .bp-empty{padding:26px;color:#c5c7ce}
+    @media(max-width:760px){.bp-summary-grid{grid-template-columns:1fr}.bp-bottom-grid{grid-template-columns:1fr}.bp-panel{padding:17px}.bp-row{grid-template-columns:1fr;gap:8px}.bp-bar-line{grid-template-columns:minmax(0,1fr) 82px}.bp-chart{padding:17px}.bp-hero p{text-align:left}.bp-chart-head h3{font-size:20px}}
+    </style>`;
+    page.innerHTML=styles+'<section class="bp-dashboard">'+
+      '<header class="bp-hero"><div><span class="bp-eyebrow">ONE TEAM. ONE GOAL.</span><h2>MAĞAZA <em>DURUMU</em></h2></div><p>Satış, hedef ve envanter performansını tek bakışta takip edin.</p></header>'+
+      '<nav class="bp-tabs" role="tablist" aria-label="Mağaza performans grafikleri">'+
+        '<button class="bp-tab" data-chart="gender" role="tab">Cinsiyet Bazlı Ciro</button><button class="bp-tab" data-chart="kpi" role="tab">KPI Hedef Gerçekleşme</button><button class="bp-tab active" data-chart="category" role="tab" aria-selected="true">Kategori Bazlı Ciro</button><button class="bp-tab" data-chart="stock" role="tab">Kategori Bazlı Stok</button></nav>'+
+      '<div class="bp-summary-grid">'+
+        '<article class="bp-panel"><span class="bp-sub">GERÇEKLEŞEN CİRO</span><strong class="bp-big">'+money(totalSales)+'</strong><span class="bp-sub">RAPOR DÖNEMİ · '+escapeHTML(period)+'</span><div class="bp-delta"><span>Hedefe göre</span><strong class="'+(salesChange===null?"":salesChange>=0?"bp-up":"bp-down")+'">'+percent(salesChange,true)+'</strong></div></article>'+
+        '<article class="bp-panel"><span class="bp-eyebrow">HIZLI KPI</span><h3>HEDEF TAKİBİ</h3><ul class="bp-kpi-list">'+kpiList+'</ul></article>'+
+        '<article class="bp-panel"><span class="bp-eyebrow">RAPOR NOTU</span><h3>NASIL OKUNUR?</h3><p class="bp-note">Gri çubuk önceki dönem veya hedef değerini, kırmızı çubuk güncel dönem gerçekleşmesini temsil eder. Her değeri çubuğun yanında doğrudan okuyabilirsiniz.</p></article>'+
+      '</div>'+
+      '<div id="bp-active-chart">'+barChart("Kategori Bazlı Ciro","KATEGORİ PERFORMANSI",categories,"2025","2026",true)+'</div>'+
+      '<div class="bp-bottom-grid">'+
+        '<article class="bp-insight"><span class="bp-eyebrow">PERFORMANS ODAĞI</span><h3>ÖNE ÇIKANLAR</h3>'+
+          '<div class="bp-insight-row"><span>En yüksek kırılım</span><strong>'+escapeHTML(bestCategory?.name||"Veri yok")+'</strong></div>'+
+          '<div class="bp-insight-row"><span>En güçlü değişim</span><strong class="'+(bestGrowth?.rate>=0?"bp-up":"bp-down")+'">'+(bestGrowth?percent(bestGrowth.rate,true):"—")+'</strong></div></article>'+
+        '<article class="bp-insight accent"><span class="bp-eyebrow">BUYAKA PUMA / INSIGHT</span><h3>DÖNEMSEL FARKI YAKALA.</h3><p>'+(bestGrowth?escapeHTML(bestGrowth.name)+" kategorisi "+percent(bestGrowth.rate,true)+" değişimle öne çıkıyor. Kategori bazında dönem farkını izleyerek ürün ve stok aksiyonlarını belirleyin.":"Aynı ölçek üzerinde dönem karşılaştırması için Excel’deki kategori verileri beklendiği şekilde okunmalıdır.")+'</p></article>'+
+      '</div></section>';
+    const charts={
+      gender:barChart("Cinsiyet Bazlı Ciro","CİNSİYET KIRILIMI",genders,"2025","2026",true),
+      kpi:barChart("KPI Hedef Gerçekleşme","HEDEF TAKİBİ",kpiBars,"Hedef","Gerçekleşen",false),
+      category:barChart("Kategori Bazlı Ciro","KATEGORİ PERFORMANSI",categories,"2025","2026",true),
+      stock:barChart("Kategori Bazlı Stok","ENVANTER KARŞILAŞTIRMASI",stocks,"2025","2026",false)
+    };
+    page.querySelectorAll(".bp-tab").forEach(button=>button.addEventListener("click",()=>{
+      page.querySelectorAll(".bp-tab").forEach(tab=>{tab.classList.toggle("active",tab===button);tab.setAttribute("aria-selected",String(tab===button));});
+      const host=page.querySelector("#bp-active-chart");
+      if(host) host.innerHTML=charts[button.dataset.chart]||"";
+    }));
 }
-
 function organizeStoreStatusTabs() {
     const panel = document.querySelector(".store-status-panel");
     const root = document.getElementById("performanceSections");
