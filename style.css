@@ -3086,3 +3086,20 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:600px){
   #sdKarneArea .sd-karne-team-banner{width:96%!important}
 }
+
+
+/* SD KARNE — ÜST KUTLAMA GÖRSELİ: HAFİF DAHA KOMPAKT, ORAN KORUNUR */
+#sdKarneArea .sd-karne-team-banner{
+  width:88%!important;
+  max-width:1120px!important;
+  margin:0 auto 16px!important;
+}
+#sdKarneArea .sd-karne-team-banner .sd-karne-team-image{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+}
+@media(max-width:600px){
+  #sdKarneArea .sd-karne-team-banner{width:93%!important}
+}
