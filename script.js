@@ -852,6 +852,7 @@ async function loadPerformanceDashboard() {
         }
         renderStoreActionSummary(cells);
         organizeStoreStatusTabs();
+        renderStoreStatusVerticalDashboard(cells);
     } catch (error) {
         console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
         root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
@@ -932,6 +933,60 @@ function renderStoreActionSummary(cells, selectedKpi = "all") {
     root.innerHTML = '<div class="action-summary-grid">'+insights.map(item=>'<article class="action-insight '+item.type+'"><strong>'+escapeHTML(item.title)+'</strong><p>'+escapeHTML(item.text)+'</p><small>'+escapeHTML(item.detail)+'</small></article>').join("")+'</div>';
 }
 
+
+
+/* MAĞAZA DURUMU — aylık/günlük hedef, gerçekleşen ve yüzde sapma */
+function renderStoreStatusVerticalDashboard(cells) {
+    const page = document.getElementById("storePerformancePage");
+    if (!page) return;
+    const metrics = [
+        {name:"Ciro", monthly:"C8", daily:"F8", target:"C17", actual:"D17", currency:true},
+        {name:"UPT", monthly:"C9", daily:"F9", target:"C18", actual:"D18"},
+        {name:"CR", monthly:"C10", daily:"F10", target:"C19", actual:"D19", percent:true},
+        {name:"Trafik", monthly:"C14", daily:"F14", target:"C23", actual:"D23"},
+        {name:"Fatura", monthly:"C12", daily:"F12", target:"C21", actual:"D21"},
+        {name:"Ürün Adedi", monthly:"C13", daily:"F13", target:"C22", actual:"D22"}
+    ];
+    const value = address => {
+        const cell = cells[address];
+        if (!cell || cell.value === "" || cell.value === null || cell.value === undefined) return null;
+        const n = Number(cell.value);
+        return Number.isFinite(n) ? n : null;
+    };
+    const fmt = (n, item) => {
+        if (n === null) return "Veri yok";
+        if (item.currency) return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n)+" TL";
+        if (item.percent) return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:2}).format(n*100)+"%";
+        return new Intl.NumberFormat("tr-TR",{maximumFractionDigits:2}).format(n);
+    };
+    const cards = metrics.map(item => {
+        const monthly=value(item.monthly), daily=value(item.daily), target=value(item.target), actual=value(item.actual);
+        const rate = target !== null && target !== 0 && actual !== null ? (actual/target-1)*100 : null;
+        const rateText = rate === null ? "Karşılaştırma verisi yok" : (rate>0?"+":"")+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(rate)+"%";
+        const rateClass = rate === null ? "neutral" : rate >= 0 ? "positive" : "negative";
+        const vals=[monthly,daily,actual].filter(v=>v!==null);
+        const max=Math.max(1,...vals);
+        const bar=(label,n,kind)=>'<div class="ms-vbar-item"><div class="ms-vbar-value">'+fmt(n,item)+'</div><div class="ms-vbar-track"><i class="'+kind+'" style="height:'+(n===null?0:Math.max(5,n/max*100))+'%"></i></div><span>'+label+'</span></div>';
+        return '<article class="ms-metric-card"><header><h4>'+item.name+'</h4><strong class="ms-rate '+rateClass+'">'+rateText+'</strong></header><div class="ms-vbar-chart">'+
+            bar("Aylık hedef",monthly,"monthly")+bar("Günlük hedef",daily,"daily")+bar("Gerçekleşen",actual,"actual")+
+            '</div><div class="ms-metric-foot"><span>Hedeflenen: <b>'+fmt(target,item)+'</b></span><span>Gerçekleşen: <b>'+fmt(actual,item)+'</b></span></div></article>';
+    }).join("");
+    const notes = metrics.map(item => {
+        const target=value(item.target),actual=value(item.actual);
+        if(target===null||actual===null||target===0) return null;
+        return {name:item.name,rate:(actual/target-1)*100};
+    }).filter(Boolean);
+    const winners=notes.filter(x=>x.rate>=0).sort((a,b)=>b.rate-a.rate);
+    const gaps=notes.filter(x=>x.rate<0).sort((a,b)=>a.rate-b.rate);
+    const avg=notes.length?notes.reduce((sum,x)=>sum+x.rate,0)/notes.length:null;
+    const summary=notes.length
+        ? '<p>Değerlendirilebilen '+notes.length+' KPI üzerinden ortalama hedef sapması <b>'+(avg>0?"+":"")+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(avg)+'%</b>. '+
+          (winners.length?'Hedefin üzerinde olanlar: <b>'+winners.map(x=>x.name).join(", ")+'</b>. ':'')+
+          (gaps.length?'Hedefin gerisinde kalanlar: <b>'+gaps.map(x=>x.name).join(", ")+'</b>. ':'')+
+          (gaps.length?'Öncelik, geride kalan KPI’larda günlük hedefe yönelik aksiyon almak ve gün içi gerçekleşmeleri takip etmektir.':'Tüm ölçülebilen KPI’lar hedef seviyesinde veya üzerinde; mevcut performans korunmalı.')+'</p>'
+        : '<p>Genel değerlendirme oluşturmak için hedef ve gerçekleşen veriler henüz yeterli değil.</p>';
+    page.innerHTML='<section class="ms-dashboard"><div class="ms-dashboard-heading"><span>BUYAKA PUMA • PERFORMANS RAPORU</span><h2>MAĞAZA DURUMU</h2><p>Aylık hedef · Günlük hedef · Gerçekleşen · Hedef sapması</p></div><div class="ms-metric-grid">'+cards+'</div><section class="ms-overall-comment"><span>GENEL PERFORMANS DEĞERLENDİRMESİ</span><h3>Sonuç ve Aksiyon</h3>'+summary+'</section></section>';
+}
 
 function organizeStoreStatusTabs() {
     const panel = document.querySelector(".store-status-panel");
