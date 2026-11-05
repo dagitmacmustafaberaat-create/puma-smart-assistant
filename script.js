@@ -231,8 +231,27 @@ document.addEventListener("DOMContentLoaded", function () {
 // ======================================================
 function showStoreMenu() { showMainMenu(); }
 
+function showStoreStatus() {
+    const mainMenu = document.getElementById("mainMenu");
+    const area = document.getElementById("storeStatusArea");
+    if (mainMenu) mainMenu.style.display = "none";
+    ["productSearchArea","sizeSearchArea","educationArea","shiftProgramArea","sdKarneArea","performanceLeagueArea","top5AnalysisArea","fastPerakendeArea","dailyTasksArea","vmStandardsArea"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+    });
+    if (area) area.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function closeStoreStatus() {
+    showMainMenu();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 function showMainMenu() {
     const mainMenu = document.getElementById("mainMenu");
+    const storeStatusArea = document.getElementById("storeStatusArea");
+    if (storeStatusArea) storeStatusArea.style.display = "none";
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");

@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261105-sales-inventory-v2">
+    <link rel="stylesheet" href="style.css?v=20261105-store-status-module-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
     <link rel="icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
     <link rel="apple-touch-icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
@@ -76,6 +76,12 @@
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
 
+          <button class="menu-button module-card store-status-menu-card" type="button" onclick="showStoreStatus()">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="M8 15v-4M13 15V7M18 15V3"></path><path d="M6 9h3M11 5h4M16 2h4"></path></svg></span>
+            <span class="module-copy"><strong>Mağaza Durumu</strong><small>Mağaza hedefleri, KPI ve performans raporu</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+
           <button class="menu-button module-card top5-menu-card" type="button" onclick="showTop5Analysis()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="M8 15v-4M13 15V7M18 15V3"></path><path d="M7 8l5-3 4 1 4-4"></path></svg></span>
             <span class="module-copy"><strong>Kategori &amp; Ürün Top 5</strong><small>En çok satan ürünler ve güncel envanter</small></span>
@@ -92,6 +98,15 @@
 
 
 
+
+      </section>
+
+
+      <footer class="dashboard-footer"><span>BUYAKA PUMA STORE</span></footer>
+    </main>
+
+    <section id="storeStatusArea" class="store-status-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeStoreStatus()">← Ana Menü</button>
       <section class="store-status-panel" aria-labelledby="storeStatusTitle">
         <div class="store-status-heading">
           <div>
@@ -106,11 +121,7 @@
         <section id="storeActionSummary" class="store-action-summary" aria-live="polite" aria-labelledby="storeActionSummaryTitle">
           <div class="action-summary-empty">Günlük yorum, mağaza performans verileri yüklendiğinde otomatik hazırlanır.</div>
         </section>
-      </section>
-
-
-      <footer class="dashboard-footer"><span>BUYAKA PUMA STORE</span></footer>
-    </main>
+    </section>
 
     <!-- ÜRÜN SORGULAMA -->
     <div
@@ -312,7 +323,7 @@
     </style>
 
     <!-- JAVASCRIPT -->
-    <script src="script.js?v=20261105-kpi-layout-v3"></script>
+    <script src="script.js?v=20261105-store-status-module-v1"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="top5-analysis.js?v=20261105-inventory-total-v3"></script>
