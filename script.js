@@ -821,7 +821,7 @@ function renderStoreActionSummary(cells, selectedKpi = "all") {
         {name:"CR", target:"C19", actual:"D19", gap:"F19", action:"Müşteri karşılama, ihtiyaç analizi ve deneme sürecini güçlendirerek dönüşüm fırsatlarını artır."},
         {name:"ASP", target:"C20", actual:"D20", gap:"F20", action:"Ürün faydalarını doğru anlat; ihtiyaca uygun daha yüksek değerli alternatifleri karşılaştırmalı sun."},
         {name:"Fatura", target:"C21", actual:"D21", gap:"F21", action:"Müşteri trafiğini satışa dönüştürmek için aktif karşılama ve satış takibini güçlendir."},
-        {name:"Ürün adedi", target:"C22", actual:"D22", gap:"F22", action:"Birlikte kullanım ve tamamlayıcı ürün önerileriyle ürün adedini artır."},
+        {name:"Ürün Adedi", target:"C22", actual:"D22", gap:"F22", action:"Birlikte kullanım ve tamamlayıcı ürün önerileriyle ürün adedini artır."},
         {name:"Trafik", target:"C23", actual:"D23", gap:"F23", action:"Mağaza içi karşılama ve dönüşüm hazırlığını güçlendir; trafik verisi tek başına müşteri davranışının nedenini göstermez."}
     ];
     const fmtNumber = (n, digits=1) => new Intl.NumberFormat("tr-TR", {maximumFractionDigits:digits}).format(n);
