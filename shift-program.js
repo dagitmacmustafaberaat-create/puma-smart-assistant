@@ -80,23 +80,25 @@
       target.innerHTML = '<div class="shift-today-empty"><span>BUGÜNÜN PROGRAMI</span><strong>Bugüne ait vardiya kaydı bulunamadı.</strong><small>Güncel haftalık program yüklendiğinde burada otomatik görünecek.</small></div>';
       return;
     }
-    const working = today.shifts.map((s,i)=>({s,i})).filter(({s})=>!(s[0]==="00:00"&&s[1]==="00:00"));
+    const workingCount = today.shifts.filter(s => s && !(s[0]==="00:00"&&s[1]==="00:00")).length;
     const dateLabel = today.day+" • "+today.date;
-    const groups = [
-      { title:"MÜDÜR", subtitle:"STORE MANAGER", kind:"coach", ids:[0] },
-      { title:"ŞEF", subtitle:"SUPERVISOR", kind:"chief", ids:[1] },
-      { title:"PERSONEL", subtitle:"SALES TEAM", kind:"runner", ids:[2,3,4,5] }
-    ];
-    const columns = groups.map(group => {
-      const people = group.ids.map(i => ({s:today.shifts[i],i})).filter(({s})=>s && !(s[0]==="00:00"&&s[1]==="00:00"));
-      return '<section class="shift-today-role-column shift-today-role-'+group.kind+'"><header class="shift-today-role-heading"><span>'+group.title+'</span><small>'+group.subtitle+'</small></header>'+
-        (people.length ? '<div class="shift-today-role-list">'+people.map(({s,i})=>{
-          const p=STAFF[i];
-          return '<article class="shift-today-card"><button type="button" class="shift-today-person-link" onclick="window.openStaffWeeklySchedule('+i+',event)" aria-label="'+esc(p.name+' haftalık çalışma programını aç')+'">'+esc(p.name)+' <span aria-hidden="true">↗</span></button><div class="shift-today-time"><span><small>VARDİYA</small><strong>'+esc(s[0])+' – '+esc(s[1])+'</strong></span><span><small>ÇALIŞMA</small><strong>'+esc(s[2])+'</strong></span><span><small>MOLA</small><strong>'+esc(s[3])+'</strong></span><span><small>NET</small><strong>'+esc(s[4])+'</strong></span></div></article>';
-        }).join("")+'</div>' : '<div class="shift-today-role-empty">Bugün vardiyası yok</div>')+'</section>';
+    const cards = STAFF.map((person,i) => {
+      const s = today.shifts[i] || ["00:00","00:00","00:00","00:00","00:00"];
+      const off = s[0]==="00:00"&&s[1]==="00:00";
+      const role = i===0 ? "MÜDÜR" : i===1 ? "ŞEF" : "PERSONEL";
+      const kind = i===0 ? "coach" : i===1 ? "chief" : "runner";
+      return '<button type="button" class="shift-today-card shift-today-card-'+kind+(off?' is-off':'')+'" onclick="window.openStaffWeeklySchedule('+i+',event)" aria-label="'+esc(person.name+' haftalık çalışma programını aç')+'">'+
+        '<span class="shift-card-topline"><span class="shift-card-role">'+role+'</span><span class="shift-card-arrow" aria-hidden="true">↗</span></span>'+
+        '<strong class="shift-card-name">'+esc(person.name)+'</strong>'+
+        '<span class="shift-card-job">'+esc(person.role)+'</span>'+
+        (off ? '<span class="shift-card-off">İZİNLİ</span>' :
+          '<span class="shift-card-hours">'+esc(s[0])+' – '+esc(s[1])+'</span>'+
+          '<span class="shift-card-metrics"><span><small>NET</small><b>'+esc(s[4])+'</b></span><span><small>MOLA</small><b>'+esc(s[3])+'</b></span></span>')+
+        '<span class="shift-card-open">HAFTALIK PROGRAMI AÇ</span></button>';
     }).join("");
-    target.innerHTML = '<div class="shift-today-heading"><div><span>BUGÜNÜN PROGRAMI</span><h2>'+esc(dateLabel)+'</h2></div><b>'+working.length+' PERSONEL</b></div>'+
-      (working.length ? '<div class="shift-today-grid">'+columns+'</div>' : '<div class="shift-today-empty">Bugün ekipte vardiyası olan personel bulunmuyor.</div>');
+    target.innerHTML = '<div class="shift-today-heading"><div><span>BUGÜNÜN EKİBİ</span><h2>'+esc(dateLabel)+'</h2></div><b>'+workingCount+' / '+STAFF.length+' GÖREVDE</b></div>'+
+      '<p class="shift-today-caption">Tüm ekip tek yatay satırda • Bir karta dokunarak haftalık programa geç</p>'+
+      '<div class="shift-today-grid" role="list" aria-label="Günlük ekip kartları">'+cards+'</div>';
   }
 
   function renderRoster() {
@@ -140,9 +142,11 @@
     if (!Number.isInteger(index) || !STAFF[index]) return;
     selectedStaff = index;
     const area = document.getElementById("shiftProgramArea");
+    const overview = document.getElementById("shiftTodayOverview");
     const roster = document.getElementById("shiftRosterView");
     const schedule = document.getElementById("shiftSelectedView");
     if (area) area.style.display = "block";
+    if (overview) overview.style.display = "none";
     if (roster) roster.style.display = "none";
     if (schedule) schedule.style.display = "block";
     renderSelectedSchedule();
@@ -151,10 +155,13 @@
 
   window.backToShiftRoster = function () {
     selectedStaff = null;
+    const overview = document.getElementById("shiftTodayOverview");
     const roster = document.getElementById("shiftRosterView");
     const schedule = document.getElementById("shiftSelectedView");
     if (schedule) schedule.style.display = "none";
-    if (roster) roster.style.display = "block";
+    if (roster) roster.style.display = "none";
+    if (overview) overview.style.display = "block";
+    renderTodayOverview();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -165,7 +172,7 @@
     selectedStaff = null;
     const roster = document.getElementById("shiftRosterView");
     const schedule = document.getElementById("shiftSelectedView");
-    if (roster) roster.style.display = "block";
+    if (roster) roster.style.display = "none";
     if (schedule) schedule.style.display = "none";
     const scheduleContent = document.getElementById("shiftSelectedSchedule");
     const scheduleTitle = document.getElementById("shiftSelectedName");
@@ -174,7 +181,6 @@
     if (scheduleTitle) scheduleTitle.textContent = "";
     if (scheduleRole) scheduleRole.textContent = "";
     renderTodayOverview();
-    renderRoster();
     window.scrollTo({top:0,behavior:"smooth"});
   };
 
