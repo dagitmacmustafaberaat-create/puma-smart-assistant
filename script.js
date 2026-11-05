@@ -802,8 +802,14 @@ async function loadPerformanceDashboard() {
             const valid = entries.filter(item => item.old !== null || item.current !== null);
             if (!valid.length) return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div></div><div class="store-chart-empty">Karşılaştırma verisi bulunamadı.</div></article>';
             const max = Math.max(1, ...valid.flatMap(item => [item.old || 0, item.current || 0]));
-            return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div><div class="store-chart-legend"><i class="previous"></i> ' + oldLabel + '<i class="actual"></i> ' + newLabel + '</div></div><div class="store-vertical-chart">' +
-                valid.map(item => '<div class="store-vertical-item"><div class="store-vertical-values"><span>' + chartNumber(item.old, item.currency ?? currency) + '</span><b>' + chartNumber(item.current, item.currency ?? currency) + '</b></div><div class="store-vertical-bars"><i class="previous" style="height:' + Math.max(2, (item.old || 0) / max * 100) + '%"></i><i class="actual" style="height:' + Math.max(2, (item.current || 0) / max * 100) + '%"></i></div><strong>' + safeChartLabel(item.name) + '</strong>' + (item.rate !== undefined ? '<small>' + chartNumber(item.rate) + '%</small>' : '') + '</div>').join("") +
+            return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div><div class="store-chart-legend"><i class="previous"></i> ' + oldLabel + '<i class="actual"></i> ' + newLabel + '</div></div><div class="store-demo-chart">' +
+                valid.map(item => {
+                    const oldWidth = Math.max(0, (item.old || 0) / max * 100);
+                    const currentWidth = Math.max(0, (item.current || 0) / max * 100);
+                    const change = item.rate !== undefined ? item.rate : (item.old ? ((item.current || 0) / item.old - 1) * 100 : 0);
+                    const changeLabel = (change > 0 ? "+" : "") + chartNumber(change) + "%";
+                    return '<div class="store-demo-row"><div class="store-demo-label"><strong>' + safeChartLabel(item.name) + '</strong><small>' + oldLabel + ' / ' + newLabel + '</small><span class="store-demo-rate">' + changeLabel + '</span></div><div class="store-demo-bars"><div class="store-demo-barline"><div class="store-demo-track"><i class="previous" style="width:' + oldWidth + '%"></i></div><b>' + chartNumber(item.old, item.currency ?? currency) + '</b></div><div class="store-demo-barline"><div class="store-demo-track"><i class="actual" style="width:' + currentWidth + '%"></i></div><b>' + chartNumber(item.current, item.currency ?? currency) + '</b></div></div></div>';
+                }).join("") +
                 '</div></article>';
         };
         const categoryChartEntries = [
