@@ -2775,3 +2775,17 @@ body{background-size:contain !important;background-position:center top !importan
  #sdKarneArea .sd-award-winner-copy strong{font-size:18px!important}
  #sdKarneArea .sd-award-winner-copy b{font-size:16px!important;padding:7px 5px!important}
 }
+
+
+/* SD KARNE — HERO GÖRSELİNDEKİ ORİJİNAL KUPAYI KARTLARDA KULLAN */
+#sdKarneArea .sd-award-trophy{
+  background-image:url("./sd-karne-hero.jpg?v=20261105-hero-trophy")!important;
+  background-repeat:no-repeat!important;
+  background-size:850% auto!important;
+  background-position:80% 6%!important;
+  background-color:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+#sdKarneArea .sd-award-trophy svg{display:none!important}
