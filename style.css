@@ -2824,3 +2824,62 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:480px){
   #sdKarneArea .sd-award-winner-copy small{font-size:12px!important;letter-spacing:1.1px!important}
 }
+
+
+/* SD KARNE — ŞAMPİYONLUK KARTLARINDA TÜM METİNLERİ CHAMPIONS CLUB STİLİNE AL */
+#sdKarneArea .sd-award-winner{
+  align-items:flex-start!important;
+}
+#sdKarneArea .sd-award-winner-copy{
+  align-self:flex-start!important;
+  justify-content:flex-start!important;
+  align-items:flex-start!important;
+  gap:6px!important;
+  padding-top:2px!important;
+  margin-top:0!important;
+}
+#sdKarneArea .sd-award-winner-copy small,
+#sdKarneArea .sd-award-winner-copy strong,
+#sdKarneArea .sd-award-winner-copy b{
+  font-family:Impact,"Arial Narrow",Haettenschweiler,sans-serif!important;
+  font-style:italic!important;
+  font-weight:900!important;
+  text-transform:uppercase!important;
+  letter-spacing:1.15px!important;
+  line-height:1.02!important;
+  -webkit-text-stroke:.35px rgba(213,0,28,.9)!important;
+  text-shadow:2px 2px 0 #8f0018,0 0 8px rgba(213,0,28,.28)!important;
+  transform:skewX(-5deg);
+}
+#sdKarneArea .sd-award-winner-copy small{
+  color:#fff!important;
+  font-size:clamp(12px,1.25vw,17px)!important;
+  margin:0 0 1px!important;
+}
+#sdKarneArea .sd-award-winner-copy strong{
+  color:#fff!important;
+  font-size:clamp(22px,2.2vw,32px)!important;
+  letter-spacing:.65px!important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  color:#fff!important;
+  font-size:clamp(16px,1.75vw,24px)!important;
+  letter-spacing:.65px!important;
+  padding:7px 10px!important;
+  margin:2px 0 0!important;
+  border:1px solid rgba(255,255,255,.3)!important;
+  border-left:3px solid #fff!important;
+  border-radius:5px!important;
+  background:linear-gradient(105deg,#d5001c 0%,#8f0018 100%)!important;
+  box-shadow:0 5px 14px rgba(213,0,28,.25)!important;
+}
+#sdKarneArea .sd-award-winner-copy b span{
+  font:inherit!important;
+  letter-spacing:inherit!important;
+}
+@media(max-width:480px){
+  #sdKarneArea .sd-award-winner-copy{gap:5px!important;padding-top:0!important}
+  #sdKarneArea .sd-award-winner-copy small{font-size:11px!important;letter-spacing:.9px!important}
+  #sdKarneArea .sd-award-winner-copy strong{font-size:clamp(19px,5.2vw,24px)!important}
+  #sdKarneArea .sd-award-winner-copy b{font-size:clamp(14px,3.8vw,18px)!important;padding:6px 7px!important}
+}
