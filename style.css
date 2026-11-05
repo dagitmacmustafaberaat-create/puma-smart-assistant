@@ -2789,3 +2789,36 @@ body{background-size:contain !important;background-position:center top !importan
   box-shadow:none!important;
 }
 #sdKarneArea .sd-award-trophy svg{display:none!important}
+
+
+/* SD KARNE — HERO BAŞLIK: E HARFİNİ KAPAT, ŞAMPİYONLAR KULÜBÜ */
+#sdKarneArea .sd-karne-team-banner::before{
+  content:"BUYAKA PUMA\\A CHAMPIONS CLUB";
+  white-space:pre;
+  position:absolute!important;
+  z-index:3!important;
+  inset:0 auto 0 0!important;
+  width:52%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 3%!important;
+  box-sizing:border-box!important;
+  color:#fff!important;
+  text-align:center!important;
+  font-size:clamp(22px,3.2vw,54px)!important;
+  line-height:1.18!important;
+  font-weight:1000!important;
+  letter-spacing:clamp(1px,.28vw,4px)!important;
+  text-shadow:0 3px 18px rgba(0,0,0,.9),0 0 22px rgba(213,0,28,.42)!important;
+  background:linear-gradient(90deg,#050505 0%,rgba(5,5,5,.98) 68%,rgba(5,5,5,.82) 88%,transparent 100%)!important;
+  pointer-events:none!important;
+}
+@media(max-width:600px){
+ #sdKarneArea .sd-karne-team-banner::before{
+  width:58%!important;
+  font-size:clamp(17px,4.5vw,25px)!important;
+  letter-spacing:1px!important;
+  padding:0 2%!important;
+ }
+}
