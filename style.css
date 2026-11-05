@@ -3149,3 +3149,76 @@ body{background-size:contain !important;background-position:center top !importan
 #sdKarneArea .sd-bonus-chip strong{
   color:#fff!important;
 }
+
+
+/* MAĞAZA DURUMU — CALIFORNIAN FB + HEDEF DURUM RENKLERİ */
+#mainMenu .store-status-panel,
+#mainMenu .store-status-panel *{
+  font-family:"Californian FB","Californian",Georgia,serif!important;
+  font-style:normal!important;
+}
+#mainMenu .store-status-panel .dashboard-eyebrow,
+#mainMenu .store-status-panel .metric-label,
+#mainMenu .store-status-panel .kpi-values span,
+#mainMenu .store-status-panel .comparison-values span{
+  color:#f0b9c0!important;
+}
+#mainMenu .store-status-panel .store-status-heading h2,
+#mainMenu .store-status-panel .performance-group-heading h3,
+#mainMenu .store-status-panel .metric-value,
+#mainMenu .store-status-panel .kpi-row-card h4,
+#mainMenu .store-status-panel .kpi-values strong,
+#mainMenu .store-status-panel .comparison-card h4,
+#mainMenu .store-status-panel .comparison-values strong,
+#mainMenu .store-status-panel .action-insight strong{
+  color:#fff!important;
+}
+#mainMenu .store-status-panel .performance-group{
+  border-top-color:rgba(227,34,59,.3)!important;
+}
+#mainMenu .store-status-panel .metric-card,
+#mainMenu .store-status-panel .comparison-card,
+#mainMenu .store-status-panel .kpi-row-card{
+  border-color:rgba(255,255,255,.16)!important;
+  background:
+    radial-gradient(ellipse at 0 100%,rgba(213,0,28,.15),transparent 60%),
+    linear-gradient(145deg,#242424 0%,#111 68%,#19080b 100%)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.24),inset 0 0 18px rgba(255,255,255,.02)!important;
+}
+#mainMenu .store-status-panel .metric-card-featured{
+  border-color:rgba(227,34,59,.55)!important;
+  background:linear-gradient(140deg,rgba(92,8,24,.75),#151215 78%)!important;
+}
+#mainMenu .store-status-panel .metric-card-featured .metric-value{color:#fff!important}
+#mainMenu .store-status-panel .kpi-row-card.status-positive{
+  border:1px solid rgba(46,190,125,.72)!important;
+  border-left:4px solid #35c987!important;
+  background:linear-gradient(145deg,rgba(17,91,61,.62),rgba(10,30,24,.96) 76%)!important;
+  box-shadow:0 8px 24px rgba(20,170,105,.12)!important;
+}
+#mainMenu .store-status-panel .kpi-row-card.status-negative{
+  border:1px solid rgba(227,34,59,.7)!important;
+  border-left:4px solid #e3223b!important;
+  background:linear-gradient(145deg,rgba(112,12,30,.62),rgba(31,10,15,.97) 76%)!important;
+  box-shadow:0 8px 24px rgba(213,0,28,.13)!important;
+}
+#mainMenu .store-status-panel .kpi-row-card.status-neutral{
+  border-color:rgba(255,255,255,.2)!important;
+}
+#mainMenu .store-status-panel .kpi-row-card.status-positive .kpi-values strong{color:#e3ffef!important}
+#mainMenu .store-status-panel .kpi-row-card.status-negative .kpi-values strong{color:#ffe6e9!important}
+#mainMenu .store-status-panel .action-insight.warning{
+  border-color:rgba(227,34,59,.48)!important;
+  border-left:4px solid #e3223b!important;
+  background:linear-gradient(145deg,rgba(104,10,28,.38),rgba(17,12,14,.94))!important;
+}
+#mainMenu .store-status-panel .action-insight.positive{
+  border-color:rgba(46,190,125,.45)!important;
+  border-left:4px solid #35c987!important;
+  background:linear-gradient(145deg,rgba(17,91,61,.34),rgba(12,18,15,.94))!important;
+}
+#mainMenu .store-status-panel .action-insight.neutral{
+  border-left-color:#d6a84f!important;
+}
+#mainMenu .store-status-panel .action-insight p{color:#fff!important}
+#mainMenu .store-status-panel .action-insight small{color:#f0b9c0!important}
