@@ -2846,59 +2846,18 @@ body{background-size:contain !important;background-position:center top !importan
 }
 
 
-/* SD KARNE HERO — PREMIUM CHAMPIONS CLUB + FOTOĞRAF VURGUSU */
-#sdKarneArea .sd-karne-team-banner::before,
-#sdKarneArea .sd-karne-team-banner::after{content:none!important;display:none!important}
-#sdKarneArea .sd-karne-team-photo{
-  width:78%!important;
-  mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.38) 5%,#000 18%)!important;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.38) 5%,#000 18%)!important;
+
+
+/* SD KARNE — kullanıcı tarafından sağlanan tek parça şampiyonlar kulübü görseli */
+#sdKarneArea .sd-karne-team-banner{
+  position:relative!important;width:100%!important;height:auto!important;min-height:0!important;
+  margin:0 0 16px!important;padding:0!important;overflow:hidden!important;
+  border:0!important;border-radius:16px!important;background:transparent!important;
+  box-shadow:none!important;line-height:0!important;
 }
-#sdKarneArea .sd-karne-team-photo img{
-  filter:brightness(1.34) contrast(1.18) saturate(1.2)!important;
-}
-#sdKarneArea .sd-karne-hero-title{
-  position:absolute!important;z-index:7!important;left:clamp(24px,4.2vw,68px)!important;
-  top:50%!important;transform:translateY(-50%)!important;width:47%!important;
-  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
-  gap:0!important;pointer-events:none!important;
-  padding:clamp(14px,1.8vw,26px) clamp(15px,2vw,30px)!important;
-  border-left:clamp(4px,.55vw,8px) solid #e31837!important;
-  background:linear-gradient(90deg,rgba(3,3,3,.96) 0%,rgba(3,3,3,.86) 76%,rgba(3,3,3,0) 100%)!important;
-  box-sizing:border-box!important;
-}
-#sdKarneArea .sd-karne-hero-title span{
-  color:#ff304b!important;font-family:Arial,sans-serif!important;
-  font-size:clamp(12px,1.45vw,21px)!important;font-weight:950!important;
-  letter-spacing:clamp(2px,.38vw,5px)!important;line-height:1.25!important;
-  margin:0 0 clamp(5px,.65vw,10px)!important;
-  text-shadow:0 2px 12px rgba(227,24,55,.45)!important;
-}
-#sdKarneArea .sd-karne-hero-title strong{
-  color:#fff!important;font-family:Impact,"Arial Narrow",sans-serif!important;
-  font-size:clamp(29px,4.2vw,68px)!important;font-weight:900!important;
-  letter-spacing:clamp(.5px,.16vw,2.5px)!important;line-height:.98!important;
-  white-space:nowrap!important;text-shadow:0 3px 0 #777,0 7px 20px #000!important;
-}
-#sdKarneArea .sd-karne-hero-title b{
-  color:#e31837!important;font-family:Impact,"Arial Narrow",sans-serif!important;
-  font-size:clamp(26px,3.8vw,60px)!important;font-weight:900!important;
-  letter-spacing:clamp(3px,.55vw,8px)!important;line-height:1.05!important;
-  margin-top:clamp(2px,.35vw,6px)!important;
-  text-shadow:0 3px 14px rgba(227,24,55,.35)!important;
-}
-#sdKarneArea .sd-karne-hero-title i{
-  display:block!important;width:clamp(95px,15vw,225px)!important;height:clamp(4px,.5vw,7px)!important;
-  margin-top:clamp(9px,1.1vw,16px)!important;
-  background:linear-gradient(90deg,#e31837 0%,#ff5268 65%,transparent 100%)!important;
-  transform:skewX(-25deg)!important;box-shadow:0 0 16px rgba(227,24,55,.5)!important;
-}
-@media(max-width:600px){
- #sdKarneArea .sd-karne-team-photo{width:86%!important;mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.32) 5%,#000 18%)!important;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.32) 5%,#000 18%)!important}
- #sdKarneArea .sd-karne-team-photo img{filter:brightness(1.3) contrast(1.16) saturate(1.18)!important}
- #sdKarneArea .sd-karne-hero-title{left:12px!important;width:52%!important;padding:10px 9px!important;border-left-width:4px!important}
- #sdKarneArea .sd-karne-hero-title span{font-size:clamp(9px,2.7vw,13px)!important;letter-spacing:1.2px!important;margin-bottom:5px!important}
- #sdKarneArea .sd-karne-hero-title strong{font-size:clamp(20px,6vw,31px)!important;letter-spacing:0!important}
- #sdKarneArea .sd-karne-hero-title b{font-size:clamp(19px,5.6vw,29px)!important;letter-spacing:2px!important}
- #sdKarneArea .sd-karne-hero-title i{width:75px!important;height:4px!important;margin-top:7px!important}
+#sdKarneArea .sd-karne-team-banner .sd-karne-team-image{
+  display:block!important;position:relative!important;inset:auto!important;
+  width:100%!important;height:auto!important;max-width:100%!important;
+  margin:0!important;transform:none!important;object-fit:contain!important;
+  object-position:center!important;filter:none!important;
 }
