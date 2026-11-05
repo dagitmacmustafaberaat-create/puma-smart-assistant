@@ -935,191 +935,99 @@ function renderStoreActionSummary(cells, selectedKpi = "all") {
 
 
 
-/* MAĞAZA DURUMU — 1.png / 2.png / 3.png referans tasarımı */
+/* MAĞAZA DURUMU — onaylanan dört sekmeli premium rapor */
+function organizeStoreStatusTabs() {
+    const panel = document.querySelector(".store-status-panel");
+    const source = document.getElementById("performanceSections");
+    const summary = document.getElementById("storeActionSummary");
+    if (!panel || !source) return;
+    let page = document.getElementById("storePerformancePage");
+    if (!page) {
+        page = document.createElement("div");
+        page.id = "storePerformancePage";
+        page.className = "bp-dashboard";
+        page.setAttribute("role", "region");
+        page.setAttribute("aria-label", "Mağaza durumu raporu");
+        panel.querySelector(".store-status-heading").insertAdjacentElement("afterend", page);
+    }
+    source.hidden = true;
+    if (summary) summary.hidden = true;
+}
 function renderStoreStatusVerticalDashboard(cells) {
     const page = document.getElementById("storePerformancePage");
     if (!page) return;
-    const raw = address => cells[address]?.value ?? null;
-    const num = address => {
-        const v = raw(address);
-        if (v === null || v === "" || v === undefined) return null;
-        const n = Number(v);
-        return Number.isFinite(n) ? n : null;
-    };
-    const fmt = (n, digits=0) => n === null || n === undefined ? "—" :
-        new Intl.NumberFormat("tr-TR",{maximumFractionDigits:digits}).format(n);
-    const money = n => n === null || n === undefined ? "—" :
-        "₺"+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n);
-    const percent = (n, signed=false) => n === null || n === undefined ? "—" :
-        (signed && n>0?"+":"")+new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(n)+"%";
-    const growth = (oldV,newV) => oldV === null || newV === null || oldV === 0 ? null : (newV/oldV-1)*100;
-    const kpis = [
-        {name:"Ciro",target:"C17",actual:"D17",money:true},
-        {name:"UPT",target:"C18",actual:"D18"},
-        {name:"CR",target:"C19",actual:"D19",percent:true},
-        {name:"ASP",target:"C20",actual:"D20",money:true}
+    const raw = a => cells[a]?.value ?? null;
+    const num = a => { const v=raw(a); if(v===null||v===""||v===undefined)return null; const n=Number(v); return Number.isFinite(n)?n:null; };
+    const fmt = (n,d=0) => n===null||n===undefined?"—":new Intl.NumberFormat("tr-TR",{maximumFractionDigits:d}).format(n);
+    const money = n => n===null||n===undefined?"—":"₺"+fmt(n,0);
+    const pct = n => n===null||n===undefined?"—":(n>0?"+":"")+fmt(n,1)+"%";
+    const growth = (a,b) => a===null||b===null||a===0?null:(b/a-1)*100;
+    const monthDays = Math.max(1,Math.round(num("C4")||new Date().getDate()));
+    const elapsed = Math.min(monthDays,Math.max(1,Math.round(num("C5")||new Date().getDate())));
+    const dayGoal = (monthly)=>monthly===null?null:monthly/monthDays;
+    const toDateGoal = monthly => monthly===null?null:monthly/monthDays*elapsed;
+    const actualRows = [
+      {name:"Ciro",monthly:"C8",actual:"D17",money:true},
+      {name:"UPT",monthly:"C9",actual:"D18",ratio:true},
+      {name:"CR",monthly:"C10",actual:"D19",ratio:true,percent:true},
+      {name:"Fatura",monthly:"C12",actual:"D21"},
+      {name:"Ürün Adedi",monthly:"C13",actual:"D22"},
+      {name:"Trafik",monthly:"C14",actual:"D23"}
     ];
-    const categories = [
-        {name:raw("H4")||"Sportstyle Prime",old:num("I5"),current:num("J5"),rate:num("I6")},
-        {name:raw("H7")||"Motorsport",old:num("I8"),current:num("J8"),rate:num("I9")},
-        {name:raw("H10")||"Running",old:num("I11"),current:num("J11"),rate:num("I12")}
-    ].filter(x=>x.name);
-    const genders = [15,16,17,18,19].map(r=>({
-        name:raw("H"+r),old:num("I"+r),current:num("J"+r),rate:num("K"+r)
-    })).filter(x=>x.name);
-    const stocks = [24,25,26,27].map(r=>({
-        name:raw("H"+r),old:num("I"+r),current:num("J"+r)
-    })).filter(x=>x.name);
-    const period = String(raw("B7") || "Kasım 2026").replace(/\\s+Hedefler.*$/i,"");
-    const chartCurrency = (n, isMoney) => isMoney ? money(n) : fmt(n,2);
-    const barChart = (title,kicker,rows,oldLabel,newLabel,isMoney=false,rateLabel="Değişim") => {
-        if (!rows.length) return '<div class="bp-empty">Bu bölüm için Excel’de karşılaştırma verisi bulunamadı.</div>';
-        const max=Math.max(1,...rows.flatMap(r=>[r.old||0,r.current||0]));
-        return '<section class="bp-chart"><div class="bp-chart-head"><div><small>'+kicker+'</small><h3>'+title+'</h3><p>'+oldLabel+' / '+newLabel+' karşılaştırması</p></div><span class="bp-period">'+escapeHTML(period)+'</span></div><div class="bp-legend"><i class="bp-grey"></i>'+oldLabel+' <i class="bp-red"></i>'+newLabel+'</div>'+
-        rows.map(r=>{
-            const rate=r.rate!==undefined?r.rate:growth(r.old,r.current);
-            return '<article class="bp-row"><div class="bp-row-label"><strong>'+escapeHTML(r.name)+'</strong><small>'+percent(rate,true)+'</small></div><div class="bp-bars"><div class="bp-bar-line"><i class="bp-track"><b class="bp-grey" style="width:'+Math.max(0,(r.old||0)/max*100)+'%"></b></i><strong>'+chartCurrency(r.old,isMoney)+'</strong></div><div class="bp-bar-line"><i class="bp-track"><b class="bp-red" style="width:'+Math.max(0,(r.current||0)/max*100)+'%"></b></i><strong>'+chartCurrency(r.current,isMoney)+'</strong></div></div></article>';
-        }).join("")+'</section>';
+    const metricCard = item => {
+      const target=num(item.monthly),actual=num(item.actual);
+      const daily=item.ratio?target:dayGoal(target);
+      const expected=item.ratio?target:toDateGoal(target);
+      const delta=expected===null||expected===0||actual===null?null:(actual/expected-1)*100;
+      const cls=delta===null?"neutral":delta>=0?"positive":"negative";
+      const value=n=>item.money?money(n):item.percent&&n!==null?fmt(n*100,2)+"%":fmt(n,2);
+      return '<article class="bp-metric '+cls+'"><div class="bp-metric-top"><span>'+item.name+'</span><b>'+pct(delta)+'</b></div><div class="bp-metric-main">'+value(actual)+'</div><div class="bp-metric-grid"><div><small>AYLIK HEDEF</small><strong>'+value(target)+'</strong></div><div><small>GÜNLÜK HEDEF</small><strong>'+value(daily)+'</strong></div><div><small>BUGÜNE KADAR</small><strong>'+value(expected)+'</strong></div></div><div class="bp-progress"><i style="width:'+Math.max(0,Math.min(100,delta===null?0:100+delta))+'%"></i></div><small class="bp-status">'+(delta===null?"Veri bekleniyor":delta>=0?"Hedefin üzerinde":"Hedefin gerisinde")+' · '+pct(delta)+'</small></article>';
     };
-    const kpiBars = kpis.map(k=>{
-        const target=num(k.target),actual=num(k.actual);
-        return {name:k.name,old:target,current:actual,rate:target!==null&&target!==0&&actual!==null?(actual/target-1)*100:null};
-    });
-    const bestCategory=[...categories].filter(x=>x.current!==null).sort((a,b)=>(b.current||0)-(a.current||0))[0];
-    const bestGrowth=[...categories].filter(x=>x.rate!==null).sort((a,b)=>b.rate-a.rate)[0];
-    const attainment = (target,actual) => target===null||target===0||actual===null?null:actual/target*100;
-    const kpiList=kpis.map(k=>{
-        const value=attainment(num(k.target),num(k.actual));
-        return '<li><span>'+k.name+'</span><strong>'+(value===null?"—":percent(value))+'</strong></li>';
-    }).join("");
-    const totalSales=num("D17");
-    const salesTarget=num("C17");
-    const salesChange=salesTarget!==null&&salesTarget!==0&&totalSales!==null?(totalSales/salesTarget-1)*100:null;
-    const styles = `
-    <style>
-    .bp-dashboard{color:#f7f7f8;font-family:inherit}
-    .bp-hero{padding:8px 2px 20px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
-    .bp-eyebrow,.bp-chart-head small,.bp-insight small{display:block;color:#ff3158;font-size:11px;font-weight:900;letter-spacing:2px}
-    .bp-hero h2{font-size:clamp(27px,4vw,38px);line-height:1;margin:9px 0 0;font-weight:900;letter-spacing:-1.2px}
-    .bp-hero h2 em{font-style:normal;color:#f32650;margin-left:8px}
-    .bp-hero p{color:#c3c5cc;max-width:300px;text-align:right;font-size:12px;line-height:1.7;margin:0}
-    .bp-tabs{display:flex;gap:9px;overflow-x:auto;padding:2px 0 18px;scrollbar-width:thin}
-    .bp-tab{flex:0 0 auto;border:1px solid #30333a;border-radius:12px;background:#14171c;color:#cdd0d8;padding:13px 17px;font-weight:800;font-size:12px;cursor:pointer}
-    .bp-tab.active{background:#f31d4d;border-color:#f31d4d;color:#fff}
-    .bp-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 16px}
-    .bp-panel{background:linear-gradient(145deg,#1b1e23,#111318);border:1px solid #30333a;border-radius:20px;padding:20px;min-width:0;box-shadow:0 10px 26px #0002}
-    .bp-panel h3{font-size:18px;margin:8px 0 14px;font-weight:900;letter-spacing:.3px}
-    .bp-big{display:block;font-size:clamp(27px,4vw,38px);font-weight:950;line-height:1.1;margin:4px 0 7px;letter-spacing:-1px}
-    .bp-sub{font-size:10px;color:#aeb2bc;letter-spacing:1.4px;text-transform:uppercase}
-    .bp-delta{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #30333a;padding-top:11px;margin-top:10px;font-size:12px}
-    .bp-up{color:#5ce0ad}.bp-down{color:#ff5674}
-    .bp-kpi-list{list-style:none;padding:0;margin:0}
-    .bp-kpi-list li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #30333a;font-size:13px}
-    .bp-kpi-list li:last-child{border:0}
-    .bp-kpi-list strong{font-size:15px}
-    .bp-note{font-size:12px;line-height:1.75;color:#c4c7cf;margin:0}
-    .bp-chart{background:linear-gradient(145deg,#1b1e23,#121419);border:1px solid #30333a;border-radius:20px;padding:22px;margin:0 0 16px}
-    .bp-chart-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-    .bp-chart-head h3{font-size:23px;margin:5px 0 4px;font-weight:900}
-    .bp-chart-head p{color:#b8bbc4;font-size:12px;margin:0}
-    .bp-period{border:1px solid #343740;border-radius:24px;padding:9px 13px;color:#d5d7de;font-size:10px;letter-spacing:1px;white-space:nowrap}
-    .bp-legend{display:flex;align-items:center;gap:8px;color:#c8cbd3;font-size:10px;margin:20px 0 18px}
-    .bp-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
-    .bp-grey{background:#858d99}.bp-red{background:#f32350}
-    .bp-row{display:grid;grid-template-columns:155px minmax(0,1fr);gap:14px;align-items:center;margin:17px 0 22px}
-    .bp-row-label strong{display:block;font-size:13px}.bp-row-label small{display:block;color:#ff5272;font-size:10px;font-weight:900;margin-top:7px}
-    .bp-bars{display:grid;gap:7px;min-width:0}
-    .bp-bar-line{display:grid;grid-template-columns:minmax(0,1fr) 94px;gap:12px;align-items:center}
-    .bp-track{display:block;height:15px;background:#2b2f37;border-radius:4px;overflow:hidden}
-    .bp-track b{display:block;height:100%;border-radius:4px}
-    .bp-bar-line>strong{text-align:right;font-size:11px;white-space:nowrap}
-    .bp-bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .bp-insight{background:linear-gradient(145deg,#1b1e23,#111318);border:1px solid #30333a;border-radius:20px;padding:22px;min-width:0}
-    .bp-insight.accent{background:linear-gradient(145deg,#260d16,#160b10);border-color:#8e1733}
-    .bp-insight h3{font-size:20px;line-height:1.2;margin:7px 0 14px;font-weight:900}
-    .bp-insight-row{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid #343740;font-size:12px}
-    .bp-insight-row strong{text-align:right}
-    .bp-insight p{color:#c5c7ce;font-size:12px;line-height:1.7;margin:0}
-    .bp-empty{padding:26px;color:#c5c7ce}
-    @media(max-width:760px){.bp-summary-grid{grid-template-columns:1fr}.bp-bottom-grid{grid-template-columns:1fr}.bp-panel{padding:17px}.bp-row{grid-template-columns:1fr;gap:8px}.bp-bar-line{grid-template-columns:minmax(0,1fr) 82px}.bp-chart{padding:17px}.bp-hero p{text-align:left}.bp-chart-head h3{font-size:20px}}
-    </style>`;
-    page.innerHTML=styles+'<section class="bp-dashboard">'+
-      '<header class="bp-hero"><div><span class="bp-eyebrow">ONE TEAM. ONE GOAL.</span><h2>MAĞAZA <em>DURUMU</em></h2></div><p>Satış, hedef ve envanter performansını tek bakışta takip edin.</p></header>'+
-      '<nav class="bp-tabs" role="tablist" aria-label="Mağaza performans grafikleri">'+
-        '<button class="bp-tab" data-chart="gender" role="tab">Cinsiyet Bazlı Ciro</button><button class="bp-tab" data-chart="kpi" role="tab">KPI Hedef Gerçekleşme</button><button class="bp-tab active" data-chart="category" role="tab" aria-selected="true">Kategori Bazlı Ciro</button><button class="bp-tab" data-chart="stock" role="tab">Kategori Bazlı Stok</button></nav>'+
-      '<div class="bp-summary-grid">'+
-        '<article class="bp-panel"><span class="bp-sub">GERÇEKLEŞEN CİRO</span><strong class="bp-big">'+money(totalSales)+'</strong><span class="bp-sub">RAPOR DÖNEMİ · '+escapeHTML(period)+'</span><div class="bp-delta"><span>Hedefe göre</span><strong class="'+(salesChange===null?"":salesChange>=0?"bp-up":"bp-down")+'">'+percent(salesChange,true)+'</strong></div></article>'+
-        '<article class="bp-panel"><span class="bp-eyebrow">HIZLI KPI</span><h3>HEDEF TAKİBİ</h3><ul class="bp-kpi-list">'+kpiList+'</ul></article>'+
-        '<article class="bp-panel"><span class="bp-eyebrow">RAPOR NOTU</span><h3>NASIL OKUNUR?</h3><p class="bp-note">Gri çubuk önceki dönem veya hedef değerini, kırmızı çubuk güncel dönem gerçekleşmesini temsil eder. Her değeri çubuğun yanında doğrudan okuyabilirsiniz.</p></article>'+
-      '</div>'+
-      '<div id="bp-active-chart">'+barChart("Kategori Bazlı Ciro","KATEGORİ PERFORMANSI",categories,"2025","2026",true)+'</div>'+
-      '<div class="bp-bottom-grid">'+
-        '<article class="bp-insight"><span class="bp-eyebrow">PERFORMANS ODAĞI</span><h3>ÖNE ÇIKANLAR</h3>'+
-          '<div class="bp-insight-row"><span>En yüksek kırılım</span><strong>'+escapeHTML(bestCategory?.name||"Veri yok")+'</strong></div>'+
-          '<div class="bp-insight-row"><span>En güçlü değişim</span><strong class="'+(bestGrowth?.rate>=0?"bp-up":"bp-down")+'">'+(bestGrowth?percent(bestGrowth.rate,true):"—")+'</strong></div></article>'+
-        '<article class="bp-insight accent"><span class="bp-eyebrow">BUYAKA PUMA / INSIGHT</span><h3>DÖNEMSEL FARKI YAKALA.</h3><p>'+(bestGrowth?escapeHTML(bestGrowth.name)+" kategorisi "+percent(bestGrowth.rate,true)+" değişimle öne çıkıyor. Kategori bazında dönem farkını izleyerek ürün ve stok aksiyonlarını belirleyin.":"Aynı ölçek üzerinde dönem karşılaştırması için Excel’deki kategori verileri beklendiği şekilde okunmalıdır.")+'</p></article>'+
-      '</div></section>';
-    const charts={
-      gender:barChart("Cinsiyet Bazlı Ciro","CİNSİYET KIRILIMI",genders,"2025","2026",true),
-      kpi:barChart("KPI Hedef Gerçekleşme","HEDEF TAKİBİ",kpiBars,"Hedef","Gerçekleşen",false),
-      category:barChart("Kategori Bazlı Ciro","KATEGORİ PERFORMANSI",categories,"2025","2026",true),
-      stock:barChart("Kategori Bazlı Stok","ENVANTER KARŞILAŞTIRMASI",stocks,"2025","2026",false)
+    const businessUnits=["SPORTSTYLE PRIME","MOTORSPORT","RTF","RUNNING"];
+    const findRows=(from,to,excluded=[])=>{
+      const out=[];
+      for(let r=from;r<=to;r++){
+        const name=String(raw("H"+r)||"").trim();
+        const old=num("I"+r),current=num("J"+r);
+        if(!name||old===null||current===null||excluded.includes(name.toLocaleUpperCase("tr-TR")))continue;
+        out.push({name,old,current,rate:num("K"+r)??growth(old,current)});
+      }
+      return out;
     };
+    const genderRows=findRows(15,19);
+    const categoryRows=findRows(4,23,businessUnits);
+    const stockRows=findRows(24,40,businessUnits);
+    const period="1–"+elapsed+" "+String(raw("B7")||"Kasım 2026").replace(/.*?(Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık).*?/i,"$1");
+    const compareRows=(rows,currency=true)=>rows.length?rows.map(r=>{
+      const change=r.rate??growth(r.old,r.current),cls=change===null?"neutral":change>=0?"positive":"negative";
+      return '<article class="bp-compare-row"><div class="bp-compare-title"><strong>'+escapeHTML(r.name)+'</strong><b class="'+cls+'">'+pct(change)+'</b></div><div class="bp-compare-values"><div><small>2025</small><strong>'+(currency?money(r.old):fmt(r.old))+'</strong></div><div><small>2026</small><strong>'+(currency?money(r.current):fmt(r.current))+'</strong></div><div><small>FARK</small><strong>'+(currency?money(r.current-r.old):fmt(r.current-r.old))+'</strong></div></div></article>';
+    }).join(""):'<div class="bp-empty">Bu kırılım için Excel’de eşleşen karşılaştırma satırı bulunamadı.</div>';
+    const totalSales=num("D17"), targetSales=num("C8");
+    const storeComment=actualRows.map(x=>({name:x.name,actual:num(x.actual),goal:x.ratio?num(x.monthly):toDateGoal(num(x.monthly)),money:x.money})).filter(x=>x.actual!==null&&x.goal!==null&&x.goal>0).sort((a,b)=>a.actual/a.goal-b.actual/b.goal);
+    const weakest=storeComment[0];
+    const categoryBest=[...categoryRows].sort((a,b)=>(b.rate??-Infinity)-(a.rate??-Infinity))[0];
+    const genderBest=[...genderRows].sort((a,b)=>(b.rate??-Infinity)-(a.rate??-Infinity))[0];
+    const stockBest=[...stockRows].sort((a,b)=>(a.current||0)-(b.current||0))[0];
+    const comments={
+      store:weakest?'<b>'+escapeHTML(weakest.name)+'</b> göstergesi bugüne kadarki hedef temposunun gerisinde. Ekip içinde günlük takip yap; müşteri ihtiyacını doğru analiz ederek satış fırsatlarını artır.':"Mağaza KPI verileri yüklendiğinde yönetici değerlendirmesi otomatik oluşturulur.",
+      category:categoryBest?'<b>'+escapeHTML(categoryBest.name)+'</b> kategori kırılımı büyümede öne çıkıyor. Güçlü ürün bulunurluğunu koru; geride kalan kırılımlarda ürün sunumu ve satış odağını gözden geçir.':"Excel’de kategori başlığına ait 2025/2026 karşılaştırma satırı bulunamadı. Business Unit satırları kategori olarak gösterilmedi.",
+      gender:genderBest?'<b>'+escapeHTML(genderBest.name)+'</b> cinsiyet kırılımı dönemsel büyümede öne çıkıyor. İlgili ürün grubunda beden ve model bulunurluğunu koru.':"Cinsiyet bazlı dönem karşılaştırması Excel satırlarından oluşturulduğunda yönetici yorumu burada gösterilir.",
+      stock:stockBest?'<b>'+escapeHTML(stockBest.name)+'</b> stok kırılımında güncel miktar '+fmt(stockBest.current)+'. Kritik beden ve ürün bulunurluğunu kontrol et; düşük stoklu ürünlerde ikmal aksiyonu planla.':"Excel’de stok kırılımına ait uygun satır bulunamadı. Business Unit isimleri stok kategorisi olarak varsayılmadı."
+    };
+    const styles='<style>'+
+      '.bp-dashboard{color:#f7f7f8;font-family:inherit}.bp-hero{padding:9px 2px 20px;display:flex;justify-content:space-between;align-items:end;gap:16px}.bp-eyebrow{color:#ff3158;font-size:11px;font-weight:900;letter-spacing:2px}.bp-hero h2{font-size:clamp(27px,4vw,38px);line-height:1;margin:8px 0 0;font-weight:900;letter-spacing:-1px}.bp-hero h2 em{font-style:normal;color:#f32650}.bp-hero p{color:#c3c5cc;font-size:12px;line-height:1.6;max-width:260px;text-align:right}.bp-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 16px}.bp-tab{min-width:0;border:1px solid #30333a;border-radius:12px;background:#14171c;color:#d7d9df;padding:13px 8px;font-weight:850;font-size:12px;cursor:pointer}.bp-tab.active{background:#e91d4d;border-color:#e91d4d;color:#fff;box-shadow:0 7px 20px #e91d4d33}.bp-panel{display:none}.bp-panel.active{display:block}.bp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.bp-metric,.bp-compare-row,.bp-comment{background:linear-gradient(145deg,#1b1e23,#111318);border:1px solid #30333a;border-radius:17px;padding:17px;min-width:0}.bp-metric.positive{border-color:#236d54}.bp-metric.negative{border-color:#8e243b}.bp-metric-top,.bp-compare-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.bp-metric-top span{font-size:13px;font-weight:850}.bp-metric-top b,.bp-compare-title b{font-size:12px}.bp-metric-main{font-size:clamp(25px,4vw,34px);font-weight:950;letter-spacing:-.8px;margin:12px 0}.bp-metric-grid,.bp-compare-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.bp-metric-grid>div,.bp-compare-values>div{min-width:0}.bp-metric-grid small,.bp-compare-values small{display:block;color:#9ea3ad;font-size:9px;letter-spacing:.7px;margin-bottom:5px}.bp-metric-grid strong,.bp-compare-values strong{display:block;font-size:12px;overflow-wrap:anywhere}.bp-progress{height:5px;background:#30333a;border-radius:9px;margin:14px 0 7px;overflow:hidden}.bp-progress i{display:block;height:100%;background:#e91d4d;border-radius:9px}.bp-status{color:#bfc3cc;font-size:10px}.positive{color:#5ce0ad}.negative{color:#ff5877}.neutral{color:#c5c8d0}.bp-compare-list{display:grid;gap:11px}.bp-compare-row{padding:16px}.bp-compare-title{margin-bottom:13px}.bp-compare-title strong{font-size:14px;color:#fff}.bp-compare-values{border-top:1px solid #343740;padding-top:12px}.bp-comment{margin-top:15px;background:linear-gradient(135deg,#260d16,#151015);border-color:#792039}.bp-comment small{color:#ff5272;font-size:10px;font-weight:900;letter-spacing:1.5px}.bp-comment h3{margin:7px 0 8px;font-size:17px}.bp-comment p{margin:0;color:#d1d2d8;font-size:12px;line-height:1.7}.bp-empty{padding:22px;border:1px dashed #41444d;border-radius:14px;color:#c5c7ce;font-size:12px;line-height:1.6}.bp-period{color:#b9bdc7;font-size:11px;margin:0 0 12px}@media(max-width:650px){.bp-hero{display:block}.bp-hero p{text-align:left;margin:9px 0 0}.bp-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.bp-grid{grid-template-columns:1fr}.bp-metric{padding:15px}.bp-metric-grid strong,.bp-compare-values strong{font-size:11px}}'+
+      '</style>';
+    page.innerHTML=styles+'<header class="bp-hero"><div><span class="bp-eyebrow">ONE TEAM. ONE GOAL.</span><h2>MAĞAZA <em>DURUMU</em></h2></div><p>Kasım 2026 · Excel verileriyle güncel performans görünümü</p></header>'+
+      '<nav class="bp-tabs" role="tablist" aria-label="Mağaza rapor sekmeleri"><button class="bp-tab active" data-tab="store" role="tab" aria-selected="true">Mağaza Genel Data</button><button class="bp-tab" data-tab="category" role="tab" aria-selected="false">Kategori Data</button><button class="bp-tab" data-tab="gender" role="tab" aria-selected="false">Cinsiyet Data</button><button class="bp-tab" data-tab="stock" role="tab" aria-selected="false">Stok Data</button></nav>'+
+      '<section class="bp-panel active" data-panel="store"><p class="bp-period">AYIN '+monthDays+' GÜNÜ · GEÇEN '+elapsed+' GÜN · BUGÜNE KADAR HEDEF HESABI</p><div class="bp-grid">'+actualRows.map(metricCard).join("")+'</div><article class="bp-comment"><small>STORE MANAGER INSIGHT</small><h3>YÖNETİCİ YORUMU & AKSİYON PLANI</h3><p>'+comments.store+'</p></article></section>'+
+      '<section class="bp-panel" data-panel="category"><p class="bp-period">AYNI TARİH ARALIĞI · 2025 / 2026 · '+escapeHTML(period)+'</p><div class="bp-compare-list">'+compareRows(categoryRows,true)+'</div><article class="bp-comment"><small>CATEGORY PERFORMANCE INSIGHT</small><h3>YÖNETİCİ YORUMU & AKSİYON PLANI</h3><p>'+comments.category+'</p></article></section>'+
+      '<section class="bp-panel" data-panel="gender"><p class="bp-period">AYNI TARİH ARALIĞI · 2025 / 2026 · '+escapeHTML(period)+'</p><div class="bp-compare-list">'+compareRows(genderRows,true)+'</div><article class="bp-comment"><small>GENDER PERFORMANCE INSIGHT</small><h3>YÖNETİCİ YORUMU & AKSİYON PLANI</h3><p>'+comments.gender+'</p></article></section>'+
+      '<section class="bp-panel" data-panel="stock"><p class="bp-period">EXCEL STOK KIRILIMI · 2025 / 2026</p><div class="bp-compare-list">'+compareRows(stockRows,false)+'</div><article class="bp-comment"><small>INVENTORY INSIGHT</small><h3>YÖNETİCİ YORUMU & AKSİYON PLANI</h3><p>'+comments.stock+'</p></article></section>';
     page.querySelectorAll(".bp-tab").forEach(button=>button.addEventListener("click",()=>{
-      page.querySelectorAll(".bp-tab").forEach(tab=>{tab.classList.toggle("active",tab===button);tab.setAttribute("aria-selected",String(tab===button));});
-      const host=page.querySelector("#bp-active-chart");
-      if(host) host.innerHTML=charts[button.dataset.chart]||"";
+      const key=button.dataset.tab;
+      page.querySelectorAll(".bp-tab").forEach(tab=>{const active=tab===button;tab.classList.toggle("active",active);tab.setAttribute("aria-selected",String(active));});
+      page.querySelectorAll(".bp-panel").forEach(panel=>panel.classList.toggle("active",panel.dataset.panel===key));
     }));
-}
-function organizeStoreStatusTabs() {
-    const panel = document.querySelector(".store-status-panel");
-    const root = document.getElementById("performanceSections");
-    const summary = document.getElementById("storeActionSummary");
-    if (!panel || !root || !summary || panel.dataset.tabsReady === "true") return;
-    const period = root.querySelector(".period-group");
-    const targets = root.querySelector(".targets-group");
-    const daily = root.querySelector(".daily-group");
-    const kpi = root.querySelector(".kpi-group");
-    const forecast = root.querySelector(".forecast-group");
-    const comparisons = [...root.querySelectorAll(".comparison-group")];
-    const detailCharts = [...root.querySelectorAll(".store-chart-category, .store-chart-gender, .store-chart-stock")];
-    if (!period || !targets || !daily || !kpi || !forecast || comparisons.length < 3) return;
-    panel.dataset.tabsReady = "true";
-    const tabs = document.createElement("div");
-    tabs.className = "store-status-tabs";
-    tabs.setAttribute("role", "tablist");
-    tabs.setAttribute("aria-label", "Mağaza raporu sayfaları");
-    tabs.innerHTML = '<button type="button" class="store-status-tab active" role="tab" aria-selected="true" data-store-tab="performance">Mağaza Durumu</button><button type="button" class="store-status-tab" role="tab" aria-selected="false" data-store-tab="details">Kategori &amp; Stok</button>';
-    const first = document.createElement("div");
-    first.className = "store-status-page";
-    first.id = "storePerformancePage";
-    first.setAttribute("role", "tabpanel");
-    const second = document.createElement("div");
-    second.className = "store-status-page";
-    second.id = "storeDetailsPage";
-    second.setAttribute("role", "tabpanel");
-    second.hidden = true;
-    const title = document.createElement("h3");
-    title.className = "store-tab-section-title";
-    title.textContent = "Kategori, Cinsiyet ve Stok Değerlendirmesi";
-    const commentary = document.createElement("section");
-    commentary.className = "store-action-summary category-stock-summary";
-    commentary.innerHTML = '<div class="action-summary-head"><div><p class="dashboard-eyebrow">GENEL DETAYLAR</p><h3>Kategori &amp; Stok Yorumları</h3><p>Kategori, cinsiyet ve stok dağılımı için takip notları</p></div></div><div class="action-summary-grid"><article class="action-insight positive"><strong>😊 Güçlü alanları koru</strong><p>Satış payı ve büyümesi öne çıkan kategori ve cinsiyet gruplarında ürün bulunurluğunu koru.</p></article><article class="action-insight warning"><strong>⚠️ Fırsat ve stok risklerini kontrol et</strong><p>Geride kalan kategori gruplarını, düşük stokları ve eksik bedenleri kontrol ederek aksiyon belirle.</p></article></div>';
-    tabs.querySelectorAll("button").forEach(button => button.addEventListener("click", () => {
-        const showFirst = button.dataset.storeTab === "performance";
-        first.hidden = !showFirst;
-        second.hidden = showFirst;
-        tabs.querySelectorAll("button").forEach(tab => {
-            const active = tab === button;
-            tab.classList.toggle("active", active);
-            tab.setAttribute("aria-selected", String(active));
-        });
-    }));
-    panel.querySelector(".store-status-heading").insertAdjacentElement("afterend", tabs);
-    tabs.insertAdjacentElement("afterend", first);
-    first.append(root, summary);
-    second.append(title, ...detailCharts, ...comparisons, commentary);
-    first.insertAdjacentElement("afterend", second);
 }
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
 
