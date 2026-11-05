@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261105-league-top-clean-v2">
+    <link rel="stylesheet" href="style.css?v=20261105-top5-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
     <link rel="icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
     <link rel="apple-touch-icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
@@ -73,6 +73,12 @@
           <button class="menu-button module-card league-menu-card" type="button" onclick="showPerformanceLeague()">
             <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"></path><path d="M7 6H4v2a4 4 0 0 0 4 4M17 6h3v2a4 4 0 0 1-4 4"></path><path d="m12 6 1 2 2 .3-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9 8.3 11 8l1-2Z"></path></svg></span>
             <span class="module-copy"><strong>Performance League</strong><small>Aylık hedef ve günlük ilerleme takibi</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+
+          <button class="menu-button module-card top5-menu-card" type="button" onclick="showTop5Analysis()">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="M8 15v-4M13 15V7M18 15V3"></path><path d="M7 8l5-3 4 1 4-4"></path></svg></span>
+            <span class="module-copy"><strong>Kategori &amp; Ürün Top 5</strong><small>En çok satan ürünler ve güncel envanter</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
 
@@ -244,6 +250,29 @@
       <div class="league-toolbar league-data-toolbar"><span id="leagueDataStatus" role="status">GitHub Excel dosyasından veriler yükleniyor…</span><button type="button" onclick="loadLeagueData()">EXCEL VERİSİNİ YENİLE ↻</button></div>
     </section>
 
+    <section id="top5AnalysisArea" class="top5-analysis-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeTop5Analysis()">← Ana Menü</button>
+      <header class="top5-hero">
+        <p class="education-eyebrow">BUYAKA PUMA • PRODUCT PERFORMANCE</p>
+        <h1>KATEGORİ &amp; ÜRÜN TOP 5</h1>
+        <p>Tekstil, ayakkabı ve aksesuar kategorilerinde en çok satan beş ürünün satış ve güncel envanter görünümü.</p>
+      </header>
+      <div class="top5-toolbar">
+        <span id="top5DataStatus" role="status">Satış ve stok raporları yükleniyor…</span>
+        <button type="button" onclick="loadTop5Analysis()">VERİLERİ YENİLE ↻</button>
+      </div>
+      <nav class="top5-category-tabs" aria-label="Ürün kategorileri">
+        <button type="button" class="top5-category-tab active" data-top5-category="TEKSTİL" onclick="selectTop5Category('TEKSTİL')">TEKSTİL</button>
+        <button type="button" class="top5-category-tab" data-top5-category="AYAKKABI" onclick="selectTop5Category('AYAKKABI')">AYAKKABI</button>
+        <button type="button" class="top5-category-tab" data-top5-category="AKSESUAR" onclick="selectTop5Category('AKSESUAR')">AKSESUAR</button>
+      </nav>
+      <section id="top5CategorySummary" class="top5-category-summary"></section>
+      <section id="top5ProductList" class="top5-product-list" aria-live="polite">
+        <div class="top5-empty">Raporlar yükleniyor…</div>
+      </section>
+      <p class="top5-footnote">Sıralama net satış adedine göre yapılır. Envanter, Güncel Stok raporundaki beden/renk kayıtlarının toplamıdır.</p>
+    </section>
+
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeFastPerakende()">← Ana Menü</button>
       <header class="work-module-heading">
@@ -269,6 +298,7 @@
     <script src="script.js?v=20261105-kpi-layout-v3"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261016-directview2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="top5-analysis.js?v=20261105-top5-v1"></script>
     <script src="shift-program.js?v=20261105-today-overview"></script>\n    <script src="sd-karne.js?v=20261105-premium-crowns"></script>
 
     <script>
