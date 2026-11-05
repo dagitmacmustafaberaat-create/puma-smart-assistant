@@ -115,6 +115,7 @@
   }
   function render(){
     const rows=currentRows(),s=filteredSummary(rows);
+    s.inventory=[...stockMap.values()].reduce((total,qty)=>total+qty,0);
     renderFilters();renderKPIs(s);renderOverview(rows,s);renderTop5(s);renderAnalysis(s);
     document.querySelectorAll(".top5-view-tab").forEach(b=>{const active=b.dataset.view===activeTab;b.classList.toggle("active",active);b.setAttribute("aria-selected",String(active));});
     document.querySelectorAll(".top5-view-panel").forEach(p=>p.hidden=p.dataset.panel!==activeTab);
