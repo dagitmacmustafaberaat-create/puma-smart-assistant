@@ -668,14 +668,24 @@ async function loadPerformanceDashboard() {
             const statusClass = Number.isFinite(targetValue) && Number.isFinite(actualValue)
                 ? (actualValue >= targetValue ? "status-positive" : "status-negative")
                 : "status-neutral";
+            const kpiFormat = (address, field) => {
+                const cell = get(address);
+                if (!cell) return "—";
+                if ((label === "Ciro" || label === "ASP") && field !== "Sapma") {
+                    const amount = Number(cell.value);
+                    if (Number.isFinite(amount)) return new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 0 }).format(amount) + " TL";
+                }
+                if (field === "Sapma") return new Intl.NumberFormat("tr-TR", { style: "percent", maximumFractionDigits: 1 }).format(Number(cell.value));
+                return format(cell);
+            };
             return `
             <article class="kpi-row-card ${statusClass}">
               <h4>${safe(label)}</h4>
               <div class="kpi-values">
-                <div><span>Gerçekleşmesi Gereken</span><strong>${format(get("C" + row))}</strong></div>
-                <div><span>Gerçekleşen</span><strong>${format(get("D" + row))}</strong></div>
-                <div><span>Fark</span><strong>${format(get("E" + row))}</strong></div>
-                <div><span>Sapma</span><strong>${format(get("F" + row) ? { ...get("F" + row), number_format: "0.0%" } : null)}</strong></div>
+                <div><span>Gerçekleşmesi Gereken</span><strong>${kpiFormat("C" + row, "Hedef")}</strong></div>
+                <div><span>Gerçekleşen</span><strong>${kpiFormat("D" + row, "Gerçekleşen")}</strong></div>
+                <div><span>Fark</span><strong>${kpiFormat("E" + row, "Fark")}</strong></div>
+                <div><span>Sapma</span><strong>${kpiFormat("F" + row, "Sapma")}</strong></div>
               </div>
             </article>`;
         });
@@ -755,6 +765,7 @@ async function loadPerformanceDashboard() {
                     item.hidden = selected !== "all" && item.querySelector("h4")?.textContent !== selected;
                 });
                 renderStoreActionSummary(cells, selected);
+                applySelectedKpiLayout(kpiGrid, document.getElementById("storeActionSummary"), selected);
             });
             kpiHeading.appendChild(filter);
         }
@@ -764,6 +775,35 @@ async function loadPerformanceDashboard() {
         console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
         root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
     }
+}
+
+function applySelectedKpiLayout(kpiGrid, summaryRoot, selectedKpi) {
+    if (!kpiGrid || !summaryRoot) return;
+    const cards = [...kpiGrid.querySelectorAll(".kpi-row-card")];
+    cards.forEach(card => {
+        const oldLayout = card.querySelector(".kpi-selected-layout");
+        if (oldLayout) {
+            const values = oldLayout.querySelector(".kpi-values");
+            if (values) card.insertBefore(values, oldLayout);
+            oldLayout.remove();
+        }
+        card.classList.remove("kpi-card-selected");
+    });
+    kpiGrid.classList.toggle("kpi-grid-filtered", selectedKpi !== "all");
+    summaryRoot.hidden = selectedKpi !== "all";
+    if (selectedKpi === "all") return;
+
+    const selectedCard = cards.find(card => card.querySelector("h4")?.textContent.trim() === selectedKpi);
+    const insight = summaryRoot.querySelector(".action-insight");
+    if (!selectedCard) return;
+    const values = selectedCard.querySelector(".kpi-values");
+    if (!values || !insight) return;
+
+    const layout = document.createElement("div");
+    layout.className = "kpi-selected-layout";
+    selectedCard.classList.add("kpi-card-selected");
+    layout.append(values, insight);
+    selectedCard.appendChild(layout);
 }
 
 function renderStoreActionSummary(cells, selectedKpi = "all") {
