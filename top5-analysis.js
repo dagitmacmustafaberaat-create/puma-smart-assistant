@@ -2,7 +2,7 @@
 (function(){
   "use strict";
   const SALES_URL="./Sat%C4%B1%C5%9F%20Verileri.xlsx";
-  const STOCK_URL="./data.json";
+  const STOCK_URL="./G%C3%BCncel%20Stok.xlsx";
   const categories=["TEKSTİL","AYAKKABI","AKSESUAR"];
   let categoryData={};
   let selectedCategory="TEKSTİL";
@@ -38,7 +38,7 @@
     return rows.findIndex(row=>{
       const cells=row.map(normalize);
       return cells.includes("STOK KODU") && cells.includes("STOK ADI") &&
-        cells.includes("NET SATIS ADED") && cells.includes("NET SATIS TUTARI") && cells.includes("KATEGORI");
+        cells.includes("NET SATIS ADEDI") && cells.includes("NET SATIS TUTARI") && cells.includes("KATEGORI");
     });
   }
   function render(){
@@ -112,22 +112,35 @@
       ]);
       if(!salesResponse.ok) throw new Error("Satış Verileri.xlsx dosyası açılamadı ("+salesResponse.status+").");
       if(!stockResponse.ok) throw new Error("Güncel stok verisi açılamadı ("+stockResponse.status+").");
-      const [salesBuffer,stockRows]=await Promise.all([salesResponse.arrayBuffer(),stockResponse.json()]);
-      if(!Array.isArray(stockRows)) throw new Error("Güncel stok verisi beklenen formatta değil.");
+      const [salesBuffer,stockBuffer]=await Promise.all([salesResponse.arrayBuffer(),stockResponse.arrayBuffer()]);
       const workbook=XLSX.read(salesBuffer,{type:"array",cellDates:false});
+      const stockWorkbook=XLSX.read(stockBuffer,{type:"array",cellDates:false});
       const sheetName=workbook.SheetNames[0];
+      const stockSheetName=stockWorkbook.SheetNames[0];
       if(!sheetName) throw new Error("Satış Excel dosyasında çalışma sayfası bulunamadı.");
+      if(!stockSheetName) throw new Error("Güncel Stok Excel dosyasında çalışma sayfası bulunamadı.");
       const rows=XLSX.utils.sheet_to_json(workbook.Sheets[sheetName],{header:1,defval:"",raw:true});
+      const stockRows=XLSX.utils.sheet_to_json(stockWorkbook.Sheets[stockSheetName],{header:1,defval:"",raw:true});
       const headerIndex=findHeaderIndex(rows);
       if(headerIndex<0) throw new Error("Satış Excel'inde gerekli başlık satırı bulunamadı. STOK KODU, STOK ADI, KATEGORİ, NET SATIŞ ADEDİ ve NET SATIŞ TUTARI başlıklarını kontrol edin.");
       const headers=rows[headerIndex].map(normalize);
       const col=name=>headers.indexOf(normalize(name));
       const ix={category:col("KATEGORİ"),code:col("STOK KODU"),name:col("STOK ADI"),units:col("NET SATIŞ ADEDİ"),amount:col("NET SATIŞ TUTARI")};
+      const stockHeaderIndex=stockRows.findIndex(row=>{
+        const cells=row.map(normalize);
+        const hasCode=cells.some(v=>["STOK KODU","STOCK CODE","STYLE","STYLE NUMBER"].includes(v));
+        const hasQty=cells.some(v=>["STOK ADED","STOK ADEDI","FIILI STOK ADEDI","STOCK","STOCK QTY","QUANTITY"].includes(v));
+        return hasCode&&hasQty;
+      });
+      if(stockHeaderIndex<0) throw new Error("Güncel Stok Excel dosyasında stok kodu ve stok adedi sütunları bulunamadı.");
+      const stockHeaders=stockRows[stockHeaderIndex].map(normalize);
+      const stockCodeIndex=stockHeaders.findIndex(v=>["STOK KODU","STOCK CODE","STYLE","STYLE NUMBER"].includes(v));
+      const stockQtyIndex=stockHeaders.findIndex(v=>["STOK ADED","STOK ADEDI","FIILI STOK ADEDI","STOCK","STOCK QTY","QUANTITY"].includes(v));
       const inventory=new Map();
-      stockRows.forEach(row=>{
-        const code=String(row.productCode??row["STOK KODU"]??row["Stok Kodu"]??"").trim();
+      stockRows.slice(stockHeaderIndex+1).forEach(row=>{
+        const code=String(row[stockCodeIndex]??"").trim();
         if(!code) return;
-        inventory.set(code,(inventory.get(code)||0)+numberValue(row.stock??row["STOK ADEDİ"]??row["STOK"]??0));
+        inventory.set(code,(inventory.get(code)||0)+numberValue(row[stockQtyIndex]));
       });
       const groups={TEKSTİL:new Map(),AYAKKABI:new Map(),AKSESUAR:new Map()};
       rows.slice(headerIndex+1).forEach(row=>{
