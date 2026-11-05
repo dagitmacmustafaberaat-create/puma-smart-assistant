@@ -781,23 +781,29 @@ async function loadPerformanceDashboard() {
         };
         const safeChartLabel = value => escapeHTML(value === null || value === undefined ? "—" : value);
         const kpiChartRows = kpiRows.map(([label, row]) => ({
-            label, target: numeric("C" + row), actual: numeric("D" + row)
-        })).filter(item => item.target !== null && item.actual !== null);
-        const attainmentChart = () => {
-            if (!kpiChartRows.length) return '<div class="store-chart-empty">KPI grafiği için Excel verisi bulunamadı.</div>';
-            return '<article class="store-chart-card store-chart-kpi"><div class="store-chart-heading"><div><span class="store-chart-kicker">HEDEF / GERÇEKLEŞEN</span><h3>KPI Hedef Gerçekleşme</h3></div><span class="store-chart-legend"><i class="actual"></i> Gerçekleşen</span></div><div class="store-attainment-list">' +
-                kpiChartRows.map(item => {
-                    const rate = item.target === 0 ? 0 : item.actual / item.target * 100;
-                    const width = Math.max(0, Math.min(100, rate));
-                    return '<div class="store-attainment-row"><div class="store-attainment-meta"><strong>' + safeChartLabel(item.label) + '</strong><span>' + chartNumber(rate) + '%</span></div><div class="store-attainment-track"><span style="width:' + width + '%"></span></div><div class="store-attainment-values"><span>Hedef ' + chartNumber(item.target) + '</span><span>Gerçekleşen ' + chartNumber(item.actual) + '</span></div></div>';
-                }).join("") + '</div></article>';
-        };
+            name: label,
+            old: numeric("C" + row),
+            current: numeric("D" + row),
+            currency: label === "Ciro" || label === "ASP"
+        })).filter(item => item.old !== null && item.current !== null).map(item => ({
+            ...item,
+            rate: item.old === 0 ? 0 : item.current / item.old * 100
+        }));
+        const attainmentChart = () => compareChart(
+            "KPI Hedef Gerçekleşme",
+            "HEDEF / GERÇEKLEŞEN",
+            kpiChartRows,
+            "Hedef",
+            "Gerçekleşen",
+            false,
+            "store-chart-kpi"
+        );
         const compareChart = (title, kicker, entries, oldLabel, newLabel, currency = false, extraClass = "") => {
             const valid = entries.filter(item => item.old !== null || item.current !== null);
             if (!valid.length) return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div></div><div class="store-chart-empty">Karşılaştırma verisi bulunamadı.</div></article>';
             const max = Math.max(1, ...valid.flatMap(item => [item.old || 0, item.current || 0]));
             return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div><div class="store-chart-legend"><i class="previous"></i> ' + oldLabel + '<i class="actual"></i> ' + newLabel + '</div></div><div class="store-compare-list">' +
-                valid.map(item => '<div class="store-compare-row"><div class="store-compare-label">' + safeChartLabel(item.name) + '</div><div class="store-compare-bars"><div class="store-compare-bar-line"><span class="previous" style="width:' + Math.max(0, (item.old || 0) / max * 100) + '%"></span><b>' + chartNumber(item.old, currency) + '</b></div><div class="store-compare-bar-line"><span class="actual" style="width:' + Math.max(0, (item.current || 0) / max * 100) + '%"></span><b>' + chartNumber(item.current, currency) + '</b></div></div></div>').join("") +
+                valid.map(item => '<div class="store-compare-row"><div class="store-compare-label-wrap"><div class="store-compare-label">' + safeChartLabel(item.name) + '</div>' + (item.rate !== undefined ? '<span class="store-compare-rate">' + chartNumber(item.rate) + '%</span>' : '') + '</div><div class="store-compare-bars"><div class="store-compare-bar-line"><span class="previous" style="width:' + Math.max(0, (item.old || 0) / max * 100) + '%"></span><b>' + chartNumber(item.old, item.currency ?? currency) + '</b></div><div class="store-compare-bar-line"><span class="actual" style="width:' + Math.max(0, (item.current || 0) / max * 100) + '%"></span><b>' + chartNumber(item.current, item.currency ?? currency) + '</b></div></div></div>').join("") +
                 '</div></article>';
         };
         const categoryChartEntries = [
