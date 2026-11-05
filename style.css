@@ -3531,9 +3531,22 @@ body{background-size:contain !important;background-position:center top !importan
   display:block!important;
   width:100%!important;
   height:auto!important;
-  max-height:300px!important;
+  max-height:420px!important;
   object-fit:contain!important;
   object-position:center!important;
-  margin:0 auto 14px!important;
+  margin:12px auto 16px!important;
   border-radius:16px!important;
+}
+#performanceLeagueArea .league-hero-stats-only{
+  padding:12px 0 0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#performanceLeagueArea .league-hero-stats-only:after{display:none!important}
+#performanceLeagueArea .league-hero-stats-only .league-hero-stats{
+  padding-top:16px!important;
+  border-top:1px solid rgba(255,255,255,.18)!important;
 }
