@@ -2999,3 +2999,38 @@ body{background-size:contain !important;background-position:center top !importan
   #sdKarneArea .sd-award-winner-copy strong{font-size:clamp(15px,4.1vw,19px)!important;white-space:nowrap!important}
   #sdKarneArea .sd-award-winner-copy b{font-size:clamp(13px,3.5vw,16px)!important}
 }
+
+
+/* SD KARNE — CİNSİYETE GÖRE KRAL / KRALİÇE TACI */
+#sdKarneArea .sd-champion-title-wrap{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:2px!important;
+  width:100%!important;
+  margin:0 0 2px!important;
+}
+#sdKarneArea .sd-champion-crown{
+  display:block!important;
+  width:clamp(25px,3vw,39px)!important;
+  height:clamp(19px,2.3vw,30px)!important;
+  color:#f5bd42!important;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.65)) drop-shadow(0 0 5px rgba(255,205,75,.45))!important;
+  line-height:0!important;
+}
+#sdKarneArea .sd-champion-crown svg{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+}
+#sdKarneArea .sd-champion-crown-king{
+  color:#e8b63e!important;
+}
+#sdKarneArea .sd-champion-crown-queen{
+  color:#f0c65a!important;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.65)) drop-shadow(0 0 6px rgba(255,220,120,.55))!important;
+}
+#sdKarneArea .sd-champion-title-wrap small{
+  margin:0!important;
+}
