@@ -3914,3 +3914,35 @@ body{background-size:contain !important;background-position:center top !importan
  .store-status-panel .store-demo-track{height:10px!important}
  .store-status-panel .store-demo-barline b{font-size:9px!important}
 }
+
+
+/* MAĞAZA DURUMU — premium dikey KPI sütun grafikleri */
+.ms-dashboard{width:100%;display:flex;flex-direction:column;gap:18px;padding:4px 0 18px}
+.ms-dashboard-heading{padding:18px 16px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:linear-gradient(125deg,rgba(18,20,25,.98),rgba(43,10,19,.96));text-align:left}
+.ms-dashboard-heading>span,.ms-overall-comment>span{font-size:9px;letter-spacing:2px;font-weight:900;color:#ff526d}
+.ms-dashboard-heading h2{margin:7px 0 4px;color:#fff;font-size:22px;letter-spacing:1px}
+.ms-dashboard-heading p{color:#b9bdc5;font-size:11px;line-height:1.5}
+.ms-metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ms-metric-card{min-width:0;padding:13px 11px 11px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:linear-gradient(155deg,#1d2026,#101115);box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.ms-metric-card header{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:28px}
+.ms-metric-card h4{color:#fff;font-size:14px;font-weight:900}
+.ms-rate{flex:0 0 auto;padding:4px 6px;border-radius:6px;font-size:10px;font-weight:900;white-space:nowrap}
+.ms-rate.positive{color:#9ce7b2;background:rgba(44,170,91,.14)}
+.ms-rate.negative{color:#ff9aaa;background:rgba(227,29,69,.15)}
+.ms-rate.neutral{color:#c3c7cf;background:rgba(150,150,150,.12)}
+.ms-vbar-chart{height:154px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end;padding:12px 2px 0}
+.ms-vbar-item{height:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px}
+.ms-vbar-value{width:100%;min-height:22px;text-align:center;color:#e8e9ec;font-size:9px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
+.ms-vbar-track{height:94px;width:min(34px,72%);display:flex;align-items:flex-end;overflow:hidden;border-radius:5px 5px 2px 2px;background:#292d35}
+.ms-vbar-track i{display:block;width:100%;min-height:3px;border-radius:5px 5px 1px 1px;transition:height .4s ease}
+.ms-vbar-track i.monthly{background:linear-gradient(180deg,#aeb5c0,#626b78)}
+.ms-vbar-track i.daily{background:linear-gradient(180deg,#ff8295,#ad1737)}
+.ms-vbar-track i.actual{background:linear-gradient(180deg,#ff334f,#a9001b);box-shadow:0 0 12px rgba(227,24,55,.18)}
+.ms-vbar-item>span{min-height:24px;text-align:center;color:#aeb3bd;font-size:8px;line-height:1.2}
+.ms-metric-foot{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);color:#aeb3bd;font-size:9px;line-height:1.35}
+.ms-metric-foot b{display:block;color:#f1f2f4;font-size:10px;overflow-wrap:anywhere}
+.ms-overall-comment{padding:16px;border:1px solid rgba(227,29,69,.28);border-radius:13px;background:linear-gradient(135deg,rgba(48,12,21,.92),rgba(19,20,24,.98))}
+.ms-overall-comment h3{margin:6px 0 9px;color:#fff;font-size:16px}
+.ms-overall-comment p{color:#d7d9de;font-size:12px;line-height:1.65}
+.ms-overall-comment b{color:#fff}
+@media(max-width:420px){.ms-metric-grid{grid-template-columns:minmax(0,1fr)}.ms-dashboard-heading h2{font-size:19px}.ms-vbar-chart{height:145px}.ms-vbar-track{height:88px;width:30px}}
