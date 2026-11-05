@@ -675,7 +675,7 @@ async function loadPerformanceDashboard() {
                 <div><span>Gerçekleşmesi Gereken</span><strong>${format(get("C" + row))}</strong></div>
                 <div><span>Gerçekleşen</span><strong>${format(get("D" + row))}</strong></div>
                 <div><span>Fark</span><strong>${format(get("E" + row))}</strong></div>
-                <div><span>Sapma</span><strong>${format(get("F" + row))}</strong></div>
+                <div><span>Sapma</span><strong>${format(get("F" + row) ? { ...get("F" + row), number_format: "0.0%" } : null)}</strong></div>
               </div>
             </article>`;
         });
@@ -740,6 +740,22 @@ async function loadPerformanceDashboard() {
         groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group"));
 
         root.innerHTML = groups.join("");
+        const kpiSection = root.querySelector(".kpi-group");
+        const kpiHeading = kpiSection && kpiSection.querySelector(".performance-group-heading");
+        const kpiGrid = kpiSection && kpiSection.querySelector(".metric-card-grid");
+        if (kpiHeading && kpiGrid) {
+            const filter = document.createElement("select");
+            filter.className = "kpi-filter-select";
+            filter.setAttribute("aria-label", "KPI seç");
+            filter.innerHTML = '<option value="all">Tüm KPI’lar</option>' +
+                kpiRows.map(([label]) => '<option value="' + escapeHTML(label) + '">' + escapeHTML(label) + '</option>').join("");
+            filter.addEventListener("change", () => {
+                kpiGrid.querySelectorAll(".kpi-row-card").forEach(card => {
+                    card.hidden = filter.value !== "all" && card.querySelector("h4")?.textContent !== filter.value;
+                });
+            });
+            kpiHeading.appendChild(filter);
+        }
         renderStoreActionSummary(cells);
         organizeStoreStatusTabs();
     } catch (error) {
