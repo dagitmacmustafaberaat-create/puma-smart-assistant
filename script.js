@@ -998,7 +998,13 @@ function renderStoreStatusVerticalDashboard(cells) {
       return out;
     };
     const genderRows=findRows(15,19);
-    const categoryRows=findRows(4,14,businessUnits);
+    // Kategori verileri Excel icinde uc satirli bloklar halindedir: baslik, ciro, buyume.
+    // 2025/2026 yil etiketlerini ciro gibi gostermemek icin yalnizca ciro satirlarini oku.
+    const categoryRows=[
+      {name:raw("H4"),old:num("I5"),current:num("J5"),rate:num("I6")},
+      {name:raw("H7"),old:num("I8"),current:num("J8"),rate:num("I9")},
+      {name:raw("H10"),old:num("I11"),current:num("J11"),rate:num("I12")}
+    ].filter(r=>r.name && r.old!==null && r.current!==null);
     const stockRows=findRows(24,27,businessUnits);
     const period="1–"+elapsed+" "+String(raw("B7")||"Kasım 2026").replace(/.*?(Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık).*?/i,"$1");
     const compareRows=(rows,currency=true)=>rows.length?rows.map(r=>{
