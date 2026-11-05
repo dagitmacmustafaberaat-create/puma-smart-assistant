@@ -3852,3 +3852,18 @@ body{background-size:contain !important;background-position:center top !importan
 /* KPI hedef grafiği de cinsiyet ciro grafiğiyle aynı çift yatay bar standardında */
 .store-compare-label-wrap{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
 .store-compare-rate{flex:0 0 auto;padding:3px 6px;border:1px solid rgba(227,24,55,.35);border-radius:6px;background:rgba(227,24,55,.12);color:#ff6676;font-size:9px;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+
+/* STORE STATUS — compact vertical comparison columns */
+.store-vertical-chart{display:flex;align-items:stretch;gap:clamp(9px,1.5vw,18px);min-height:210px;padding:8px 2px 2px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#d5001c rgba(255,255,255,.08)}
+.store-vertical-item{display:flex;flex:1 0 76px;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0;max-width:160px;gap:7px}
+.store-vertical-values{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;min-height:30px;font-size:8px;line-height:1.2;font-variant-numeric:tabular-nums;color:#aeb3bd;text-align:center;overflow-wrap:anywhere}
+.store-vertical-values b{color:#ff687b;font-size:9px}
+.store-vertical-bars{display:flex;align-items:flex-end;justify-content:center;gap:5px;width:100%;height:118px;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.18);background:repeating-linear-gradient(to top,transparent 0,transparent 28px,rgba(255,255,255,.055) 29px,transparent 30px)}
+.store-vertical-bars i{display:block;flex:0 1 22px;width:22px;min-height:3px;border-radius:5px 5px 1px 1px}
+.store-vertical-bars i.previous{background:linear-gradient(180deg,#a0a5ae,#555b65)}
+.store-vertical-bars i.actual{background:linear-gradient(180deg,#ff536d,#a9001b);box-shadow:0 0 12px rgba(227,24,55,.2)}
+.store-vertical-item>strong{width:100%;min-height:28px;color:#f2f2f4;font-size:10px;line-height:1.25;text-align:center;overflow-wrap:anywhere}
+.store-vertical-item>small{color:#ff7789;font-size:9px;font-weight:900}
+.store-chart-kpi .store-vertical-item{flex-basis:78px}
+@media(max-width:600px){.store-vertical-chart{min-height:185px;gap:8px}.store-vertical-item{flex-basis:70px}.store-vertical-bars{height:100px;gap:4px;padding:0 5px}.store-vertical-values{font-size:7px}.store-vertical-values b{font-size:8px}.store-vertical-item>strong{font-size:9px}}
