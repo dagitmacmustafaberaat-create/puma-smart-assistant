@@ -2777,12 +2777,12 @@ body{background-size:contain !important;background-position:center top !importan
 }
 
 
-/* SD KARNE — HERO GÖRSELİNDEKİ ORİJİNAL KUPAYI KARTLARDA KULLAN */
+/* SD KARNE — YENİ KIRMIZI IŞIKLI PUMA KUPASI */
 #sdKarneArea .sd-award-trophy{
-  background-image:url("./sd-karne-hero.jpg?v=20261105-hero-trophy")!important;
+  background-image:url("./K%C4%B1rm%C4%B1z%C4%B1%20I%C5%9F%C4%B1kl%C4%B1%20Puma%20%C5%9Eampiyonluk%20Kupas%C4%B1.png?v=20261105-red-trophy")!important;
   background-repeat:no-repeat!important;
-  background-size:850% auto!important;
-  background-position:80% 6%!important;
+  background-position:center!important;
+  background-size:contain!important;
   background-color:transparent!important;
   border:0!important;
   border-radius:0!important;
