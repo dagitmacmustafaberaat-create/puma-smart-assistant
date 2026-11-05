@@ -2957,3 +2957,15 @@ body{background-size:contain !important;background-position:center top !importan
 @media(max-width:480px){
   #sdKarneArea .sd-award-winner-copy b{font-size:clamp(14px,3.8vw,18px)!important}
 }
+
+
+/* SD KARNE — CALIFORNIAN FB, DÜZ (İTALİK OLMAYAN) YAZI */
+#sdKarneArea .sd-award-winner-copy small,
+#sdKarneArea .sd-award-winner-copy strong,
+#sdKarneArea .sd-award-winner-copy b,
+#sdKarneArea .sd-award-winner-copy b span{
+  font-family:"Californian FB","Californian FB Regular",Georgia,serif!important;
+  font-style:normal!important;
+  font-synthesis:none!important;
+  transform:none!important;
+}
