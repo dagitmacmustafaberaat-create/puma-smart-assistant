@@ -2615,3 +2615,114 @@ body{background-size:contain !important;background-position:center top !importan
   #sdKarneArea .sd-award-winner-copy strong{font-size:18px!important}
   #sdKarneArea .sd-award-winner-copy b{font-size:16px!important}
 }
+
+
+/* SD KARNE — BİREBİR ŞAMPİYON DASHBOARD GÖRSELİNDEN KART ARKA PLANLARI */
+#sdKarneArea .sd-awards-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:16px!important;
+}
+#sdKarneArea .sd-award-card.sd-award-card-premium{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  aspect-ratio:1.72/1!important;
+  padding:0!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  border:0!important;
+  border-radius:0!important;
+  background-color:#080808!important;
+  background-image:url("./Puma%20%C5%9Eampiyonlar%20Karne%20Dashboardu.png?v=20261105-reference")!important;
+  background-repeat:no-repeat!important;
+  background-size:300% 100%!important;
+  box-shadow:none!important;
+}
+#sdKarneArea .sd-award-card-upt{background-position:0% center!important}
+#sdKarneArea .sd-award-card-cr{background-position:50% center!important}
+#sdKarneArea .sd-award-card-ciro{background-position:100% center!important}
+#sdKarneArea .sd-award-winner{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  min-height:0!important;
+  padding:0!important;
+}
+/* Referans görseldeki eski isim/değerleri kapat; güncel Excel verisi üstte gösterilsin. */
+#sdKarneArea .sd-award-winner:after{
+  content:""!important;
+  position:absolute!important;
+  z-index:1!important;
+  left:48%!important;
+  right:4%!important;
+  top:39%!important;
+  bottom:7%!important;
+  border-radius:5px!important;
+  background:linear-gradient(110deg,rgba(8,8,8,.98),rgba(8,8,8,.94))!important;
+}
+#sdKarneArea .sd-award-winner-copy{
+  position:absolute!important;
+  z-index:2!important;
+  left:54%!important;
+  right:5%!important;
+  top:43%!important;
+  bottom:8%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(5px,.9vw,12px)!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+#sdKarneArea .sd-award-winner-copy small{
+  display:none!important;
+}
+#sdKarneArea .sd-award-winner-copy strong{
+  display:block!important;
+  width:100%!important;
+  color:#fff!important;
+  font-size:clamp(14px,1.75vw,27px)!important;
+  font-weight:950!important;
+  line-height:1.12!important;
+  overflow-wrap:anywhere!important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  padding:clamp(7px,.8vw,12px) 5px!important;
+  border:0!important;
+  border-radius:7px!important;
+  background:linear-gradient(110deg,#ed1c35,#a9001d)!important;
+  color:#fff!important;
+  font-size:clamp(15px,2.3vw,34px)!important;
+  font-weight:950!important;
+  line-height:1.05!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  box-shadow:0 5px 16px rgba(213,0,28,.25)!important;
+}
+#sdKarneArea .sd-award-winner-copy b span{
+  display:none!important;
+}
+#sdKarneArea .sd-award-photo{display:none!important}
+@media(max-width:900px){
+  #sdKarneArea .sd-awards-grid{grid-template-columns:1fr!important;gap:12px!important}
+  #sdKarneArea .sd-award-card.sd-award-card-premium{width:min(100%,650px)!important;aspect-ratio:1.72/1!important;margin-inline:auto!important}
+  #sdKarneArea .sd-award-winner-copy strong{font-size:clamp(18px,4vw,26px)!important}
+  #sdKarneArea .sd-award-winner-copy b{font-size:clamp(20px,5vw,32px)!important}
+}
+@media(max-width:480px){
+  #sdKarneArea .sd-award-card.sd-award-card-premium{aspect-ratio:1.55/1!important}
+  #sdKarneArea .sd-award-winner:after{left:47%!important;right:4%!important;top:39%!important;bottom:7%!important}
+  #sdKarneArea .sd-award-winner-copy{left:51%!important;right:5%!important;top:42%!important;bottom:8%!important;gap:6px!important}
+  #sdKarneArea .sd-award-winner-copy strong{font-size:clamp(17px,4.7vw,22px)!important}
+  #sdKarneArea .sd-award-winner-copy b{font-size:clamp(18px,5vw,24px)!important}
+}
