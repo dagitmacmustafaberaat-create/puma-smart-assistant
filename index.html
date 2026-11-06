@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261106-uppercase-module-titles-v1">
+    <link rel="stylesheet" href="style.css?v=20261106-fast-links-menu-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
     <link rel="icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
     <link rel="apple-touch-icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
@@ -34,16 +34,7 @@
 <body>
 
     <!-- SPORT TECH ANA EKRAN / MAĞAZA DURUMU -->
-    <div class="company-links-widget">
-      <button class="company-links-trigger" type="button" aria-haspopup="true" aria-controls="companyLinksMenu" onclick="const menu=document.getElementById('companyLinksMenu');menu.hidden=!menu.hidden;">
-        <span>Fast Perakende</span><span class="company-arrow" aria-hidden="true">↗</span>
-      </button>
-      <nav id="companyLinksMenu" class="company-links-menu" aria-label="Şirket bağlantıları" hidden>
-        <a href="https://fastperakende.com/league.html" target="_blank" rel="noopener noreferrer">Fast League <span aria-hidden="true">↗</span></a>
-        <a href="http://www.fastperakende.com/" target="_blank" rel="noopener noreferrer">Biz Kimiz <span aria-hidden="true">↗</span></a>
-        <a href="https://www.fastspor.com/" target="_blank" rel="noopener noreferrer">İnternet Sitesi <span aria-hidden="true">↗</span></a>
-      </nav>
-    </div>
+    
 
     <main id="mainMenu" class="menu home-dashboard">
 
@@ -93,6 +84,19 @@
             <span class="module-copy"><strong>Çalışma Programı</strong><small>Haftalık vardiya ve izin planı</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
+          <div class="company-links-widget company-links-menu-card">
+            <button class="menu-button module-card company-links-trigger" type="button" aria-haspopup="true" aria-controls="companyLinksMenu" aria-expanded="false" onclick="const menu=document.getElementById('companyLinksMenu');const open=menu.hidden;menu.hidden=!open;this.setAttribute('aria-expanded',String(open));">
+              <span class="module-sticker" aria-hidden="true">🔗</span>
+              <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7"></path><path d="M14 11a5 5 0 0 0-7.1 0l-3 3A5 5 0 0 0 11 21.1l1.7-1.7"></path></svg></span>
+              <span class="module-copy"><strong>FAST PERAKENDE</strong><small>Şirket bağlantıları ve portallar</small></span>
+              <span class="module-arrow" aria-hidden="true">↗</span>
+            </button>
+            <nav id="companyLinksMenu" class="company-links-menu" aria-label="Şirket bağlantıları" hidden>
+              <a href="https://fastperakende.com/league.html" target="_blank" rel="noopener noreferrer">Fast League <span aria-hidden="true">↗</span></a>
+              <a href="http://www.fastperakende.com/" target="_blank" rel="noopener noreferrer">Biz Kimiz <span aria-hidden="true">↗</span></a>
+              <a href="https://www.fastspor.com/" target="_blank" rel="noopener noreferrer">İnternet Sitesi <span aria-hidden="true">↗</span></a>
+            </nav>
+          </div>
         </div>
       </section>
 
