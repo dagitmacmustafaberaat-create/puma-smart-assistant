@@ -39,49 +39,83 @@ function parseEducationDate(value) {
 }
 
 function educationRowsFromWorkbook(workbook) {
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", raw: true });
-  let headerIndex = -1, dateCol = -1, weekdayCol = -1, vmCol = -1, techCol = -1, practiceCol = -1;
-  let headers = [];
+  const isDateValue = value => {
+    if (value instanceof Date && !isNaN(value)) return true;
+    if (typeof value === "number") return value >= 30000 && value <= 80000;
+    const text = String(value || "").trim();
+    return /^(\\d{1,2})[.\\/-](\\d{1,2})[.\\/-](\\d{4})$/.test(text) ||
+      /^\\d{4}-\\d{1,2}-\\d{1,2}$/.test(text);
+  };
 
-  for (let r = 0; r < Math.min(rows.length, 40); r++) {
-    const candidate = (rows[r] || []).map(normalizeEducationHeader);
-    const date = candidate.findIndex(x => x.includes("TARIH") || x === "DATE" || x.startsWith("DATE "));
-    if (date < 0) continue;
+  let selected = null;
+  for (const sheetName of workbook.SheetNames) {
+    const sheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", raw: true });
+    if (!rows.length) continue;
 
-    const weekday = candidate.findIndex(x => /HAFTA.*GUN|GUN ADI|^GUN$|WEEKDAY/.test(x));
-    const vm = candidate.findIndex(x => /\bVM\b|SATIS|VISUAL|MERCHANDISING/.test(x));
-    const tech = candidate.findIndex(x => /TEKNOLOJI|TEKSTIL|AYAKKABI|FOOTWEAR|TEXTILE|TEKNO/.test(x));
-    const practice = candidate.findIndex(x => /UYGULAMA|PRACTICE|AKTIVITE|AKTIV/.test(x));
+    let headerIndex = -1, dateCol = -1, weekdayCol = -1;
+    let vmCol = -1, techCol = -1, practiceCol = -1;
+    let headers = [];
 
-    headerIndex = r;
-    headers = candidate;
-    dateCol = date;
-    weekdayCol = weekday;
-    vmCol = vm;
-    techCol = tech;
-    practiceCol = practice;
+    // Önce başlık adını ara; birleştirilmiş hücre ve farklı yazımları da destekle.
+    for (let r = 0; r < Math.min(rows.length, 60); r++) {
+      const candidate = (rows[r] || []).map(normalizeEducationHeader);
+      const date = candidate.findIndex(x =>
+        /TARIH|TARIHI|DATE|EGITIM GUNU|GUN TARIHI/.test(x)
+      );
+      if (date < 0) continue;
+      headerIndex = r;
+      headers = candidate;
+      dateCol = date;
+      weekdayCol = candidate.findIndex(x => /HAFTA.*GUN|GUN ADI|^GUN$|WEEKDAY/.test(x));
+      vmCol = candidate.findIndex(x => /\\bVM\\b|SATIS|VISUAL|MERCHANDISING/.test(x));
+      techCol = candidate.findIndex(x => /TEKNOLOJI|TEKSTIL|AYAKKABI|FOOTWEAR|TEXTILE|TEKNO/.test(x));
+      practiceCol = candidate.findIndex(x => /UYGULAMA|PRACTICE|AKTIVITE|AKTIV/.test(x));
+      break;
+    }
+
+    // Başlık tanınmazsa, tarih değerlerinin yoğun olduğu sütunu otomatik bul.
+    if (dateCol < 0) {
+      let best = { col: -1, count: 0, firstRow: -1 };
+      const maxCols = Math.max(...rows.slice(0, 100).map(row => (row || []).length), 0);
+      for (let c = 0; c < maxCols; c++) {
+        let count = 0, firstRow = -1;
+        for (let r = 0; r < rows.length; r++) {
+          if (isDateValue((rows[r] || [])[c])) {
+            count++;
+            if (firstRow < 0) firstRow = r;
+          }
+        }
+        if (count > best.count) best = { col: c, count, firstRow };
+      }
+      if (best.col >= 0 && best.count >= 2) {
+        dateCol = best.col;
+        headerIndex = Math.max(0, best.firstRow - 1);
+        headers = (rows[headerIndex] || []).map(normalizeEducationHeader);
+        weekdayCol = headers.findIndex(x => /HAFTA.*GUN|GUN ADI|^GUN$|WEEKDAY/.test(x));
+        vmCol = headers.findIndex(x => /\\bVM\\b|SATIS|VISUAL|MERCHANDISING/.test(x));
+        techCol = headers.findIndex(x => /TEKNOLOJI|TEKSTIL|AYAKKABI|FOOTWEAR|TEXTILE|TEKNO/.test(x));
+        practiceCol = headers.findIndex(x => /UYGULAMA|PRACTICE|AKTIVITE|AKTIV/.test(x));
+      }
+    }
+
+    if (dateCol < 0) continue;
+    const topicColumns = headers.map((name, index) => ({ name, index }))
+      .filter(item => item.index !== dateCol && item.index !== weekdayCol);
+    const populatedTopicColumns = topicColumns.filter(item =>
+      rows.slice(headerIndex + 1).some(row => String((row || [])[item.index] || "").trim())
+    );
+    if (vmCol < 0 && populatedTopicColumns.length) vmCol = populatedTopicColumns[0].index;
+    if (techCol < 0 && populatedTopicColumns.length > 1) techCol = populatedTopicColumns[1].index;
+    if (practiceCol < 0 && populatedTopicColumns.length > 2) practiceCol = populatedTopicColumns[2].index;
+
+    selected = { rows, headerIndex, dateCol, weekdayCol, vmCol, techCol, practiceCol };
     break;
   }
 
-  if (headerIndex < 0) {
-    // Bazı Excel şablonlarında başlıklar birleştirilmiş hücrelerde veya farklı satırdadır.
-    // Tarih hücresini ve yanındaki konu sütunlarını içerikten bularak ikinci kez dene.
-    for (let r = 0; r < Math.min(rows.length, 40); r++) {
-      const candidate = (rows[r] || []).map(normalizeEducationHeader);
-      const date = candidate.findIndex(x => x.includes("TARIH") || x === "DATE");
-      if (date >= 0) { headerIndex = r; headers = candidate; dateCol = date; break; }
-    }
-  }
-  if (headerIndex < 0) throw new Error("Excel içinde tarih sütunu bulunamadı. Başlık satırı kontrol edilmeli.");
+  if (!selected) throw new Error("Excel sayfalarında tarih başlığı veya tarih içeren bir sütun bulunamadı. Lütfen tarihlerin bulunduğu sütunu kontrol edin.");
 
-  if (weekdayCol < 0) weekdayCol = headers.findIndex(x => /HAFTA.*GUN|GUN ADI|^GUN$|WEEKDAY/.test(x));
-  const topicColumns = headers.map((name, index) => ({ name, index }))
-    .filter(item => item.index !== dateCol && item.index !== weekdayCol && item.name);
-  if (vmCol < 0 && topicColumns.length) vmCol = topicColumns[0].index;
-  if (techCol < 0 && topicColumns.length > 1) techCol = topicColumns[1].index;
-  if (practiceCol < 0 && topicColumns.length > 2) practiceCol = topicColumns[2].index;
-
+  const { rows, headerIndex, dateCol, weekdayCol, vmCol, techCol, practiceCol } = selected;
   const data = [];
   rows.slice(headerIndex + 1).forEach(row => {
     const date = parseEducationDate(row[dateCol]);
