@@ -1,4 +1,4 @@
-const CACHE_NAME = "buyaka-puma-app-v79";
+const CACHE_NAME = "buyaka-puma-app-v80";
 const APP_SHELL = [
   "./",
   "./index.html",

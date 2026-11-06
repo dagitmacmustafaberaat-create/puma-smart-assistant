@@ -4475,3 +4475,132 @@ body:has(#mainMenu[style*="display: none"]) {
   #mainMenu.home-dashboard .module-copy small { font-size:16px !important;line-height:1.22 !important; }
   #mainMenu.home-dashboard .module-arrow { right:17px !important;bottom:12px !important;font-size:23px !important; }
 }
+
+
+/* 06 NOV 2026 — RESPONSIVE WALLPAPER HERO + CLOUD-SHAPED MENU */
+body {
+  background-color:#050608 !important;
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.12) 42%,rgba(0,0,0,.82) 100%),
+    url("puma-wallpaper.png") !important;
+  background-repeat:no-repeat !important;
+  background-position:center top !important;
+  background-size:100% auto !important;
+  background-attachment:scroll !important;
+}
+#mainMenu.home-dashboard {
+  width:min(1320px,calc(100% - 44px)) !important;
+  max-width:1320px !important;
+  margin:0 auto !important;
+  padding:clamp(340px,42vh,560px) 0 42px !important;
+  display:block !important;
+}
+#mainMenu.home-dashboard .quick-access-section { width:100%; }
+#mainMenu.home-dashboard .quick-access-heading {
+  max-width:1200px; margin:0 auto 24px; padding:0 12px;
+}
+#mainMenu.home-dashboard .dashboard-eyebrow,
+#mainMenu.home-dashboard #quickAccessTitle { text-shadow:0 2px 12px #000,0 1px 4px #000; }
+#mainMenu.home-dashboard .module-card-grid {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:22px !important;
+  align-items:stretch;
+}
+#mainMenu.home-dashboard .module-card {
+  min-width:0 !important; min-height:154px !important;
+  padding:22px 19px !important;
+  display:flex !important; flex-direction:row !important;
+  align-items:center !important; justify-content:center !important;
+  gap:12px !important; overflow:visible !important;
+  border:1px solid rgba(255,255,255,.34) !important;
+  border-left:1px solid rgba(255,255,255,.34) !important;
+  border-radius:46% 42% 48% 43% / 48% 45% 52% 48% !important;
+  background:
+    radial-gradient(ellipse at 18% 10%,rgba(255,255,255,.16),transparent 45%),
+    linear-gradient(145deg,rgba(37,40,47,.97),rgba(9,10,13,.97)) !important;
+  box-shadow:0 12px 25px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.16),0 0 0 5px rgba(255,255,255,.025) !important;
+  position:relative !important;
+}
+#mainMenu.home-dashboard .module-card::before,
+#mainMenu.home-dashboard .module-card::after { content:none !important;display:none !important; }
+#mainMenu.home-dashboard .module-sticker {
+  order:3 !important; position:static !important; flex:0 0 43px !important;
+  width:43px !important;height:43px !important;display:grid !important;place-items:center !important;
+  border-radius:50% !important;font-size:25px !important;line-height:1 !important;
+  background:linear-gradient(145deg,#3a3e46,#17191e) !important;
+  border:1px solid rgba(255,255,255,.42) !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.2) !important;
+  transform:none !important;
+}
+#mainMenu.home-dashboard .module-icon {
+  order:1 !important;position:static !important;flex:0 0 52px !important;
+  width:52px !important;height:52px !important;border-radius:50% !important;
+  background:linear-gradient(145deg,#d50028,#760018) !important;
+  border:1px solid rgba(255,255,255,.35) !important;
+  box-shadow:0 5px 14px rgba(0,0,0,.4) !important;
+}
+#mainMenu.home-dashboard .module-icon svg { width:27px !important;height:27px !important;stroke:#fff !important; }
+#mainMenu.home-dashboard .module-copy {
+  order:2 !important; flex:1 1 auto !important;min-width:0 !important;
+  display:flex !important;flex-direction:column !important;gap:7px !important;
+  text-align:left !important;
+}
+#mainMenu.home-dashboard .module-copy strong {
+  font-family:"Californian FB","Californian FB Regular",Georgia,serif !important;
+  font-size:clamp(19px,1.65vw,24px) !important;line-height:1.08 !important;
+  font-weight:700 !important;color:#fff !important;overflow-wrap:anywhere;
+}
+#mainMenu.home-dashboard .module-copy small {
+  font-family:"Californian FB","Californian FB Regular",Georgia,serif !important;
+  font-size:15px !important;line-height:1.2 !important;color:#f0f0f2 !important;
+}
+#mainMenu.home-dashboard .module-arrow {
+  order:4 !important;position:static !important;flex:0 0 auto !important;
+  color:#ff526d !important;font-size:22px !important;
+}
+#mainMenu.home-dashboard .module-card:hover,
+#mainMenu.home-dashboard .module-card:focus-visible {
+  transform:translateY(-4px) !important;border-color:#ff536d !important;
+  box-shadow:0 17px 30px rgba(0,0,0,.62),0 0 0 2px rgba(229,0,43,.25),inset 0 1px 0 rgba(255,255,255,.2) !important;
+}
+#mainMenu.home-dashboard .dashboard-footer { margin-top:30px; }
+@media(max-width:900px) {
+  #mainMenu.home-dashboard { width:calc(100% - 30px) !important;padding-top:38vh !important; }
+  #mainMenu.home-dashboard .module-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:18px !important; }
+  #mainMenu.home-dashboard .module-card { min-height:148px !important;padding:20px 16px !important;gap:10px !important; }
+  #mainMenu.home-dashboard .module-icon { flex-basis:45px !important;width:45px !important;height:45px !important; }
+  #mainMenu.home-dashboard .module-sticker { flex-basis:38px !important;width:38px !important;height:38px !important;font-size:22px !important; }
+  #mainMenu.home-dashboard .module-copy strong { font-size:20px !important; }
+  #mainMenu.home-dashboard .module-copy small { font-size:14px !important; }
+}
+@media(max-width:520px) {
+  body {
+    background-size:auto 56vh !important;
+    background-position:center top !important;
+    background-attachment:scroll !important;
+    background-image:
+      linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.08) 48%,rgba(0,0,0,.92) 100%),
+      url("puma-wallpaper.png") !important;
+  }
+  #mainMenu.home-dashboard { width:calc(100% - 22px) !important;padding-top:36vh !important;padding-bottom:28px !important; }
+  #mainMenu.home-dashboard .quick-access-heading { margin-bottom:18px !important;padding:0 8px !important; }
+  #mainMenu.home-dashboard .module-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:12px !important; }
+  #mainMenu.home-dashboard .module-card {
+    min-height:138px !important;padding:17px 12px !important;
+    flex-direction:column !important;justify-content:center !important;align-items:center !important;
+    gap:7px !important;border-radius:42% 48% 43% 50% / 47% 42% 53% 48% !important;
+  }
+  #mainMenu.home-dashboard .module-icon {
+    order:1 !important;flex:0 0 38px !important;width:38px !important;height:38px !important;
+  }
+  #mainMenu.home-dashboard .module-icon svg { width:21px !important;height:21px !important; }
+  #mainMenu.home-dashboard .module-copy { order:2 !important;flex:0 1 auto !important;width:100% !important;text-align:center !important;gap:4px !important; }
+  #mainMenu.home-dashboard .module-copy strong { font-size:18px !important;line-height:1.08 !important; }
+  #mainMenu.home-dashboard .module-copy small { font-size:12px !important;line-height:1.15 !important; }
+  #mainMenu.home-dashboard .module-sticker {
+    order:3 !important;flex:0 0 30px !important;width:30px !important;height:30px !important;
+    font-size:18px !important;border-radius:50% !important;
+  }
+  #mainMenu.home-dashboard .module-arrow { display:none !important; }
+}
