@@ -15,7 +15,13 @@ function showEducationCenter() {
 }
 
 function normalizeEducationHeader(value) {
-  return String(value || "").normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLocaleUpperCase("tr-TR").replace(/İ/g, "I").replace(/[^A-Z0-9]+/g, " ").trim();
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleUpperCase("tr-TR")
+    .replace(/İ/g, "I")
+    .replace(/[^A-Z0-9]+/g, " ")
+    .trim();
 }
 
 function parseEducationDate(value) {
@@ -26,7 +32,7 @@ function parseEducationDate(value) {
   }
   const text = String(value || "").trim();
   if (!text) return null;
-  let match = text.match(/^(\\d{1,2})[.\\/-](\\d{1,2})[.\\/-](\\d{4})$/);
+  let match = text.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/);
   if (match) return new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
   const date = new Date(text);
   return isNaN(date) ? null : new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -36,20 +42,46 @@ function educationRowsFromWorkbook(workbook) {
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", raw: true });
   let headerIndex = -1, dateCol = -1, weekdayCol = -1, vmCol = -1, techCol = -1, practiceCol = -1;
-  for (let r = 0; r < Math.min(rows.length, 30); r++) {
-    const headers = (rows[r] || []).map(normalizeEducationHeader);
-    const date = headers.findIndex(x => x === "TARIH" || x === "DATE");
-    const vm = headers.findIndex(x => /VM|SATIS|VISUAL MERCHANDISING/.test(x));
-    const tech = headers.findIndex(x => /TEKNOLOJI|TEKSTIL|AYAKKABI|FOOTWEAR|TEXTILE/.test(x));
-    const practice = headers.findIndex(x => /UYGULAMA|PRACTICE|AKTIVITE/.test(x));
-    if (date >= 0 && (vm >= 0 || tech >= 0 || practice >= 0)) {
-      headerIndex = r; dateCol = date;
-      weekdayCol = headers.findIndex(x => /HAFTA GUNU|GUN ADI|^GUN$|WEEKDAY/.test(x));
-      vmCol = vm; techCol = tech; practiceCol = practice;
-      break;
+  let headers = [];
+
+  for (let r = 0; r < Math.min(rows.length, 40); r++) {
+    const candidate = (rows[r] || []).map(normalizeEducationHeader);
+    const date = candidate.findIndex(x => x.includes("TARIH") || x === "DATE" || x.startsWith("DATE "));
+    if (date < 0) continue;
+
+    const weekday = candidate.findIndex(x => /HAFTA.*GUN|GUN ADI|^GUN$|WEEKDAY/.test(x));
+    const vm = candidate.findIndex(x => /\bVM\b|SATIS|VISUAL|MERCHANDISING/.test(x));
+    const tech = candidate.findIndex(x => /TEKNOLOJI|TEKSTIL|AYAKKABI|FOOTWEAR|TEXTILE|TEKNO/.test(x));
+    const practice = candidate.findIndex(x => /UYGULAMA|PRACTICE|AKTIVITE|AKTIV/.test(x));
+
+    headerIndex = r;
+    headers = candidate;
+    dateCol = date;
+    weekdayCol = weekday;
+    vmCol = vm;
+    techCol = tech;
+    practiceCol = practice;
+    break;
+  }
+
+  if (headerIndex < 0) {
+    // Bazı Excel şablonlarında başlıklar birleştirilmiş hücrelerde veya farklı satırdadır.
+    // Tarih hücresini ve yanındaki konu sütunlarını içerikten bularak ikinci kez dene.
+    for (let r = 0; r < Math.min(rows.length, 40); r++) {
+      const candidate = (rows[r] || []).map(normalizeEducationHeader);
+      const date = candidate.findIndex(x => x.includes("TARIH") || x === "DATE");
+      if (date >= 0) { headerIndex = r; headers = candidate; dateCol = date; break; }
     }
   }
-  if (headerIndex < 0) throw new Error("Kasım eğitim Excel'inde Tarih ve konu başlıkları bulunamadı.");
+  if (headerIndex < 0) throw new Error("Excel içinde tarih sütunu bulunamadı. Başlık satırı kontrol edilmeli.");
+
+  if (weekdayCol < 0) weekdayCol = headers.findIndex(x => /HAFTA.*GUN|GUN ADI|^GUN$|WEEKDAY/.test(x));
+  const topicColumns = headers.map((name, index) => ({ name, index }))
+    .filter(item => item.index !== dateCol && item.index !== weekdayCol && item.name);
+  if (vmCol < 0 && topicColumns.length) vmCol = topicColumns[0].index;
+  if (techCol < 0 && topicColumns.length > 1) techCol = topicColumns[1].index;
+  if (practiceCol < 0 && topicColumns.length > 2) practiceCol = topicColumns[2].index;
+
   const data = [];
   rows.slice(headerIndex + 1).forEach(row => {
     const date = parseEducationDate(row[dateCol]);
@@ -59,15 +91,17 @@ function educationRowsFromWorkbook(workbook) {
       ? String(row[weekdayCol]).trim()
       : date.toLocaleDateString("tr-TR", { weekday: "long" });
     const topic = index => index >= 0 ? String(row[index] || "").trim() : "";
+    const vm = topic(vmCol), tech = topic(techCol), practice = topic(practiceCol);
+    if (!vm && !tech && !practice) return;
     data.push({
       date: date.getFullYear() + "-" + fmt(date.getMonth() + 1) + "-" + fmt(date.getDate()),
       weekday: weekday.charAt(0).toLocaleUpperCase("tr-TR") + weekday.slice(1),
-      vm: topic(vmCol) || "Günlük eğitim konusu",
-      tech: topic(techCol) || "Teknoloji eğitimi",
-      practice: topic(practiceCol) || "Uygulama"
+      vm: vm || "—",
+      tech: tech || "—",
+      practice: practice || "—"
     });
   });
-  if (!data.length) throw new Error("Kasım eğitim Excel'inde tarihli eğitim kaydı bulunamadı.");
+  if (!data.length) throw new Error("Tarih sütunu bulundu ancak altında okunabilir eğitim kaydı yok.");
   return data.sort((a, b) => a.date.localeCompare(b.date));
 }
 
