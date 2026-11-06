@@ -4623,7 +4623,6 @@ body {
   background-attachment:scroll !important;
 }
 #mainMenu.home-dashboard {
-  display:block !important;
   box-sizing:border-box !important;
   width:min(1320px,calc(100% - 40px)) !important;
   max-width:1320px !important;
