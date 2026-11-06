@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261106-date-filter-v2">
+    <link rel="stylesheet" href="style.css?v=20261106-inline-viewer-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
     <link rel="icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
     <link rel="apple-touch-icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
@@ -199,6 +199,20 @@
       </section>
     </section>
 
+    <div id="trainingDocumentModal" class="training-document-modal" aria-hidden="true">
+      <div class="training-document-backdrop" onclick="closeTrainingDocument()"></div>
+      <section class="training-document-dialog" role="dialog" aria-modal="true" aria-labelledby="trainingDocumentTitle">
+        <header class="training-document-toolbar">
+          <div class="training-document-heading">
+            <span class="training-document-mark">📚</span>
+            <h2 id="trainingDocumentTitle">Eğitim Dokümanı</h2>
+          </div>
+          <button type="button" class="training-document-close" onclick="closeTrainingDocument()" aria-label="Belgeyi kapat">✕</button>
+        </header>
+        <iframe id="trainingDocumentFrame" class="training-document-frame" title="Eğitim dokümanı görüntüleyici" src="about:blank" allowfullscreen></iframe>
+      </section>
+    </div>
+
     <section id="shiftProgramArea" class="shift-program-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeShiftProgram()">← Ana Menü</button>
       <header class="shift-program-heading">
@@ -328,7 +342,7 @@
     <script src="script.js?v=20261105-store-status-unified-v2"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="education.js?v=20261106-date-filter-v2"></script>
+    <script src="education.js?v=20261106-inline-viewer-v1"></script>
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
     <script src="shift-program.js?v=20261105-shift-horizontal-v2"></script>\n    <script src="sd-karne.js?v=20261105-premium-crowns"></script>
 

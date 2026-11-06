@@ -1,14 +1,14 @@
-const CACHE_NAME = "buyaka-puma-app-v70";
+const CACHE_NAME = "buyaka-puma-app-v71";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261106-date-filter-v2",
+  "./style.css?v=20261106-inline-viewer-v1",
   "./performance-league.js?v=20261102-excel-source",
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
   "./script.js?v=20261102-hgo-percent",
   "./shift-program.js?v=20261105-shift-horizontal-v2",
   "./sd-karne.js?v=20261105-premium-crowns",
-  "./education.js?v=20261106-date-filter-v2",
+  "./education.js?v=20261106-inline-viewer-v1",
   "./Buyaka%20Puma%20%C5%9Eampiyonlar%20Kul%C3%BCb%C3%BC%20Kutlamas%C4%B1.png?v=20261105",
   "./K%C4%B1rm%C4%B1z%C4%B1%20I%C5%9F%C4%B1kl%C4%B1%20Puma%20%C5%9Eampiyonluk%20Kupas%C4%B1.png?v=20261105-red-trophy",
   "./manifest.json",
@@ -42,7 +42,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   // Never cache live stock data or training documents; always fetch them from the network.
-  if (/data\.json$/i.test(url.pathname) || /performance-league\.json$/i.test(url.pathname) || /\.(pdf|xlsx?)$/i.test(url.pathname)) return;
+  if (/data\.json$/i.test(url.pathname) || /performance-league\.json$/i.test(url.pathname) || /\.(pdf|docx|pptx|xlsx?)$/i.test(url.pathname)) return;
 
   event.respondWith(
     fetch(request)

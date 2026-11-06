@@ -50,14 +50,48 @@ function showEducationCenter() {
 
 function openTrainingResource(file) {
   const paths = {
-    "vmkuralları.docx": "./vmkurallar%C4%B1.docx",
-    "satısteknikleri.pptx": "./sat%C4%B1steknikleri.pptx",
-    "egitim.pdf": "./egitim.pdf",
-    "perakendematematigi.pdf": "./perakendematematigi.pdf",
-    "BACK TO BE NICE.pdf": "./BACK%20TO%20BE%20NICE.pdf"
+    "vmkuralları.docx": "vmkurallar%C4%B1.docx",
+    "satısteknikleri.pptx": "sat%C4%B1steknikleri.pptx",
+    "egitim.pdf": "egitim.pdf",
+    "perakendematematigi.pdf": "perakendematematigi.pdf",
+    "BACK TO BE NICE.pdf": "BACK%20TO%20BE%20NICE.pdf"
   };
-  if (paths[file]) window.open(paths[file], "_blank", "noopener");
+  const path = paths[file];
+  if (!path) return;
+
+  const extension = file.split(".").pop().toLowerCase();
+  const fileUrl = new URL("./" + path, window.location.href).href;
+  const frame = document.getElementById("trainingDocumentFrame");
+  const modal = document.getElementById("trainingDocumentModal");
+  const title = document.getElementById("trainingDocumentTitle");
+  if (!frame || !modal || !title) return;
+
+  title.textContent = file.replace(/\\.(pdf|docx|pptx)$/i, "");
+  if (extension === "pdf") {
+    frame.src = fileUrl + "#toolbar=1&navpanes=0&view=FitH";
+  } else {
+    const officeUrl = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(fileUrl);
+    frame.src = officeUrl;
+  }
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("training-document-open");
 }
+
+function closeTrainingDocument() {
+  const modal = document.getElementById("trainingDocumentModal");
+  const frame = document.getElementById("trainingDocumentFrame");
+  if (modal) {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+  if (frame) frame.src = "about:blank";
+  document.body.classList.remove("training-document-open");
+}
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") closeTrainingDocument();
+});
 
 function renderTrainingLibrary() {
   const target = document.getElementById("trainingLibrary");
