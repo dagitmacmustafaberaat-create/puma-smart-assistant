@@ -55,6 +55,7 @@ function educationRowsFromWorkbook(workbook) {
     return d && d.getFullYear() === 2026 && d.getMonth() === 10 && d.getDate() >= 1 && d.getDate() <= 30 ? d : null;
   };
   const merged = new Map();
+  const sheetEntries = [];
 
   for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
