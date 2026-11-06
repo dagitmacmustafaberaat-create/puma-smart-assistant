@@ -259,7 +259,6 @@
       <header class="top5-hero">
         <p class="education-eyebrow">BUYAKA PUMA • PRODUCT PERFORMANCE</p>
         <h1>SATIŞ &amp; ENVANTER ANALİZİ</h1>
-        <p>Kategori, cinsiyet ve business unit kırılımında satış performansı ve güncel stok görünümü.</p>
       </header>
       <div class="top5-toolbar"><span id="top5DataStatus" role="status">Satış ve stok raporları yükleniyor…</span><button type="button" onclick="loadTop5Analysis()">EXCEL VERİSİNİ YENİLE ↻</button></div>
       <section class="top5-filter-panel" aria-label="Rapor filtreleri">
@@ -288,9 +287,13 @@
         <div id="top5ProductList" class="top5-product-list"><div class="top5-empty">Raporlar yükleniyor…</div></div>
       </section>
       <section class="top5-view-panel" data-panel="analysis" hidden>
+        <section class="top5-filter-panel top5-analysis-filter-panel" aria-label="Ürün analizi filtreleri">
+          <label>BUSINESS UNIT<select id="top5AnalysisFilterBU" onchange="setTop5AnalysisFilter('bu',this.value)"><option value="">TÜMÜ</option><option>SPORTSTYLE PRIME</option><option>MOTORSPORT</option><option>RTF</option></select></label>
+          <label>CİNSİYET<select id="top5AnalysisFilterGender" onchange="setTop5AnalysisFilter('gender',this.value)"><option value="">TÜMÜ</option><option>ERKEK</option><option>KADIN</option><option>UNISEX</option></select></label>
+          <label>KATEGORİ<select id="top5AnalysisFilterCategory" onchange="setTop5AnalysisFilter('category',this.value)"><option value="">TÜMÜ</option><option>TEKSTİL</option><option>AYAKKABI</option><option>AKSESUAR</option></select></label>
+        </section>
         <article class="top5-report-card"><h2>ÜRÜN BAZLI DETAYLI ANALİZ</h2><div id="top5AnalysisTable"></div></article>
       </section>
-      <p class="top5-footnote">Envanter, Güncel Stok Excel dosyasındaki beden/renk satırları ürün koduna göre toplanarak eşleştirilir.</p>
     </section>
 
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
