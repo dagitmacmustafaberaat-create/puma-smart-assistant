@@ -127,9 +127,7 @@ function educationRowsFromWorkbook(workbook) {
     const topic = index => {
       if (index < 0) return "";
       const value = row[index];
-      if (value instanceof Date && !isNaN(value)) {
-        return value.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" });
-      }
+      if (value instanceof Date && !isNaN(value)) return "";
       return String(value || "").trim();
     };
     const vm = topic(vmCol), tech = topic(techCol), practice = topic(practiceCol);
@@ -141,6 +139,16 @@ function educationRowsFromWorkbook(workbook) {
       tech: tech || "—",
       practice: practice || "—"
     });
+    const addExtraDay = (value, field) => {
+      if (!(value instanceof Date) || isNaN(value)) return;
+      const extraDate = value.getFullYear() + "-" + fmt(value.getMonth() + 1) + "-" + fmt(value.getDate());
+      const extraWeekday = value.toLocaleDateString("tr-TR", { weekday: "long" });
+      const entry = { date: extraDate, weekday: extraWeekday.charAt(0).toLocaleUpperCase("tr-TR") + extraWeekday.slice(1), vm: "—", tech: "—", practice: "—" };
+      entry[field] = field === "tech" ? "Teknoloji eğitimi" : "Uygulama";
+      data.push(entry);
+    };
+    addExtraDay(row[techCol], "tech");
+    addExtraDay(row[practiceCol], "practice");
   });
   if (!data.length) throw new Error("Tarih sütunu bulundu ancak altında okunabilir eğitim kaydı yok.");
   return data.sort((a, b) => a.date.localeCompare(b.date));
