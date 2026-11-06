@@ -3969,3 +3969,24 @@ body{background-size:contain !important;background-position:center top !importan
 .calendar-no-training span{font-size:12px}
 .today-daily-topics .calendar-day-topic{background:rgba(213,0,28,.1);border-color:rgba(255,82,104,.2)}
 @media(max-width:760px){.training-library-section{padding:16px}.training-library-grid{grid-template-columns:1fr}.training-resource{padding:12px}.calendar-day-topic strong{font-size:12px}}
+
+/* Eğitim merkezi — dokümanlar başlığın hemen altında, içerik manuel tarihle açılır */
+.education-area .education-heading{margin-bottom:18px}
+.education-area .training-library-section{margin:0 0 20px;padding:18px}
+.education-area .training-library-heading{margin-bottom:13px}
+.education-date-panel{display:grid;gap:9px;margin:0 0 16px;padding:17px;border:1px solid rgba(255,255,255,.16);border-radius:15px;background:linear-gradient(125deg,rgba(20,21,26,.96),rgba(48,8,16,.9))}
+.education-date-panel label{color:#ff7183;font-size:10px;font-weight:900;letter-spacing:1.5px}
+.education-date-filter{width:100%;min-height:48px;padding:0 13px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#17181d;color:#fff;font:inherit;font-size:14px;font-weight:700;outline:none}
+.education-date-filter:focus{border-color:#ff526b;box-shadow:0 0 0 3px rgba(213,0,28,.15)}
+.education-date-filter option{background:#17181d;color:#fff}
+.selected-day-training{display:grid;gap:13px;margin:0 0 32px}
+.education-select-prompt{padding:20px 16px;border:1px dashed rgba(255,255,255,.2);border-radius:13px;color:#b9bbc2;background:rgba(255,255,255,.035);font-size:13px;line-height:1.5;text-align:center}
+.selected-training-heading{padding:16px;border:1px solid rgba(227,24,55,.28);border-radius:14px;background:linear-gradient(120deg,rgba(66,8,19,.82),rgba(18,19,23,.96))}
+.selected-training-heading>span{color:#ff8796;font-size:11px;font-weight:800;letter-spacing:.8px}
+.selected-training-heading h2{margin:6px 0 0;color:#fff;font-size:17px;letter-spacing:.5px}
+.selected-training-section{padding:15px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:linear-gradient(145deg,rgba(28,29,34,.96),rgba(12,13,16,.96))}
+.selected-training-section h3{display:flex;align-items:center;gap:9px;margin:0 0 11px;color:#fff;font-size:12px;line-height:1.4;letter-spacing:.55px}
+.selected-training-section h3 span{font-size:20px}
+.selected-training-topic{padding:11px 12px;border-radius:9px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);color:#f0f0f2;font-size:13px;line-height:1.55}
+.selected-training-topic+.selected-training-topic{margin-top:7px}
+@media(max-width:600px){.education-area .training-library-section{padding:14px}.education-date-panel{padding:14px}.selected-training-section{padding:13px}.selected-training-section h3{font-size:11px}.selected-training-topic{font-size:12px}}
