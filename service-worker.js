@@ -1,13 +1,14 @@
-const CACHE_NAME = "buyaka-puma-app-v68";
+const CACHE_NAME = "buyaka-puma-app-v69";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261105-sales-inventory-v2",
+  "./style.css?v=20261106-training-library-v1",
   "./performance-league.js?v=20261102-excel-source",
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
   "./script.js?v=20261102-hgo-percent",
   "./shift-program.js?v=20261105-shift-horizontal-v2",
   "./sd-karne.js?v=20261105-premium-crowns",
+  "./education.js?v=20261106-training-library-v1",
   "./Buyaka%20Puma%20%C5%9Eampiyonlar%20Kul%C3%BCb%C3%BC%20Kutlamas%C4%B1.png?v=20261105",
   "./K%C4%B1rm%C4%B1z%C4%B1%20I%C5%9F%C4%B1kl%C4%B1%20Puma%20%C5%9Eampiyonluk%20Kupas%C4%B1.png?v=20261105-red-trophy",
   "./manifest.json",

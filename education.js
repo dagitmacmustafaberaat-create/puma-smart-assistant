@@ -1,28 +1,24 @@
 let educationCalendar = [];
 
-const NOVEMBER_TRAINING = {
-  vm: {
-    label: "VM / SATIŞ",
-    topics: ["VM Kuralları", "Satış Teknikleri"],
-    files: ["vmkuralları.docx", "satısteknikleri.pptx"]
-  },
-  tech: {
-    label: "TEKNOLOJİ",
-    topics: ["Ürün ve teknoloji eğitimi"],
-    files: ["egitim.pdf"]
-  },
-  practice: {
-    label: "UYGULAMA",
-    topics: ["Perakende Matematiği", "BACK TO BE NICE"],
-    files: ["perakendematematigi.pdf", "BACK TO BE NICE.pdf"]
-  }
-};
+const TRAINING_LIBRARY = [
+  { icon: "🧭", title: "VM Kuralları", file: "vmkuralları.docx", group: "VM / SATIŞ" },
+  { icon: "🗣️", title: "Satış Teknikleri", file: "satısteknikleri.pptx", group: "VM / SATIŞ" },
+  { icon: "👟", title: "Teknoloji Eğitimi", file: "egitim.pdf", group: "TEKNOLOJİ" },
+  { icon: "🧮", title: "Perakende Matematiği", file: "perakendematematigi.pdf", group: "UYGULAMA" },
+  { icon: "🤝", title: "BACK TO BE NICE", file: "BACK TO BE NICE.pdf", group: "UYGULAMA" }
+];
 
 const NOVEMBER_TRAINING_DATES = {
   "2026-11-09": "vm", "2026-11-10": "tech", "2026-11-11": "practice",
   "2026-11-16": "vm", "2026-11-17": "tech", "2026-11-18": "practice",
   "2026-11-23": "vm", "2026-11-24": "tech", "2026-11-25": "practice",
   "2026-11-30": "vm"
+};
+
+const DAILY_TRAINING = {
+  vm: { label: "VM / SATIŞ", icon: "🧭", topics: ["VM Kuralları", "Satış Teknikleri"] },
+  tech: { label: "TEKNOLOJİ", icon: "👟", topics: ["Teknoloji Eğitimi"] },
+  practice: { label: "UYGULAMA", icon: "🧮", topics: ["Perakende Matematiği", "BACK TO BE NICE"] }
 };
 
 function showEducationCenter() {
@@ -49,10 +45,11 @@ function loadEducationCalendar() {
       date: date,
       weekday: weekday.charAt(0).toLocaleUpperCase("tr-TR") + weekday.slice(1),
       kind: kind,
-      training: kind ? NOVEMBER_TRAINING[kind] : null
+      training: kind ? DAILY_TRAINING[kind] : null
     });
   }
   renderEducationCalendar();
+  renderTrainingLibrary();
 }
 
 function openTrainingResource(file) {
@@ -66,15 +63,24 @@ function openTrainingResource(file) {
   if (paths[file]) window.open(paths[file], "_blank", "noopener");
 }
 
-function renderTrainingLinks(training) {
-  if (!training) return '<span class="training-empty">Bu tarihte planlı eğitim yok</span>';
-  return training.files.map(function (file, index) {
-    const title = training.topics[index] || file;
-    return '<button type="button" class="calendar-topic" onclick="openTrainingResource(\'' +
-      file.replace(/\\/g, "\\\\").replace(/'/g, "\\'") +
-      '\')"><span>' + training.label + '</span><strong>' + title +
-      '</strong><small>İçeriği aç ↗</small></button>';
+function renderTrainingLibrary() {
+  const target = document.getElementById("trainingLibrary");
+  if (!target) return;
+  target.innerHTML = TRAINING_LIBRARY.map(function (item) {
+    return `<button type="button" class="training-resource" onclick="openTrainingResource('${item.file.replace(/'/g, "\\'")}')">
+      <span class="training-resource-sticker" aria-hidden="true">${item.icon}</span>
+      <span class="training-resource-copy"><small>${item.group}</small><strong>${item.title}</strong></span>
+      <span class="training-resource-arrow" aria-hidden="true">↗</span>
+    </button>`;
   }).join("");
+}
+
+function renderDayTopics(training) {
+  if (!training) return '<div class="calendar-no-training">— <span>Planlı eğitim yok</span></div>';
+  return '<div class="calendar-day-topics">' + training.topics.map(function (topic) {
+    return '<div class="calendar-day-topic"><span aria-hidden="true">' + training.icon +
+      '</span><strong>' + topic + '</strong></div>';
+  }).join("") + '</div>';
 }
 
 function renderEducationCalendar() {
@@ -90,9 +96,9 @@ function renderEducationCalendar() {
 
   if (todayBox) {
     todayBox.innerHTML = current ? `
-      <div class="today-topline"><span class="today-dot"></span> ${current.date === today ? "BUGÜNÜN EĞİTİMİ" : "SIRADAKİ EĞİTİM"}</div>
+      <div class="today-topline"><span class="today-dot"></span>${current.date === today ? "BUGÜNÜN EĞİTİMİ" : "SIRADAKİ EĞİTİM"}</div>
       <div class="today-date">${safe(current.weekday)} • ${current.date.split("-").reverse().join(".")}</div>
-      <div class="today-topic-grid">${renderTrainingLinks(current.training)}</div>` :
+      <div class="today-daily-topics">${renderDayTopics(current.training)}</div>` :
       '<div class="today-topline">KASIM EĞİTİM TAKVİMİ</div><p class="outside-calendar">Kasım ayındaki planlı eğitimler tamamlandı.</p>';
   }
 
@@ -105,7 +111,7 @@ function renderEducationCalendar() {
       const dateLabel = item.date.split("-").reverse().slice(0, 2).join(".");
       return `<article class="calendar-day ${isToday ? "calendar-day-today" : ""}">
         <div class="calendar-day-header"><span class="calendar-day-date">${dateLabel}</span><span class="calendar-day-weekday">${safe(item.weekday)}</span>${isToday ? '<span class="calendar-today-badge">BUGÜN</span>' : ""}</div>
-        ${renderTrainingLinks(item.training)}
+        ${renderDayTopics(item.training)}
       </article>`;
     }).join("");
   }
