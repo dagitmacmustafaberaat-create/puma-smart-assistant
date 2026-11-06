@@ -124,7 +124,14 @@ function educationRowsFromWorkbook(workbook) {
     const weekday = weekdayCol >= 0 && row[weekdayCol]
       ? String(row[weekdayCol]).trim()
       : date.toLocaleDateString("tr-TR", { weekday: "long" });
-    const topic = index => index >= 0 ? String(row[index] || "").trim() : "";
+    const topic = index => {
+      if (index < 0) return "";
+      const value = row[index];
+      if (value instanceof Date && !isNaN(value)) {
+        return value.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" });
+      }
+      return String(value || "").trim();
+    };
     const vm = topic(vmCol), tech = topic(techCol), practice = topic(practiceCol);
     if (!vm && !tech && !practice) return;
     data.push({
@@ -157,7 +164,8 @@ async function loadEducationCalendar() {
 function renderEducationCalendar() {
   const now = new Date();
   const today = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
-  const current = educationCalendar.find(function (item) { return item.date === today; });
+  const current = educationCalendar.find(function (item) { return item.date === today; }) ||
+    educationCalendar.find(function (item) { return item.date > today; });
   const todayBox = document.getElementById("todayTraining");
   const calendarBox = document.getElementById("educationCalendar");
   const safe = function (value) {
@@ -166,7 +174,7 @@ function renderEducationCalendar() {
 
   if (todayBox) {
     todayBox.innerHTML = current ? `
-      <div class="today-topline"><span class="today-dot"></span> BUGÜNÜN EĞİTİMİ</div>
+      <div class="today-topline"><span class="today-dot"></span> ${current.date === today ? "BUGÜNÜN EĞİTİMİ" : "SIRADAKİ EĞİTİM"}</div>
       <div class="today-date">${safe(current.weekday)} • ${current.date.split("-").reverse().join(".")}</div>
       <div class="today-topic-grid">
         <button class="topic-card topic-vm" type="button" onclick="openVMRules('${encodeURIComponent(current.vm)}')"><span class="topic-label">VM & SATIŞ TEKNİKLERİ</span><strong>${safe(current.vm)}</strong><span class="topic-open">Dokümanı aç ↗</span></button>
