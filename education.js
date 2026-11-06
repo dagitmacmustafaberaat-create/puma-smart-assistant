@@ -38,13 +38,13 @@ function educationRowsFromWorkbook(workbook) {
   let headerIndex = -1, dateCol = -1, weekdayCol = -1, vmCol = -1, techCol = -1, practiceCol = -1;
   for (let r = 0; r < Math.min(rows.length, 30); r++) {
     const headers = (rows[r] || []).map(normalizeEducationHeader);
-    const date = headers.findIndex(x => /(^| )(TARIH|DATE|GUN)( |$)/.test(x) || x === "TARIH");
+    const date = headers.findIndex(x => x === "TARIH" || x === "DATE");
     const vm = headers.findIndex(x => /VM|SATIS|VISUAL MERCHANDISING/.test(x));
     const tech = headers.findIndex(x => /TEKNOLOJI|TEKSTIL|AYAKKABI|FOOTWEAR|TEXTILE/.test(x));
     const practice = headers.findIndex(x => /UYGULAMA|PRACTICE|AKTIVITE/.test(x));
     if (date >= 0 && (vm >= 0 || tech >= 0 || practice >= 0)) {
       headerIndex = r; dateCol = date;
-      weekdayCol = headers.findIndex(x => /HAFTA GUNU|GUN ADI|WEEKDAY/.test(x));
+      weekdayCol = headers.findIndex(x => /HAFTA GUNU|GUN ADI|^GUN$|WEEKDAY/.test(x));
       vmCol = vm; techCol = tech; practiceCol = practice;
       break;
     }
