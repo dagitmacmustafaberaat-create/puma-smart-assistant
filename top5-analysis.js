@@ -6,7 +6,7 @@
   const CATEGORIES=["TEKSTİL","AYAKKABI","AKSESUAR"];
   const BUSINESS_UNITS=["SPORTSTYLE PRIME","MOTORSPORT","RTF"];
   const GENDERS=["ERKEK","KADIN","UNISEX"];
-  let salesRows=[], stockMap=new Map(), activeTab="overview", filters={bu:"",gender:"",category:""}, analysisFilters={bu:"",gender:"",category:""};
+  let salesRows=[], stockMap=new Map(), activeTab="overview", filters={bu:"",gender:"",category:""}, analysisFilters={gender:"",category:""};
   let loading=false, loaded=false;
   const normalize=v=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleUpperCase("tr-TR").replace(/İ/g,"I").replace(/ı/g,"I").replace(/[^A-Z0-9]+/g," ").trim();
   function num(v){
@@ -110,8 +110,8 @@
   }
   function renderAnalysis(s){
     const el=document.getElementById("top5AnalysisTable");if(!el)return;
-    ["bu","gender","category"].forEach(key=>{const node=document.getElementById("top5AnalysisFilter"+key[0].toUpperCase()+key.slice(1));if(node)node.value=analysisFilters[key];});
-    const rows=[...s.products].filter(p=>(!analysisFilters.bu||p.bu===analysisFilters.bu)&&(!analysisFilters.gender||p.gender===analysisFilters.gender)&&(!analysisFilters.category||p.category===analysisFilters.category)).sort((a,b)=>b.units-a.units);
+    ["gender","category"].forEach(key=>{const node=document.getElementById("top5AnalysisFilter"+key[0].toUpperCase()+key.slice(1));if(node)node.value=analysisFilters[key];});
+    const rows=[...s.products].filter(p=>(!analysisFilters.gender||p.gender===analysisFilters.gender)&&(!analysisFilters.category||p.category===analysisFilters.category)).sort((a,b)=>b.units-a.units);
     el.innerHTML=rows.length?'<div class="top5-table-scroll"><table><thead><tr><th>ÜRÜN KODU</th><th>ÜRÜN ADI</th><th>BU</th><th>CİNSİYET</th><th>KATEGORİ</th><th>SATIŞ ADEDİ</th><th>SATIŞ TUTARI</th><th>GÜNCEL STOK</th></tr></thead><tbody>'+rows.map(p=>'<tr><td>'+esc(p.code)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.bu)+'</td><td>'+esc(p.gender)+'</td><td>'+esc(p.category)+'</td><td>'+integer(p.units)+'</td><td>'+money(p.amount)+'</td><td>'+integer(p.inventory)+'</td></tr>').join("")+'</tbody></table></div>':'<div class="top5-empty">Analiz için veri bulunamadı.</div>';
   }
   function render(){
@@ -123,7 +123,7 @@
     const count=document.getElementById("top5FilterSummary");if(count)count.textContent=integer(rows.length)+" satış satırı • "+integer(s.products.length)+" farklı ürün";
   }
   window.setTop5Filter=function(key,value){if(!["bu","gender","category"].includes(key))return;filters[key]=value;render();};
-  window.setTop5AnalysisFilter=function(key,value){if(!["bu","gender","category"].includes(key))return;analysisFilters[key]=value;render();};
+  window.setTop5AnalysisFilter=function(key,value){if(!["gender","category"].includes(key))return;analysisFilters[key]=value;render();};
   window.setTop5View=function(tab){if(!["overview","top5","analysis"].includes(tab))return;activeTab=tab;render();};
   window.showTop5Analysis=function(){
     ["mainMenu","productSearchArea","sizeSearchArea","educationArea","shiftProgramArea","sdKarneArea","performanceLeagueArea","fastPerakendeArea","top5AnalysisArea"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id==="top5AnalysisArea"?"block":"none";});
