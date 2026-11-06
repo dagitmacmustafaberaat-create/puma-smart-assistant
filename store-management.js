@@ -6,6 +6,20 @@ units:[["Sportstyle Prime",7975306,8343035,-4.41,32.37,36.59],["Motorsport",2959
  genders:[["Erkek",637166,334878,21107446,20116827],["Kadın",108053,41891,3461045,2685548],["JR",null,null,null,150075],["Unisex",null,null,null,null],["Diğer",null,null,null,null]],
  lines:{FTW:[["Sportstyle Prime",99932,62316,388878,405099,4408773,5153132],["Motorsport",5910,15271,27043,40968,531958,496353],["RTF",24857,3907,103886,191526,1380901,1831250],["Sportstyle Core",41310,53168,288232,489131,4402375,3511242],["Teamsport",49596,3635,118182,34994,1071700,566708],["Sportstyle Kids",0,0,8000,0,152075,0],["Basketball",0,0,15543,0,0,0]],APP:[["Sportstyle Prime",88494,108395,334833,566238,3566533,3183535],["Motorsport",49077,11502,317869,307171,2427162,2283191],["RTF",67759,7234,114056,51721,846501,575164],["Teamsport",24102,48411,91900,256140,1163609,2078407],["Sportstyle Core",277980,50406,737719,368476,3700885,2296470],["Bodywear & Legwear",0,0,0,1245,52892,20247]],ACC:[["Accessories",11990,10344,65068,37614,452476,496979],["Teamsport",0,1181,3817,19085,269262,145804],["Sportstyle Core",0,0,2999,5725,46853,22754],["RTF",1026,0,2017,2475,15793,3839],["Bodywear & Legwear",3188,1000,11369,15941,145611,98641]]}
 };
+const TOP20={
+ textile:[
+ ["52590801","M TAD ESS SOLID CAT TEE LC",6,"Run/Train",7554],["52591701","TAD ESS French Terry Jogger",5,"Run/Train",14756],["69430001","PUMA CLASS Elevated Sweatpan",5,"Sportstyle Core",17244],["52590802","M TAD ESS SOLID CAT TEE LC",4,"Run/Train",5312],["52591001","TAD ESSENTIALS 7\" Wven Short",4,"Run/Train",6248],["69395082","PUMATECH Half Zip",4,"Sportstyle Core",17116],["69395001","PUMATECH Half Zip",4,"Sportstyle Core",16044],["52759601","M CLOUDSPUN JOGGER",3,"Run/Train",12242],["52759369","M CLOUDSPUN TEE",3,"Run/Train",6394],["69395101","PUMATECH Full-Zip Hoodie",3,"Sportstyle Core",12392],["69395234","PUMATECH Pants",3,"Sportstyle Core",8886],["69395401","PUMATECH Woven Pants",3,"Sportstyle Core",10531],["69429801","PUMA CLASS Relaxed Material",3,"Sportstyle Core",12603],["69433601","PUMA SPORT Camo Tee",3,"Sportstyle Core",4607],["69578501","PUMATECH SENSE Pants",3,"Sportstyle Core",10118],["68520901","ESS Padded Vest",3,"Sportstyle Core",13593],["69395034","PUMATECH Half Zip",3,"Sportstyle Core",11476],["62958701","T7 ALWAYS ON Track Jacket",2,"Sportstyle Prime",8235],["62979701","T7 Pants",2,"Sportstyle Prime",8010]
+ ],
+ footwear:[
+ ["40236603","CA Pro Classic II",6,"Sportstyle Prime",30610],["40700002","Fade Nitro LS Y2K",3,"Sportstyle Prime",19316],["31349802","Scend Pro 3",2,"Run/Train",8998],["40263702","Carina Mia",2,"Sportstyle Core",6362],["40251003","Park Luna SD",2,"Sportstyle Core",7839],["40291625","RS Surge",2,"Sportstyle Prime",14388],["40715603","Park Lifestyle II",2,"Sportstyle Core",6851],["10913501","FUTURE 9 MATCH FG/AG",2,"Teamsport",9998],["10917001","FUTURE 9 PLAY FG/AG",2,"Teamsport",8121]
+ ],
+ accessories:[
+ ["09230603","ESSENTIALS Backpack",1,"Accessories",2576],["09230701","ESSENTIALS Crossbody Bag",1,"Accessories",1908],["90794002","PUMA SPORT CREW LIGHTWEIGHT",1,"Bodywear & Legwear",864],["09182416","PUMA 1976 Micro Grip Bag",1,"Accessories",3336],["90794003","PUMA SPORT CREW LIGHTWEIGHT",1,"Bodywear & Legwear",864],["90795802","PUMA JUNIOR CREW SOCK 3P",1,"Bodywear & Legwear",667],["02596801","WARDROBE ESS METAL Dad Cap",1,"Accessories",1171],["09115301","PUMA BUZZ Backpack",1,"Accessories",2999],["02660902","TRAINING BB Cap",1,"Run/Train",1026],["94710803","PUMA ELEMENTS UNISEX PLAIN Q",1,"Bodywear & Legwear",794]
+ ],
+ totals:{textile:{qty:66,amount:203359},footwear:{qty:23,amount:112484},accessories:{qty:10,amount:16204}}
+};
+let top20Category="all";
+window.setTop20Category=function(value){top20Category=value;window.renderStoreManagement();};
 const money=n=>n==null?"—":new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n)+" ₺";
 const number=n=>n==null?"—":new Intl.NumberFormat("tr-TR",{maximumFractionDigits:2}).format(n);
 const percent=n=>n==null?"—":(n>0?"+":"")+number(n)+"%";
@@ -22,9 +36,16 @@ window.renderStoreManagement=function(){
  const val=(n,t)=>t==="money"?money(n):t==="pct"?number(n)+"%":number(n);
  const kpiRows=[["UPT",k.upt[p],k.upt.target,k.upt.ly,k.upt.change,""],["ATV",k.atv[p],k.atv.target,k.atv.ly,k.atv.change,"money"],["Multiple Sales",k.multiple[p],k.multiple.target,k.multiple.ly,k.multiple.change,"pct"],["Conversion Rate",k.cr[p],k.cr.target,k.cr.ly,k.cr.change,"pct"]];
  const kpiHtml=kpiRows.map(([name,actual,target,ly,change,type])=>'<article class="sm-kpi-card"><div class="sm-kpi-head"><span>'+name+'</span><b class="'+(change>=0?"up":"down")+'">'+percent(change)+'</b></div><strong>'+val(actual,type)+'</strong><div class="sm-kpi-compare"><span>HEDEF <b>'+val(target,type)+'</b></span><span>2025 <b>'+val(ly,type)+'</b></span></div></article>').join("");
- const tabs=[["product","PRODUCT MIX"],["unit","BUSINESS UNIT"],["division","DIVISION SPLIT"],["gender","GENDER SPLIT"]];
+ const tabs=[["product","PRODUCT MIX"],["unit","BUSINESS UNIT"],["division","DIVISION SPLIT"],["gender","GENDER SPLIT"],["top20","TOP 20"]];
  let tabContent="";
- if(activeStoreTab==="product"){
+ if(activeStoreTab==="top20"){
+  const labels={all:"TÜMÜ",textile:"TEKSTİL",footwear:"AYAKKABI",accessories:"AKSESUAR"};
+  const cats=top20Category==="all"?["textile","footwear","accessories"]:[top20Category];
+  const allRows=cats.flatMap(key=>TOP20[key].map(r=>({key,row:r})));
+  const totalQty=cats.reduce((n,key)=>n+TOP20.totals[key].qty,0),totalAmount=cats.reduce((n,key)=>n+TOP20.totals[key].amount,0);
+  const rows=allRows.map(({key,row:r},i)=>'<tr><td>'+(i+1)+'</td>'+(top20Category==="all"?'<td>'+labels[key]+'</td>':'')+'<td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+number(r[2])+'</td><td>'+esc(r[3])+'</td><td>'+money(r[4])+'</td></tr>').join("");
+  tabContent='<section class="sm-section"><div class="sm-section-title"><div><small>W44 · TOP 20</small><h2>EN ÇOK SATAN ÜRÜNLER</h2></div><label class="sm-top20-filter">ÜRÜN GRUBU<select onchange="setTop20Category(this.value)">'+Object.entries(labels).map(([v,l])=>'<option value="'+v+'" '+(top20Category===v?'selected':'')+'>'+l+'</option>').join("")+'</select></label></div><div class="sm-sales-grid"><article><span>TOPLAM ADET</span><strong>'+number(totalQty)+'</strong></article><article><span>TOPLAM CİRO</span><strong>'+money(totalAmount)+'</strong></article><article><span>ÜRÜN SAYISI</span><strong>'+number(allRows.length)+'</strong></article></div><div class="sm-table-wrap"><table class="sm-table"><thead><tr><th>#</th>'+(top20Category==="all"?'<th>ÜRÜN GRUBU</th>':'')+'<th>ÜRÜN KODU</th><th>ÜRÜN ADI</th><th>ADET</th><th>BUSINESS UNIT</th><th>TUTAR</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+ }else if(activeStoreTab==="product"){
   const ix={wtd:[1,2],mtd:[3,4],ytd:[5,6]}[p];
   const categories=cat==="ALL"?[["FOOTWEAR","FTW"],["APPAREL","APP"],["ACCESSORIES","ACC"]]:[[({FTW:"FOOTWEAR",APP:"APPAREL",ACC:"ACCESSORIES"})[cat]||cat,cat]];
   const lines=categories.flatMap(([label,key])=>(D.lines[key]||[]).map(r=>({label,row:r})));
