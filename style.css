@@ -4850,3 +4850,9 @@ body {
   #mainMenu.home-dashboard .module-copy small {font-size:10px !important;line-height:1.25 !important;}
   #mainMenu.home-dashboard .module-arrow {display:none !important;}
 }
+
+
+/* 06 NOV 2026 — UPPERCASE MODULE TITLES, PRESERVE EXISTING TYPOGRAPHY */
+#mainMenu.home-dashboard .module-copy strong {
+  text-transform: uppercase !important;
+}
