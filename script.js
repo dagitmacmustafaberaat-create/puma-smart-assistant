@@ -252,6 +252,8 @@ function showMainMenu() {
     const mainMenu = document.getElementById("mainMenu");
     const storeStatusArea = document.getElementById("storeStatusArea");
     if (storeStatusArea) storeStatusArea.style.display = "none";
+    const storeManagementArea = document.getElementById("storeManagementArea");
+    if (storeManagementArea) storeManagementArea.style.display = "none";
     const productSearchArea = document.getElementById("productSearchArea");
     const sizeSearchArea = document.getElementById("sizeSearchArea");
     const educationArea = document.getElementById("educationArea");
@@ -1137,3 +1139,4 @@ function updateVmProgress() {
   if(label)label.textContent=count+" / "+boxes.length+" tamamlandı";if(bar)bar.style.width=(count/boxes.length*100)+"%";
   boxes.forEach(x=>x.closest(".work-task")?.classList.toggle("done",x.checked));
 }
+
