@@ -73,6 +73,13 @@
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
 
+
+          <button class="menu-button module-card store-management-menu-card" type="button" onclick="showStoreManagement()">
+            <span class="module-sticker" aria-hidden="true">🏬</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10h18l-2-6H5l-2 6Z"></path><path d="M5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path></svg></span>
+            <span class="module-copy"><strong>MAĞAZA YÖNETİMİ</strong><small>Haftalık, aylık ve yıllık performans analizi</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+
           <button class="menu-button module-card top5-menu-card" type="button" onclick="showTop5Analysis()">
             <span class="module-sticker" aria-hidden="true">⭐</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="M8 15v-4M13 15V7M18 15V3"></path><path d="M7 8l5-3 4 1 4-4"></path></svg></span>
             <span class="module-copy"><strong>SATIŞ &amp; ENVANTER ANALİZİ</strong><small>En çok satan ürünler ve güncel envanter</small></span>
@@ -118,6 +125,18 @@
           <div class="action-summary-empty">Günlük yorum, mağaza performans verileri yüklendiğinde otomatik hazırlanır.</div>
         </section>
       </section>
+    </section>
+
+
+    <section id="storeManagementArea" class="store-management-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeStoreManagement()">← Ana Menü</button>
+      <header class="sm-hero"><p>BUYAKA PUMA • STORE INTELLIGENCE</p><h1>MAĞAZA YÖNETİMİ</h1><span>W44 · 2 KASIM 2026</span></header>
+      <div class="sm-controls">
+        <label>RAPOR TARİHİ<select id="smDate" onchange="renderStoreManagement()"><option value="2026-11-02">2 Kasım 2026 · W44</option></select></label>
+        <label>PERFORMANS DÖNEMİ<select id="smPeriod" onchange="renderStoreManagement()"><option value="wtd">HAFTALIK · WTD</option><option value="mtd">AYLIK · MTD</option><option value="ytd" selected>YILLIK · YTD</option></select></label>
+        <label>ÜRÜN GRUBU<select id="smCategory" onchange="renderStoreManagement()"><option value="FTW">FOOTWEAR</option><option value="APP">APPAREL</option><option value="ACC">ACCESSORIES</option></select></label>
+      </div>
+      <div id="storeManagementContent"><div class="sm-loading">Mağaza raporu hazırlanıyor…</div></div>
     </section>
 
     <!-- ÜRÜN SORGULAMA -->
@@ -344,6 +363,7 @@
 
     <!-- JAVASCRIPT -->
     <script src="script.js?v=20261105-store-status-unified-v2"></script>
+    <script src="store-management.js?v=20261106-welcome-sheet-v1"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="education.js?v=20261106-inline-viewer-v1"></script>
