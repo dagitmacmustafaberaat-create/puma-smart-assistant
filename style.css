@@ -4402,3 +4402,76 @@ body:has(#mainMenu[style*="display: none"]) {
   }
   #mainMenu.home-dashboard .module-arrow { font-size: 20px !important; }
 }
+
+
+/* 06 NOV 2026 — MODERN SPORT-TECH HOME MENU REFINEMENT */
+#mainMenu.home-dashboard .module-card {
+  min-height: 184px !important;
+  padding: 27px 76px 25px 25px !important;
+  gap: 18px !important;
+  position: relative !important;
+  border: 1px solid rgba(255,255,255,.28) !important;
+  border-left: 5px solid #e5002b !important;
+  border-radius: 14px !important;
+  background: linear-gradient(115deg,#202329 0%,#111317 58%,#090a0c 100%) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.1) !important;
+}
+#mainMenu.home-dashboard .module-card::before {
+  content:"" !important; position:absolute !important; inset:0 !important; z-index:0 !important;
+  pointer-events:none !important;
+  background:linear-gradient(110deg,rgba(229,0,43,.13),transparent 52%) !important;
+}
+#mainMenu.home-dashboard .module-card::after { content:none !important; display:none !important; }
+#mainMenu.home-dashboard .module-sticker {
+  position:absolute; z-index:2; top:18px; right:18px;
+  width:52px; height:52px; display:grid; place-items:center;
+  border-radius:15px; font-size:29px; line-height:1;
+  background:linear-gradient(145deg,#30343b,#17191e);
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:0 7px 16px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.16);
+}
+#mainMenu.home-dashboard .module-icon {
+  width:66px !important; height:66px !important; flex:0 0 66px !important;
+  border-radius:16px !important; background:#a90020 !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  box-shadow:0 7px 16px rgba(0,0,0,.36) !important;
+}
+#mainMenu.home-dashboard .module-icon svg { width:35px !important;height:35px !important;stroke:#fff !important;stroke-width:2 !important; }
+#mainMenu.home-dashboard .module-copy { position:relative; z-index:1; gap:10px !important; }
+#mainMenu.home-dashboard .module-copy strong {
+  font-family:"Californian FB","Californian FB Regular",Georgia,serif !important;
+  font-size:clamp(23px,2vw,29px) !important; line-height:1.12 !important;
+  font-weight:700 !important; color:#fff !important; letter-spacing:.1px !important;
+}
+#mainMenu.home-dashboard .module-copy small {
+  font-family:"Californian FB","Californian FB Regular",Georgia,serif !important;
+  font-size:17px !important; line-height:1.3 !important; font-weight:600 !important;
+  color:#e4e5e8 !important;
+}
+#mainMenu.home-dashboard .module-arrow { font-size:30px !important;color:#ff526d !important; }
+#mainMenu.home-dashboard .module-card:hover,
+#mainMenu.home-dashboard .module-card:focus-visible {
+  transform:translateY(-3px) !important; border-color:#ff526d !important;
+  background:linear-gradient(115deg,#342027,#171317 60%,#090a0c) !important;
+  box-shadow:0 16px 32px rgba(0,0,0,.55),0 0 22px rgba(229,0,43,.2) !important;
+}
+@media(max-width:900px) {
+  #mainMenu.home-dashboard .module-card { min-height:170px !important;padding:25px 72px 23px 20px !important; }
+  #mainMenu.home-dashboard .module-copy strong { font-size:24px !important; }
+  #mainMenu.home-dashboard .module-copy small { font-size:16px !important; }
+}
+@media(max-width:520px) {
+  #mainMenu.home-dashboard .module-card-grid { grid-template-columns:1fr !important;gap:13px !important; }
+  #mainMenu.home-dashboard .module-card {
+    min-height:132px !important; padding:22px 76px 20px 17px !important;
+    flex-direction:row !important;align-items:center !important;justify-content:flex-start !important;
+    border-radius:13px !important;
+  }
+  #mainMenu.home-dashboard .module-sticker { top:13px;right:13px;width:43px;height:43px;font-size:25px;border-radius:12px; }
+  #mainMenu.home-dashboard .module-icon { width:55px !important;height:55px !important;flex-basis:55px !important; }
+  #mainMenu.home-dashboard .module-icon svg { width:29px !important;height:29px !important; }
+  #mainMenu.home-dashboard .module-copy { gap:7px !important; }
+  #mainMenu.home-dashboard .module-copy strong { font-size:23px !important;line-height:1.12 !important; }
+  #mainMenu.home-dashboard .module-copy small { font-size:16px !important;line-height:1.22 !important; }
+  #mainMenu.home-dashboard .module-arrow { right:17px !important;bottom:12px !important;font-size:23px !important; }
+}
