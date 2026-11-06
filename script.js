@@ -250,6 +250,8 @@ function closeStoreStatus() {
 
 function showMainMenu() {
     const mainMenu = document.getElementById("mainMenu");
+    const weeklyChampionsArea = document.getElementById("weeklyChampionsArea");
+    if (weeklyChampionsArea) weeklyChampionsArea.style.display = "none";
     const storeStatusArea = document.getElementById("storeStatusArea");
     if (storeStatusArea) storeStatusArea.style.display = "none";
     const storeManagementArea = document.getElementById("storeManagementArea");

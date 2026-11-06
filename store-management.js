@@ -18,6 +18,7 @@ const TOP20={
  ],
  totals:{textile:{qty:66,amount:203359},footwear:{qty:23,amount:112484},accessories:{qty:10,amount:16204}}
 };
+window.BUYAKA_TOP20_DATA=TOP20;
 let top20Category="all";
 window.setTop20Category=function(value){top20Category=value;window.renderStoreManagement();};
 const money=n=>n==null?"—":new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n)+" ₺";
