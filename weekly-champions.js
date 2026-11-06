@@ -9,9 +9,16 @@
   const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   function setTabState(){document.querySelectorAll(".wc-tab").forEach(b=>b.classList.toggle("active",b.dataset.wcTab===active));}
   function personPanel(kind){
-    const title=kind==="revenue"?"HAFTANIN CİRO ŞAMPİYONU":"HAFTANIN UPT ŞAMPİYONU";
-    const metric=kind==="revenue"?"EN YÜKSEK HAFTALIK CİRO":"EN YÜKSEK HAFTALIK UPT";
-    return '<section class="wc-winner-panel"><div class="wc-panel-heading"><small>PERSONEL PERFORMANSI</small><h2>'+title+'</h2></div><div class="wc-person-placeholder"><div class="wc-trophy-mark">🏆</div><div><strong>Personel verisi bekleniyor</strong><p>'+metric+' için haftalık personel bazlı ciro / fatura / ürün adedi kaynağı henüz uygulamaya bağlanmadı. Gerçek şampiyonu göstermek için bu veriyi kullanacağım; isim veya skor uydurulmayacak.</p></div></div></section>';
+    const title=kind==="revenue"?"CİRO ŞAMPİYONU":"UPT ŞAMPİYONU";
+    const metric=kind==="revenue"?"ciro":"upt";
+    const unit=kind==="revenue"?"TL":"UPT";
+    const rows=Array.isArray(window.BUYAKA_SD_KARNE_ROWS)?window.BUYAKA_SD_KARNE_ROWS:[];
+    if(!rows.length)return '<section class="wc-winner-panel"><div class="wc-panel-heading"><small>SD KARNE</small><h2>'+title+'</h2></div><div class="wc-person-placeholder"><div class="wc-trophy-mark">🏆</div><div><strong>SD Karne verisi yüklenemedi</strong><p>Personel şampiyonunu hesaplamak için SD Karne Excel verisi okunamadı.</p></div></div></section>';
+    const winner=rows.reduce((a,b)=>(Number(b[metric])>Number(a[metric])?b:a),rows[0]);
+    const isMale=["Cem Aktaş","Serkan Canik"].includes(winner.name);
+    const value=kind==="revenue"?money(winner[metric]):new Intl.NumberFormat("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(winner[metric])||0);
+    const genderMark=isMale?"👑":"👑";
+    return '<section class="wc-winner-panel"><div class="wc-panel-heading"><small>SD KARNE · PERSONEL PERFORMANSI</small><h2>HAFTANIN '+title+'</h2></div><article class="wc-person-champion"><div class="wc-person-mascot '+(isMale?"male":"female")+'"><span class="wc-person-crown">'+genderMark+'</span><span class="wc-person-trophy">🏆</span></div><div class="wc-person-copy"><span class="wc-product-rank">BUYAKA PUMA · '+(isMale?"ERKEK ŞAMPİYON":"KADIN ŞAMPİYON")+'</span><h3>'+esc(winner.name)+'</h3><p>SD Karne verisine göre en yüksek '+(kind==="revenue"?"gerçekleşen ciro":"kişisel UPT")+'</p><strong class="wc-person-result">'+value+(kind==="revenue"?"":" UPT")+'</strong></div></article></section>';
   }
   function productPanel(kind){
     const r=winners[kind],item=products.find(x=>String(x.productCode||x.code||"").trim()===r.code);
@@ -30,6 +37,7 @@
     window.scrollTo({top:0,behavior:"smooth"});
     if(!loaded){fetch("./data.json?v="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():[]).then(d=>{products=Array.isArray(d)?d:[];loaded=true;render();}).catch(()=>{loaded=true;render();});}
     render();
+    if(typeof window.loadSDKarneData==="function")window.loadSDKarneData().then(()=>render());
   };
   window.closeWeeklyChampions=function(){const a=document.getElementById("weeklyChampionsArea");if(a)a.style.display="none";if(typeof window.showMainMenu==="function")window.showMainMenu();};
 })();

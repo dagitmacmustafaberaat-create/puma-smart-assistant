@@ -82,13 +82,17 @@ async function loadSDKarneData(){
   if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
   const book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
   sdKarneRows=sdReadData(book);
+  window.BUYAKA_SD_KARNE_ROWS=sdKarneRows;
   renderSDKarne();
   if(status)status.textContent="✓ Kasım 2026 SD Karne verileri güncel olarak yüklendi.";
+  return sdKarneRows;
  }catch(error){
   console.error("SD Karne yükleme hatası:",error);
   if(status)status.textContent="Veriler yüklenemedi: "+error.message;
   const cards=document.getElementById("sdStaffCards");
   if(cards)cards.innerHTML='<div class="league-empty">'+error.message+'</div>';
+  window.BUYAKA_SD_KARNE_ROWS=[];
+  return [];
  }
 }
 function toggleSDKarneExcel(){
