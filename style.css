@@ -4013,3 +4013,169 @@ body:has(#mainMenu[style*="display: none"]) {
     background-image: none !important;
     background-attachment: scroll !important;
 }
+
+
+/* SD KARNE — TEK CHAMPIONS CLUB KARTI + YANINDA ÜÇ METRİK ŞAMPİYONU */
+#sdKarneArea .sd-champions-row{
+  display:grid!important;
+  grid-template-columns:minmax(220px,.82fr) minmax(0,2.18fr)!important;
+  gap:13px!important;
+  align-items:stretch!important;
+  width:100%!important;
+  margin:0 0 25px!important;
+}
+#sdKarneArea .sd-champions-feature{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  min-width:0!important;
+  min-height:205px!important;
+  padding:17px 13px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.24)!important;
+  border-radius:15px!important;
+  background-image:linear-gradient(90deg,rgba(0,0,0,.35),rgba(0,0,0,.76)),url("./Buyaka%20Puma%20%C5%9Eampiyonlar%20Kul%C3%BCb%C3%BC%20Kutlamas%C4%B1.png?v=20261106-champions-background")!important;
+  background-size:cover!important;
+  background-position:center!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.38)!important;
+}
+#sdKarneArea .sd-champions-feature-trophy{
+  position:relative!important;
+  z-index:1!important;
+  display:block!important;
+  flex:0 0 auto!important;
+  width:clamp(82px,8vw,118px)!important;
+  height:clamp(112px,11vw,150px)!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  filter:drop-shadow(0 5px 9px rgba(0,0,0,.7))!important;
+}
+#sdKarneArea .sd-champions-feature-copy{
+  position:relative!important;
+  z-index:1!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  gap:5px!important;
+  min-width:0!important;
+  text-shadow:2px 2px 5px #000!important;
+}
+#sdKarneArea .sd-champions-feature-copy span,
+#sdKarneArea .sd-champions-feature-copy strong{
+  color:#fff!important;
+  font-family:Impact,"Arial Narrow",Haettenschweiler,sans-serif!important;
+  font-style:italic!important;
+  font-weight:900!important;
+  line-height:1.02!important;
+  letter-spacing:1px!important;
+  -webkit-text-stroke:.3px rgba(213,0,28,.85)!important;
+}
+#sdKarneArea .sd-champions-feature-copy span{font-size:clamp(12px,1.1vw,15px)!important}
+#sdKarneArea .sd-champions-feature-copy strong{font-size:clamp(18px,1.65vw,25px)!important;overflow-wrap:anywhere!important}
+#sdKarneArea .sd-awards-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:9px!important;
+  align-items:stretch!important;
+  min-width:0!important;
+  margin:0!important;
+}
+#sdKarneArea .sd-award-card.sd-award-card-premium{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  min-width:0!important;
+  min-height:205px!important;
+  aspect-ratio:auto!important;
+  padding:13px 10px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.2)!important;
+  border-top:3px solid #d5001c!important;
+  border-radius:13px!important;
+  background:linear-gradient(145deg,rgba(38,38,38,.98),rgba(10,10,10,.98) 70%,rgba(50,5,13,.96))!important;
+  box-shadow:0 9px 22px rgba(0,0,0,.28)!important;
+}
+#sdKarneArea .sd-award-winner{
+  position:static!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  gap:8px!important;
+  width:100%!important;
+  min-height:0!important;
+  padding:0!important;
+}
+#sdKarneArea .sd-award-trophy{display:none!important}
+#sdKarneArea .sd-award-winner-copy{
+  position:static!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  gap:7px!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+}
+#sdKarneArea .sd-award-winner-copy small{
+  font-size:clamp(10px,.95vw,13px)!important;
+  letter-spacing:.8px!important;
+  white-space:normal!important;
+}
+#sdKarneArea .sd-award-winner-copy strong{
+  font-size:clamp(14px,1.2vw,18px)!important;
+  line-height:1.12!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+#sdKarneArea .sd-award-winner-copy b{
+  max-width:100%!important;
+  padding:6px 7px!important;
+  font-size:clamp(12px,1.05vw,16px)!important;
+  line-height:1.2!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+#sdKarneArea .sd-award-winner-copy b span{
+  font-size:9px!important;
+  letter-spacing:.55px!important;
+}
+@media(max-width:900px){
+  #sdKarneArea .sd-champions-row{grid-template-columns:minmax(190px,.72fr) minmax(0,2.28fr)!important;gap:9px!important}
+  #sdKarneArea .sd-champions-feature{min-height:190px!important;flex-direction:column!important;gap:4px!important}
+  #sdKarneArea .sd-champions-feature-trophy{width:80px!important;height:105px!important}
+  #sdKarneArea .sd-champions-feature-copy{text-align:center!important;align-items:center!important}
+  #sdKarneArea .sd-champions-feature-copy strong{font-size:17px!important}
+  #sdKarneArea .sd-awards-grid{grid-template-columns:1fr!important;gap:7px!important}
+  #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:0!important;padding:10px!important}
+  #sdKarneArea .sd-award-winner{gap:5px!important}
+  #sdKarneArea .sd-award-winner-copy{gap:4px!important}
+}
+@media(max-width:600px){
+  #sdKarneArea .sd-champions-row{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+  #sdKarneArea .sd-champions-feature{min-height:145px!important;flex-direction:row!important;justify-content:center!important;padding:10px 16px!important}
+  #sdKarneArea .sd-champions-feature-trophy{width:84px!important;height:118px!important}
+  #sdKarneArea .sd-champions-feature-copy{text-align:left!important;align-items:flex-start!important}
+  #sdKarneArea .sd-champions-feature-copy span{font-size:12px!important}
+  #sdKarneArea .sd-champions-feature-copy strong{font-size:21px!important}
+  #sdKarneArea .sd-awards-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+  #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:132px!important;padding:9px 7px!important}
+  #sdKarneArea .sd-award-winner-copy{gap:5px!important}
+  #sdKarneArea .sd-award-winner-copy small{font-size:9px!important;letter-spacing:.45px!important}
+  #sdKarneArea .sd-award-winner-copy strong{font-size:12px!important}
+  #sdKarneArea .sd-award-winner-copy b{font-size:11px!important;padding:5px!important}
+  #sdKarneArea .sd-award-winner-copy b span{font-size:8px!important}
+}
+@media(max-width:380px){
+  #sdKarneArea .sd-awards-grid{grid-template-columns:1fr!important}
+  #sdKarneArea .sd-award-card.sd-award-card-premium{min-height:94px!important}
+  #sdKarneArea .sd-award-winner{flex-direction:row!important;align-items:center!important}
+  #sdKarneArea .sd-award-winner-copy{display:grid!important;grid-template-columns:1fr auto!important;column-gap:7px!important}
+  #sdKarneArea .sd-award-winner-copy small{grid-column:1 / -1!important}
+  #sdKarneArea .sd-award-winner-copy b{grid-column:2!important;grid-row:2 / span 1!important}
+}

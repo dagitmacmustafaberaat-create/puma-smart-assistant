@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261106-module-black-bg-v1">
+    <link rel="stylesheet" href="style.css?v=20261106-sd-champions-layout-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
     <link rel="icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
     <link rel="apple-touch-icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
@@ -234,14 +234,17 @@
 
     <section id="sdKarneArea" class="sd-karne-area" style="display:none;">
       <button class="back-button sd-karne-back" type="button" onclick="closeSDKarnesi()">← Ana Menü</button>
-      <header class="sd-karne-team-banner" aria-label="Buyaka Puma Şampiyonlar Kulübü">
-        <img class="sd-karne-team-image" src="./Buyaka%20Puma%20%C5%9Eampiyonlar%20Kul%C3%BCb%C3%BC%20Kutlamas%C4%B1.png?v=20261105" alt="Buyaka Puma Şampiyonlar Kulübü kutlaması" fetchpriority="high">
-      </header>
       <div id="sdKarneStatus" class="sd-karne-status" role="status">SD Karne verileri yükleniyor…</div>
-      <section class="sd-awards-grid" aria-label="Aylık şampiyonlar">
-        <article id="sdUptWinner" class="sd-award-card"></article>
-        <article id="sdCrWinner" class="sd-award-card"></article>
-        <article id="sdCiroWinner" class="sd-award-card"></article>
+      <section class="sd-champions-row" aria-label="Buyaka Puma Champions Club ve aylık şampiyonlar">
+        <article class="sd-champions-feature" aria-label="Buyaka Puma Champions Club">
+          <img class="sd-champions-feature-trophy" src="./K%C4%B1rm%C4%B1z%C4%B1%20I%C5%9F%C4%B1kl%C4%B1%20Puma%20%C5%9Eampiyonluk%20Kupas%C4%B1.png?v=20261106-single-trophy" alt="Puma şampiyonluk kupası">
+          <div class="sd-champions-feature-copy"><span>BUYAKA PUMA</span><strong>CHAMPIONS CLUB</strong></div>
+        </article>
+        <section class="sd-awards-grid" aria-label="Aylık şampiyonlar">
+          <article id="sdUptWinner" class="sd-award-card"></article>
+          <article id="sdCrWinner" class="sd-award-card"></article>
+          <article id="sdCiroWinner" class="sd-award-card"></article>
+        </section>
       </section>
       <section class="sd-staff-section">
         <div class="league-panel-heading"><div><span class="league-section-tag">INDIVIDUAL PERFORMANCE</span><h2>PERSONEL KARNESİ</h2></div></div>
@@ -345,7 +348,7 @@
     <script src="education.js?v=20261106-inline-viewer-v1"></script>
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
     <script src="shift-program.js?v=20261105-shift-horizontal-v2"></script>
-    <script src="sd-karne.js?v=20261105-premium-crowns"></script>
+    <script src="sd-karne.js?v=20261106-single-trophy-v1"></script>
 
     <script>
       function showFastPerakende() {
