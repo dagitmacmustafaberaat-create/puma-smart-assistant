@@ -4922,3 +4922,11 @@ body {
 .wc-person-mascot.male{background:linear-gradient(145deg,#ededed,#d4d4d4)}
 .wc-person-mascot.female{background:linear-gradient(145deg,#fff0f1,#f2dfe2)}
 @media(max-width:600px){.wc-person-mascot{flex-basis:112px;width:112px;height:140px}}
+
+
+/* HAFTANIN ENLERİ geniş şampiyon görseli */
+.wc-person-champion{display:grid;grid-template-columns:minmax(260px,38%) minmax(0,1fr);gap:22px;align-items:stretch;min-height:320px;padding:14px;border:1px solid #30333a;border-radius:14px;background:linear-gradient(145deg,#191b20,#0d0e11)}
+.wc-person-mascot{width:100%;height:100%;min-height:290px;min-width:0;flex:auto;border-radius:12px}
+.wc-person-mascot img{width:100%;height:100%;min-height:290px;object-fit:contain;object-position:center center}
+.wc-person-copy{align-self:center;padding:18px 10px}
+@media(max-width:650px){.wc-person-champion{grid-template-columns:1fr;gap:12px}.wc-person-mascot{width:100%;height:300px;min-height:300px;flex:auto}.wc-person-mascot img{height:300px;min-height:300px}.wc-person-copy{padding:8px 6px 14px}}
