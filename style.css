@@ -4294,3 +4294,111 @@ body:has(#mainMenu[style*="display: none"]) {
 @media (prefers-reduced-motion: reduce) {
   #mainMenu.home-dashboard .module-card { transition: none !important; }
 }
+
+
+/* 06 NOV 2026 — CALIFORNIAN FB + HIGH-CONTRAST PREMIUM HOME CARDS */
+#mainMenu.home-dashboard .module-card {
+  min-height: 168px !important;
+  padding: 26px 58px 25px 24px !important;
+  border: 2px solid rgba(220,224,232,.48) !important;
+  border-left: 6px solid #e00022 !important;
+  border-radius: 17px !important;
+  background:
+    linear-gradient(145deg, rgba(35,37,42,.99) 0%, rgba(14,15,18,.99) 58%, rgba(5,6,8,1) 100%) !important;
+  box-shadow:
+    0 13px 0 rgba(0,0,0,.34),
+    0 18px 32px rgba(0,0,0,.62),
+    inset 0 1px 0 rgba(255,255,255,.2),
+    inset 0 -3px 0 rgba(0,0,0,.48) !important;
+}
+#mainMenu.home-dashboard .module-card::before {
+  background:
+    linear-gradient(120deg, rgba(255,255,255,.12), transparent 46%),
+    linear-gradient(0deg, rgba(213,0,28,.08), transparent 55%) !important;
+  opacity: 1 !important;
+}
+#mainMenu.home-dashboard .module-card::after {
+  width: 39px !important;
+  height: 39px !important;
+  top: 12px !important;
+  right: 12px !important;
+  border: 1px solid rgba(255,255,255,.38) !important;
+  background: linear-gradient(145deg, #3a3d43, #17191d) !important;
+  box-shadow: 0 4px 0 rgba(0,0,0,.45), 0 7px 14px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.2) !important;
+  font-size: 21px !important;
+}
+#mainMenu.home-dashboard .module-icon {
+  width: 62px !important;
+  height: 62px !important;
+  flex-basis: 62px !important;
+  border: 2px solid rgba(255,65,86,.78) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, #a9001b, #50000e) !important;
+  box-shadow: 0 5px 0 rgba(35,0,7,.85), 0 9px 18px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.28) !important;
+}
+#mainMenu.home-dashboard .module-icon svg {
+  width: 33px !important;
+  height: 33px !important;
+  stroke: #fff !important;
+  stroke-width: 2 !important;
+}
+#mainMenu.home-dashboard .module-copy { gap: 9px !important; }
+#mainMenu.home-dashboard .module-copy strong {
+  font-family: "Californian FB", "Californian FB Regular", Georgia, serif !important;
+  font-size: clamp(21px, 1.75vw, 25px) !important;
+  font-weight: 700 !important;
+  letter-spacing: .15px !important;
+  line-height: 1.18 !important;
+  color: #fff !important;
+  text-shadow: 0 2px 7px rgba(0,0,0,.8) !important;
+}
+#mainMenu.home-dashboard .module-copy small {
+  font-family: "Californian FB", "Californian FB Regular", Georgia, serif !important;
+  color: #f0f0f2 !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1.32 !important;
+  letter-spacing: .12px !important;
+}
+#mainMenu.home-dashboard .module-arrow {
+  color: #fff !important;
+  font-size: 28px !important;
+  text-shadow: 0 1px 8px rgba(213,0,28,.8) !important;
+}
+#mainMenu.home-dashboard .module-card:hover,
+#mainMenu.home-dashboard .module-card:focus-visible {
+  border-color: #ff344f !important;
+  border-left-color: #ff344f !important;
+  background: linear-gradient(145deg, #3b2026, #151519 62%, #08090b) !important;
+  box-shadow: 0 13px 0 rgba(0,0,0,.34), 0 20px 36px rgba(0,0,0,.68), 0 0 0 2px rgba(213,0,28,.18), 0 0 25px rgba(213,0,28,.24) !important;
+}
+@media (max-width: 900px) {
+  #mainMenu.home-dashboard .module-card { min-height: 154px !important; padding: 24px 52px 22px 19px !important; }
+  #mainMenu.home-dashboard .module-copy strong { font-size: 21px !important; }
+  #mainMenu.home-dashboard .module-copy small { font-size: 14px !important; }
+  #mainMenu.home-dashboard .module-icon { width: 56px !important; height: 56px !important; flex-basis: 56px !important; }
+}
+@media (max-width: 520px) {
+  #mainMenu.home-dashboard .module-card {
+    min-height: 150px !important;
+    padding: 52px 12px 15px !important;
+    border-width: 2px !important;
+    border-left-width: 4px !important;
+    border-radius: 15px !important;
+  }
+  #mainMenu.home-dashboard .module-card::after { width: 34px !important; height: 34px !important; font-size: 19px !important; }
+  #mainMenu.home-dashboard .module-icon { width: 38px !important; height: 38px !important; flex-basis: 38px !important; border-width: 1px !important; }
+  #mainMenu.home-dashboard .module-icon svg { width: 23px !important; height: 23px !important; }
+  #mainMenu.home-dashboard .module-copy { gap: 6px !important; }
+  #mainMenu.home-dashboard .module-copy strong {
+    font-family: "Californian FB", "Californian FB Regular", Georgia, serif !important;
+    font-size: 18px !important;
+    line-height: 1.16 !important;
+  }
+  #mainMenu.home-dashboard .module-copy small {
+    font-family: "Californian FB", "Californian FB Regular", Georgia, serif !important;
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+  }
+  #mainMenu.home-dashboard .module-arrow { font-size: 20px !important; }
+}
