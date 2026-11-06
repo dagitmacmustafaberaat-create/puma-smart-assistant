@@ -4,7 +4,6 @@
   const SALES_URL="./Sat%C4%B1%C5%9F%20Verileri.xlsx";
   const STOCK_URL="./G%C3%BCncel%20Stok.xlsx";
   const CATEGORIES=["TEKSTİL","AYAKKABI","AKSESUAR"];
-  const BUSINESS_UNITS=["SPORTSTYLE PRIME","MOTORSPORT","RTF"];
   const GENDERS=["ERKEK","KADIN","UNISEX"];
   let salesRows=[], stockMap=new Map(), activeTab="overview", filters={bu:"",gender:"",category:""}, analysisFilters={gender:"",category:""};
   let loading=false, loaded=false;
@@ -37,13 +36,7 @@
     if(/UNISEX|UNISEX/.test(x))return "UNISEX";
     return x;
   }
-  function bu(v){
-    const x=normalize(v);
-    if(x.includes("SPORTSTYLE PRIME")||x==="SPORTSTYLE")return "SPORTSTYLE PRIME";
-    if(x.includes("MOTORSPORT")||x==="MOTOR")return "MOTORSPORT";
-    if(x==="RTF"||x.includes("RUN TRAIN FITNESS"))return "RTF";
-    return x;
-  }
+  function bu(v){return String(v??"").trim().replace(/\s+/g," ");}
   function findSalesHeader(rows){
     return rows.findIndex(row=>{
       const h=row.map(normalize);
@@ -79,8 +72,13 @@
     return {units,amount,inventory,products,transactions:rows.length};
   }
   function renderFilters(){
-    const selects=[["top5FilterBU","bu",BUSINESS_UNITS],["top5FilterGender","gender",GENDERS],["top5FilterCategory","category",CATEGORIES]];
-    selects.forEach(([id,key,values])=>{const el=document.getElementById(id);if(!el)return;el.value=filters[key];});
+    const businessUnits=[...new Set(salesRows.map(row=>row.bu).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"tr"));
+    const selects=[["top5FilterBU","bu",businessUnits],["top5FilterGender","gender",GENDERS],["top5FilterCategory","category",CATEGORIES]];
+    selects.forEach(([id,key,values])=>{
+      const el=document.getElementById(id);if(!el)return;
+      if(key==="bu")el.innerHTML='<option value="">TÜMÜ</option>'+values.map(value=>'<option value="'+esc(value)+'">'+esc(value)+'</option>').join("");
+      el.value=filters[key];
+    });
   }
   function renderKPIs(s){
     const defs=[["top5KpiAmount",money(s.amount)],["top5KpiUnits",integer(s.units)],["top5KpiInventory",integer(s.inventory)]];

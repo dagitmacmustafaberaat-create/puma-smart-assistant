@@ -262,6 +262,7 @@
       </header>
       <div class="top5-toolbar"><span id="top5DataStatus" role="status">Satış ve stok raporları yükleniyor…</span><button type="button" onclick="loadTop5Analysis()">EXCEL VERİSİNİ YENİLE ↻</button></div>
       <section class="top5-filter-panel" aria-label="Rapor filtreleri">
+        <label>BUSINESS UNIT<select id="top5FilterBU" onchange="setTop5Filter('bu',this.value)"><option value="">TÜMÜ</option></select></label>
         <label>CİNSİYET<select id="top5FilterGender" onchange="setTop5Filter('gender',this.value)"><option value="">TÜMÜ</option><option>ERKEK</option><option>KADIN</option><option>UNISEX</option></select></label>
         <label>KATEGORİ<select id="top5FilterCategory" onchange="setTop5Filter('category',this.value)"><option value="">TÜMÜ</option><option>TEKSTİL</option><option>AYAKKABI</option><option>AKSESUAR</option></select></label>
       </section>
@@ -321,7 +322,7 @@
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="education.js?v=20261106-november-calendar-v4"></script>
-    <script src="top5-analysis.js?v=20261105-inventory-total-v3"></script>
+    <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
     <script src="shift-program.js?v=20261105-shift-horizontal-v2"></script>\n    <script src="sd-karne.js?v=20261105-premium-crowns"></script>
 
     <script>
