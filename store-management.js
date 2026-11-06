@@ -25,9 +25,11 @@ window.renderStoreManagement=function(){
  const tabs=[["product","PRODUCT MIX"],["unit","BUSINESS UNIT"],["division","DIVISION SPLIT"],["gender","GENDER SPLIT"]];
  let tabContent="";
  if(activeStoreTab==="product"){
-  const lines=D.lines[cat]||[],ix={wtd:[1,2],mtd:[3,4],ytd:[5,6]}[p];
-  const rows=lines.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+money(r[ix[0]])+'</td><td>'+money(r[ix[1]])+'</td><td>'+percent(r[ix[0]]&&r[ix[1]]?(r[ix[0]]/r[ix[1]]-1)*100:null)+'</td></tr>').join("");
-  tabContent='<section class="sm-section"><div class="sm-section-title"><div><small>PRODUCT MIX</small><h2>'+esc(cat)+' · ÜRÜN GRUBU SATIŞLARI</h2></div></div><div class="sm-table-wrap"><table class="sm-table"><thead><tr><th>BUSINESS LINE</th><th>2026 TY</th><th>2025 LY</th><th>DEĞİŞİM</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+  const ix={wtd:[1,2],mtd:[3,4],ytd:[5,6]}[p];
+  const categories=cat==="ALL"?[["FOOTWEAR","FTW"],["APPAREL","APP"],["ACCESSORIES","ACC"]]:[[({FTW:"FOOTWEAR",APP:"APPAREL",ACC:"ACCESSORIES"})[cat]||cat,cat]];
+  const lines=categories.flatMap(([label,key])=>(D.lines[key]||[]).map(r=>({label,row:r})));
+  const rows=lines.map(({label,row:r})=>'<tr>'+(cat==="ALL"?'<td>'+label+'</td>':'')+'<td>'+esc(r[0])+'</td><td>'+money(r[ix[0]])+'</td><td>'+money(r[ix[1]])+'</td><td>'+percent(r[ix[0]]&&r[ix[1]]?(r[ix[0]]/r[ix[1]]-1)*100:null)+'</td></tr>').join("");
+  tabContent='<section class="sm-section"><div class="sm-section-title"><div><small>PRODUCT MIX</small><h2>'+(cat==="ALL"?"TÜM ÜRÜN GRUPLARI":({FTW:"FOOTWEAR",APP:"APPAREL",ACC:"ACCESSORIES"})[cat])+' · ÜRÜN GRUBU SATIŞLARI</h2></div></div><div class="sm-table-wrap"><table class="sm-table"><thead><tr>'+(cat==="ALL"?'<th>KATEGORİ</th>':'')+'<th>BUSINESS LINE</th><th>2026 TY</th><th>2025 LY</th><th>DEĞİŞİM</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
  }else if(activeStoreTab==="unit"){
   if(p!=="ytd") tabContent='<section class="sm-section"><div class="sm-section-title"><div><small>BUSINESS UNIT</small><h2>İŞ BİRİMİ · '+periodName+'</h2></div></div><div class="sm-empty-period">Bu dönem için Business Unit verisi paylaşılan Welcome Sheet içinde bulunmuyor. Yıllık · YTD verisini görüntülemek için YILLIK seç.</div></section>';
   else {const rows=D.units.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+money(r[1])+'</td><td>'+money(r[2])+'</td><td class="'+(r[3]>=0?"up":"down")+'">'+percent(r[3])+'</td><td>'+number(r[4])+'%</td><td>'+number(r[5])+'%</td></tr>').join("");tabContent='<section class="sm-section"><div class="sm-section-title"><div><small>BUSINESS UNIT</small><h2>İŞ BİRİMİ YILLIK · YTD ANALİZİ</h2></div></div><div class="sm-table-wrap"><table class="sm-table"><thead><tr><th>BUSINESS UNIT</th><th>2026 TY</th><th>2025 LY</th><th>DEĞİŞİM</th><th>TY PAY</th><th>LY PAY</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';}
