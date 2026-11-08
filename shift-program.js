@@ -31,6 +31,7 @@
   ];
   const esc = v => String(v == null ? "" : v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   let selectedStaff = null;
+  let selectedWeek = 0;
 
 
   function renderTodayOverview() {
@@ -39,29 +40,34 @@
     const now = new Date();
     const todayKey = String(now.getDate()).padStart(2,"0")+"."+String(now.getMonth()+1).padStart(2,"0")+"."+now.getFullYear();
     const today = WEEKS.flatMap(week => week.days).find(day => day.date === todayKey);
-    if (!today) {
-      target.innerHTML = '<div class="shift-today-empty"><span>BUGÜNÜN PROGRAMI</span><strong>Bugüne ait vardiya kaydı bulunamadı.</strong><small>Güncel haftalık program yüklendiğinde burada otomatik görünecek.</small></div>';
-      return;
+    let todayHtml = '<div class="shift-today-empty"><span>BUGÜNÜN PROGRAMI</span><strong>Bugüne ait vardiya kaydı bulunamadı.</strong><small>Güncel haftalık program aşağıdaki hafta butonlarından açılabilir.</small></div>';
+    if (today) {
+      const workingCount = today.shifts.filter(s => s && !(s[0]==="00:00"&&s[1]==="00:00")).length;
+      const cards = STAFF.map((person,i) => {
+        const s = today.shifts[i] || ["00:00","00:00","00:00","00:00","00:00"];
+        const off = s[0]==="00:00"&&s[1]==="00:00";
+        const role = i===0 ? "MÜDÜR" : i===1 ? "ŞEF" : "PERSONEL";
+        const kind = i===0 ? "coach" : i===1 ? "chief" : "runner";
+        return '<article class="shift-today-card shift-today-card-'+kind+(off?' is-off':'')+'">'+
+          '<span class="shift-card-topline"><span class="shift-card-role">'+role+'</span></span>'+
+          '<strong class="shift-card-name">'+esc(person.name)+'</strong>'+
+          '<span class="shift-card-job">'+esc(person.role)+'</span>'+
+          (off ? '<span class="shift-card-off">İZİNLİ</span>' :
+            '<span class="shift-card-hours">'+esc(s[0])+' – '+esc(s[1])+'</span>'+
+            '<span class="shift-card-metrics"><span><small>NET</small><b>'+esc(s[4])+'</b></span><span><small>MOLA</small><b>'+esc(s[3])+'</b></span></span>')+
+          '</article>';
+      }).join("");
+      todayHtml = '<div class="shift-today-heading"><div><span>BUGÜNÜN EKİBİ</span><h2>'+esc(today.day+" • "+today.date)+'</h2></div><b>'+workingCount+' / '+STAFF.length+' GÖREVDE</b></div>'+
+        '<div class="shift-today-grid" role="list" aria-label="Günlük ekip kartları">'+cards+'</div>';
     }
-    const workingCount = today.shifts.filter(s => s && !(s[0]==="00:00"&&s[1]==="00:00")).length;
-    const dateLabel = today.day+" • "+today.date;
-    const cards = STAFF.map((person,i) => {
-      const s = today.shifts[i] || ["00:00","00:00","00:00","00:00","00:00"];
-      const off = s[0]==="00:00"&&s[1]==="00:00";
-      const role = i===0 ? "MÜDÜR" : i===1 ? "ŞEF" : "PERSONEL";
-      const kind = i===0 ? "coach" : i===1 ? "chief" : "runner";
-      return '<button type="button" class="shift-today-card shift-today-card-'+kind+(off?' is-off':'')+'" onclick="window.openStaffWeeklySchedule('+i+',event)" aria-label="'+esc(person.name+' haftalık çalışma programını aç')+'">'+
-        '<span class="shift-card-topline"><span class="shift-card-role">'+role+'</span><span class="shift-card-arrow" aria-hidden="true">↗</span></span>'+
-        '<strong class="shift-card-name">'+esc(person.name)+'</strong>'+
-        '<span class="shift-card-job">'+esc(person.role)+'</span>'+
-        (off ? '<span class="shift-card-off">İZİNLİ</span>' :
-          '<span class="shift-card-hours">'+esc(s[0])+' – '+esc(s[1])+'</span>'+
-          '<span class="shift-card-metrics"><span><small>NET</small><b>'+esc(s[4])+'</b></span><span><small>MOLA</small><b>'+esc(s[3])+'</b></span></span>')+
-        '<span class="shift-card-open">HAFTALIK PROGRAMI AÇ</span></button>';
-    }).join("");
-    target.innerHTML = '<div class="shift-today-heading"><div><span>BUGÜNÜN EKİBİ</span><h2>'+esc(dateLabel)+'</h2></div><b>'+workingCount+' / '+STAFF.length+' GÖREVDE</b></div>'+
-      '<p class="shift-today-caption">Tüm ekip tek yatay satırda • Bir karta dokunarak haftalık programa geç</p>'+
-      '<div class="shift-today-grid" role="list" aria-label="Günlük ekip kartları">'+cards+'</div>';
+    const weekButtons = WEEKS.map((week,i) =>
+      '<button type="button" class="shift-week-launch" onclick="window.openShiftWeek('+i+')">'+
+      '<span class="shift-week-launch-label">'+esc(week.label)+'</span>'+
+      '<span class="shift-week-launch-range">'+esc(week.range)+'</span>'+
+      '<strong>HAFTALIK PROGRAMI AÇ <span aria-hidden="true">↗</span></strong></button>'
+    ).join("");
+    target.innerHTML = todayHtml+
+      '<section class="shift-week-picker"><div class="shift-week-picker-heading"><span>VARDİYA ARŞİVİ</span><h2>HAFTALIK ÇALIŞMA PROGRAMLARI</h2><small>İstediğin haftayı seç; program doğrudan o haftanın tamamını açar.</small></div><div class="shift-week-launch-grid">'+weekButtons+'</div></section>';
   }
 
   function renderRoster() {
@@ -86,34 +92,35 @@
     const role = document.getElementById("shiftSelectedRole");
     const schedule = document.getElementById("shiftSelectedSchedule");
     const detail = document.getElementById("shiftSelectedDetail");
-    if (selectedStaff === null || !schedule) return;
-    const person = STAFF[selectedStaff];
-    if (title) title.textContent = person.name;
-    if (role) role.textContent = person.role + "  •  " + person.badge;
-    schedule.innerHTML = WEEKS.map(week => '<section class="shift-week-block"><div class="shift-week-heading"><span>'+esc(week.label)+'</span><strong>'+esc(week.range)+'</strong></div>' + week.days.map(day => {
-      const s = day.shifts[selectedStaff];
-      const off = s[0] === "00:00" && s[1] === "00:00";
-      return '<article class="shift-person-day' + (off ? ' shift-day-off' : '') + '"><div class="shift-day-label"><strong>' + esc(day.day) + '</strong><small>' + esc(day.date) + '</small></div>' +
-        (off ? '<span class="shift-day-off-label">İZİNLİ</span>' : '<div class="shift-time"><span><small>GİRİŞ</small><strong>' + esc(s[0]) + '</strong></span><span><small>ÇIKIŞ</small><strong>' + esc(s[1]) + '</strong></span><span><small>BRÜT</small><strong>' + esc(s[2]) + '</strong></span><span><small>MOLA</small><strong>' + esc(s[3]) + '</strong></span><span><small>NET</small><strong>' + esc(s[4]) + '</strong></span></div>') +
-        '</article>';
-    }).join("") + '</section>').join("");
-    if (detail) detail.textContent = "W46’dan başlayarak geçmiş haftalar aşağıda listelenir";
+    if (!schedule) return;
+    const week = WEEKS[selectedWeek] || WEEKS[0];
+    if (title) title.textContent = week.label + " • " + week.range;
+    if (role) role.textContent = "BUYAKA PUMA • TÜM EKİP VARDİYA PLANI";
+    if (detail) detail.textContent = "Seçilen haftanın tüm personel vardiyaları";
+    schedule.innerHTML = week.days.map(day => {
+      const staffRows = STAFF.map((person,i) => {
+        const s = day.shifts[i] || ["00:00","00:00","00:00","00:00","00:00"];
+        const off = s[0] === "00:00" && s[1] === "00:00";
+        return '<div class="shift-week-staff-row"><strong>'+esc(person.name)+'</strong><span>'+esc(person.role)+'</span>'+
+          (off ? '<b class="shift-day-off-label">İZİNLİ</b>' : '<div class="shift-week-staff-hours"><b>'+esc(s[0])+' – '+esc(s[1])+'</b><small>BRÜT '+esc(s[2])+' • MOLA '+esc(s[3])+' • NET '+esc(s[4])+'</small></div>')+
+          '</div>';
+      }).join("");
+      return '<section class="shift-week-day-block"><div class="shift-week-day-title"><strong>'+esc(day.day)+'</strong><span>'+esc(day.date)+'</span></div>'+staffRows+'</section>';
+    }).join("");
   }
 
-  window.openStaffWeeklySchedule = function (index, event) {
-    if (event) { event.preventDefault(); event.stopPropagation(); }
-    if (!Number.isInteger(index) || !STAFF[index]) return;
-    selectedStaff = index;
-    const area = document.getElementById("shiftProgramArea");
+  window.openShiftWeek = function(index) {
+    if (!Number.isInteger(index) || !WEEKS[index]) return;
+    selectedWeek = index;
+    selectedStaff = null;
     const overview = document.getElementById("shiftTodayOverview");
     const roster = document.getElementById("shiftRosterView");
     const schedule = document.getElementById("shiftSelectedView");
-    if (area) area.style.display = "block";
     if (overview) overview.style.display = "none";
     if (roster) roster.style.display = "none";
     if (schedule) schedule.style.display = "block";
     renderSelectedSchedule();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top:0,behavior:"smooth"});
   };
 
   window.backToShiftRoster = function () {
@@ -133,6 +140,7 @@
     const area=document.getElementById("shiftProgramArea");
     if(area) area.style.display="block";
     selectedStaff = null;
+    selectedWeek = 0;
     const roster = document.getElementById("shiftRosterView");
     const schedule = document.getElementById("shiftSelectedView");
     if (roster) roster.style.display = "none";
