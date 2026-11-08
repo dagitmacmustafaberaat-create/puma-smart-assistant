@@ -119,8 +119,9 @@ window.renderStoreManagement=function(){
  const p=document.getElementById("smPeriod")?.value||"ytd",cat=document.getElementById("smCategory")?.value||"FTW";
  const periodName={wtd:"HAFTALIK · WTD",mtd:"AYLIK · MTD",ytd:"YILLIK · YTD"}[p];
  const salesKey={wtd:"week",mtd:"month",ytd:"year"}[p],s=D.sales[salesKey],traffic=D.traffic[p],k=D.kpis;
+ const crTargetWtd=D.week==="W44"?7:D.kpis.cr.target;
  const val=(n,t)=>t==="money"?money(n):t==="pct"?number(n)+"%":number(n);
- const kpiRows=[["UPT",k.upt[p],k.upt.target,k.upt.ly,k.upt.change,""],["ATV",k.atv[p],k.atv.target,k.atv.ly,k.atv.change,"money"],["Multiple Sales",k.multiple[p],k.multiple.target,k.multiple.ly,k.multiple.change,"pct"],["Conversion Rate",k.cr[p],D.kpis.cr.target,k.cr.ly,k.cr.change,"pct"]];
+ const kpiRows=[["UPT",k.upt[p],k.upt.target,k.upt.ly,k.upt.change,""],["ATV",k.atv[p],k.atv.target,k.atv.ly,k.atv.change,"money"],["Multiple Sales",k.multiple[p],k.multiple.target,k.multiple.ly,k.multiple.change,"pct"],["Conversion Rate",k.cr[p],p==="wtd"?crTargetWtd:D.kpis.cr.target,k.cr.ly,k.cr.change,"pct"]];
  const kpiHtml=kpiRows.map(([name,actual,target,ly,change,type])=>'<article class="sm-kpi-card"><div class="sm-kpi-head"><span>'+name+'</span><b class="'+(change>=0?"up":"down")+'">'+percent(change)+'</b></div><strong>'+val(actual,type)+'</strong><div class="sm-kpi-compare"><span>HEDEF <b>'+val(target,type)+'</b></span><span>2025 <b>'+val(ly,type)+'</b></span></div></article>').join("");
  const tabs=[["product","PRODUCT MIX"],["unit","BUSINESS UNIT"],["division","DIVISION SPLIT"],["gender","GENDER SPLIT"],["top20","TOP 20"],["comment","YORUM"]];
  let tabContent="";
@@ -145,6 +146,8 @@ window.renderStoreManagement=function(){
   else {const isWeek=p==="wtd";const rows=D.divisions.map(r=>{const a=isWeek?r[1]:r[4],b=isWeek?r[2]:r[5],change=isWeek?r[3]:r[6],ty=isWeek?r[7]:r[9],ly=isWeek?r[8]:r[10];return '<tr><td>'+esc(r[0])+'</td><td>'+number(a)+'%</td><td>'+number(b)+'%</td><td>'+percent(change)+'</td><td>'+money(ty)+'</td><td>'+money(ly)+'</td></tr>';}).join("");tabContent='<section class="sm-section"><div class="sm-section-title"><div><small>DIVISION SPLIT</small><h2>DIVISION SPLIT · '+periodName+'</h2></div></div><div class="sm-table-wrap"><table class="sm-table"><thead><tr><th>DIVISION</th><th>2026 PAY</th><th>2025 PAY</th><th>DEĞİŞİM</th><th>2026 CİRO</th><th>2025 CİRO</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';}
  }else if(activeStoreTab==="comment"){
   const pct=(a,b)=>(a/b-1)*100;
+  const changeWord=v=>v>=0?"büyüme":"düşüş";
+  const targetWord=v=>v>=0?"üzerine çıkılmıştır":"altında kalınmıştır";
   const wtdGrowth=pct(D.sales.week.ty,D.sales.week.ly),mtdGrowth=pct(D.sales.month.ty,D.sales.month.ly),ytdGrowth=pct(D.sales.year.ty,D.sales.year.ly);
   const wtdGoal=pct(D.sales.week.ty,D.sales.week.target),mtdGoal=pct(D.sales.month.ty,D.sales.month.target),ytdGoal=pct(D.sales.year.ty,D.sales.year.target);
   const genderTotal=D.genders.slice(0,3).reduce((sum,r)=>sum+(r[3]||0),0);
@@ -154,12 +157,10 @@ window.renderStoreManagement=function(){
   const divisionText=D.divisions.map(r=>'<span><b>'+esc(r[0])+'</b> '+number(r[4])+'%</span>').join("");
   const actionItems=[
    "Günlük fatura ve ürün hedeflerini personel bazında takip etmek",
-   "Haftalık CR başarısını MTD ve YTD performansına taşımak",
-   "UPT değerini 2,00 hedefine yaklaştırmak",
-   "Sportstyle Prime, RTF ve Teamsport kategorilerinde satış performansını güçlendirmek",
-   "FTW satış payındaki gerilemeyi azaltmak",
-   "Kadın kategorisindeki satış fırsatlarını değerlendirmek",
-   "ATV ve MultiS başarısını koruyarak sepet verimliliğini artırmak",
+   (D.kpis.cr.mtd>=D.kpis.cr.target?"MTD CR başarısını korumak":"MTD CR değerini hedef olan %"+number(D.kpis.cr.target)+" seviyesine taşımak"),
+   (D.kpis.upt.ytd>=D.kpis.upt.target?"UPT başarısını korumak":"UPT değerini "+number(D.kpis.upt.target)+" hedefine yaklaştırmak"),
+   ...D.units.filter(r=>r[3]!==null&&r[3]<0).sort((a,b)=>a[3]-b[3]).slice(0,3).map(r=>r[0]+" kategorisindeki gerilemeyi azaltmak"),
+   (D.kpis.atv.ytd>=D.kpis.atv.target?"ATV başarısını korumak":"ATV değerini "+money(D.kpis.atv.target)+" hedefine yaklaştırmak"),
    "Haftalık satış ivmesini koruyarak aylık ve yıllık hedef açığını azaltmak"
   ];
   tabContent='<section class="sm-section sm-comment-section"><div class="sm-comment-hero"><div><small>'+esc(D.week)+' · STORE MANAGER REVIEW</small><h2>MAĞAZA PERFORMANS DEĞERLENDİRMESİ</h2><p>BUYAKA PUMA · '+D.date+'</p></div><span class="sm-comment-mark">'+esc(D.week)+'</span></div>'+
@@ -167,8 +168,8 @@ window.renderStoreManagement=function(){
   '<article><small>WTD</small><strong>'+money(D.sales.week.ty)+'</strong><b class="up">'+percent(wtdGrowth)+' LY · '+percent(wtdGoal)+' HEDEF</b></article>'+
   '<article><small>MTD</small><strong>'+money(D.sales.month.ty)+'</strong><b class="down">'+percent(mtdGrowth)+' LY · '+percent(mtdGoal)+' HEDEF</b></article>'+
   '<article><small>YTD</small><strong>'+money(D.sales.year.ty)+'</strong><b class="up">'+percent(ytdGrowth)+' LY · '+percent(ytdGoal)+' HEDEF</b></article></div>'+
-  '<p>WTD döneminde '+money(D.sales.week.ty)+' ciro gerçekleşmiş, geçen yılın aynı dönemine göre '+percent(wtdGrowth)+' büyüme sağlanmış ve '+money(D.sales.week.target)+' haftalık hedefimizin '+percent(wtdGoal)+' üzerine çıkılmıştır. Bu sonuç haftalık satış ivmemiz açısından güçlü ve olumlu bir gelişmedir.</p>'+
-  '<p>MTD döneminde '+money(D.sales.month.ty)+' ciro ile '+money(D.sales.month.target)+' aylık hedefimizin '+number(Math.abs(mtdGoal))+'% altında bulunuyoruz. Geçen yılın aynı dönemine göre '+number(Math.abs(mtdGrowth))+'% düşüş gerçekleşmiştir. YTD ciromuz '+money(D.sales.year.ty)+' seviyesinde olup geçen yılın aynı dönemine göre '+percent(ytdGrowth)+' büyüme sağlamıştır; yıllık hedefimize göre ise '+number(Math.abs(ytdGoal))+'% gerideyiz. Önümüzdeki süreçte haftalık satış ivmemizi koruyarak aylık ve yıllık hedef açığını azaltmaya odaklanacağız.</p></div>'+
+  '<p>WTD döneminde '+money(D.sales.week.ty)+' ciro gerçekleşmiş, geçen yılın aynı dönemine göre '+percent(wtdGrowth)+' büyüme sağlanmış ve '+money(D.sales.week.target)+' haftalık hedefimizin '+number(Math.abs(wtdGoal))+'% '+targetWord(wtdGoal)+'. Bu sonuç haftalık satış ivmemiz açısından güçlü ve olumlu bir gelişmedir.</p>'+
+  '<p>MTD döneminde '+money(D.sales.month.ty)+' ciro ile '+money(D.sales.month.target)+' aylık hedefimizin '+number(Math.abs(mtdGoal))+'% '+(mtdGoal>=0?'üzerindeyiz':'altındayız')+'. Geçen yılın aynı dönemine göre '+number(Math.abs(mtdGrowth))+'% '+changeWord(mtdGrowth)+' gerçekleşmiştir. YTD ciromuz '+money(D.sales.year.ty)+' seviyesinde olup geçen yılın aynı dönemine göre '+percent(ytdGrowth)+' büyüme sağlamıştır; yıllık hedefimize göre ise '+number(Math.abs(ytdGoal))+'% '+(ytdGoal>=0?'ilerideyiz':'gerideyiz')+'. Önümüzdeki süreçte haftalık satış ivmemizi koruyarak aylık ve yıllık hedef açığını azaltmaya odaklanacağız.</p></div>'+
   '<div class="sm-comment-block"><div class="sm-comment-heading"><span>02</span><h3>KATEGORİ &amp; DIVISION</h3></div><div class="sm-comment-category-grid">'+
   '<article><small>SPORTSTYLE CORE</small><strong>'+money(core[1])+'</strong><b class="up">'+percent(core[3])+'</b><p>Mağazanın genel performansını destekleyen en güçlü büyüme alanı.</p></article>'+
   '<article><small>MOTORSPORT</small><strong>'+money(motorsport[1])+'</strong><b class="up">'+percent(motorsport[3])+'</b><p>Pozitif büyümesini sürdürüyor.</p></article>'+
@@ -182,11 +183,11 @@ window.renderStoreManagement=function(){
   D.genders.slice(0,3).map((r,i)=>'<article><small>'+esc(r[0])+'</small><strong>'+money(r[3])+'</strong><b>'+number(genderShare[i])+'%</b></article>').join("")+
   '</div><p>YTD satışlarımızın '+number(genderShare[0])+'%’si Erkek, '+number(genderShare[1])+'%’si Kadın ve '+number(genderShare[2])+'%’si JR kategorilerinden gelmektedir. Kadın kategorisinin toplam satış içindeki payını geliştirmek amacıyla kadın ürünlerinin görünürlüğünü, alternatif ürün sunumlarını ve tamamlayıcı ürün önerilerini artıracağız. Erkek kategorisindeki mevcut satış hacmimizi korurken diğer kategorilerin büyümesini destekleyeceğiz.</p></div>'+
   '<div class="sm-comment-block"><div class="sm-comment-heading"><span>04</span><h3>TEMEL SATIŞ GÖSTERGELERİ</h3></div><div class="sm-comment-kpis sm-comment-kpis-four">'+
-  '<article><small>UPT · HEDEF 2,00</small><strong>'+number(D.kpis.upt.wtd)+' / '+number(D.kpis.upt.mtd)+' / '+number(D.kpis.upt.ytd)+'</strong><b>WTD / MTD / YTD</b></article>'+
-  '<article><small>ATV · HEDEF 4.000 ₺</small><strong>'+money(D.kpis.atv.wtd)+'</strong><b>MTD '+money(D.kpis.atv.mtd)+' · YTD '+money(D.kpis.atv.ytd)+'</b></article>'+
-  '<article><small>CR · HEDEF %'+number(D.kpis.cr.target)+' / %'+number(D.kpis.cr.target)+' / %'+number(D.kpis.cr.target)+'</small><strong>'+number(D.kpis.cr.wtd)+'% / '+number(D.kpis.cr.mtd)+'% / '+number(D.kpis.cr.ytd)+'%</strong><b>WTD / MTD / YTD</b></article>'+
+  '<article><small>UPT · HEDEF '+number(D.kpis.upt.target)+'</small><strong>'+number(D.kpis.upt.wtd)+' / '+number(D.kpis.upt.mtd)+' / '+number(D.kpis.upt.ytd)+'</strong><b>WTD / MTD / YTD</b></article>'+
+  '<article><small>ATV · HEDEF '+money(D.kpis.atv.target)+'</small><strong>'+money(D.kpis.atv.wtd)+'</strong><b>MTD '+money(D.kpis.atv.mtd)+' · YTD '+money(D.kpis.atv.ytd)+'</b></article>'+
+  '<article><small>CR · HEDEF %'+number(crTargetWtd)+' / %'+number(D.kpis.cr.target)+' / %'+number(D.kpis.cr.target)+'</small><strong>'+number(D.kpis.cr.wtd)+'% / '+number(D.kpis.cr.mtd)+'% / '+number(D.kpis.cr.ytd)+'%</strong><b>WTD / MTD / YTD</b></article>'+
   '<article><small>MULTIS</small><strong>'+number(D.kpis.multiple.wtd)+'%</strong><b>MTD '+number(D.kpis.multiple.mtd)+'% · YTD '+number(D.kpis.multiple.ytd)+'%</b></article></div>'+
-  '<p>WTD bazında CR göstergemiz %'+number(D.kpis.cr.wtd)+' seviyesine ulaşarak %7 hedefimizin üzerine çıkmıştır. '+number(D.kpis.multiple.wtd)+'% MultiS ve '+money(D.kpis.atv.wtd)+' ATV değerlerimiz, çoklu ürün sunumu ve sepet değerini artırma konusunda başarılı olduğumuzu göstermektedir. Bununla birlikte UPT değerimizin YTD bazında '+number(D.kpis.upt.ytd)+' seviyesinde kalması ve MTD CR değerimizin %'+number(D.kpis.cr.mtd)+' ile %8 hedefinin altında bulunması gelişim alanlarımızdır. Haftalık CR başarısını aylık ve yıllık performansımıza taşımak, UPT değerimizi 2,00 hedefine yaklaştırmak için karşılama, ihtiyaç analizi, alternatif ürün ve tamamlayıcı satış süreçlerini daha etkin yöneteceğiz.</p></div>'+
+  '<p>WTD bazında CR göstergemiz %'+number(D.kpis.cr.wtd)+' seviyesine ulaşarak %'+number(crTargetWtd)+' hedefimizin '+(D.kpis.cr.wtd>=crTargetWtd?'üzerine çıkmıştır':'altında kalmıştır')+'. '+number(D.kpis.multiple.wtd)+'% MultiS ve '+money(D.kpis.atv.wtd)+' ATV değerlerimiz, çoklu ürün sunumu ve sepet değerini artırma konusunda başarılı olduğumuzu göstermektedir. Bununla birlikte UPT değerimizin YTD bazında '+number(D.kpis.upt.ytd)+' seviyesinde kalması ve MTD CR değerimizin %'+number(D.kpis.cr.mtd)+' ile %8 hedefinin altında bulunması gelişim alanlarımızdır. Haftalık CR başarısını aylık ve yıllık performansımıza taşımak, UPT değerimizi '+number(D.kpis.upt.target)+' hedefine yaklaştırmak için karşılama, ihtiyaç analizi, alternatif ürün ve tamamlayıcı satış süreçlerini daha etkin yöneteceğiz.</p></div>'+
   '<div class="sm-comment-block"><div class="sm-comment-heading"><span>05</span><h3>GENEL DEĞERLENDİRME &amp; AKSİYON PLANI</h3></div>'+
   '<p>'+esc(D.week)+' sonuçlarımızda haftalık ciro hedefimizin üzerine çıkmamız, geçen yılın aynı dönemine göre '+percent(wtdGrowth)+' büyüme sağlamamız, YTD bazında '+percent(ytdGrowth)+' büyümemizi korumamız ve Sportstyle Core kategorisindeki güçlü gelişimimiz olumlu noktalarımızdır. Haftalık CR başarımız ve MultiS performansımız satış süreçlerindeki doğru uygulamaları desteklemektedir.</p>'+
   '<div class="sm-comment-campaign"><small>ÖNCELİKLİ KAMPANYA ODAĞI</small><strong>4.999 ₺ <span>→</span> 1.500 ₺ İNDİRİM</strong><strong>7.999 ₺ <span>→</span> 2.500 ₺ İNDİRİM</strong><p>Son iki günlük satış verilerini de dikkate alarak odağımızı özellikle 7.999 ₺ ve üzeri fatura oluşturmaya yoğunlaştıracağız. Müşteri ihtiyacını doğru analiz ederek ürün kombinasyonlarını genişletmek, tamamlayıcı ürün önerileriyle sepet tutarını kampanya üst limitine taşımak ve 2.500 ₺ indirim avantajını doğru anlatmak öncelikli satış yaklaşımımız olacak.</p></div>'+
