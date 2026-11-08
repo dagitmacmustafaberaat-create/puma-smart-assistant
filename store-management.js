@@ -54,9 +54,9 @@ async function loadStoreExcelReports(){
   const get=(r,c)=>cell(ws,XLSX.utils.encode_cell({r:r-1,c:c-1}));
   const date=labelDate(get(4,12));
   const weekRaw=String(get(4,3)||"").trim();
-  const week=(weekRaw.match(/W\\s*\\d+/i)||["W?"])[0].replace(/\\s+/g,"").toUpperCase();
+  const week=(weekRaw.match(/W\s*\d+/i)||["W?"])[0].replace(/\s+/g,"").toUpperCase();
   const parseSales=(tyRow,lyRow)=>({ty:num(get(tyRow,3)),target:num(get(tyRow,5)),ly:num(get(lyRow,3)),lyTarget:num(get(lyRow,5))});
-  const kpi=(r)=>({target:num(get(r,12)),wtd:num(get(r,13)),mtd:num(get(r,14)),ytd:num(get(r,15)),ly:num(get(r,16)),change:pct(get(r,17))});
+  const kpi=(r,asPct=false)=>({target:asPct?pct(get(r,12)):num(get(r,12)),wtd:asPct?pct(get(r,13)):num(get(r,13)),mtd:asPct?pct(get(r,14)):num(get(r,14)),ytd:asPct?pct(get(r,15)):num(get(r,15)),ly:asPct?pct(get(r,16)):num(get(r,16)),change:pct(get(r,17))});
   const divNames=["Footwear","Apparel","Accessories"];
   const divisions=divNames.map((name,i)=>{const r=19+i;return [name,pct(get(r,12)),pct(get(r,13)),pct(get(r,14)),pct(get(r,15)),pct(get(r,16)),pct(get(r,17)),num(get(r,19)),num(get(r,20)),num(get(r,21)),num(get(r,22))];});
   const genderNames=[];
@@ -73,8 +73,8 @@ async function loadStoreExcelReports(){
    lines[key].push([String(name),num(get(r,2))||0,num(get(r,3))||0,num(get(r,7))||0,num(get(r,8))||0,num(get(r,12))||0,num(get(r,13))||0]);
   }
   const storeText=String(get(7,1)||"");
-  const open=(storeText.match(/Open Date\\s*:\\s*([^\\n]+)/i)||[])[1]||"";
-  const size=(storeText.match(/Total Size\\s*:\\s*([^\\n]+)/i)||[])[1]||"";
+  const open=(storeText.match(/Open Date\s*:\s*([^\n]+)/i)||[])[1]||"";
+  const size=(storeText.match(/Total Size\s*:\s*([^\n]+)/i)||[])[1]||"";
   const comp=String(get(7,10)||"").split(",").map(x=>x.trim()).filter(Boolean);
   D={
    date,week,store:{open,size:size.replace("sqm","m²"),competitors:comp},
@@ -84,7 +84,7 @@ async function loadStoreExcelReports(){
     mtd:{ty:num(get(21,3)),ly:num(get(21,6)),change:pct(get(21,8))},
     ytd:{ty:num(get(22,3)),ly:num(get(22,6)),change:pct(get(22,8))}
    },
-   kpis:{upt:kpi(11),atv:kpi(12),multiple:kpi(13),cr:kpi(14)},
+   kpis:{upt:kpi(11),atv:kpi(12),multiple:kpi(13,true),cr:kpi(14,true)},
    units,divisions,genders,lines
   };
   const dateInput=document.getElementById("smDate");
