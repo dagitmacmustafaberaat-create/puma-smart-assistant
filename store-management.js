@@ -35,7 +35,7 @@ window.renderStoreManagement=function(){
  const periodName={wtd:"HAFTALIK · WTD",mtd:"AYLIK · MTD",ytd:"YILLIK · YTD"}[p];
  const salesKey={wtd:"week",mtd:"month",ytd:"year"}[p],s=D.sales[salesKey],traffic=D.traffic[p],k=D.kpis;
  const val=(n,t)=>t==="money"?money(n):t==="pct"?number(n)+"%":number(n);
- const kpiRows=[["UPT",k.upt[p],k.upt.target,k.upt.ly,k.upt.change,""],["ATV",k.atv[p],k.atv.target,k.atv.ly,k.atv.change,"money"],["Multiple Sales",k.multiple[p],k.multiple.target,k.multiple.ly,k.multiple.change,"pct"],["Conversion Rate",k.cr[p],k.cr.target,k.cr.ly,k.cr.change,"pct"]];
+ const kpiRows=[["UPT",k.upt[p],k.upt.target,k.upt.ly,k.upt.change,""],["ATV",k.atv[p],k.atv.target,k.atv.ly,k.atv.change,"money"],["Multiple Sales",k.multiple[p],k.multiple.target,k.multiple.ly,k.multiple.change,"pct"],["Conversion Rate",k.cr[p],p==="wtd"?7:8,k.cr.ly,k.cr.change,"pct"]];
  const kpiHtml=kpiRows.map(([name,actual,target,ly,change,type])=>'<article class="sm-kpi-card"><div class="sm-kpi-head"><span>'+name+'</span><b class="'+(change>=0?"up":"down")+'">'+percent(change)+'</b></div><strong>'+val(actual,type)+'</strong><div class="sm-kpi-compare"><span>HEDEF <b>'+val(target,type)+'</b></span><span>2025 <b>'+val(ly,type)+'</b></span></div></article>').join("");
  const tabs=[["product","PRODUCT MIX"],["unit","BUSINESS UNIT"],["division","DIVISION SPLIT"],["gender","GENDER SPLIT"],["top20","TOP 20"],["comment","YORUM"]];
  let tabContent="";
