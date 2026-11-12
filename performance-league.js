@@ -33,6 +33,7 @@ async function loadLeagueData(){
   });
   if(staff.some(s=>!s.invoiceTarget||!s.unitTarget))throw new Error("Excel hedef değerleri boş veya hatalı.");
   leagueData={month,staff,source:"GitHub Excel"};
+  window.BUYAKA_LEAGUE_DATA=leagueData;
   if(status)status.textContent="✓ GitHub Excel dosyasından güncel veriler yüklendi · "+new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
  }catch(error){
   if(status)status.textContent="Excel verisi yüklenemedi: "+error.message;
