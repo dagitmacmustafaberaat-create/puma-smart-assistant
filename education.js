@@ -149,3 +149,6 @@ function closeEducationCenter() {
   if (area) area.style.display = "none";
   showMainMenu();
 }
+
+
+window.BUYAKA_TRAINING_DATA = { library: TRAINING_LIBRARY, calendar: NOVEMBER_TRAINING };
