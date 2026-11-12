@@ -19,6 +19,28 @@
     <style>
       #mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
       @media(max-width:760px){#mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+      .personnel-management-area{max-width:1120px;margin:0 auto;padding:24px 18px 50px;color:#fff}
+      .personnel-hub-hero{position:relative;overflow:hidden;padding:30px 28px;border-radius:22px;background:linear-gradient(125deg,rgba(10,18,13,.97),rgba(31,48,35,.94)),url('./puma-wallpaper.png') center/cover;border:1px solid rgba(216,255,53,.28);box-shadow:0 18px 45px rgba(0,0,0,.22)}
+      .personnel-hub-hero:after{content:'PUMA';position:absolute;right:18px;bottom:-20px;font-size:clamp(70px,13vw,150px);font-weight:900;font-style:italic;letter-spacing:-8px;color:rgba(255,255,255,.045);pointer-events:none}
+      .personnel-hub-hero p,.personnel-hub-kicker{margin:0 0 10px;color:#d8ff35;font-size:11px;font-weight:800;letter-spacing:2px}
+      .personnel-hub-hero h1{position:relative;z-index:1;margin:0;color:#fff;font-size:clamp(25px,5vw,42px);font-weight:900;letter-spacing:-1.2px}
+      .personnel-hub-hero>span{display:block;margin-top:10px;color:#c7d0c8;font-size:11px;font-weight:700;letter-spacing:1.2px}
+      .personnel-hub-intro{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:20px 0;padding:20px 22px;border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(18,24,20,.88)}
+      .personnel-hub-intro h2{margin:0;color:#fff;font-size:25px;font-weight:900}
+      .personnel-hub-intro p{margin:6px 0 0;color:#b9c3bb;font-size:13px}
+      .personnel-hub-count{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:90px;padding:9px 13px;border-radius:14px;background:rgba(216,255,53,.1);border:1px solid rgba(216,255,53,.25)}
+      .personnel-hub-count strong{color:#d8ff35;font-size:30px;line-height:1}
+      .personnel-hub-count span{margin-top:5px;color:#d8ff35;font-size:9px;font-weight:800;letter-spacing:.8px}
+      .personnel-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+      .personnel-hub-card{display:flex;align-items:center;gap:14px;min-height:106px;padding:17px 18px;text-align:left;color:#fff;background:linear-gradient(145deg,rgba(32,42,35,.97),rgba(15,20,17,.97));border:1px solid rgba(255,255,255,.13);border-radius:17px;box-shadow:0 8px 22px rgba(0,0,0,.16);cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+      .personnel-hub-card:hover{transform:translateY(-3px);border-color:rgba(216,255,53,.65);box-shadow:0 12px 28px rgba(0,0,0,.24)}
+      .personnel-hub-icon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border-radius:14px;background:rgba(216,255,53,.1);font-size:25px}
+      .personnel-hub-card-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px}
+      .personnel-hub-card-copy strong{font-size:13px;font-weight:900;letter-spacing:.35px}
+      .personnel-hub-card-copy small{color:#aeb9b0;font-size:11px;line-height:1.4}
+      .personnel-hub-arrow{color:#d8ff35;font-size:22px;font-weight:800}
+      .personnel-hub-footnote{margin:17px 3px 0;color:rgba(255,255,255,.58);font-size:11px;text-align:center}
+      @media(max-width:620px){.personnel-management-area{padding:18px 12px 35px}.personnel-hub-hero{padding:24px 19px}.personnel-hub-intro{padding:16px}.personnel-hub-grid{grid-template-columns:1fr;gap:10px}.personnel-hub-card{min-height:88px;padding:14px}.personnel-hub-intro h2{font-size:22px}}
       .company-links-widget{position:fixed;top:14px;right:14px;z-index:10000;font-family:inherit}
       .company-links-trigger{display:flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:8px 12px;background:#171717;color:#fff;font-size:12px;font-weight:700;box-shadow:0 5px 18px rgba(0,0,0,.2);cursor:pointer}
       .company-links-trigger .company-arrow{font-size:17px;line-height:1}
@@ -74,6 +96,12 @@
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
 
+
+          <button class="menu-button module-card personnel-hub-menu-card" type="button" onclick="showPersonnelManagement()">
+            <span class="module-sticker" aria-hidden="true">👥</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6M23 11h-6"></path></svg></span>
+            <span class="module-copy"><strong>PERSONEL YÖNETİM MERKEZİ</strong><small>Performans, eğitim ve ekip planlaması</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
 
           <button class="menu-button module-card store-management-menu-card" type="button" onclick="window.showStoreManagement && window.showStoreManagement()">
             <span class="module-sticker" aria-hidden="true">🏬</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10h18l-2-6H5l-2 6Z"></path><path d="M5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path></svg></span>
@@ -147,6 +175,27 @@
       </section>
     </section>
 
+
+    <section id="personnelManagementArea" class="personnel-management-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closePersonnelManagement()">← Ana Menü</button>
+      <header class="personnel-hub-hero">
+        <p>BUYAKA PUMA • TEAM MANAGEMENT</p>
+        <h1>PERSONEL YÖNETİM MERKEZİ</h1>
+        <span>EKİBİN PERFORMANSI · GELİŞİMİ · ÇALIŞMA DÜZENİ</span>
+      </header>
+      <section class="personnel-hub-intro">
+        <div><span class="personnel-hub-kicker">ONE TEAM. ONE GOAL.</span><h2>Takımını yönet.</h2><p>Personel süreçlerine tek merkezden ulaş.</p></div>
+        <div class="personnel-hub-count"><strong>05</strong><span>PERSONEL MODÜLÜ</span></div>
+      </section>
+      <div class="personnel-hub-grid">
+        <button type="button" class="personnel-hub-card" onclick="openPersonnelModule('sd')"><span class="personnel-hub-icon">🏅</span><span class="personnel-hub-card-copy"><strong>SD KARNE</strong><small>Kişisel performans ve KPI takibi</small></span><span class="personnel-hub-arrow">↗</span></button>
+        <button type="button" class="personnel-hub-card" onclick="openPersonnelModule('league')"><span class="personnel-hub-icon">🏆</span><span class="personnel-hub-card-copy"><strong>PERFORMANCE LEAGUE</strong><small>Aylık hedefler ve personel sıralaması</small></span><span class="personnel-hub-arrow">↗</span></button>
+        <button type="button" class="personnel-hub-card" onclick="openPersonnelModule('weekly')"><span class="personnel-hub-icon">🥇</span><span class="personnel-hub-card-copy"><strong>HAFTANIN ENLERİ</strong><small>Haftalık başarılar ve şampiyonlar</small></span><span class="personnel-hub-arrow">↗</span></button>
+        <button type="button" class="personnel-hub-card" onclick="openPersonnelModule('education')"><span class="personnel-hub-icon">🎓</span><span class="personnel-hub-card-copy"><strong>EĞİTİM MERKEZİ</strong><small>Eğitim takvimi ve gelişim dokümanları</small></span><span class="personnel-hub-arrow">↗</span></button>
+        <button type="button" class="personnel-hub-card" onclick="openPersonnelModule('shift')"><span class="personnel-hub-icon">📅</span><span class="personnel-hub-card-copy"><strong>ÇALIŞMA PROGRAMI</strong><small>Haftalık vardiya ve ekip planı</small></span><span class="personnel-hub-arrow">↗</span></button>
+      </div>
+      <p class="personnel-hub-footnote">Bu merkez mevcut modüllere hızlı erişim sağlar. Mevcut ana ekran butonları ve modül içerikleri korunur.</p>
+    </section>
 
     <section id="storeManagementArea" class="store-management-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeStoreManagement()">← Ana Menü</button>
@@ -392,6 +441,37 @@
     <script src="sd-karne.js?v=20261106-weekly-data-v2"></script>
 
     <script>
+      function showPersonnelManagement() {
+        if (typeof showMainMenu === "function") showMainMenu();
+        const menu = document.getElementById("mainMenu");
+        const area = document.getElementById("personnelManagementArea");
+        if (menu) menu.style.display = "none";
+        if (area) area.style.display = "block";
+        window.scrollTo(0, 0);
+      }
+      function closePersonnelManagement() {
+        const area = document.getElementById("personnelManagementArea");
+        if (area) area.style.display = "none";
+        if (typeof showMainMenu === "function") showMainMenu();
+      }
+      function openPersonnelModule(moduleName) {
+        const area = document.getElementById("personnelManagementArea");
+        if (area) area.style.display = "none";
+        const actions = {
+          sd: window.showSDKarnesi,
+          league: window.showPerformanceLeague,
+          weekly: window.showWeeklyChampions,
+          education: window.showEducationCenter,
+          shift: window.showShiftProgram
+        };
+        const action = actions[moduleName];
+        if (typeof action === "function") action();
+        else {
+          if (area) area.style.display = "block";
+          console.error("Personel modülü bulunamadı:", moduleName);
+        }
+      }
+
       function showFastPerakende() {
         ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea"].forEach(function(id) {
           const el = document.getElementById(id);
