@@ -21,6 +21,7 @@
     ]}
   ];
   const DAYS = WEEKS[0].days;
+  window.BUYAKA_SHIFT_DATA = { staff: STAFF, weeks: WEEKS };
   const STAFF = [
     { name: "MUSTAFA BERAT DAĞITMAÇ", role: "MAĞAZA MÜDÜRÜ", badge: "COACH", emoji: "🧢", kind: "coach" },
     { name: "SİNEM PALAZ", role: "ŞEF", badge: "ASSISTANT COACH", emoji: "📣", kind: "chief" },
