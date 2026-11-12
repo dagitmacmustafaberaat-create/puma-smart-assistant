@@ -21,7 +21,6 @@
     ]}
   ];
   const DAYS = WEEKS[0].days;
-  window.BUYAKA_SHIFT_DATA = { staff: STAFF, weeks: WEEKS };
   const STAFF = [
     { name: "MUSTAFA BERAT DAĞITMAÇ", role: "MAĞAZA MÜDÜRÜ", badge: "COACH", emoji: "🧢", kind: "coach" },
     { name: "SİNEM PALAZ", role: "ŞEF", badge: "ASSISTANT COACH", emoji: "📣", kind: "chief" },
@@ -30,6 +29,7 @@
     { name: "MERVE ÇETİN", role: "SATIŞ DANIŞMANI", badge: "RUNNER", emoji: "🏃🏻‍♀️", kind: "runner" },
     { name: "ECE NUR TEMÜR", role: "SATIŞ DANIŞMANI", badge: "RUNNER", emoji: "🏃🏻‍♀️", kind: "runner" }
   ];
+  window.BUYAKA_SHIFT_DATA = { staff: STAFF, weeks: WEEKS };
   const esc = v => String(v == null ? "" : v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   let selectedStaff = null;
   let selectedWeek = 0;
