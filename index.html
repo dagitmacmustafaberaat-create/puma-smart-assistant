@@ -205,7 +205,7 @@
         #personnelManagementArea .pmx-list{border-top:1px solid rgba(255,255,255,.12)}
         #personnelManagementArea .pmx-row{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(120px,1fr) minmax(100px,.7fr);gap:12px;align-items:center;padding:14px 10px;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
         #personnelManagementArea .pmx-row strong{font-size:12px}
-        #personnelManagementArea .pmx-tag{justify-self:start;padding:5px 8px;border-radius:4px;background:rgba(255,255,255,.08);color:#c4c8ce;font-size:9px;font-weight:700}
+        #personnelManagementArea .pmx-select{background:#17191d;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:9px 10px;font:inherit;font-size:11px;max-width:190px}#personnelManagementArea .pmx-link-button{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:5px;padding:6px 10px;font:inherit;font-size:11px;cursor:pointer}#personnelManagementArea .pmx-link-button:hover{border-color:#d5001c;color:#fff}#personnelManagementArea .pmx-tag{justify-self:start;padding:5px 8px;border-radius:4px;background:rgba(255,255,255,.08);color:#c4c8ce;font-size:9px;font-weight:700}
         #personnelManagementArea .pmx-statline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 18px}
         #personnelManagementArea .pmx-stat{padding:13px 14px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:rgba(255,255,255,.025)}
         #personnelManagementArea .pmx-stat span{display:block;color:#aeb3ba;font-size:9px;letter-spacing:.7px}
@@ -216,7 +216,7 @@
       <button class="back-button" type="button" onclick="closePersonnelManagement()">← Ana Menü</button>
       <header class="pmx-head">
         <div><p class="pmx-kicker">BUYAKA PUMA / EKİP YÖNETİMİ</p><h1>Personel Yönetim Merkezi</h1><p>Performans, gelişim ve çalışma düzeni için tek yönetim alanı.</p></div>
-        <div class="pmx-count"><strong>06</strong> PERSONEL</div>
+        <div class="pmx-count"><strong>05</strong> PERSONEL</div>
       </header>
       <nav class="pmx-tabs" role="tablist" aria-label="Personel yönetim sekmeleri">
         <button class="pmx-tab active" type="button" role="tab" aria-selected="true" data-pmx-tab="sd" onclick="setPersonnelTab('sd')">SD KARNE</button>
@@ -227,56 +227,24 @@
       </nav>
 
       <section class="pmx-panel active" data-pmx-panel="sd" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Personel performans özeti</h2><p>Her ekip üyesinin KPI gelişimini tek tabloda takip et.</p></div><span class="pmx-note">KASIM 2026</span></div>
-        <div class="pmx-statline"><div class="pmx-stat"><span>EKİP</span><strong>06</strong></div><div class="pmx-stat"><span>DEĞERLENDİRME DÖNEMİ</span><strong>MTD</strong></div><div class="pmx-stat"><span>VERİ DURUMU</span><strong style="font-size:14px">Bağlantı bekliyor</strong></div></div>
-        <div class="pmx-table-wrap"><table class="pmx-table"><thead><tr><th>PERSONEL</th><th>CİRO</th><th>UPT</th><th>CR</th><th>ATV</th><th>GELİŞİM</th></tr></thead><tbody>
-          <tr><td>Mustafa Berat Dağıtmaç</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td><span class="pmx-tag">Veri bekleniyor</span></td></tr>
-          <tr><td>Sinem Palaz</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td><span class="pmx-tag">Veri bekleniyor</span></td></tr>
-          <tr><td>Serkan Canik</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td><span class="pmx-tag">Veri bekleniyor</span></td></tr>
-          <tr><td>Cem Aktaş</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td><span class="pmx-tag">Veri bekleniyor</span></td></tr>
-          <tr><td>Merve Çetin</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td><span class="pmx-tag">Veri bekleniyor</span></td></tr>
-          <tr><td>Ecenur Temür</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td class="pmx-muted">—</td><td><span class="pmx-tag">Veri bekleniyor</span></td></tr>
-        </tbody></table></div>
+        <div class="pmx-panel-title"><div><h2>SD Karne</h2><p>Mevcut SD Karne Excel dosyasındaki personel sonuçları.</p></div><span class="pmx-note">5 PERSONEL</span></div>
+        <div id="pmxSdData"><div class="pmx-empty">SD Karne verileri yükleniyor…</div></div>
       </section>
-
       <section class="pmx-panel" data-pmx-panel="league" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Aylık hedef takibi</h2><p>Fatura ve ürün hedefleri için ayrı ilerleme görünümü.</p></div><span class="pmx-note">KASIM 2026</span></div>
-        <div class="pmx-statline"><div class="pmx-stat"><span>AYLIK FATURA HEDEFİ</span><strong>—</strong></div><div class="pmx-stat"><span>AYLIK ÜRÜN HEDEFİ</span><strong>—</strong></div><div class="pmx-stat"><span>AYIN LİDERİ</span><strong style="font-size:14px">—</strong></div></div>
-        <div class="pmx-table-wrap"><table class="pmx-table"><thead><tr><th>SIRALAMA</th><th>PERSONEL</th><th>FATURA İLERLEMESİ</th><th>ÜRÜN İLERLEMESİ</th><th>TOPLAM PUAN</th></tr></thead><tbody>
-          <tr><td>01</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>02</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>03</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-        </tbody></table></div>
-        <p class="pmx-footer">Bu yeni görünümde hedefler ve puanlama ayrı bir veri katmanından yönetilecek.</p>
+        <div class="pmx-panel-title"><div><h2>Performance League</h2><p>Mevcut aylık fatura ve ürün hedefleri ile gerçekleşmeler.</p></div><span class="pmx-note">5 PERSONEL</span></div>
+        <div id="pmxLeagueData"><div class="pmx-empty">League Excel verileri yükleniyor…</div></div>
       </section>
-
       <section class="pmx-panel" data-pmx-panel="weekly" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Haftalık başarı takibi</h2><p>Her hafta farklı başarı alanları için kazananları belirle.</p></div><span class="pmx-note">HAFTALIK</span></div>
-        <div class="pmx-list">
-          <div class="pmx-row"><strong>Ciro performansı</strong><span class="pmx-row-detail pmx-muted">Haftalık sonuç</span><span class="pmx-tag">Kazanan bekleniyor</span></div>
-          <div class="pmx-row"><strong>UPT performansı</strong><span class="pmx-row-detail pmx-muted">Sepet verimliliği</span><span class="pmx-tag">Kazanan bekleniyor</span></div>
-          <div class="pmx-row"><strong>Tekstil ürün lideri</strong><span class="pmx-row-detail pmx-muted">En çok satan ürün</span><span class="pmx-tag">Ürün verisi bekleniyor</span></div>
-          <div class="pmx-row"><strong>Ayakkabı ürün lideri</strong><span class="pmx-row-detail pmx-muted">En çok satan ürün</span><span class="pmx-tag">Ürün verisi bekleniyor</span></div>
-        </div>
+        <div class="pmx-panel-title"><div><h2>Haftanın Enleri</h2><p>Mevcut SD Karne ve haftalık ürün lideri verileri.</p></div><span class="pmx-note">MEVCUT SONUÇLAR</span></div>
+        <div id="pmxWeeklyData"><div class="pmx-empty">Şampiyon verileri hazırlanıyor…</div></div>
       </section>
-
       <section class="pmx-panel" data-pmx-panel="education" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Ekip gelişim planı</h2><p>Eğitimleri, katılımı ve kişisel gelişim adımlarını takip et.</p></div><span class="pmx-note">2026</span></div>
-        <div class="pmx-list">
-          <div class="pmx-row"><strong>Eğitim takvimi</strong><span class="pmx-row-detail pmx-muted">Planlanan oturumlar</span><span class="pmx-tag">Takvim bağlantısı bekleniyor</span></div>
-          <div class="pmx-row"><strong>Personel gelişim kayıtları</strong><span class="pmx-row-detail pmx-muted">Kişisel gelişim geçmişi</span><span class="pmx-tag">Yeni kayıt yapısı</span></div>
-          <div class="pmx-row"><strong>Eğitim dokümanları</strong><span class="pmx-row-detail pmx-muted">Konu ve kaynak kütüphanesi</span><span class="pmx-tag">Doküman bağlantısı bekleniyor</span></div>
-        </div>
+        <div class="pmx-panel-title"><div><h2>Eğitim Merkezi</h2><p>Mevcut eğitim takvimi ve doküman kütüphanesi.</p></div><span class="pmx-note">2026</span></div>
+        <div id="pmxEducationData"><div class="pmx-empty">Eğitim verileri hazırlanıyor…</div></div>
       </section>
-
       <section class="pmx-panel" data-pmx-panel="shift" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Ekip çalışma planı</h2><p>Vardiya, izin ve ekip kapsama durumunu sade bir görünümde yönet.</p></div><span class="pmx-note">HAFTALIK PLAN</span></div>
-        <div class="pmx-table-wrap"><table class="pmx-table"><thead><tr><th>PERSONEL</th><th>PAZARTESİ</th><th>SALI</th><th>ÇARŞAMBA</th><th>PERŞEMBE</th><th>CUMA</th><th>CUMARTESİ</th><th>PAZAR</th></tr></thead><tbody>
-          <tr><td>Mustafa Berat Dağıtmaç</td><td colspan="7" class="pmx-muted">Vardiya verisi bekleniyor</td></tr>
-          <tr><td>Sinem Palaz</td><td colspan="7" class="pmx-muted">Vardiya verisi bekleniyor</td></tr>
-          <tr><td>Serkan Canik</td><td colspan="7" class="pmx-muted">Vardiya verisi bekleniyor</td></tr>
-          <tr><td>Cem Aktaş</td><td colspan="7" class="pmx-muted">Vardiya verisi bekleniyor</td></tr>
-          <tr><td>Merve Çetin</td><td colspan="7" class="pmx-muted">Vardiya verisi bekleniyor</td></tr>
-          <tr><td>Ecenur Temür</td><td colspan="7" class="pmx-muted">Vardiya verisi bekleniyor</td></tr>
-        </tbody></table></div>
+        <div class="pmx-panel-title"><div><h2>Çalışma Programı</h2><p>Bu sekmede mağaza müdürü dahil tüm vardiya ekibi gösterilir.</p></div><select id="pmxShiftWeek" class="pmx-select" onchange="renderPersonnelShiftWeek(this.value)"></select></div>
+        <div id="pmxShiftData"><div class="pmx-empty">Vardiya verileri hazırlanıyor…</div></div>
       </section>
       <p class="pmx-footer">Yeni personel yönetim arayüzü · Mevcut ana ekran modülleri ve işlevleri korunmuştur.</p>
     </section>
@@ -523,6 +491,7 @@
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
     <script src="shift-program.js?v=20261108-week-buttons-v1"></script>
     <script src="sd-karne.js?v=20261106-weekly-data-v2"></script>
+    <script src="personnel-management.js?v=20261112-live-data-v1"></script>
 
     <script>
       function showPersonnelManagement() {
@@ -531,6 +500,7 @@
         const area = document.getElementById("personnelManagementArea");
         if (menu) menu.style.display = "none";
         if (area) area.style.display = "block";
+        if (typeof window.loadPersonnelManagementData === "function") window.loadPersonnelManagementData();
         window.scrollTo(0, 0);
       }
       function setPersonnelTab(tabName) {
