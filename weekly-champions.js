@@ -4,6 +4,7 @@
     textile:{code:"52590801",name:"M TAD ESS SOLID CAT TEE LC",units:6,bu:"Run/Train",amount:7554,group:"TEKSTİL"},
     footwear:{code:"40236603",name:"CA Pro Classic II",units:6,bu:"Sportstyle Prime",amount:30610,group:"AYAKKABI"}
   };
+  window.BUYAKA_WEEKLY_WINNERS=winners;
   let active="revenue",products=[],loaded=false;
   const money=n=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n)+" ₺";
   const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
