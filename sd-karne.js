@@ -1,6 +1,7 @@
 const SD_KARNE_URL="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/SD%20Karne.xlsx";
 const SD_STAFF=["Sinem Palaz","Serkan Canik","Cem Aktaş","Merve Çetin","Ecenur Temür"];
 let sdKarneRows=[];
+let sdKarneBook=null;
 function sdNorm(v){return String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/\s+/g," ").trim();}
 function sdNum(v){if(typeof v==="number")return Number.isFinite(v)?v:0;let s=String(v??"").trim().replace(/₺|tl/gi,"").replace(/\s/g,"");if(!s)return 0;if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",",".");else if(s.includes(","))s=s.replace(",",".");const n=Number(s.replace(/[^0-9.-]/g,""));return Number.isFinite(n)?n:0;}
 function sdMetricIndex(headers,type){
@@ -20,30 +21,37 @@ function sdMetricIndex(headers,type){
 function sdFindTable(book){
  const sheetName=book.SheetNames.find(n=>sdNorm(n)==="sd karne")||book.SheetNames[0];
  const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
- // SD KARNE sayfasında personel tablosunun başlıkları 12. satırda (0-based index 11).
- const headerRow=11, headers=rows[headerRow]||[];
- const findHeader=(name)=>headers.findIndex(v=>sdNorm(v)===sdNorm(name));
+ const headerRow=11,headers=rows[headerRow]||[];
+ const find=(tests)=>{const i=headers.findIndex(v=>tests.some(t=>sdNorm(v).includes(t)));return i;};
+ const exact=(name)=>headers.findIndex(v=>sdNorm(v)===sdNorm(name));
  const map={
-  upt:findHeader("UPT"),
-  ciro:findHeader("GERÇEKLEŞEN CİRO"),
-  bonus:findHeader("AYSONU KAZANÇ"),
-  cr:findHeader("KİŞİSEL CR")
+  upt:exact("UPT"),ciro:exact("GERÇEKLEŞEN CİRO"),bonus:exact("AYSONU KAZANÇ"),cr:exact("KİŞİSEL CR"),
+  invoices:find(["fatura adedi","fatura sayisi","fis adedi","fis sayisi","invoice"]),
+  products:find(["urun adedi","urun sayisi","satilan urun","product quantity","adet toplam"]),
+  atv:find(["atv","ortalama fis tutari","ortalama fatura tutari"]),
+  asp:find(["asp","ortalama urun fiyati"]),
+  closingRevenue:find(["ay sonu kapanis ciro","tahmini kapanis ciro","kapanis ciro","projected sales","forecast sales"]),
+  hgo:find(["hgo","hedef gerceklesme orani","hedef gerceklesme %"]),
+  ciroTarget:find(["ciro hedefi","hedef ciro","sales target"])
  };
- const missing=Object.entries(map).filter(([,i])=>i<0).map(([k])=>k);
- if(missing.length)throw new Error("SD KARNE sayfasında 12. satırdaki başlıklarda şu alanlar bulunamadı: "+missing.join(", "));
+ const required=["upt","ciro","bonus","cr"],missing=required.filter(k=>map[k]<0);
+ if(missing.length)throw new Error("SD KARNE tablosunda gerekli başlıklar bulunamadı: "+missing.join(", "));
  return {rows,headerRow,map,sheetName};
 }
 function sdReadData(book){
  const table=sdFindTable(book),out=[];
  for(const name of SD_STAFF){
-  const key=sdNorm(name);
-  const row=table.rows.find((r,i)=>i>table.headerRow&&r.some(v=>sdNorm(v)===key));
+  const key=sdNorm(name),row=table.rows.find((r,i)=>i>table.headerRow&&r.some(v=>sdNorm(v)===key));
   if(!row)throw new Error(name+" için personel satırı bulunamadı.");
-  const val=k=>sdNum(row[table.map[k]]);
-  let cr=val("cr");
-  // Excel yüzde hücreleri 0,08 olarak saklanıyorsa ekranda 8,00% göster.
-  if(cr>0&&cr<=1)cr*=100;
-  out.push({name,ciro:val("ciro"),upt:val("upt"),cr,bonus:val("bonus")});
+  const val=k=>table.map[k]>=0?sdNum(row[table.map[k]]):0;
+  let cr=val("cr");if(cr>0&&cr<=1)cr*=100;
+  const ciro=val("ciro"),invoices=val("invoices"),products=val("products");
+  const atv=table.map.atv>=0?val("atv"):(invoices>0?ciro/invoices:0);
+  const asp=table.map.asp>=0?val("asp"):(products>0?ciro/products:0);
+  const closingRevenue=table.map.closingRevenue>=0?val("closingRevenue"):0;
+  let hgo=table.map.hgo>=0?val("hgo"):(table.map.ciroTarget>=0&&val("ciroTarget")>0?(closingRevenue||ciro)/val("ciroTarget")*100:0);
+  if(hgo>0&&hgo<=1)hgo*=100;
+  out.push({name,ciro,upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,hgo});
  }
  return out;
 }
@@ -71,7 +79,17 @@ function renderSDKarne(){
   el.innerHTML='<div class="sd-award-winner"><div class="sd-award-trophy" aria-hidden="true"></div><div class="sd-award-winner-copy"><div class="sd-champion-title-wrap">'+crown+'<small>'+w.label+'</small></div><strong>'+p.name+'</strong><b><span>GERÇEKLEŞEN '+w.unit+':</span> '+value+'</b></div></div>';
  });
  const cards=document.getElementById("sdStaffCards");
- if(cards)cards.innerHTML=sdKarneRows.map(p=>'<article class="sd-staff-card"><div class="sd-staff-top"><h3>'+p.name+'</h3><span class="sd-bonus-chip">AY SONU KAZANÇ <strong>'+sdFmt(p.bonus,0)+' TL</strong></span></div><div class="sd-staff-metrics"><div><span>CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div><div><span>KİŞİSEL UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div><div><span>KİŞİSEL CR</span><strong>'+sdFmt(p.cr,2)+'%</strong></div></div></article>').join("");
+ if(cards)cards.innerHTML=sdKarneRows.map(p=>'<article class="sd-staff-card"><div class="sd-staff-top"><h3>👤 '+p.name+'</h3><span class="sd-bonus-chip">🎁 AY SONU KAZANÇ <strong>'+sdFmt(p.bonus,0)+' TL</strong></span></div><div class="sd-staff-metrics sd-staff-metrics-expanded">'+
+ '<div><span>CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div>'+
+ '<div><span>FATURA ADEDİ</span><strong>'+sdFmt(p.invoices,0)+'</strong></div>'+
+ '<div><span>ÜRÜN ADEDİ</span><strong>'+sdFmt(p.products,0)+'</strong></div>'+
+ '<div><span>ATV</span><strong>'+sdFmt(p.atv,0)+' TL</strong></div>'+
+ '<div><span>ASP</span><strong>'+sdFmt(p.asp,0)+' TL</strong></div>'+
+ '<div><span>UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div>'+
+ '<div><span>CR</span><strong>'+sdFmt(p.cr,2)+'%</strong></div>'+
+ '<div><span>AY SONU KAPANIŞ CİRO</span><strong>'+(p.closingRevenue?sdFmt(p.closingRevenue,0)+' TL':'—')+'</strong></div>'+
+ '<div><span>HGO</span><strong>'+(p.hgo?sdFmt(p.hgo,1)+'%':'—')+'</strong></div>'+
+ '</div></article>').join("");
 }
 async function loadSDKarneData(){
  const status=document.getElementById("sdKarneStatus");
@@ -81,6 +99,7 @@ async function loadSDKarneData(){
   const response=await fetch(SD_KARNE_URL+"?v="+Date.now(),{cache:"no-store"});
   if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
   const book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
+  sdKarneBook=book;
   sdKarneRows=sdReadData(book);
   window.BUYAKA_SD_KARNE_ROWS=sdKarneRows;
   renderSDKarne();
@@ -97,12 +116,16 @@ async function loadSDKarneData(){
 }
 function toggleSDKarneExcel(){
  const wrap=document.getElementById("sdKarneViewerWrap");
- const viewer=document.getElementById("sdKarneViewer");
- if(!wrap)return;
+ const tableHost=document.getElementById("sdKarneOriginalTable");
+ const button=document.getElementById("sdKarneOriginalButton");
+ if(!wrap||!tableHost)return;
  const opening=wrap.hidden;
  wrap.hidden=!opening;
- if(opening&&viewer&&!viewer.src){
-  const fileUrl=SD_KARNE_URL+"?v=20261105";
-  viewer.src="https://view.officeapps.live.com/op/embed.aspx?src="+encodeURIComponent(fileUrl);
+ if(button)button.textContent=opening?"ORİJİNAL TABLOYU GİZLE":"ORİJİNAL TABLOYU GÖSTER";
+ if(opening){
+  if(!sdKarneBook){tableHost.innerHTML='<p class="sd-original-loading">Önce SD Karne Excel verisinin yüklenmesini bekleyin.</p>';return;}
+  const sheetName=sdKarneBook.SheetNames.find(n=>sdNorm(n)==="sd karne")||sdKarneBook.SheetNames[0];
+  const sheet=sdKarneBook.Sheets[sheetName];
+  tableHost.innerHTML=XLSX.utils.sheet_to_html(sheet,{id:"sdOriginalWorkbookTable",editable:false});
  }
 }
