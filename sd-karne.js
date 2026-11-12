@@ -51,7 +51,7 @@ function sdReadData(book){
   const closingRevenue=table.map.closingRevenue>=0?val("closingRevenue"):0;
   let hgo=table.map.hgo>=0?val("hgo"):(table.map.ciroTarget>=0&&val("ciroTarget")>0?(closingRevenue||ciro)/val("ciroTarget")*100:0);
   if(hgo>0&&hgo<=1)hgo*=100;
-  out.push({name,ciro,upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,hgo});
+  out.push({name,ciro,upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,hgo,hasInvoices:table.map.invoices>=0,hasProducts:table.map.products>=0});
  }
  return out;
 }
@@ -60,9 +60,9 @@ function sdWinner(items,key){return items.reduce((a,b)=>b[key]>a[key]?b:a,items[
 function renderSDKarne(){
  if(!sdKarneRows.length)return;
  const winners=[
-  {id:"sdUptWinner",label:"UPT ŞAMPİYONU",metric:"upt",unit:"UPT",icon:"⚡"},
-  {id:"sdCrWinner",label:"CR ŞAMPİYONU",metric:"cr",unit:"CR",icon:"🎯"},
-  {id:"sdCiroWinner",label:"CİRO ŞAMPİYONU",metric:"ciro",unit:"CİRO",icon:"💰"}
+  {id:"sdUptWinner",label:"⚡ UPT ŞAMPİYONU",metric:"upt",unit:"UPT",icon:"⚡"},
+  {id:"sdCrWinner",label:"🎯 CR ŞAMPİYONU",metric:"cr",unit:"CR",icon:"🎯"},
+  {id:"sdCiroWinner",label:"💰 CİRO ŞAMPİYONU",metric:"ciro",unit:"CİRO",icon:"💰"}
  ];
  winners.forEach(w=>{
   const p=sdWinner(sdKarneRows,w.metric),el=document.getElementById(w.id);
@@ -81,8 +81,8 @@ function renderSDKarne(){
  const cards=document.getElementById("sdStaffCards");
  if(cards)cards.innerHTML=sdKarneRows.map(p=>'<article class="sd-staff-card"><div class="sd-staff-top"><h3>👤 '+p.name+'</h3><span class="sd-bonus-chip">🎁 AY SONU KAZANÇ <strong>'+sdFmt(p.bonus,0)+' TL</strong></span></div><div class="sd-staff-metrics sd-staff-metrics-expanded">'+
  '<div><span>CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div>'+
- '<div><span>FATURA ADEDİ</span><strong>'+sdFmt(p.invoices,0)+'</strong></div>'+
- '<div><span>ÜRÜN ADEDİ</span><strong>'+sdFmt(p.products,0)+'</strong></div>'+
+ '<div><span>FATURA ADEDİ</span><strong>'+(p.hasInvoices?sdFmt(p.invoices,0):'—')+'</strong></div>'+
+ '<div><span>ÜRÜN ADEDİ</span><strong>'+(p.hasProducts?sdFmt(p.products,0):'—')+'</strong></div>'+
  '<div><span>ATV</span><strong>'+sdFmt(p.atv,0)+' TL</strong></div>'+
  '<div><span>ASP</span><strong>'+sdFmt(p.asp,0)+' TL</strong></div>'+
  '<div><span>UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div>'+
