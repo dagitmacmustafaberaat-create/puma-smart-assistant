@@ -43,19 +43,21 @@
       table(["SIRA","PERSONEL","FATURA HEDEF","FATURA","FATURA %","ÜRÜN HEDEF","ÜRÜN","ÜRÜN %","PUAN"],body);
   }
   function renderWeekly(){
-    const root=$("pmxWeeklyData"),products=window.BUYAKA_WEEKLY_WINNERS||{},rows=window.BUYAKA_SD_KARNE_ROWS||[];
+    const root=$("pmxWeeklyData"),rows=window.BUYAKA_SD_KARNE_ROWS||[],league=window.BUYAKA_LEAGUE_DATA?.staff||[];
     if(!root)return;
-    const winner=(key)=>{const metric=key==="revenue"?"ciro":"upt";const list=rows.filter(p=>STAFF.includes(p.name));return list.length?list.reduce((a,b)=>Number(b[metric])>Number(a[metric])?b:a):null;};
-    const revenue=winner("revenue"),upt=winner("upt");
-    const product=(key)=>products[key]||null;
-    const textile=product("textile"),footwear=product("footwear");
+    const eligible=rows.filter(p=>STAFF.includes(p.name));
+    const winner=key=>{
+      const list=key==="atv"?eligible.map(p=>{const x=league.find(s=>s.name===p.name),invoices=Number(x?.invoices)||0;return {...p,atv:invoices>0?Number(p.ciro||0)/invoices:0,invoices};}).filter(p=>p.invoices>0):eligible;
+      return list.length?list.reduce((x,y)=>Number(y[key])>Number(x[key])?y:x):null;
+    };
+    const revenue=winner("ciro"),upt=winner("upt"),atv=winner("atv"),cr=winner("cr");
     const itemRow=(title,person,detail)=>'<div class="pmx-row"><strong>'+esc(title)+'</strong><span class="pmx-row-detail">'+esc(person||"Veri yok")+'</span><span class="pmx-tag">'+esc(detail||"—")+'</span></div>';
     root.innerHTML='<div class="pmx-list">'+
       itemRow("Ciro şampiyonu",revenue?.name,revenue?money(revenue.ciro):"SD Karne verisi yok")+
       itemRow("UPT şampiyonu",upt?.name,upt?number(upt.upt,2)+" UPT":"SD Karne verisi yok")+
-      itemRow("Tekstil ürün lideri",textile?.name,textile?textile.name+" · "+number(textile.units)+" adet":"Top20 verisi yok")+
-      itemRow("Ayakkabı ürün lideri",footwear?.name,footwear?footwear.name+" · "+number(footwear.units)+" adet":"Top20 verisi yok")+
-      '</div><p class="pmx-footer">Ürün liderleri mevcut Haftanın Enleri modülünde tanımlı haftalık Top20 sonuçlarıdır.</p>';
+      itemRow("ATV şampiyonu",atv?.name,atv?money(atv.atv):"Fatura verisi yok")+
+      itemRow("CR şampiyonu",cr?.name,cr?number(cr.cr,2)+"%":"SD Karne verisi yok")+
+      '</div><p class="pmx-footer">ATV, gerçekleşen ciro / fatura adedi üzerinden hesaplanır.</p>';
   }
   function renderEducation(){
     const root=$("pmxEducationData"),data=window.BUYAKA_TRAINING_DATA;
