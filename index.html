@@ -378,7 +378,7 @@
 
     <section id="sdKarneArea" class="sd-karne-area" style="display:none;">
       <button class="back-button sd-karne-back" type="button" onclick="closeSDKarnesi()">← Ana Menü</button>
-      <div id="sdKarneStatus" class="sd-karne-status" role="status">SD Karne verileri yükleniyor…</div>
+      <div id="sdKarneStatus" class="sd-karne-status" role="status">📌 SD Karne verileri yükleniyor…</div>
       <section class="sd-champions-row" aria-label="Aylık şampiyonlar">
         <article class="sd-champions-feature" aria-label="Champions Club görseli"></article>
         <section class="sd-awards-grid" aria-label="Aylık şampiyonlar">
@@ -388,15 +388,15 @@
         </section>
       </section>
       <section class="sd-staff-section">
-        <div class="league-panel-heading"><div><span class="league-section-tag">INDIVIDUAL PERFORMANCE</span><h2>PERSONEL KARNESİ</h2></div></div>
+        <div class="league-panel-heading"><div><span class="league-section-tag">📊 INDIVIDUAL PERFORMANCE</span><h2>👥 PERSONEL KARNESİ</h2></div></div>
         <div id="sdStaffCards" class="sd-staff-grid"><div class="league-empty">Excel verileri yükleniyor…</div></div>
       </section>
       <div class="sd-karne-toolbar">
-        <span>KASIM SD KARNE.xlsx</span>
-        <button type="button" onclick="toggleSDKarneExcel()">ORİJİNAL EXCEL TABLOSUNU GÖRÜNTÜLE ↗</button>
+        <span>📑 ORİJİNAL SD KARNE TABLOSU</span>
+        <button id="sdKarneOriginalButton" type="button" onclick="toggleSDKarneExcel()">📂 ORİJİNAL TABLOYU GÖSTER</button>
       </div>
       <div id="sdKarneViewerWrap" class="sd-karne-viewer-wrap" hidden>
-        <iframe id="sdKarneViewer" title="Kasım SD Karne Excel görüntüleyici" loading="lazy" referrerpolicy="no-referrer" allowfullscreen></iframe>
+        <div id="sdKarneOriginalTable" class="sd-karne-original-table"><p class="sd-original-loading">Orijinal tablo açılmaya hazır.</p></div>
       </div>
     </section>
     <section id="performanceLeagueArea" class="performance-league-area" style="display:none;">
