@@ -258,7 +258,7 @@ function applyStoreStatusView() {
     if (!root) return;
     const view = activeStoreStatusView || "main";
     const visibleGroups = {
-        main: [".kpi-group", ".forecast-group"],
+        main: [".forecast-group"],
         category: [".category-group"],
         gender: [".gender-group"],
         stock: [".stock-group"],
@@ -812,7 +812,6 @@ async function loadPerformanceDashboard() {
         }).filter(Boolean);
 
         const groups = [];
-        groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
         groups.push(section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
             card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
             card(String(raw("E25") || "HGO"), { ...get("F25"), number_format: "0.00%" }, "metric-card-featured")
