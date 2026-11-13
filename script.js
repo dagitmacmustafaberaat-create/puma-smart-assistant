@@ -837,15 +837,17 @@ async function loadPerformanceDashboard() {
             ...item,
             rate: item.old === 0 ? 0 : item.current / item.old * 100
         }));
-        const attainmentChart = () => compareChart(
-            "KPI Hedef Gerçekleşme",
-            "HEDEF / GERÇEKLEŞEN",
-            kpiChartRows,
-            "Hedef",
-            "Gerçekleşen",
-            false,
-            "store-chart-kpi"
-        );
+        const attainmentChart = () => {
+            const valid = kpiChartRows.filter(item => item.old !== null && item.current !== null);
+            if (!valid.length) return '<article class="store-chart-card store-chart-kpi"><div class="store-chart-heading"><div><span class="store-chart-kicker">HEDEF / GERÇEKLEŞEN</span><h3>KPI Hedef Gerçekleşme</h3></div></div><div class="store-chart-empty">KPI verisi bulunamadı.</div></article>';
+            return '<article class="store-chart-card store-chart-kpi"><div class="store-chart-heading"><div><span class="store-chart-kicker">HEDEF / GERÇEKLEŞEN</span><h3>KPI Hedef Gerçekleşme</h3></div><div class="store-chart-legend"><i class="previous"></i> Hedef <i class="actual"></i> Gerçekleşen</div></div><div class="store-kpi-card-grid">' +
+                valid.map(item => {
+                    const attainment = item.old > 0 ? item.current / item.old * 100 : 0;
+                    const width = Math.max(0, Math.min(100, attainment));
+                    const suffix = item.currency ? ' TL' : '';
+                    return '<section class="store-kpi-compare-card"><h4>' + safeChartLabel(item.name) + '</h4><div class="store-kpi-values"><div><span>HEDEF</span><strong>' + chartNumber(item.old, item.currency) + suffix + '</strong></div><div><span>GERÇEKLEŞEN</span><strong>' + chartNumber(item.current, item.currency) + suffix + '</strong></div></div><div class="store-kpi-progress-track"><span style="width:' + width + '%"></span></div><div class="store-kpi-progress-meta"><span>Hedef gerçekleşme</span><b>' + chartNumber(attainment) + '%</b></div></section>';
+                }).join("") + '</div></article>';
+        };
         const compareChart = (title, kicker, entries, oldLabel, newLabel, currency = false, extraClass = "") => {
             const valid = entries.filter(item => item.old !== null || item.current !== null);
             if (!valid.length) return '<article class="store-chart-card ' + extraClass + '"><div class="store-chart-heading"><div><span class="store-chart-kicker">' + kicker + '</span><h3>' + title + '</h3></div></div><div class="store-chart-empty">Karşılaştırma verisi bulunamadı.</div></article>';
