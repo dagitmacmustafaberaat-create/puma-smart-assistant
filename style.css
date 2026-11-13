@@ -5023,3 +5023,20 @@ body {
 #performanceSections [hidden]{display:none!important}
 #performanceSections .store-chart-card[hidden],#performanceSections .performance-group[hidden]{display:none!important}
 @media(max-width:600px){.store-status-filter-bar{align-items:stretch;flex-direction:column;gap:8px;padding:12px}.store-status-filter-bar select{width:100%;max-width:none}}
+
+
+/* KPI hedef/gerçekleşen: bağımsız okunaklı kartlar ve yatay ilerleme */
+.store-chart-kpi .store-chart-heading{align-items:center;margin-bottom:16px}
+.store-kpi-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.store-kpi-compare-card{min-width:0;padding:16px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:linear-gradient(145deg,rgba(39,40,46,.98),rgba(22,23,28,.98))}
+.store-kpi-compare-card h4{margin:0 0 13px;color:#ff536a;font-size:16px;font-weight:900;letter-spacing:.2px}
+.store-kpi-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.store-kpi-values>div{min-width:0;padding:10px 11px;border-radius:9px;background:rgba(255,255,255,.055)}
+.store-kpi-values span{display:block;margin-bottom:5px;color:#bfc2ca;font-size:11px;font-weight:800;letter-spacing:.55px}
+.store-kpi-values strong{display:block;color:#fff;font-size:clamp(15px,2vw,19px);font-weight:900;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.store-kpi-values>div:last-child strong{color:#ff667b}
+.store-kpi-progress-track{height:12px;margin-top:14px;overflow:hidden;border-radius:20px;background:#41434b}
+.store-kpi-progress-track span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#a9001b,#ff3659);box-shadow:0 0 12px rgba(227,24,55,.3)}
+.store-kpi-progress-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:7px;color:#c3c5cc;font-size:12px;font-weight:750}
+.store-kpi-progress-meta b{color:#fff;font-size:15px;font-weight:950;font-variant-numeric:tabular-nums}
+@media(max-width:650px){.store-kpi-card-grid{grid-template-columns:1fr;gap:10px}.store-kpi-compare-card{padding:15px}.store-kpi-compare-card h4{font-size:17px}.store-kpi-values span{font-size:11px}.store-kpi-values strong{font-size:17px}.store-kpi-progress-track{height:13px}.store-kpi-progress-meta{font-size:12px}.store-kpi-progress-meta b{font-size:16px}}
