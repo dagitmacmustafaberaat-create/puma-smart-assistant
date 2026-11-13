@@ -3118,7 +3118,7 @@ body{background-size:contain !important;background-position:center top !importan
 }
 #sdKarneArea .sd-staff-section .league-panel-heading h2,
 #sdKarneArea .sd-staff-section .league-section-tag{
-  color:#fff!important;
+  color:#d5001c!important;
   letter-spacing:1.2px!important;
 }
 #sdKarneArea .sd-staff-card{
@@ -3140,8 +3140,9 @@ body{background-size:contain !important;background-position:center top !importan
   background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(8,8,8,.52) 72%,rgba(213,0,28,.12))!important;
 }
 #sdKarneArea .sd-staff-metrics span{
-  color:#e8b8bf!important;
+  color:#d5001c!important;
   letter-spacing:.45px!important;
+  font-weight:900!important;
 }
 #sdKarneArea .sd-staff-metrics strong{
   color:#fff!important;
