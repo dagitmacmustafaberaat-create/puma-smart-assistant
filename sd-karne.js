@@ -129,3 +129,30 @@ function toggleSDKarneExcel(){
   tableHost.innerHTML=XLSX.utils.sheet_to_html(sheet,{id:"sdOriginalWorkbookTable",editable:false});
  }
 }
+
+
+// Personel Yönetim Merkezi içindeki SD Karne sekmesi için gömülü orijinal Excel görüntüleyici.
+async function togglePMXSDKarneExcel(){
+ const wrap=document.getElementById("pmxSdOriginalWrap");
+ const host=document.getElementById("pmxSdOriginalTable");
+ const button=document.getElementById("pmxSdOriginalButton");
+ if(!wrap||!host)return;
+ const opening=wrap.hidden;
+ wrap.hidden=!opening;
+ if(button)button.textContent=opening?"📂 ORİJİNAL TABLOYU GİZLE":"📂 ORİJİNAL TABLOYU AÇ";
+ if(!opening)return;
+ try{
+  if(!window.XLSX)throw new Error("Excel görüntüleyici yüklenemedi.");
+  if(!sdKarneBook){
+   host.textContent="GitHub üzerindeki SD Karne Excel dosyası yükleniyor…";
+   const response=await fetch(SD_KARNE_URL+"?v="+Date.now(),{cache:"no-store"});
+   if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
+   sdKarneBook=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
+  }
+  const sheetName=sdKarneBook.SheetNames.find(n=>sdNorm(n)==="sd karne")||sdKarneBook.SheetNames[0];
+  host.innerHTML=XLSX.utils.sheet_to_html(sdKarneBook.Sheets[sheetName],{id:"pmxSdOriginalWorkbookTable",editable:false});
+  const table=host.querySelector("table");
+  if(table){table.style.borderCollapse="collapse";table.style.width="100%";table.style.color="#111";table.querySelectorAll("td,th").forEach(cell=>{cell.style.border="1px solid #ddd";cell.style.padding="7px 9px";cell.style.whiteSpace="nowrap";});}
+ }catch(error){host.textContent="Orijinal tablo açılamadı: "+error.message;console.error("Personel merkezi SD Excel görüntüleme hatası:",error);}
+}
+window.togglePMXSDKarneExcel=togglePMXSDKarneExcel;
