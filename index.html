@@ -7,7 +7,7 @@
 
     <title>BUYAKA PUMA SMART ASSISTANT</title>
 
-    <link rel="stylesheet" href="style.css?v=20261112-sdkarne-puma-restore-v1">
+    <link rel="stylesheet" href="style.css?v=20261113-personnel-hub-v2">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
     <link rel="icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
     <link rel="apple-touch-icon" type="image/jpeg" href="./puma-bg.jpg.jpg?v=20261018-bg-icon">
@@ -177,78 +177,155 @@
 
 
     <section id="personnelManagementArea" class="personnel-management-area" style="display:none;">
-      <style>
-        #personnelManagementArea{max-width:1120px;margin:0 auto;padding:22px 18px 48px;color:#f4f4f4}
-        #personnelManagementArea .pmx-head{display:flex;align-items:end;justify-content:space-between;gap:16px;padding:8px 2px 20px;border-bottom:1px solid rgba(255,255,255,.14)}
-        #personnelManagementArea .pmx-kicker{margin:0 0 7px;color:#d5001c;font-size:10px;font-weight:800;letter-spacing:1.8px}
-        #personnelManagementArea .pmx-head h1{margin:0;font-size:clamp(23px,4vw,32px);font-weight:850;letter-spacing:-.7px}
-        #personnelManagementArea .pmx-head p{margin:7px 0 0;color:#aeb3ba;font-size:12px}
-        #personnelManagementArea .pmx-count{white-space:nowrap;color:#c8cbd0;font-size:11px}
-        #personnelManagementArea .pmx-count strong{color:#fff;font-size:20px;margin-right:5px}
-        #personnelManagementArea .pmx-tabs{display:flex;gap:5px;overflow-x:auto;padding:15px 0 12px;border-bottom:1px solid rgba(255,255,255,.12);scrollbar-width:thin}
-        #personnelManagementArea .pmx-tab{flex:0 0 auto;padding:10px 14px;border:1px solid transparent;border-radius:7px;background:transparent;color:#aeb3ba;font:inherit;font-size:11px;font-weight:700;letter-spacing:.2px;cursor:pointer}
-        #personnelManagementArea .pmx-tab.active{background:#d5001c;color:#fff;border-color:#d5001c}
-        #personnelManagementArea .pmx-panel{display:none;padding:20px 1px 4px}
-        #personnelManagementArea .pmx-panel.active{display:block}
-        #personnelManagementArea .pmx-panel-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:15px}
-        #personnelManagementArea .pmx-panel-title h2{margin:0;font-size:18px;font-weight:800}
-        #personnelManagementArea .pmx-panel-title p{margin:5px 0 0;color:#aeb3ba;font-size:11px}
-        #personnelManagementArea .pmx-note{color:#aeb3ba;font-size:10px}
-        #personnelManagementArea .pmx-table-wrap{overflow-x:auto;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(12,14,17,.55)}
-        #personnelManagementArea .pmx-table{width:100%;min-width:610px;border-collapse:collapse}
-        #personnelManagementArea .pmx-table th,#personnelManagementArea .pmx-table td{padding:12px 13px;border-bottom:1px solid rgba(255,255,255,.09);text-align:left;font-size:12px;white-space:nowrap}
-        #personnelManagementArea .pmx-table th{color:#aeb3ba;font-size:9px;letter-spacing:.8px;font-weight:800}
-        #personnelManagementArea .pmx-table td:first-child{font-weight:700;color:#fff}
-        #personnelManagementArea .pmx-table tr:last-child td{border-bottom:0}
-        #personnelManagementArea .pmx-muted{color:#9da3ab}
-        #personnelManagementArea .pmx-empty{padding:24px 18px;border:1px dashed rgba(255,255,255,.2);border-radius:9px;color:#b5bac1;font-size:12px;line-height:1.6}
-        #personnelManagementArea .pmx-list{border-top:1px solid rgba(255,255,255,.12)}
-        #personnelManagementArea .pmx-row{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(120px,1fr) minmax(100px,.7fr);gap:12px;align-items:center;padding:14px 10px;border-bottom:1px solid rgba(255,255,255,.1);font-size:12px}
-        #personnelManagementArea .pmx-row strong{font-size:12px}
-        #personnelManagementArea .pmx-select{background:#17191d;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:9px 10px;font:inherit;font-size:11px;max-width:190px}#personnelManagementArea .pmx-link-button{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:5px;padding:6px 10px;font:inherit;font-size:11px;cursor:pointer}#personnelManagementArea .pmx-link-button:hover{border-color:#d5001c;color:#fff}#personnelManagementArea .pmx-tag{justify-self:start;padding:5px 8px;border-radius:4px;background:rgba(255,255,255,.08);color:#c4c8ce;font-size:9px;font-weight:700}
-        #personnelManagementArea .pmx-statline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 18px}
-        #personnelManagementArea .pmx-stat{padding:13px 14px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:rgba(255,255,255,.025)}
-        #personnelManagementArea .pmx-stat span{display:block;color:#aeb3ba;font-size:9px;letter-spacing:.7px}
-        #personnelManagementArea .pmx-stat strong{display:block;margin-top:7px;color:#fff;font-size:21px}
-        #personnelManagementArea .pmx-footer{margin-top:22px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);color:#858b94;font-size:10px}
-        @media(max-width:620px){#personnelManagementArea{padding:16px 12px 34px}#personnelManagementArea .pmx-head{align-items:start}#personnelManagementArea .pmx-count{font-size:9px}#personnelManagementArea .pmx-count strong{font-size:17px}#personnelManagementArea .pmx-tab{padding:10px 11px;font-size:10px}#personnelManagementArea .pmx-statline{grid-template-columns:1fr 1fr}#personnelManagementArea .pmx-row{grid-template-columns:1fr auto;gap:6px}#personnelManagementArea .pmx-row .pmx-row-detail{grid-column:1/-1}}
-      </style>
-      <button class="back-button" type="button" onclick="closePersonnelManagement()">← Ana Menü</button>
-      <header class="pmx-head">
-        <div><p class="pmx-kicker">BUYAKA PUMA / EKİP YÖNETİMİ</p><h1>Personel Yönetim Merkezi</h1><p>Performans, gelişim ve çalışma düzeni için tek yönetim alanı.</p></div>
-        <div class="pmx-count"><strong>05</strong> PERSONEL</div>
-      </header>
-      <nav class="pmx-tabs" role="tablist" aria-label="Personel yönetim sekmeleri">
-        <button class="pmx-tab active" type="button" role="tab" aria-selected="true" data-pmx-tab="sd" onclick="setPersonnelTab('sd')">SD KARNE</button>
-        <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="league" onclick="setPersonnelTab('league')">PERFORMANCE LEAGUE</button>
-        <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="weekly" onclick="setPersonnelTab('weekly')">HAFTANIN ENLERİ</button>
-        <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="education" onclick="setPersonnelTab('education')">EĞİTİM MERKEZİ</button>
-        <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="shift" onclick="setPersonnelTab('shift')">ÇALIŞMA PROGRAMI</button>
-      </nav>
-
-      <section class="pmx-panel active" data-pmx-panel="sd" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>SD Karne</h2><p>Mevcut SD Karne Excel dosyasındaki personel sonuçları.</p></div><span class="pmx-note">5 PERSONEL</span></div>
-        <div id="pmxSdData"><div class="pmx-empty">SD Karne verileri yükleniyor…</div></div>
-      </section>
-      <section class="pmx-panel" data-pmx-panel="league" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Performance League</h2><p>Mevcut aylık fatura ve ürün hedefleri ile gerçekleşmeler.</p></div><span class="pmx-note">5 PERSONEL</span></div>
-        <div id="pmxLeagueData"><div class="pmx-empty">League Excel verileri yükleniyor…</div></div>
-      </section>
-      <section class="pmx-panel" data-pmx-panel="weekly" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Haftanın Enleri</h2><p>Mevcut SD Karne ve haftalık ürün lideri verileri.</p></div><span class="pmx-note">MEVCUT SONUÇLAR</span></div>
-        <div id="pmxWeeklyData"><div class="pmx-empty">Şampiyon verileri hazırlanıyor…</div></div>
-      </section>
-      <section class="pmx-panel" data-pmx-panel="education" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Eğitim Merkezi</h2><p>Mevcut eğitim takvimi ve doküman kütüphanesi.</p></div><span class="pmx-note">2026</span></div>
-        <div id="pmxEducationData"><div class="pmx-empty">Eğitim verileri hazırlanıyor…</div></div>
-      </section>
-      <section class="pmx-panel" data-pmx-panel="shift" role="tabpanel">
-        <div class="pmx-panel-title"><div><h2>Çalışma Programı</h2><p>Bu sekmede mağaza müdürü dahil tüm vardiya ekibi gösterilir.</p></div><select id="pmxShiftWeek" class="pmx-select" onchange="renderPersonnelShiftWeek(this.value)"></select></div>
-        <div id="pmxShiftData"><div class="pmx-empty">Vardiya verileri hazırlanıyor…</div></div>
-      </section>
-      <p class="pmx-footer">Yeni personel yönetim arayüzü · Mevcut ana ekran modülleri ve işlevleri korunmuştur.</p>
-    </section>
-
+  <style>
+    #personnelManagementArea{width:min(1180px,calc(100% - 32px));max-width:1180px;margin:0 auto;padding:18px 0 48px;color:#f7f7f8}
+    #personnelManagementArea *{box-sizing:border-box}
+    #personnelManagementArea .pmx-hero{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:26px 28px;border:1px solid rgba(255,255,255,.13);border-left:5px solid #d5001c;border-radius:18px;background:linear-gradient(112deg,rgba(8,10,13,.97),rgba(34,12,18,.91)),url('./puma-wallpaper.png') center 43%/cover;box-shadow:0 15px 38px rgba(0,0,0,.28)}
+    #personnelManagementArea .pmx-hero:after{content:'PUMA';position:absolute;z-index:-1;right:20px;bottom:-32px;color:rgba(255,255,255,.045);font-size:clamp(74px,13vw,148px);font-weight:1000;font-style:italic;letter-spacing:-9px}
+    #personnelManagementArea .pmx-kicker{margin:0 0 8px;color:#ff536a;font-size:10px;font-weight:950;letter-spacing:2.2px}
+    #personnelManagementArea .pmx-hero h1{margin:0;color:#fff;font-size:clamp(24px,4vw,36px);font-weight:950;letter-spacing:-.9px}
+    #personnelManagementArea .pmx-hero p:last-child{margin:8px 0 0;color:#c4c6cb;font-size:12px}
+    #personnelManagementArea .pmx-hero-side{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+    #personnelManagementArea .pmx-count{display:grid;place-items:center;min-width:76px;padding:10px 12px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:rgba(0,0,0,.34)}
+    #personnelManagementArea .pmx-count strong{color:#fff;font-size:27px;line-height:1}
+    #personnelManagementArea .pmx-count span{margin-top:5px;color:#ff9aa7;font-size:9px;font-weight:900;letter-spacing:1px}
+    #personnelManagementArea .pmx-refresh{border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:11px 13px;background:#d5001c;color:#fff;font:inherit;font-size:10px;font-weight:900;letter-spacing:.5px;cursor:pointer;box-shadow:0 7px 18px rgba(213,0,28,.22)}
+    #personnelManagementArea .pmx-refresh:hover{background:#f01835}
+    #personnelManagementArea .pmx-tabs{display:flex;gap:8px;overflow-x:auto;padding:16px 2px 13px;margin:4px 0 0;border-bottom:1px solid rgba(255,255,255,.11);scrollbar-width:thin}
+    #personnelManagementArea .pmx-tab{display:flex;align-items:center;gap:8px;flex:0 0 auto;min-height:43px;padding:10px 15px;border:1px solid #34373e;border-radius:10px;background:linear-gradient(145deg,#1b1d22,#111216);color:#c7c9ce;font:inherit;font-size:10px;font-weight:900;letter-spacing:.45px;cursor:pointer;transition:.18s ease}
+    #personnelManagementArea .pmx-tab span{font-size:16px}
+    #personnelManagementArea .pmx-tab.active{border-color:#ff536a;background:linear-gradient(130deg,#d5001c,#8f0013);color:#fff;box-shadow:0 7px 18px rgba(213,0,28,.2)}
+    #personnelManagementArea .pmx-panel{display:none;padding:22px 1px 4px}
+    #personnelManagementArea .pmx-panel.active{display:block;animation:pmxIn .22s ease}
+    @keyframes pmxIn{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+    #personnelManagementArea .pmx-panel-title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:0 1px 17px}
+    #personnelManagementArea .pmx-panel-title small{display:block;margin-bottom:5px;color:#ff6478;font-size:9px;font-weight:950;letter-spacing:1.6px}
+    #personnelManagementArea .pmx-panel-title h2{margin:0;color:#fff;font-size:21px;font-weight:950;letter-spacing:-.3px}
+    #personnelManagementArea .pmx-panel-title p{margin:6px 0 0;color:#aeb1b8;font-size:11px}
+    #personnelManagementArea .pmx-panel-note{margin:0 0 13px;color:#92969f;font-size:10px}
+    #personnelManagementArea .pmx-select{max-width:220px;min-width:170px;padding:10px 12px;border:1px solid #41444c;border-radius:9px;background:#17191e;color:#fff;font:inherit;font-size:11px}
+    #personnelManagementArea .pmx-statline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}
+    #personnelManagementArea .pmx-stat{min-width:0;padding:14px 15px;border:1px solid rgba(255,255,255,.12);border-top:2px solid #d5001c;border-radius:11px;background:linear-gradient(145deg,rgba(30,32,38,.97),rgba(13,14,18,.97));box-shadow:0 7px 18px rgba(0,0,0,.13)}
+    #personnelManagementArea .pmx-stat span{display:block;color:#aeb2ba;font-size:9px;font-weight:850;letter-spacing:.85px}
+    #personnelManagementArea .pmx-stat strong{display:block;overflow:hidden;margin-top:8px;color:#fff;font-size:clamp(17px,2.4vw,23px);font-weight:950;text-overflow:ellipsis;white-space:nowrap}
+    #personnelManagementArea .pmx-person-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    #personnelManagementArea .pmx-person-card,#personnelManagementArea .pmx-league-card{min-width:0;padding:16px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:linear-gradient(145deg,#1b1d22,#101115);box-shadow:0 8px 22px rgba(0,0,0,.14)}
+    #personnelManagementArea .pmx-person-card-head,#personnelManagementArea .pmx-league-card-top{display:flex;align-items:center;gap:10px;min-width:0;margin-bottom:14px}
+    #personnelManagementArea .pmx-person-card-head>div,#personnelManagementArea .pmx-league-card-top>div{display:grid;gap:4px;min-width:0;flex:1}
+    #personnelManagementArea .pmx-person-card-head strong,#personnelManagementArea .pmx-league-card-top strong{overflow:hidden;color:#fff;font-size:14px;font-weight:950;text-overflow:ellipsis;white-space:nowrap}
+    #personnelManagementArea .pmx-person-card-head small,#personnelManagementArea .pmx-league-card-top small{color:#9398a2;font-size:8px;font-weight:850;letter-spacing:.9px}
+    #personnelManagementArea .pmx-rank{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:rgba(213,0,28,.15);color:#ff7183;font-size:10px;font-weight:950}
+    #personnelManagementArea .pmx-bonus{display:grid;gap:4px;flex:0 0 auto;padding:8px 9px;border:1px solid rgba(216,255,53,.18);border-radius:9px;background:rgba(216,255,53,.06);text-align:right}
+    #personnelManagementArea .pmx-bonus small{color:#d8ff35;font-size:7px;letter-spacing:.55px}
+    #personnelManagementArea .pmx-bonus b{color:#fff;font-size:11px}
+    #personnelManagementArea .pmx-metrics-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+    #personnelManagementArea .pmx-metric{min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.075);border-radius:8px;background:rgba(0,0,0,.2)}
+    #personnelManagementArea .pmx-metric span{display:block;color:#969ba4;font-size:8px;font-weight:850;letter-spacing:.55px}
+    #personnelManagementArea .pmx-metric strong{display:block;overflow:hidden;margin-top:5px;color:#fff;font-size:12px;font-weight:900;text-overflow:ellipsis;white-space:nowrap}
+    #personnelManagementArea .pmx-league-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    #personnelManagementArea .pmx-league-card.is-leader{border-color:rgba(216,255,53,.4);background:linear-gradient(145deg,rgba(39,43,28,.98),#111216)}
+    #personnelManagementArea .pmx-score{margin-left:auto;color:#d8ff35;font-size:20px;font-weight:950}
+    #personnelManagementArea .pmx-progress-block{margin-top:13px}
+    #personnelManagementArea .pmx-progress-block>div{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+    #personnelManagementArea .pmx-progress-block span{color:#aeb2ba;font-size:8px;font-weight:900;letter-spacing:.6px}
+    #personnelManagementArea .pmx-progress-block b{color:#fff;font-size:10px}
+    #personnelManagementArea .pmx-progress-block i{display:block;overflow:hidden;height:6px;border-radius:9px;background:#34363c}
+    #personnelManagementArea .pmx-progress-block i span{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#d5001c,#ff6478)}
+    #personnelManagementArea .pmx-daily-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.09)}
+    #personnelManagementArea .pmx-daily-line span{margin-right:auto;color:#989da6;font-size:8px;font-weight:900;letter-spacing:.7px}
+    #personnelManagementArea .pmx-daily-line b{color:#e7e8eb;font-size:9px}
+    #personnelManagementArea .pmx-champion-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+    #personnelManagementArea .pmx-champion-card{position:relative;overflow:hidden;display:grid;gap:9px;min-height:176px;padding:19px;border:1px solid rgba(255,255,255,.13);border-left:3px solid #d5001c;border-radius:13px;background:radial-gradient(circle at 90% 10%,rgba(213,0,28,.2),transparent 44%),linear-gradient(145deg,#1b1d22,#0d0e11)}
+    #personnelManagementArea .pmx-champion-icon{font-size:24px}
+    #personnelManagementArea .pmx-champion-card small{color:#ff7b8d;font-size:9px;font-weight:950;letter-spacing:1px}
+    #personnelManagementArea .pmx-champion-card strong{color:#fff;font-size:clamp(17px,2.4vw,22px);font-weight:950}
+    #personnelManagementArea .pmx-champion-card>b{color:#d8ff35;font-size:22px;font-weight:950}
+    #personnelManagementArea .pmx-champion-caption{color:#8f949d;font-size:8px;font-weight:850;letter-spacing:.9px}
+    #personnelManagementArea .pmx-education-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:13px}
+    #personnelManagementArea .pmx-education-day,#personnelManagementArea .pmx-education-library,#personnelManagementArea .pmx-shift-roster-wrap{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:13px;background:linear-gradient(145deg,#191b20,#101115)}
+    #personnelManagementArea .pmx-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+    #personnelManagementArea .pmx-section-head small{display:block;margin-bottom:5px;color:#ff7183;font-size:8px;font-weight:950;letter-spacing:1.2px}
+    #personnelManagementArea .pmx-section-head h3{margin:0;color:#fff;font-size:16px;font-weight:950}
+    #personnelManagementArea .pmx-training-date{margin-bottom:10px;color:#d8ff35;font-size:11px;font-weight:950;letter-spacing:.6px}
+    #personnelManagementArea .pmx-training-topics{display:grid;gap:8px}
+    #personnelManagementArea .pmx-training-topics article{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:rgba(0,0,0,.18)}
+    #personnelManagementArea .pmx-training-topics article>span{font-size:18px}
+    #personnelManagementArea .pmx-training-topics article div{display:grid;gap:5px}
+    #personnelManagementArea .pmx-training-topics article small{color:#a3a8b0;font-size:8px;font-weight:900;letter-spacing:.65px}
+    #personnelManagementArea .pmx-training-topics article strong{color:#f4f4f5;font-size:11px;line-height:1.55}
+    #personnelManagementArea .pmx-resource-grid{display:grid;gap:8px}
+    #personnelManagementArea .pmx-resource-card{display:flex;align-items:center;gap:10px;width:100%;padding:11px;border:1px solid rgba(255,255,255,.09);border-radius:9px;background:#111318;color:#fff;text-align:left;cursor:pointer}
+    #personnelManagementArea .pmx-resource-card>span{font-size:21px}
+    #personnelManagementArea .pmx-resource-card div{display:grid;gap:4px;min-width:0;flex:1}
+    #personnelManagementArea .pmx-resource-card small{color:#ff7b8d;font-size:8px;font-weight:900;letter-spacing:.7px}
+    #personnelManagementArea .pmx-resource-card strong{color:#f5f5f6;font-size:10px;line-height:1.35}
+    #personnelManagementArea .pmx-resource-card>b{color:#ff7183}
+    #personnelManagementArea .pmx-shift-roster-wrap{margin-bottom:13px}
+    #personnelManagementArea .pmx-roster-count{color:#aeb2ba;font-size:8px;font-weight:900;letter-spacing:.6px;white-space:nowrap}
+    #personnelManagementArea .pmx-shift-roster{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin}
+    #personnelManagementArea .pmx-shift-person{display:flex;align-items:center;gap:9px;flex:0 0 205px;min-width:0;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:linear-gradient(145deg,#22252b,#121419);color:#fff;text-align:left;cursor:pointer}
+    #personnelManagementArea .pmx-shift-person.active{border-color:#ff536a;background:linear-gradient(135deg,rgba(213,0,28,.28),#17191e)}
+    #personnelManagementArea .pmx-shift-avatar{display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:9px;background:rgba(213,0,28,.16);font-size:17px}
+    #personnelManagementArea .pmx-shift-person>span:nth-child(2){display:grid;gap:4px;min-width:0;flex:1}
+    #personnelManagementArea .pmx-shift-person strong{overflow:hidden;color:#fff;font-size:10px;font-weight:900;text-overflow:ellipsis;white-space:nowrap}
+    #personnelManagementArea .pmx-shift-person small{color:#aeb2ba;font-size:8px}
+    #personnelManagementArea .pmx-shift-person>b{color:#ff7183;font-size:19px}
+    #personnelManagementArea .pmx-shift-prompt{padding:22px;border:1px dashed rgba(255,255,255,.18);border-radius:11px;color:#aeb2ba;font-size:11px;text-align:center}
+    #personnelManagementArea .pmx-selected-staff{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;padding:14px 16px;border:1px solid rgba(255,255,255,.12);border-radius:11px;background:linear-gradient(100deg,#251117,#121419)}
+    #personnelManagementArea .pmx-selected-staff>div{display:grid;gap:4px}
+    #personnelManagementArea .pmx-selected-staff small{color:#ff7183;font-size:8px;font-weight:900;letter-spacing:1px}
+    #personnelManagementArea .pmx-selected-staff strong{color:#fff;font-size:16px}
+    #personnelManagementArea .pmx-selected-staff span{color:#aeb2ba;font-size:9px}
+    #personnelManagementArea .pmx-shift-total{padding:7px 9px;border-radius:8px;background:rgba(213,0,28,.16);color:#ff9aa7!important;font-weight:900}
+    #personnelManagementArea .pmx-shift-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    #personnelManagementArea .pmx-shift-day{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:linear-gradient(145deg,#191b20,#101115)}
+    #personnelManagementArea .pmx-shift-day>div:first-child{display:grid;gap:4px}
+    #personnelManagementArea .pmx-shift-day>div:first-child small{color:#ff7183;font-size:8px;font-weight:900}
+    #personnelManagementArea .pmx-shift-day>div:first-child strong{color:#fff;font-size:10px}
+    #personnelManagementArea .pmx-shift-hours{display:grid;gap:5px;text-align:right}
+    #personnelManagementArea .pmx-shift-hours strong{color:#fff;font-size:13px;font-weight:950}
+    #personnelManagementArea .pmx-shift-hours small{color:#aeb2ba;font-size:8px}
+    #personnelManagementArea .pmx-shift-day.is-off{border-color:rgba(213,0,28,.22)}
+    #personnelManagementArea .pmx-off-label{color:#ff8796;font-size:9px;letter-spacing:.8px}
+    #personnelManagementArea .pmx-empty{padding:24px 18px;border:1px dashed rgba(255,255,255,.2);border-radius:11px;color:#b5bac1;font-size:12px;line-height:1.6}
+    #personnelManagementArea .pmx-status{margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);color:#8e949d;font-size:9px;text-align:right}
+    @media(max-width:760px){#personnelManagementArea{width:calc(100% - 22px);padding:13px 0 34px}#personnelManagementArea .pmx-hero{align-items:flex-start;padding:20px 17px}#personnelManagementArea .pmx-hero-side{flex-direction:column;align-items:stretch}#personnelManagementArea .pmx-count{min-width:64px}#personnelManagementArea .pmx-refresh{white-space:nowrap;padding:9px 10px}#personnelManagementArea .pmx-person-grid,#personnelManagementArea .pmx-league-grid{grid-template-columns:1fr}#personnelManagementArea .pmx-education-layout{grid-template-columns:1fr}}
+    @media(max-width:560px){#personnelManagementArea .pmx-hero{gap:10px;padding:17px 13px}#personnelManagementArea .pmx-hero h1{font-size:21px}#personnelManagementArea .pmx-hero p:last-child{font-size:10px}#personnelManagementArea .pmx-count strong{font-size:21px}#personnelManagementArea .pmx-count span{font-size:7px}#personnelManagementArea .pmx-tabs{gap:6px;padding-top:12px}#personnelManagementArea .pmx-tab{min-height:40px;padding:9px 11px;font-size:9px}#personnelManagementArea .pmx-panel{padding-top:17px}#personnelManagementArea .pmx-panel-title{align-items:flex-start;flex-direction:column}#personnelManagementArea .pmx-statline{grid-template-columns:1fr 1fr}#personnelManagementArea .pmx-statline .pmx-stat:last-child{grid-column:1/-1}#personnelManagementArea .pmx-person-card{padding:12px}#personnelManagementArea .pmx-person-card-head{flex-wrap:wrap}#personnelManagementArea .pmx-bonus{margin-left:auto}#personnelManagementArea .pmx-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#personnelManagementArea .pmx-champion-grid{grid-template-columns:1fr 1fr}#personnelManagementArea .pmx-champion-card{min-height:154px;padding:13px}#personnelManagementArea .pmx-champion-card strong{font-size:15px}#personnelManagementArea .pmx-champion-card>b{font-size:18px}#personnelManagementArea .pmx-shift-days{grid-template-columns:1fr}#personnelManagementArea .pmx-selected-staff{align-items:flex-start;flex-direction:column}#personnelManagementArea .pmx-section-head{align-items:flex-start;flex-direction:column}#personnelManagementArea .pmx-select{max-width:100%;width:100%}}
+  </style>
+  <button class="back-button" type="button" onclick="closePersonnelManagement()">← Ana Menü</button>
+  <header class="pmx-hero">
+    <div><p class="pmx-kicker">BUYAKA PUMA · TEAM PERFORMANCE</p><h1>PERSONEL YÖNETİM MERKEZİ</h1><p>Performans, ödüller, gelişim ve vardiya yönetimi tek merkezde.</p></div>
+    <div class="pmx-hero-side"><div class="pmx-count"><strong>05</strong><span>PERSONEL</span></div><button class="pmx-refresh" type="button" onclick="window.loadPersonnelManagementData(true)">↻ VERİLERİ YENİLE</button></div>
+  </header>
+  <nav class="pmx-tabs" role="tablist" aria-label="Personel yönetim sekmeleri">
+    <button class="pmx-tab active" type="button" role="tab" aria-selected="true" data-pmx-tab="sd" onclick="setPersonnelTab('sd')"><span>🏅</span> SD KARNE</button>
+    <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="league" onclick="setPersonnelTab('league')"><span>🏆</span> PERFORMANCE LEAGUE</button>
+    <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="weekly" onclick="setPersonnelTab('weekly')"><span>⭐</span> HAFTANIN ENLERİ</button>
+    <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="education" onclick="setPersonnelTab('education')"><span>🎓</span> EĞİTİM MERKEZİ</button>
+    <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="shift" onclick="setPersonnelTab('shift')"><span>📅</span> ÇALIŞMA PROGRAMI</button>
+  </nav>
+  <section class="pmx-panel active" data-pmx-panel="sd" role="tabpanel">
+    <header class="pmx-panel-title"><div><small>PERSONEL PERFORMANS RAPORU</small><h2>SD Karne</h2><p>Kasım raporundaki kişisel sonuçlar ve ay sonu göstergeleri.</p></div></header>
+    <div id="pmxSdData"><div class="pmx-empty">SD Karne verileri yükleniyor…</div></div>
+  </section>
+  <section class="pmx-panel" data-pmx-panel="league" role="tabpanel">
+    <header class="pmx-panel-title"><div><small>MONTHLY PERFORMANCE RACE</small><h2>Performance League</h2><p>Fatura ve ürün hedeflerinde aylık yarış sıralaması.</p></div></header>
+    <div id="pmxLeagueData"><div class="pmx-empty">Performance League verileri yükleniyor…</div></div>
+  </section>
+  <section class="pmx-panel" data-pmx-panel="weekly" role="tabpanel">
+    <header class="pmx-panel-title"><div><small>BUYAKA PUMA · PERFORMANCE AWARDS</small><h2>Haftanın Enleri</h2><p>Ciro, UPT, ATV ve CR kategorilerinin liderleri.</p></div></header>
+    <div id="pmxWeeklyData"><div class="pmx-empty">Şampiyonlar hazırlanıyor…</div></div>
+  </section>
+  <section class="pmx-panel" data-pmx-panel="education" role="tabpanel">
+    <header class="pmx-panel-title"><div><small>TEAM DEVELOPMENT</small><h2>Eğitim Merkezi</h2><p>Kasım eğitim takvimi ve öğrenme kütüphanesi.</p></div></header>
+    <div id="pmxEducationData"><div class="pmx-empty">Eğitim verileri hazırlanıyor…</div></div>
+  </section>
+  <section class="pmx-panel" data-pmx-panel="shift" role="tabpanel">
+    <header class="pmx-panel-title"><div><small>TEAM ROSTER & SHIFT PLANNING</small><h2>Çalışma Programı</h2><p>Karttan personeli seçerek haftalık vardiyasını görüntüle.</p></div><select id="pmxShiftWeek" class="pmx-select" onchange="renderPersonnelShiftWeek(this.value)"></select></header>
+    <div id="pmxShiftData"><div class="pmx-empty">Vardiya verileri hazırlanıyor…</div></div>
+  </section>
+  <div id="pmxStatus" class="pmx-status" aria-live="polite">Kasım raporları hazırlanıyor…</div>
+</section>
     <section id="storeManagementArea" class="store-management-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeStoreManagement()">← Ana Menü</button>
       <header class="sm-hero"><p>BUYAKA PUMA • STORE INTELLIGENCE</p><h1>MAĞAZA YÖNETİMİ</h1><span>RAPOR VERİLERİ YÜKLENİYOR…</span></header>
@@ -487,11 +564,11 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="store-management.js?v=20261109-period-aware-comment-v3"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
-    <script src="education.js?v=20261106-inline-viewer-v1"></script>
+    <script src="education.js?v=20261113-november-calendar-v2"></script>
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
     <script src="shift-program.js?v=20261108-week-buttons-v1"></script>
     <script src="sd-karne.js?v=20261112-sd-metrics-v1"></script>
-    <script src="personnel-management.js?v=20261112-live-data-v1"></script>
+    <script src="personnel-management.js?v=20261113-personnel-hub-v2"></script>
 
     <script>
       function showPersonnelManagement() {
