@@ -50,7 +50,12 @@
       .company-links-menu a:hover{background:#f2f2f2}
       .company-links-menu a span{color:#d5001c;font-size:16px}
       @media(max-width:480px){.company-links-widget{top:10px;right:10px}.company-links-trigger{padding:7px 10px;font-size:11px}}
-    </style>
+      .service-plan-gate{min-height:65vh;display:none;align-items:center;justify-content:center;padding:28px 18px}
+    .service-plan-gate-actions{width:min(100%,390px);display:grid;gap:14px}
+    .service-plan-gate-button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:16px 20px;border:1px solid #d5001c;border-radius:12px;background:#d5001c;color:#fff!important;font:900 14px/1.2 inherit;letter-spacing:.5px;text-align:center;text-decoration:none;cursor:pointer;box-shadow:0 8px 22px rgba(213,0,28,.18)}
+    .service-plan-open-button{background:#17191e;border-color:#17191e}
+    .service-plan-gate-button:active{transform:scale(.99)}
+  </style>
     <script src="weekly-champions.js?v=20261106-californian-champion-v5" defer></script>
 
   <style id="home-quick-access-hidden-modules">
@@ -82,11 +87,11 @@
             <span class="module-copy"><strong>Ürün Sorgulama</strong><small>Ürün kodu veya adıyla ara</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
-          <a class="menu-button module-card service-plan-menu-card" href="https://fastperakende.com/servis-plani.html">
+          <button class="menu-button module-card service-plan-menu-card" type="button" onclick="showServicePlan()">
             <span class="module-sticker" aria-hidden="true">🚌</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10M4 12h16M7 16v3M17 16v3M7 8h.01M17 8h.01M4 16h16"></path></svg></span>
-            <span class="module-copy"><strong>SERVİS PLANI</strong><small>Servis planını aç</small></span>
+            <span class="module-copy"><strong>SERVİS PLANI</strong><small>Şifre ve servis planına erişim</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
-          </a>
+          </button>
           <button hidden style="display:none!important" class="menu-button module-card module-card-education" type="button" onclick="showEducationCenter()">
             <span class="module-sticker" aria-hidden="true">🎓</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5L2 9Z"></path><path d="M6 11v5c3.5 3 8.5 3 12 0v-5M22 9v6"></path></svg></span>
             <span class="module-copy"><strong>Eğitim Merkezi</strong><small>Eğitim takvimi ve dokümanlar</small></span>
@@ -652,6 +657,13 @@
       </section>
     </section>
 
+    <section id="servicePlanArea" class="work-module service-plan-gate" style="display:none;">
+      <div class="service-plan-gate-actions">
+        <button type="button" class="service-plan-gate-button service-plan-copy-button" onclick="copyServicePlanPassword()">ŞİFREYİ KOPYALA</button>
+        <a class="service-plan-gate-button service-plan-open-button" href="https://fastperakende.com/servis-plani.html">SERVİS PLANINI AÇ <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeFastPerakende()">← Ana Menü</button>
       <header class="work-module-heading">
@@ -729,19 +741,35 @@
         }
       }
 
+      const SERVICE_PLAN_PASSWORD = "dWV-BXoEEZW37pqvXE";
       function showServicePlan() {
         ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","performanceLeagueArea","fastPerakendeArea","weeklyChampionsArea","storeStatusArea","storeManagementArea","personnelManagementArea"].forEach(function(id) {
           const el = document.getElementById(id);
           if (el) el.style.display = "none";
         });
         const area = document.getElementById("servicePlanArea");
-        if (area) area.style.display = "block";
+        if (area) area.style.display = "flex";
         window.scrollTo(0, 0);
       }
-      function closeServicePlan() {
-        const area = document.getElementById("servicePlanArea");
-        if (area) area.style.display = "none";
-        showMainMenu();
+      async function copyServicePlanPassword() {
+        try {
+          await navigator.clipboard.writeText(SERVICE_PLAN_PASSWORD);
+        } catch (error) {
+          const field = document.createElement("textarea");
+          field.value = SERVICE_PLAN_PASSWORD;
+          field.setAttribute("readonly", "");
+          field.style.position = "fixed";
+          field.style.opacity = "0";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          field.remove();
+        }
+        const button = document.querySelector(".service-plan-copy-button");
+        if (button) {
+          button.textContent = "ŞİFRE KOPYALANDI ✓";
+          window.setTimeout(function(){ button.textContent = "ŞİFREYİ KOPYALA"; }, 1800);
+        }
       }
 
       function showFastPerakende() {
