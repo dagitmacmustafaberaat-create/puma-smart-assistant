@@ -577,6 +577,7 @@
     </section>
 
     <section id="servicePlanArea" class="work-module service-plan-gate" style="display:none;">
+      <button type="button" class="back-button service-plan-back-button" onclick="closeServicePlan()">← Ana Menü</button>
       <div class="service-plan-gate-actions">
         <button type="button" class="service-plan-gate-button service-plan-copy-button" onclick="copyServicePlanPassword()">ŞİFREYİ KOPYALA</button>
         <a class="service-plan-gate-button service-plan-open-button" href="https://fastperakende.com/servis-plani.html">SERVİS PLANINI AÇ <span aria-hidden="true">↗</span></a>
@@ -668,6 +669,10 @@
         });
         const area = document.getElementById("servicePlanArea");
         if (area) area.style.display = "flex";
+        window.scrollTo(0, 0);
+      }
+      function closeServicePlan() {
+        if (typeof showMainMenu === "function") showMainMenu();
         window.scrollTo(0, 0);
       }
       async function copyServicePlanPassword() {
