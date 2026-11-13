@@ -22,7 +22,7 @@ function sdFindTable(book){
  const sheetName=book.SheetNames.find(n=>sdNorm(n)==="sd karne")||book.SheetNames[0];
  const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
  const headerRow=11,headers=rows[headerRow]||[];
- const find=(tests)=>{const i=headers.findIndex(v=>tests.some(t=>sdNorm(v).includes(t)));return i;};
+ const find=(tests,exclude=[])=>{const i=headers.findIndex(v=>{const n=sdNorm(v);return tests.some(t=>n.includes(t))&&!exclude.some(t=>n.includes(t));});return i;};
  const exact=(name)=>headers.findIndex(v=>sdNorm(v)===sdNorm(name));
  const map={
   upt:exact("UPT"),ciro:exact("GERÇEKLEŞEN CİRO"),bonus:exact("AYSONU KAZANÇ"),cr:exact("KİŞİSEL CR"),
@@ -31,7 +31,8 @@ function sdFindTable(book){
   atv:find(["atv","ortalama fis tutari","ortalama fatura tutari"]),
   asp:find(["asp","ortalama urun fiyati"]),
   closingRevenue:find(["ay sonu kapanis ciro","aysonu kapanis ciro","ay sonu ciro","aysonu ciro","tahmini kapanis ciro","tahmini ay sonu ciro","kapanis ciro","ay sonu satis","projected sales","forecast sales"]),
-  hgo:find(["hgo","hedef gerceklesme orani","hedef gerceklesme %"]),
+  hgo:find(["hgo","hedef gerceklesme orani","hedef gerceklesme %"],["kapanis","ay sonu","aysonu"]),
+  closingHgo:find(["ay sonu kapanis hgo","aysonu kapanis hgo","kapanis hgo","ay sonu hgo","aysonu hgo","month end hgo","closing hgo"]),
   ciroTarget:find(["ciro hedefi","hedef ciro","sales target"])
  };
  const required=["upt","ciro","bonus","cr"],missing=required.filter(k=>map[k]<0);
@@ -49,9 +50,11 @@ function sdReadData(book){
   const atv=table.map.atv>=0?val("atv"):(invoices>0?ciro/invoices:0);
   const asp=table.map.asp>=0?val("asp"):(products>0?ciro/products:0);
   const closingRevenue=table.map.closingRevenue>=0?val("closingRevenue"):0;
+  const closingHgo=table.map.closingHgo>=0?val("closingHgo"):0;
+  const closingHgoLabel=table.map.closingHgo>=0?String((table.rows[table.headerRow]||[])[table.map.closingHgo]).trim():"AY SONU KAPANIŞ HGO";
   let hgo=table.map.hgo>=0?val("hgo"):(table.map.ciroTarget>=0&&val("ciroTarget")>0?(closingRevenue||ciro)/val("ciroTarget")*100:0);
   if(hgo>0&&hgo<=1)hgo*=100;
-  out.push({name,ciro,upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,hgo,hasInvoices:table.map.invoices>=0,hasProducts:table.map.products>=0});
+  out.push({name,ciro,upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,closingHgo,closingHgoLabel,hgo,hasInvoices:table.map.invoices>=0,hasProducts:table.map.products>=0});
  }
  return out;
 }
