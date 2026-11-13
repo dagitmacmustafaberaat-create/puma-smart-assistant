@@ -231,6 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ======================================================
 function showStoreMenu() { showMainMenu(); }
 
+let activeStoreStatusView = "main";
 function showStoreStatus() {
     const mainMenu = document.getElementById("mainMenu");
     const area = document.getElementById("storeStatusArea");
@@ -240,7 +241,48 @@ function showStoreStatus() {
         if (el) el.style.display = "none";
     });
     if (area) area.style.display = "block";
+    activeStoreStatusView = "main";
+    const filter = document.getElementById("storeStatusFilter");
+    if (filter) filter.value = "main";
+    applyStoreStatusView();
     window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function setStoreStatusView(view) {
+    activeStoreStatusView = ["main","category","gender","stock","all"].includes(view) ? view : "main";
+    applyStoreStatusView();
+}
+
+function applyStoreStatusView() {
+    const root = document.getElementById("performanceSections");
+    if (!root) return;
+    const view = activeStoreStatusView || "main";
+    const visibleGroups = {
+        main: [".period-group",".targets-group",".daily-group",".kpi-group",".forecast-group"],
+        category: [".category-group"],
+        gender: [".gender-group"],
+        stock: [".stock-group"],
+        all: ["*"]
+    };
+    root.querySelectorAll(".performance-group").forEach(group => {
+        group.hidden = view !== "all" && !visibleGroups[view].some(selector => group.matches(selector));
+    });
+    const chartSelectors = {
+        main: [".store-chart-kpi"],
+        category: [".store-chart-category"],
+        gender: [".store-chart-gender"],
+        stock: [".store-chart-stock"],
+        all: ["*"]
+    };
+    root.querySelectorAll(".store-chart-card").forEach(chart => {
+        chart.hidden = view !== "all" && !chartSelectors[view].some(selector => chart.matches(selector));
+    });
+    const chartGrid = root.querySelector(".store-charts-grid");
+    if (chartGrid) chartGrid.hidden = !chartGrid.querySelector(".store-chart-card:not([hidden])");
+    const summary = document.getElementById("storeActionSummary");
+    if (summary) summary.hidden = view !== "main" && view !== "all";
+    const filter = document.getElementById("storeStatusFilter");
+    if (filter && filter.value !== view) filter.value = view;
 }
 
 function closeStoreStatus() {
@@ -770,9 +812,9 @@ async function loadPerformanceDashboard() {
             card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
             card(String(raw("E25") || "HGO"), { ...get("F25"), number_format: "0.00%" }, "metric-card-featured")
         ], "forecast-group"));
-        groups.push(section("Kategori Bazlı Ciro Karşılaştırması", "Tabloda bulunan 2025 / 2026 ve büyüme değerleri", categoryCards, "comparison-group"));
-        groups.push(section("Cinsiyet Bazlı Karşılaştırma", "Tablodaki değerler olduğu gibi gösterilir", genderCards, "comparison-group"));
-        groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group"));
+        groups.push(section("Kategori Bazlı Ciro Karşılaştırması", "Tabloda bulunan 2025 / 2026 ve büyüme değerleri", categoryCards, "comparison-group category-group"));
+        groups.push(section("Cinsiyet Bazlı Karşılaştırma", "Tablodaki değerler olduğu gibi gösterilir", genderCards, "comparison-group gender-group"));
+        groups.push(section("Kategori Bazlı Stok Karşılaştırması", "2025 ve 2026 değerleri", stockCards, "comparison-group stock-group"));
 
 
         const numeric = address => {
@@ -836,7 +878,17 @@ async function loadPerformanceDashboard() {
             compareChart("Kategori Bazlı Stok","ENVANTER KARŞILAŞTIRMASI",stockChartEntries,"2025","2026",false,"store-chart-stock") +
             '</section>';
 
-        root.innerHTML = charts + groups.join("");
+        root.innerHTML = `
+          <div class="store-status-filter-bar">
+            <label for="storeStatusFilter">MAĞAZA VERİ FİLTRESİ</label>
+            <select id="storeStatusFilter" onchange="setStoreStatusView(this.value)">
+              <option value="main">Mağaza Ana Verileri</option>
+              <option value="category">Kategori</option>
+              <option value="gender">Cinsiyet</option>
+              <option value="stock">Stok</option>
+              <option value="all">Tüm Veriler</option>
+            </select>
+          </div>` + charts + groups.join("");
         const kpiSection = root.querySelector(".kpi-group");
         const kpiHeading = kpiSection && kpiSection.querySelector(".performance-group-heading");
         const kpiGrid = kpiSection && kpiSection.querySelector(".metric-card-grid");
@@ -859,6 +911,7 @@ async function loadPerformanceDashboard() {
         renderStoreActionSummary(cells);
         organizeStoreStatusTabs();
         renderStoreStatusVerticalDashboard(cells);
+        applyStoreStatusView();
     } catch (error) {
         console.error("MAĞAZA PERFORMANS VERİSİ HATASI:", error);
         root.innerHTML = '<div class="performance-loading">Mağaza verisi şu anda okunamadı. Excel verisi ve otomatik güncelleme kontrol edilmeli.</div>';
