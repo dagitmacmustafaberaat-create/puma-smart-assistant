@@ -1,4 +1,4 @@
-const CACHE_NAME = "buyaka-puma-app-v113-sd-original-viewer";
+const CACHE_NAME = "buyaka-puma-app-v114-sd-full-workbook";
 const APP_SHELL = [
   "./",
   "./index.html",
