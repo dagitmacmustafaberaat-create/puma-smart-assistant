@@ -240,6 +240,7 @@ function showStoreStatus() {
         if (el) el.style.display = "none";
     });
     if (area) area.style.display = "block";
+    if (typeof window.loadLeagueData === "function") window.loadLeagueData();
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -962,80 +963,39 @@ function organizeStoreStatusTabs() {
     source.textContent = "";
     if (summary) { summary.hidden = true; summary.textContent = ""; }
 }
-function renderStoreStatusVerticalDashboard(cells) {
+function renderStoreStatusVerticalDashboard() {
     const page = document.getElementById("storePerformancePage");
     if (!page) return;
-    const raw = a => cells[a]?.value ?? null;
-    const num = a => { const v=raw(a); if(v===null||v===""||v===undefined)return null; const n=Number(v); return Number.isFinite(n)?n:null; };
-    const fmt = (n,d=0) => n===null||n===undefined?"—":new Intl.NumberFormat("tr-TR",{maximumFractionDigits:d}).format(n);
-    const money = n => n===null||n===undefined?"—":"₺"+fmt(n,0);
-    const pct = n => n===null||n===undefined?"—":(n>0?"+":"")+fmt(n,1)+"%";
-    const growth = (a,b) => a===null||b===null||a===0?null:(b/a-1)*100;
-    const monthDays = Math.max(1,Math.round(num("C4")||new Date().getDate()));
-    const elapsed = Math.min(monthDays,Math.max(1,Math.round(num("C5")||new Date().getDate())));
-    const dayGoal = (monthly)=>monthly===null?null:monthly/monthDays;
-    const toDateGoal = monthly => monthly===null?null:monthly/monthDays*elapsed;
-    const actualRows = [
-      {name:"Ciro",monthly:"C8",actual:"D17",money:true},
-      {name:"UPT",monthly:"C9",actual:"D18",ratio:true},
-      {name:"CR",monthly:"C10",actual:"D19",ratio:true,percent:true},
-      {name:"Fatura",monthly:"C12",actual:"D21"},
-      {name:"Ürün Adedi",monthly:"C13",actual:"D22"},
-      {name:"Trafik",monthly:"C14",actual:"D23"}
-    ];
-    const metricCard = item => {
-      const target=num(item.monthly),actual=num(item.actual);
-      const daily=item.ratio?target:dayGoal(target);
-      const expected=item.ratio?target:toDateGoal(target);
-      const delta=expected===null||expected===0||actual===null?null:(actual/expected-1)*100;
-      const cls=delta===null?"neutral":delta>=0?"positive":"negative";
-      const value=n=>item.money?money(n):item.percent&&n!==null?fmt(n*100,2)+"%":fmt(n,2);
-      return '<article class="bp-metric '+cls+'"><div class="bp-metric-top"><span>'+item.name+'</span><b>'+pct(delta)+'</b></div><div class="bp-metric-main">'+value(actual)+'</div><div class="bp-metric-grid"><div><small>AYLIK HEDEF</small><strong>'+value(target)+'</strong></div><div><small>GÜNLÜK HEDEF</small><strong>'+value(daily)+'</strong></div><div><small>BUGÜNE KADAR</small><strong>'+value(expected)+'</strong></div></div><div class="bp-progress"><i style="width:'+Math.max(0,Math.min(100,delta===null?0:100+delta))+'%"></i></div><small class="bp-status">'+(delta===null?"Veri bekleniyor":delta>=0?"Hedefin üzerinde":"Hedefin gerisinde")+' · '+pct(delta)+'</small></article>';
-    };
-    const businessUnits=["SPORTSTYLE PRIME","MOTORSPORT","RTF","RUNNING"];
-    const findRows=(from,to,excluded=[])=>{
-      const out=[];
-      for(let r=from;r<=to;r++){
-        const name=String(raw("H"+r)||"").trim();
-        const old=num("I"+r),current=num("J"+r);
-        if(!name||old===null||current===null||excluded.includes(name.toLocaleUpperCase("tr-TR")))continue;
-        out.push({name,old,current,rate:num("K"+r)??growth(old,current)});
-      }
-      return out;
-    };
-    const genderRows=findRows(15,19);
-    // Kategori verileri Excel icinde uc satirli bloklar halindedir: baslik, ciro, buyume.
-    // 2025/2026 yil etiketlerini ciro gibi gostermemek icin yalnizca ciro satirlarini oku.
-    const categoryRows=[
-      {name:raw("H4"),old:num("I5"),current:num("J5"),rate:num("I6")},
-      {name:raw("H7"),old:num("I8"),current:num("J8"),rate:num("I9")},
-      {name:raw("H10"),old:num("I11"),current:num("J11"),rate:num("I12")}
-    ].filter(r=>r.name && r.old!==null && r.current!==null);
-    const stockRows=findRows(24,27,businessUnits);
-    const period="1–"+elapsed+" "+String(raw("B7")||"Kasım 2026").replace(/.*?(Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık).*?/i,"$1");
-    const compareRows=(rows,currency=true)=>rows.length?rows.map(r=>{
-      const change=r.rate===null||r.rate===undefined?growth(r.old,r.current):(Math.abs(r.rate)<=1?r.rate*100:r.rate);
-      const cls=change===null?"neutral":change>=0?"positive":"negative";
-      const amount=n=>currency?money(n):fmt(n);
-      const status=change===null?"Karşılaştırma verisi yok":change>0?"2026 cirosu geçen yılın üzerinde":change<0?"2026 cirosu geçen yılın gerisinde":"Geçen yıl ile aynı seviyede";
-      const diff=change===null?"":' · '+pct(change);
-      return '<article class="bp-metric '+cls+' bp-compare-card"><div class="bp-metric-top"><span>'+escapeHTML(r.name)+'</span><b>'+pct(change)+'</b></div><div class="bp-category-values"><div><small>2025 CİRO</small><strong>'+amount(r.old)+'</strong></div><div><small>2026 CİRO</small><strong>'+amount(r.current)+'</strong></div></div><small class="bp-status">'+status+diff+'</small></article>';
-    }).join(""):'<div class="bp-empty">Kategori cirosu için Excel’de 2025 ve 2026 karşılaştırma verisi bulunamadı.</div>';
-
-    const styles='<style>'+
-      '.bp-dashboard{color:#f7f7f8;font-family:inherit}.bp-hero{padding:9px 2px 20px;display:flex;justify-content:space-between;align-items:end;gap:16px}.bp-eyebrow{color:#ff3158;font-size:11px;font-weight:900;letter-spacing:2px}.bp-hero h2{font-size:clamp(27px,4vw,38px);line-height:1;margin:8px 0 0;font-weight:900;letter-spacing:-1px}.bp-hero h2 em{font-style:normal;color:#f32650}.bp-hero p{color:#c3c5cc;font-size:12px;line-height:1.6;max-width:260px;text-align:right}.bp-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 16px}.bp-tab{min-width:0;border:1px solid #30333a;border-radius:12px;background:#14171c;color:#d7d9df;padding:13px 8px;font-weight:850;font-size:12px;cursor:pointer}.bp-tab.active{background:#e91d4d;border-color:#e91d4d;color:#fff;box-shadow:0 7px 20px #e91d4d33}.bp-panel{display:none}.bp-panel.active{display:block}.bp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.bp-metric,.bp-compare-row,.bp-comment{background:linear-gradient(145deg,#1b1e23,#111318);border:1px solid #30333a;border-radius:17px;padding:17px;min-width:0}.bp-metric.positive{border-color:#236d54}.bp-metric.negative{border-color:#8e243b}.bp-metric-top,.bp-compare-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.bp-metric-top span{font-size:13px;font-weight:850}.bp-metric-top b,.bp-compare-title b{font-size:12px}.bp-metric-main{font-size:clamp(25px,4vw,34px);font-weight:950;letter-spacing:-.8px;margin:12px 0}.bp-metric-grid,.bp-compare-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.bp-metric-grid>div,.bp-compare-values>div{min-width:0}.bp-metric-grid small,.bp-compare-values small{display:block;color:#9ea3ad;font-size:9px;letter-spacing:.7px;margin-bottom:5px}.bp-metric-grid strong,.bp-compare-values strong{display:block;font-size:12px;overflow-wrap:anywhere}.bp-progress{height:5px;background:#30333a;border-radius:9px;margin:14px 0 7px;overflow:hidden}.bp-progress i{display:block;height:100%;background:#e91d4d;border-radius:9px}.bp-status{color:#bfc3cc;font-size:10px}.positive{color:#5ce0ad}.negative{color:#ff5877}.neutral{color:#c5c8d0}.bp-compare-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.bp-compare-card{padding:17px}.bp-category-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 12px}.bp-category-values>div{min-width:0}.bp-category-values small{display:block;color:#9ea3ad;font-size:10px;letter-spacing:.8px;margin-bottom:7px}.bp-category-values strong{display:block;font-size:clamp(17px,3vw,23px);font-weight:900;overflow-wrap:anywhere}.bp-comment{margin-top:15px;background:linear-gradient(135deg,#260d16,#151015);border-color:#792039}.bp-comment small{color:#ff5272;font-size:10px;font-weight:900;letter-spacing:1.5px}.bp-comment h3{margin:7px 0 8px;font-size:17px}.bp-comment p{margin:0;color:#d1d2d8;font-size:12px;line-height:1.7}.bp-empty{padding:22px;border:1px dashed #41444d;border-radius:14px;color:#c5c7ce;font-size:12px;line-height:1.6}.bp-period{color:#b9bdc7;font-size:11px;margin:0 0 12px}@media(max-width:650px){.bp-compare-list{grid-template-columns:1fr}.bp-hero{display:block}.bp-hero p{text-align:left;margin:9px 0 0}.bp-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.bp-grid{grid-template-columns:1fr}.bp-metric{padding:15px}.bp-metric-grid strong,.bp-compare-values strong{font-size:11px}}'+
-      '</style>';
-    page.innerHTML=styles+
-      '<nav class="bp-tabs" role="tablist" aria-label="Mağaza rapor sekmeleri"><button class="bp-tab active" data-tab="store" role="tab" aria-selected="true">Mağaza Genel Data</button><button class="bp-tab" data-tab="category" role="tab" aria-selected="false">Kategori Data</button><button class="bp-tab" data-tab="gender" role="tab" aria-selected="false">Cinsiyet Data</button><button class="bp-tab" data-tab="stock" role="tab" aria-selected="false">Stok Data</button></nav>'+
-      '<section class="bp-panel active" data-panel="store"><div class="bp-grid">'+actualRows.map(metricCard).join("")+'</div></section>'+
-      '<section class="bp-panel" data-panel="category"><div class="bp-compare-list">'+compareRows(categoryRows,true)+'</div></section>'+
-      '<section class="bp-panel" data-panel="gender"><div class="bp-compare-list">'+compareRows(genderRows,true)+'</div></section>'+
-      '<section class="bp-panel" data-panel="stock"><div class="bp-compare-list">'+compareRows(stockRows,false)+'</div></section>';
-    page.querySelectorAll(".bp-tab").forEach(button=>button.addEventListener("click",()=>{
-      const key=button.dataset.tab;
-      page.querySelectorAll(".bp-tab").forEach(tab=>{const active=tab===button;tab.classList.toggle("active",active);tab.setAttribute("aria-selected",String(active));});
-      page.querySelectorAll(".bp-panel").forEach(panel=>panel.classList.toggle("active",panel.dataset.panel===key));
-    }));
+    const data = window.BUYAKA_LEAGUE_DATA;
+    const staff = Array.isArray(data?.staff) ? data.staff.slice() : [];
+    const fmt = (n,d=0) => new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n)||0);
+    const pct = n => "%"+fmt(n,1);
+    const clamp = n => Math.max(0,Math.min(100,Number(n)||0));
+    if (!staff.length) {
+        page.innerHTML = '<div class="bpl-loading">Personel performans verileri Excel kaynağından yükleniyor…</div>';
+        return;
+    }
+    const ranked = staff.map(person => {
+        const invoiceRate = person.invoiceTarget ? person.invoices / person.invoiceTarget * 100 : 0;
+        const unitRate = person.unitTarget ? person.units / person.unitTarget * 100 : 0;
+        return {...person, invoiceRate, unitRate, score:(invoiceRate+unitRate)/2};
+    }).sort((a,b)=>b.score-a.score);
+    const cards = ranked.map((person,index) => {
+        const first = index===0;
+        return '<article class="bpl-card'+(first?' is-leader':'')+'">'+
+          '<div class="bpl-card-head"><div class="bpl-person"><span class="bpl-rank">'+(first?'🏆 '+(index+1):String(index+1).padStart(2,'0'))+'</span><div><h3>'+escapeHTML(person.name)+'</h3><small>'+escapeHTML(person.role)+'</small></div></div><strong class="bpl-score">'+pct(person.score)+'</strong></div>'+
+          '<div class="bpl-overall-track" aria-label="Genel ilerleme"><i style="width:'+clamp(person.score)+'%"></i></div>'+
+          '<div class="bpl-target-row"><div class="bpl-target-copy"><span>FATURA HEDEFİ</span><strong>'+fmt(person.invoices)+' / '+fmt(person.invoiceTarget)+' · '+pct(person.invoiceRate)+'</strong></div><div class="bpl-bar"><i style="width:'+clamp(person.invoiceRate)+'%"></i></div></div>'+
+          '<div class="bpl-target-row"><div class="bpl-target-copy"><span>ÜRÜN HEDEFİ</span><strong>'+fmt(person.units)+' / '+fmt(person.unitTarget)+' · '+pct(person.unitRate)+'</strong></div><div class="bpl-bar"><i style="width:'+clamp(person.unitRate)+'%"></i></div></div>'+
+          '<div class="bpl-daily"><span>GÜNLÜK HEDEF</span><strong>'+fmt(person.dailyInvoice,1)+' FATURA</strong><strong>'+fmt(person.dailyUnits,1)+' ÜRÜN</strong></div>'+
+        '</article>';
+    }).join("");
+    page.innerHTML='<style>'+
+      '.bpl-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}'+
+      '.bpl-card{min-width:0;padding:18px;border:1px solid #34363d;border-radius:17px;background:linear-gradient(145deg,#1b1d22,#101115);box-shadow:0 9px 24px #0003;color:#f7f7f8}'+
+      '.bpl-card.is-leader{border-color:#d5001c;box-shadow:0 9px 28px #d5001c22}'+
+      '.bpl-card-head,.bpl-person{display:flex;align-items:center;gap:12px}.bpl-card-head{justify-content:space-between;margin-bottom:14px}.bpl-person{min-width:0}.bpl-rank{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:11px;background:#292b31;color:#fff;font-size:15px;font-weight:950}.bpl-card.is-leader .bpl-rank{background:#d5001c}.bpl-person h3{margin:0;color:#fff;font-size:15px;font-weight:950;line-height:1.2}.bpl-person small{display:block;margin-top:5px;color:#aeb2bb;font-size:9px;font-weight:850;letter-spacing:1px}.bpl-score{flex:0 0 auto;color:#ff536a;font-size:23px;font-weight:950}.bpl-overall-track,.bpl-bar{height:8px;overflow:hidden;border-radius:20px;background:#35373e}.bpl-overall-track{height:6px;margin:0 0 16px}.bpl-overall-track i,.bpl-bar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#a9001b,#ff3659)}.bpl-target-row{margin:12px 0}.bpl-target-copy{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}.bpl-target-copy span,.bpl-daily span{color:#aeb2bb;font-size:9px;font-weight:900;letter-spacing:.65px}.bpl-target-copy strong{color:#fff;font-size:11px;font-weight:850;text-align:right}.bpl-bar{height:7px}.bpl-daily{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding-top:12px;border-top:1px solid #34363d}.bpl-daily span{margin-right:auto}.bpl-daily strong{color:#f4f4f5;font-size:10px;font-weight:900}.bpl-loading{padding:22px;border:1px dashed #4b4d54;border-radius:14px;color:#d4d5da;font-size:13px}@media(max-width:680px){.bpl-board{grid-template-columns:1fr;gap:11px}.bpl-card{padding:15px}.bpl-score{font-size:21px}.bpl-target-copy strong{font-size:10px}}'+
+      '</style><div class="bpl-board">'+cards+'</div>';
 }
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
 
