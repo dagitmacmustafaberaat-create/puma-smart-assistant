@@ -814,6 +814,9 @@ async function loadPerformanceDashboard() {
                     const currentWidth = Math.max(0, (item.current || 0) / max * 100);
                     const change = item.rate !== undefined ? item.rate : (item.old ? ((item.current || 0) / item.old - 1) * 100 : 0);
                     const changeLabel = (change > 0 ? "+" : "") + chartNumber(change) + "%";
+                    if (extraClass === "store-chart-gender") {
+                        return '<div class="store-demo-row store-gender-row"><div class="store-gender-heading"><strong>' + safeChartLabel(item.name) + '</strong><span class="store-demo-rate ' + (change >= 0 ? 'positive' : 'negative') + '">' + changeLabel + '</span></div><div class="store-demo-bars"><div class="store-demo-barline"><small>' + oldLabel + '</small><div class="store-demo-track"><i class="previous" style="width:' + oldWidth + '%"></i></div><b>' + chartNumber(item.old, true) + '</b></div><div class="store-demo-barline"><small>' + newLabel + '</small><div class="store-demo-track"><i class="actual" style="width:' + currentWidth + '%"></i></div><b>' + chartNumber(item.current, true) + '</b></div></div></div>';
+                    }
                     return '<div class="store-demo-row"><div class="store-demo-label"><strong>' + safeChartLabel(item.name) + '</strong><small>' + oldLabel + ' / ' + newLabel + '</small><span class="store-demo-rate">' + changeLabel + '</span></div><div class="store-demo-bars"><div class="store-demo-barline"><div class="store-demo-track"><i class="previous" style="width:' + oldWidth + '%"></i></div><b>' + chartNumber(item.old, item.currency ?? currency) + '</b></div><div class="store-demo-barline"><div class="store-demo-track"><i class="actual" style="width:' + currentWidth + '%"></i></div><b>' + chartNumber(item.current, item.currency ?? currency) + '</b></div></div></div>';
                 }).join("") +
                 '</div></article>';
