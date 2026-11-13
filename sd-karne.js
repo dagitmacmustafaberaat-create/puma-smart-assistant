@@ -21,19 +21,19 @@ function sdMetricIndex(headers,type){
 function sdFindTable(book){
  const sheetName=book.SheetNames.find(n=>sdNorm(n)==="sd karne")||book.SheetNames[0];
  const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
- const headerRow=11,headers=rows[headerRow]||[];
+ const headerRow=4,headers=rows[headerRow]||[];
  const find=(tests,exclude=[])=>{const i=headers.findIndex(v=>{const n=sdNorm(v);return tests.some(t=>n.includes(t))&&!exclude.some(t=>n.includes(t));});return i;};
  const exact=(name)=>headers.findIndex(v=>sdNorm(v)===sdNorm(name));
  const map={
   upt:exact("UPT"),ciro:exact("GERÇEKLEŞEN CİRO"),bonus:exact("AYSONU KAZANÇ"),cr:exact("KİŞİSEL CR"),
   invoices:find(["fatura adedi","fatura sayisi","fis adedi","fis sayisi","invoice"]),
-  products:find(["urun adedi","urun sayisi","satilan urun","product quantity","adet toplam"]),
+  products:(exact("ADET")>=0?exact("ADET"):find(["urun adedi","urun sayisi","satilan urun","product quantity","adet toplam"])),
   atv:find(["atv","ortalama fis tutari","ortalama fatura tutari"]),
   asp:find(["asp","ortalama urun fiyati"]),
   closingRevenue:find(["ay sonu kapanis ciro","aysonu kapanis ciro","ay sonu ciro","aysonu ciro","tahmini kapanis ciro","tahmini ay sonu ciro","kapanis ciro","ay sonu satis","projected sales","forecast sales"]),
   hgo:find(["gerceklesen hgo","gerceklesme hgo","hgo","hedef gerceklesme orani","hedef gerceklesme %"],["kapanis","ay sonu","aysonu"]),
   closingHgo:find(["ay sonu kapanis hgo","aysonu kapanis hgo","kapanis hgo","ay sonu hgo","aysonu hgo","month end hgo","closing hgo"]),
-  ciroTarget:find(["bireysel ciro hedefi","ciro hedefi","hedef ciro","ciro hedef","sales target"])
+  ciroTarget:(exact("BİREYSEL HEDEF")>=0?exact("BİREYSEL HEDEF"):find(["bireysel hedef","bireysel ciro hedefi","ciro hedefi","hedef ciro","ciro hedef","sales target"]))
  };
  const required=["upt","ciro","bonus","cr"],missing=required.filter(k=>map[k]<0);
  if(missing.length)throw new Error("SD KARNE tablosunda gerekli başlıklar bulunamadı: "+missing.join(", "));
