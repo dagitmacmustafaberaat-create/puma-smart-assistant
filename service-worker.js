@@ -1,4 +1,4 @@
-const CACHE_NAME = "buyaka-puma-app-v111-service-password";
+const CACHE_NAME = "buyaka-puma-app-v112-personnel-dark-theme";
 const APP_SHELL = [
   "./",
   "./index.html",
