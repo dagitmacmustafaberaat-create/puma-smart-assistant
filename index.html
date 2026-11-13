@@ -339,6 +339,12 @@
   <section class="pmx-panel active" data-pmx-panel="sd" role="tabpanel">
     <header class="pmx-panel-title"><div><small>PERSONEL PERFORMANS RAPORU</small><h2>SD Karne</h2></div></header>
     <div id="pmxSdData"><div class="pmx-empty">SD Karne verileri yükleniyor…</div></div>
+    <div class="pmx-sd-original-actions" style="margin-top:22px;padding-top:16px;border-top:1px solid #e5e5e5">
+      <button id="pmxSdOriginalButton" type="button" onclick="togglePMXSDKarneExcel()" style="display:flex;width:100%;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:12px 16px;border:1px solid #d5001c;border-radius:10px;background:#fff;color:#d5001c;font-weight:900;letter-spacing:.35px;cursor:pointer">📂 ORİJİNAL TABLOYU AÇ</button>
+      <div id="pmxSdOriginalWrap" hidden style="margin-top:14px;padding:12px;border:1px solid #e2e2e2;border-radius:12px;background:#fff;overflow:auto">
+        <div id="pmxSdOriginalTable" style="min-width:680px;color:#111">Orijinal SD Karne tablosu hazırlanıyor…</div>
+      </div>
+    </div>
   </section>
   <section class="pmx-panel" data-pmx-panel="league" role="tabpanel">
     <header class="pmx-panel-title"><div><small>MONTHLY PERFORMANCE RACE</small><h2>Performance League</h2></div></header>
