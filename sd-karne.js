@@ -21,19 +21,23 @@ function sdMetricIndex(headers,type){
 function sdFindTable(book){
  const sheetName=book.SheetNames.find(n=>sdNorm(n)==="sd karne")||book.SheetNames[0];
  const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
- const headerRow=4,headers=rows[headerRow]||[];
+ const headerCandidates=rows.map((r,i)=>({i,score:["gorevi","adi soyadi","bireysel hedef","fatura sayisi","adet","upt","atv","asp","gerceklesen ciro","gerceklesen hgo"].filter(k=>(r||[]).some(v=>sdNorm(v)===k)).length}));
+ const bestHeader=headerCandidates.reduce((best,c)=>c.score>best.score?c:best,{i:-1,score:0});
+ if(bestHeader.i<0||bestHeader.score<5)throw new Error("Excel içinde personel başlık satırı bulunamadı. GÖREVİ / ADI SOYADI / BİREYSEL HEDEF başlıklarını kontrol edin.");
+ const headerRow=bestHeader.i,headers=rows[headerRow]||[];
  const find=(tests,exclude=[])=>{const i=headers.findIndex(v=>{const n=sdNorm(v);return tests.some(t=>n.includes(t))&&!exclude.some(t=>n.includes(t));});return i;};
  const exact=(name)=>headers.findIndex(v=>sdNorm(v)===sdNorm(name));
+ const either=(names,tests=[])=>{for(const n of names){const i=exact(n);if(i>=0)return i;}return find(tests);}
  const map={
-  upt:exact("UPT"),ciro:exact("GERÇEKLEŞEN CİRO"),bonus:exact("AYSONU KAZANÇ"),cr:exact("KİŞİSEL CR"),
+  upt:either(["UPT"]),ciro:either(["GERÇEKLEŞEN CİRO"],["gerçekleşen ciro"]),bonus:either(["AYSONU KAZANÇ","AY SONU KAZANÇ"],["aysonu kazanç","ay sonu kazanç"]),cr:either(["KİŞİSEL CR"],["kişisel cr"]),
   invoices:find(["fatura adedi","fatura sayisi","fis adedi","fis sayisi","invoice"]),
-  products:(exact("ADET")>=0?exact("ADET"):find(["urun adedi","urun sayisi","satilan urun","product quantity","adet toplam"])),
+  products:either(["ADET","ÜRÜN ADET"],["urun adedi","urun sayisi","satilan urun","product quantity","adet toplam"]),
   atv:find(["atv","ortalama fis tutari","ortalama fatura tutari"]),
   asp:find(["asp","ortalama urun fiyati"]),
   closingRevenue:find(["ay sonu kapanis ciro","aysonu kapanis ciro","ay sonu ciro","aysonu ciro","tahmini kapanis ciro","tahmini ay sonu ciro","kapanis ciro","ay sonu satis","projected sales","forecast sales"]),
   hgo:find(["gerceklesen hgo","gerceklesme hgo","hgo","hedef gerceklesme orani","hedef gerceklesme %"],["kapanis","ay sonu","aysonu"]),
   closingHgo:find(["ay sonu kapanis hgo","aysonu kapanis hgo","kapanis hgo","ay sonu hgo","aysonu hgo","month end hgo","closing hgo"]),
-  ciroTarget:(exact("BİREYSEL HEDEF")>=0?exact("BİREYSEL HEDEF"):find(["bireysel hedef","bireysel ciro hedefi","ciro hedefi","hedef ciro","ciro hedef","sales target"]))
+  ciroTarget:either(["BİREYSEL HEDEF","BİREYSEL CİRO HEDEFİ"],["bireysel hedef","bireysel ciro hedefi","ciro hedefi","hedef ciro","ciro hedef","sales target"])
  };
  const required=["upt","ciro","bonus","cr"],missing=required.filter(k=>map[k]<0);
  if(missing.length)throw new Error("SD KARNE tablosunda gerekli başlıklar bulunamadı: "+missing.join(", "));
