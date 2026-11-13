@@ -5013,37 +5013,3 @@ body {
  .store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal .comparison-values{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-
-/* STORE STATUS — compact KPI overview and gender revenue comparison */
-.store-status-panel #performanceSections .store-charts-grid{gap:10px}
-.store-status-panel #performanceSections .store-chart-kpi{padding:11px 13px}
-.store-status-panel #performanceSections .store-chart-kpi .store-chart-heading{margin-bottom:7px}
-.store-status-panel #performanceSections .store-chart-kpi .store-chart-heading h3{font-size:14px}
-.store-status-panel #performanceSections .store-chart-kpi .store-chart-kicker{font-size:9px;letter-spacing:1px}
-.store-status-panel #performanceSections .store-chart-kpi .store-demo-row{padding:7px 0}
-.store-status-panel #performanceSections .store-chart-kpi .store-demo-label{margin-bottom:4px}
-.store-status-panel #performanceSections .store-chart-kpi .store-demo-bars{gap:5px}
-.store-status-panel #performanceSections .store-chart-kpi .store-demo-barline{min-height:15px}
-.store-status-panel #performanceSections .store-chart-kpi .store-demo-track{height:7px}
-.store-status-panel #performanceSections .store-chart-kpi .store-demo-barline b{font-size:10px}
-.store-status-panel #performanceSections .store-chart-gender .store-chart-heading{align-items:flex-start}
-.store-status-panel #performanceSections .store-chart-gender .store-gender-row{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.09)}
-.store-status-panel #performanceSections .store-chart-gender .store-gender-row:last-child{border-bottom:0}
-.store-status-panel #performanceSections .store-chart-gender .store-gender-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
-.store-status-panel #performanceSections .store-chart-gender .store-gender-heading>strong{font-size:13px;color:#fff}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-rate{position:static;white-space:nowrap;font-size:12px;font-weight:900}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-rate.positive{color:#55d69a}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-rate.negative{color:#ff687b}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-bars{display:grid;gap:7px}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-barline{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:8px}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-barline>small{color:#b9bbc2;font-size:10px;font-weight:800}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-track{height:9px;border-radius:20px;background:#373940;overflow:hidden}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-track i{display:block;height:100%;border-radius:20px}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-track i.previous{background:linear-gradient(90deg,#777b84,#aeb2bb)}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-track i.actual{background:linear-gradient(90deg,#a9001b,#ff405c)}
-.store-status-panel #performanceSections .store-chart-gender .store-demo-barline>b{min-width:88px;text-align:right;color:#fff;font-size:11px;font-variant-numeric:tabular-nums}
-@media(max-width:650px){
- .store-status-panel #performanceSections .store-chart-kpi{padding:10px}
- .store-status-panel #performanceSections .store-chart-gender .store-demo-barline{grid-template-columns:34px minmax(0,1fr) auto;gap:6px}
- .store-status-panel #performanceSections .store-chart-gender .store-demo-barline>b{min-width:78px;font-size:10px}
-}
