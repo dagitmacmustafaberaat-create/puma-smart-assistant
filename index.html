@@ -291,10 +291,46 @@
     #personnelManagementArea .pmx-status{margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);color:#8e949d;font-size:9px;text-align:right}
     @media(max-width:760px){#personnelManagementArea{width:calc(100% - 22px);padding:13px 0 34px}#personnelManagementArea .pmx-hero{align-items:flex-start;padding:20px 17px}#personnelManagementArea .pmx-hero-side{flex-direction:column;align-items:stretch}#personnelManagementArea .pmx-count{min-width:64px}#personnelManagementArea .pmx-refresh{white-space:nowrap;padding:9px 10px}#personnelManagementArea .pmx-person-grid,#personnelManagementArea .pmx-league-grid{grid-template-columns:1fr}#personnelManagementArea .pmx-education-layout{grid-template-columns:1fr}}
     @media(max-width:560px){#personnelManagementArea .pmx-hero{gap:10px;padding:17px 13px}#personnelManagementArea .pmx-hero h1{font-size:21px}#personnelManagementArea .pmx-hero p:last-child{font-size:10px}#personnelManagementArea .pmx-count strong{font-size:21px}#personnelManagementArea .pmx-count span{font-size:7px}#personnelManagementArea .pmx-tabs{gap:6px;padding-top:12px}#personnelManagementArea .pmx-tab{min-height:40px;padding:9px 11px;font-size:9px}#personnelManagementArea .pmx-panel{padding-top:17px}#personnelManagementArea .pmx-panel-title{align-items:flex-start;flex-direction:column}#personnelManagementArea .pmx-statline{grid-template-columns:1fr 1fr}#personnelManagementArea .pmx-statline .pmx-stat:last-child{grid-column:1/-1}#personnelManagementArea .pmx-person-card{padding:12px}#personnelManagementArea .pmx-person-card-head{flex-wrap:wrap}#personnelManagementArea .pmx-bonus{margin-left:auto}#personnelManagementArea .pmx-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#personnelManagementArea .pmx-champion-grid{grid-template-columns:1fr 1fr}#personnelManagementArea .pmx-champion-card{min-height:154px;padding:13px}#personnelManagementArea .pmx-champion-card strong{font-size:15px}#personnelManagementArea .pmx-champion-card>b{font-size:18px}#personnelManagementArea .pmx-shift-days{grid-template-columns:1fr}#personnelManagementArea .pmx-selected-staff{align-items:flex-start;flex-direction:column}#personnelManagementArea .pmx-section-head{align-items:flex-start;flex-direction:column}#personnelManagementArea .pmx-select{max-width:100%;width:100%}}
+
+    /* Eğitim Merkezi: yalnızca bu sekmeye özel beyaz zemin ve kırmızı/siyah tipografi */
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"],
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] #pmxEducationData,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-education-day,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-education-library{
+      background:#fff!important;color:#111!important;border-color:#dedede!important;box-shadow:none!important
+    }
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-panel-title h2,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-panel-title small,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-section-head h3,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-section-head small,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-training-topics article small,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-resource-card small{
+      color:#d5001c!important
+    }
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] p,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] span:not(.pmx-training-topics article>span),
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] strong,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] b,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] label,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-training-date,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-training-topics article strong,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-resource-card strong{
+      color:#111!important
+    }
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-training-topics article,
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-resource-card{
+      background:#fff!important;color:#111!important;border-color:#e2e2e2!important;box-shadow:none!important
+    }
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-select{
+      background:#fff!important;color:#111!important;border-color:#cfcfcf!important
+    }
+    #personnelManagementArea .pmx-panel[data-pmx-panel="education"] .pmx-empty{
+      background:#fff!important;color:#111!important;border-color:#d7d7d7!important
+    }
   </style>
   <button class="back-button" type="button" onclick="closePersonnelManagement()">← Ana Menü</button>
   <header class="pmx-hero">
-    <div><p class="pmx-kicker">BUYAKA PUMA · TEAM PERFORMANCE</p><h1>PERSONEL YÖNETİM MERKEZİ</h1><p>Performans, ödüller, gelişim ve vardiya yönetimi tek merkezde.</p></div>
+    <div><p class="pmx-kicker">BUYAKA PUMA · TEAM PERFORMANCE</p><h1>PERSONEL YÖNETİM MERKEZİ</h1></div>
     <div class="pmx-hero-side"><div class="pmx-count"><strong>05</strong><span>PERSONEL</span></div><button class="pmx-refresh" type="button" onclick="window.loadPersonnelManagementData(true)">↻ VERİLERİ YENİLE</button></div>
   </header>
   <nav class="pmx-tabs" role="tablist" aria-label="Personel yönetim sekmeleri">
@@ -305,23 +341,23 @@
     <button class="pmx-tab" type="button" role="tab" aria-selected="false" data-pmx-tab="shift" onclick="setPersonnelTab('shift')"><span>📅</span> ÇALIŞMA PROGRAMI</button>
   </nav>
   <section class="pmx-panel active" data-pmx-panel="sd" role="tabpanel">
-    <header class="pmx-panel-title"><div><small>PERSONEL PERFORMANS RAPORU</small><h2>SD Karne</h2><p>Kasım raporundaki kişisel sonuçlar ve ay sonu göstergeleri.</p></div></header>
+    <header class="pmx-panel-title"><div><small>PERSONEL PERFORMANS RAPORU</small><h2>SD Karne</h2></div></header>
     <div id="pmxSdData"><div class="pmx-empty">SD Karne verileri yükleniyor…</div></div>
   </section>
   <section class="pmx-panel" data-pmx-panel="league" role="tabpanel">
-    <header class="pmx-panel-title"><div><small>MONTHLY PERFORMANCE RACE</small><h2>Performance League</h2><p>Fatura ve ürün hedeflerinde aylık yarış sıralaması.</p></div></header>
+    <header class="pmx-panel-title"><div><small>MONTHLY PERFORMANCE RACE</small><h2>Performance League</h2></div></header>
     <div id="pmxLeagueData"><div class="pmx-empty">Performance League verileri yükleniyor…</div></div>
   </section>
   <section class="pmx-panel" data-pmx-panel="weekly" role="tabpanel">
-    <header class="pmx-panel-title"><div><small>BUYAKA PUMA · PERFORMANCE AWARDS</small><h2>Haftanın Enleri</h2><p>Ciro, UPT, ATV ve CR kategorilerinin liderleri.</p></div></header>
+    <header class="pmx-panel-title"><div><small>BUYAKA PUMA · PERFORMANCE AWARDS</small><h2>Haftanın Enleri</h2></div></header>
     <div id="pmxWeeklyData"><div class="pmx-empty">Şampiyonlar hazırlanıyor…</div></div>
   </section>
   <section class="pmx-panel" data-pmx-panel="education" role="tabpanel">
-    <header class="pmx-panel-title"><div><small>TEAM DEVELOPMENT</small><h2>Eğitim Merkezi</h2><p>Kasım eğitim takvimi ve öğrenme kütüphanesi.</p></div></header>
+    <header class="pmx-panel-title"><div><small>TEAM DEVELOPMENT</small><h2>Eğitim Merkezi</h2></div></header>
     <div id="pmxEducationData"><div class="pmx-empty">Eğitim verileri hazırlanıyor…</div></div>
   </section>
   <section class="pmx-panel" data-pmx-panel="shift" role="tabpanel">
-    <header class="pmx-panel-title"><div><small>TEAM ROSTER & SHIFT PLANNING</small><h2>Çalışma Programı</h2><p>Karttan personeli seçerek haftalık vardiyasını görüntüle.</p></div><select id="pmxShiftWeek" class="pmx-select" onchange="renderPersonnelShiftWeek(this.value)"></select></header>
+    <header class="pmx-panel-title"><div><small>TEAM ROSTER & SHIFT PLANNING</small><h2>Çalışma Programı</h2></div><select id="pmxShiftWeek" class="pmx-select" onchange="renderPersonnelShiftWeek(this.value)"></select></header>
     <div id="pmxShiftData"><div class="pmx-empty">Vardiya verileri hazırlanıyor…</div></div>
   </section>
   <div id="pmxStatus" class="pmx-status" aria-live="polite">Kasım raporları hazırlanıyor…</div>
