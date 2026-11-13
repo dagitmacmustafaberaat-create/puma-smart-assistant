@@ -6,7 +6,7 @@ const TRAINING_LIBRARY = [
   { icon: "🤝", title: "BACK TO BE NICE", file: "BACK TO BE NICE.pdf", group: "UYGULAMA" }
 ];
 
-const NOVEMBER_TRAINING = {
+let NOVEMBER_TRAINING = {
   "2026-11-10": { vmSales: ["Satış Teknikleri — E: İhtiyaç belirle, açık uçlu sorular ve aktif dinleme"], technology: ["Ayakkabı Teknolojileri — PROFOAM"], practice: ["Üç açık uçlu soru sor; ihtiyacı özetleyip ürün öner."] },
   "2026-11-11": { vmSales: ["VM — Ayakkabı duvarı ve numara düzeni"], technology: ["Tekstil Teknolojileri — PWRWarm / POWERWARM"], practice: ["Ayakkabı duvarını kontrol et; bir tekstil ürünü tanıt."] },
   "2026-11-12": { vmSales: ["Satış Teknikleri — N: İhtiyaca cevap ver, özellik-avantaj-fayda (FAB)"], technology: ["Ayakkabı Teknolojileri — PUMAGRIP"], practice: ["Bir ayakkabıyı özellik, avantaj ve fayda ile anlat."] },
@@ -34,6 +34,57 @@ const NOVEMBER_TRAINING = {
   "2026-11-09": { vmSales: ["VM — Ürün gruplama ve renk bütünlüğü"], technology: ["Tekstil Teknolojileri — StormCELL"], practice: ["Bir reyonu renk ve kategoriye göre düzenle."] }
 };
 
+
+const TRAINING_CALENDAR_URL="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/Kasim_2026_Egitim_Takvimi.xlsx";
+function trainingNorm(value){return String(value??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/\s+/g," ").trim();}
+function trainingDateKey(value){
+  if(value instanceof Date&&!isNaN(value))return value.getFullYear()+"-"+String(value.getMonth()+1).padStart(2,"0")+"-"+String(value.getDate()).padStart(2,"0");
+  if(typeof value==="number"&&window.XLSX){const d=XLSX.SSF.parse_date_code(value);if(d)return d.y+"-"+String(d.m).padStart(2,"0")+"-"+String(d.d).padStart(2,"0");}
+  const text=String(value??"").trim();
+  let m=text.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);if(m)return m[1]+"-"+String(m[2]).padStart(2,"0")+"-"+String(m[3]).padStart(2,"0");
+  m=text.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})/);if(m)return m[3]+"-"+String(m[2]).padStart(2,"0")+"-"+String(m[1]).padStart(2,"0");
+  return "";
+}
+async function loadTrainingCalendarWorkbook(){
+  try{
+    if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yok");
+    const response=await fetch(TRAINING_CALENDAR_URL+"?v="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw new Error("Eğitim takvimi dosyası okunamadı ("+response.status+")");
+    const book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:true});
+    let parsed={};
+    for(const sheetName of book.SheetNames){
+      const rows=XLSX.utils.sheet_to_json(book.Sheets[sheetName],{header:1,defval:null,raw:true});
+      let headerIndex=rows.findIndex(row=>row.some(v=>["tarih","date","gun"].includes(trainingNorm(v)))&&row.some(v=>/vm|satis|teknoloji|uygulama|practice/.test(trainingNorm(v))));
+      if(headerIndex<0)headerIndex=rows.findIndex(row=>row.some(v=>trainingDateKey(v)));
+      if(headerIndex<0)continue;
+      const headers=rows[headerIndex]||[];
+      let dateCol=headers.findIndex(v=>["tarih","date","gun"].includes(trainingNorm(v)));
+      if(dateCol<0)dateCol=0;
+      let vmCol=headers.findIndex(v=>/vm|satis|sales/.test(trainingNorm(v)));
+      let techCol=headers.findIndex(v=>/teknoloji|technology|tekstil|ayakkabi/.test(trainingNorm(v)));
+      let practiceCol=headers.findIndex(v=>/uygulama|practice/.test(trainingNorm(v)));
+      if(vmCol<0)vmCol=1;if(techCol<0)techCol=2;if(practiceCol<0)practiceCol=3;
+      for(let i=headerIndex+1;i<rows.length;i++){
+        const row=rows[i]||[],date=trainingDateKey(row[dateCol]);
+        if(!date)continue;
+        const clean=v=>String(v??"").trim();
+        const vm=clean(row[vmCol]),tech=clean(row[techCol]),practice=clean(row[practiceCol]);
+        if(vm||tech||practice)parsed[date]={vmSales:vm?[vm]:[],technology:tech?[tech]:[],practice:practice?[practice]:[]};
+      }
+      if(Object.keys(parsed).length)break;
+    }
+    if(Object.keys(parsed).length<5)throw new Error("Eğitim takvimi satırları tanınamadı");
+    NOVEMBER_TRAINING=parsed;
+    window.BUYAKA_TRAINING_DATA={library:TRAINING_LIBRARY,calendar:NOVEMBER_TRAINING};
+    return true;
+  }catch(error){
+    console.warn("Kasım eğitim takvimi Excel yüklenemedi; uygulamadaki takvim verisi korunuyor.",error);
+    window.BUYAKA_TRAINING_DATA={library:TRAINING_LIBRARY,calendar:NOVEMBER_TRAINING};
+    return false;
+  }
+}
+window.loadTrainingCalendarWorkbook=loadTrainingCalendarWorkbook;
+
 function showEducationCenter() {
   ["productSearchArea", "sizeSearchArea", "dailyTasksArea", "vmStandardsArea"].forEach(function (id) {
     const el = document.getElementById(id);
@@ -45,6 +96,7 @@ function showEducationCenter() {
   if (area) area.style.display = "block";
   renderTrainingLibrary();
   renderEducationDateFilter();
+  if(typeof loadTrainingCalendarWorkbook==="function")loadTrainingCalendarWorkbook().then(renderEducationDateFilter);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
