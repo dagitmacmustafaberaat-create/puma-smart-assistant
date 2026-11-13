@@ -5174,3 +5174,63 @@ body {
   .store-status-panel #performanceSections .store-compare-line>strong{font-size:17px}
   .store-status-panel #performanceSections .store-compare-track{height:14px}
 }
+
+
+/* MOBİL DÜZEN — kategori, cinsiyet ve stok kartlarını kesin olarak alt alta ayır */
+@media(max-width:650px){
+  .store-status-panel #performanceSections .comparison-group .metric-card-grid,
+  .store-status-panel #performanceSections .comparison-group{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) !important;
+    gap:14px !important;
+    width:100%;
+    min-width:0;
+  }
+  .store-status-panel #performanceSections .comparison-group .store-compare-card{
+    display:block;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    margin:0;
+    padding:17px;
+    box-sizing:border-box;
+    overflow:hidden;
+    clear:both;
+  }
+  .store-status-panel #performanceSections .store-compare-card h4{
+    display:block;
+    margin:0 0 15px;
+    overflow-wrap:anywhere;
+  }
+  .store-status-panel #performanceSections .store-compare-values{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:15px;
+    width:100%;
+    min-width:0;
+  }
+  .store-status-panel #performanceSections .store-compare-line{
+    display:grid;
+    grid-template-columns:44px minmax(0,1fr);
+    grid-template-rows:auto 14px;
+    width:100%;
+    min-width:0;
+    column-gap:10px;
+    row-gap:7px;
+  }
+  .store-status-panel #performanceSections .store-compare-line>strong{
+    min-width:0;
+    overflow-wrap:anywhere;
+    white-space:normal;
+    font-size:17px;
+  }
+  .store-status-panel #performanceSections .store-compare-track{
+    min-width:0;
+    width:100%;
+  }
+  .store-status-panel #performanceSections .store-compare-growth{
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
+}
