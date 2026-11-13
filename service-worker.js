@@ -1,4 +1,4 @@
-const CACHE_NAME = "buyaka-puma-app-v119-sd-karne-header-row-fix";
+const CACHE_NAME = "buyaka-puma-app-v120-sd-karne-dynamic-header";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,7 +9,7 @@ const APP_SHELL = [
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
   "./script.js?v=20261106-store-management-nav-fix",
   "./shift-program.js?v=20261108-week-buttons-v1",
-  "./sd-karne.js?v=20261113-excel-header-row-fix-v2",
+  "./sd-karne.js?v=20261113-dynamic-header-detect-v3",
   "./personnel-management.js?v=20261113-personnel-hub-v2",
   "./education.js?v=20261113-november-calendar-v2",
   "./Buyaka%20Puma%20%C5%9Eampiyonlar%20Kul%C3%BCb%C3%BC%20Kutlamas%C4%B1.png?v=20261106-champions-background",
