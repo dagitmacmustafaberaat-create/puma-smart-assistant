@@ -94,7 +94,7 @@ function renderSDKarne(){
  '<div><span>ASP</span><strong>'+sdFmt(p.asp,0)+' TL</strong></div>'+
  '<div><span>AY SONU CİRO</span><strong>'+(p.closingRevenue?sdFmt(p.closingRevenue,0)+' TL':'—')+'</strong></div>'+
  '<div><span>AY SONU HGO%</span><strong>'+(p.closingHgo?sdFmt(p.closingHgo,1)+'%':'—')+'</strong></div>'+
- '</div></article>'.join("");
+ '</div></article>').join("");
 }
 async function loadSDKarneData(){
  const status=document.getElementById("sdKarneStatus");
