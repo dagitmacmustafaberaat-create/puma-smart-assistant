@@ -258,15 +258,19 @@ function applyStoreStatusView() {
     if (!root) return;
     const view = activeStoreStatusView || "main";
     const visibleGroups = {
-        main: [".kpi-group",".forecast-group"],
+        main: [".kpi-group", ".forecast-group"],
         category: [".category-group"],
         gender: [".gender-group"],
         stock: [".stock-group"],
         all: ["*"]
     };
     root.querySelectorAll(".performance-group").forEach(group => {
-        group.hidden = view !== "all" && !visibleGroups[view].some(selector => group.matches(selector));
+        const visible = view === "all" || visibleGroups[view].some(selector => group.matches(selector));
+        group.hidden = !visible;
+        if (visible) group.style.removeProperty("display");
+        else group.style.setProperty("display", "none", "important");
     });
+
     const chartSelectors = {
         main: [".store-chart-kpi"],
         category: [".store-chart-category"],
@@ -275,10 +279,20 @@ function applyStoreStatusView() {
         all: ["*"]
     };
     root.querySelectorAll(".store-chart-card").forEach(chart => {
-        chart.hidden = view !== "all" && !chartSelectors[view].some(selector => chart.matches(selector));
+        const visible = view === "all" || chartSelectors[view].some(selector => chart.matches(selector));
+        chart.hidden = !visible;
+        if (visible) chart.style.removeProperty("display");
+        else chart.style.setProperty("display", "none", "important");
     });
+
     const chartGrid = root.querySelector(".store-charts-grid");
-    if (chartGrid) chartGrid.hidden = !chartGrid.querySelector(".store-chart-card:not([hidden])");
+    if (chartGrid) {
+        const hasVisibleChart = Boolean(chartGrid.querySelector(".store-chart-card:not([hidden])"));
+        chartGrid.hidden = !hasVisibleChart;
+        if (hasVisibleChart) chartGrid.style.removeProperty("display");
+        else chartGrid.style.setProperty("display", "none", "important");
+    }
+
     const summary = document.getElementById("storeActionSummary");
     if (summary) { summary.hidden = true; summary.innerHTML = ""; }
     const filter = document.getElementById("storeStatusFilter");
