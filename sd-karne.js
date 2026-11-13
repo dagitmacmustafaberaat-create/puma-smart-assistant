@@ -31,9 +31,9 @@ function sdFindTable(book){
   atv:find(["atv","ortalama fis tutari","ortalama fatura tutari"]),
   asp:find(["asp","ortalama urun fiyati"]),
   closingRevenue:find(["ay sonu kapanis ciro","aysonu kapanis ciro","ay sonu ciro","aysonu ciro","tahmini kapanis ciro","tahmini ay sonu ciro","kapanis ciro","ay sonu satis","projected sales","forecast sales"]),
-  hgo:find(["hgo","hedef gerceklesme orani","hedef gerceklesme %"],["kapanis","ay sonu","aysonu"]),
+  hgo:find(["gerceklesen hgo","gerceklesme hgo","hgo","hedef gerceklesme orani","hedef gerceklesme %"],["kapanis","ay sonu","aysonu"]),
   closingHgo:find(["ay sonu kapanis hgo","aysonu kapanis hgo","kapanis hgo","ay sonu hgo","aysonu hgo","month end hgo","closing hgo"]),
-  ciroTarget:find(["ciro hedefi","hedef ciro","sales target"])
+  ciroTarget:find(["bireysel ciro hedefi","ciro hedefi","hedef ciro","ciro hedef","sales target"])
  };
  const required=["upt","ciro","bonus","cr"],missing=required.filter(k=>map[k]<0);
  if(missing.length)throw new Error("SD KARNE tablosunda gerekli başlıklar bulunamadı: "+missing.join(", "));
@@ -54,7 +54,8 @@ function sdReadData(book){
   const closingHgoLabel=table.map.closingHgo>=0?String((table.rows[table.headerRow]||[])[table.map.closingHgo]).trim():"AY SONU KAPANIŞ HGO";
   let hgo=table.map.hgo>=0?val("hgo"):(table.map.ciroTarget>=0&&val("ciroTarget")>0?(closingRevenue||ciro)/val("ciroTarget")*100:0);
   if(hgo>0&&hgo<=1)hgo*=100;
-  out.push({name,ciro,upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,closingHgo,closingHgoLabel,hgo,hasInvoices:table.map.invoices>=0,hasProducts:table.map.products>=0});
+  let closingHgoPct=closingHgo;if(closingHgoPct>0&&closingHgoPct<=1)closingHgoPct*=100;
+  out.push({name,ciro,ciroTarget:val("ciroTarget"),upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,closingHgo:closingHgoPct,closingHgoLabel,hgo,hasInvoices:table.map.invoices>=0,hasProducts:table.map.products>=0});
  }
  return out;
 }
@@ -83,17 +84,17 @@ function renderSDKarne(){
  });
  const cards=document.getElementById("sdStaffCards");
  if(cards)cards.innerHTML=sdKarneRows.map(p=>'<article class="sd-staff-card"><div class="sd-staff-top"><h3>👤 '+p.name+'</h3><span class="sd-bonus-chip">🎁 AY SONU KAZANÇ <strong>'+sdFmt(p.bonus,0)+' TL</strong></span></div><div class="sd-staff-metrics sd-staff-metrics-expanded">'+
- '<div><span>CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div>'+
- '<div><span>FATURA ADEDİ</span><strong>'+(p.hasInvoices?sdFmt(p.invoices,0):'—')+'</strong></div>'+
- '<div><span>ÜRÜN ADEDİ</span><strong>'+(p.hasProducts?sdFmt(p.products,0):'—')+'</strong></div>'+
+ '<div><span>CİRO HEDEFİ</span><strong>'+(p.ciroTarget?sdFmt(p.ciroTarget,0)+' TL':'—')+'</strong></div>'+
+ '<div><span>GERÇEKLEŞEN CİRO</span><strong>'+sdFmt(p.ciro,0)+' TL</strong></div>'+
+ '<div><span>GERÇEKLEŞEN HGO</span><strong>'+(p.hgo?sdFmt(p.hgo,1)+'%':'—')+'</strong></div>'+
+ '<div><span>FATURA ADET</span><strong>'+(p.hasInvoices?sdFmt(p.invoices,0):'—')+'</strong></div>'+
+ '<div><span>ÜRÜN ADET</span><strong>'+(p.hasProducts?sdFmt(p.products,0):'—')+'</strong></div>'+
+ '<div><span>UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div>'+
  '<div><span>ATV</span><strong>'+sdFmt(p.atv,0)+' TL</strong></div>'+
  '<div><span>ASP</span><strong>'+sdFmt(p.asp,0)+' TL</strong></div>'+
- '<div><span>UPT</span><strong>'+sdFmt(p.upt,2)+'</strong></div>'+
- '<div><span>CR</span><strong>'+sdFmt(p.cr,2)+'%</strong></div>'+
- '<div><span>AY SONU KAPANIŞ CİRO</span><strong>'+(p.closingRevenue?sdFmt(p.closingRevenue,0)+' TL':'—')+'</strong></div>'+
- '<div><span>HGO</span><strong>'+(p.hgo?sdFmt(p.hgo,1)+'%':'—')+'</strong></div>'+
- '<div><span>'+p.closingHgoLabel+'</span><strong>'+(p.closingHgo?sdFmt(p.closingHgo,1)+'%':'—')+'</strong></div>'+ 
- '</div></article>').join("");
+ '<div><span>AY SONU CİRO</span><strong>'+(p.closingRevenue?sdFmt(p.closingRevenue,0)+' TL':'—')+'</strong></div>'+
+ '<div><span>AY SONU HGO%</span><strong>'+(p.closingHgo?sdFmt(p.closingHgo,1)+'%':'—')+'</strong></div>'+
+ '</div></article>'.join("");
 }
 async function loadSDKarneData(){
  const status=document.getElementById("sdKarneStatus");
