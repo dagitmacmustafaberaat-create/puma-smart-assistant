@@ -1,13 +1,13 @@
-const CACHE_NAME = "buyaka-puma-app-v127-store-status-kpi-cards";
+const CACHE_NAME = "buyaka-puma-app-v128-store-status-category-cards";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261113-store-status-kpi-cards-v1",
+  "./style.css?v=20261113-store-status-category-cards-v1",
   "./performance-league.js?v=20261102-excel-source",
   "./store-management.js?v=20261109-period-aware-comment-v3",
   "./weekly-champions.js?v=20261106-californian-champion-v5",
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
-  "./script.js?v=20261113-store-status-kpi-cards-v1",
+  "./script.js?v=20261113-store-status-category-cards-v1",
   "./shift-program.js?v=20261113-w47-schedule-v1",
   "./sd-karne.js?v=20261113-dynamic-header-detect-v3",
   "./personnel-management.js?v=20261113-personnel-hub-v2",
