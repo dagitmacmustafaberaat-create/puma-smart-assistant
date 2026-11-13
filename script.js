@@ -757,47 +757,45 @@ async function loadPerformanceDashboard() {
             </article>`;
         });
 
-        const categoryCards = [
-            {name: raw("H4"),  y25: "I5", y26: "J5", growth: "I6"},
-            {name: raw("H7"),  y25: "I8", y26: "J8", growth: "I9"},
-            {name: raw("H10"), y25: "I11", y26: "J11", growth: "I12"}
-        ].map(item => `
-            <article class="comparison-card">
-              <h4>${safe(item.name)}</h4>
-              <div class="comparison-values">
-                <div><span>2025 Ciro</span><strong>${format(get(item.y25))}</strong></div>
-                <div><span>2026 Ciro</span><strong>${format(get(item.y26))}</strong></div>
-                <div><span>Büyüme</span><strong>${format(get(item.growth))}</strong></div>
+        const comparisonCard = (name, oldAddress, currentAddress, growthAddress, currency = false) => {
+            const oldValue = Number(get(oldAddress)?.value);
+            const currentValue = Number(get(currentAddress)?.value);
+            const validOld = Number.isFinite(oldValue) ? oldValue : null;
+            const validCurrent = Number.isFinite(currentValue) ? currentValue : null;
+            const max = Math.max(1, validOld || 0, validCurrent || 0);
+            const oldWidth = validOld === null ? 0 : Math.max(0, validOld / max * 100);
+            const currentWidth = validCurrent === null ? 0 : Math.max(0, validCurrent / max * 100);
+            const valueText = address => {
+                const value = get(address);
+                if (!value) return "—";
+                if (currency && Number.isFinite(Number(value.value))) return new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 0 }).format(Number(value.value)) + " TL";
+                return format(value);
+            };
+            return `<article class="comparison-card store-compare-card">
+              <h4>${safe(name)}</h4>
+              <div class="store-compare-values">
+                <div class="store-compare-line"><span>2025</span><div class="store-compare-track"><i class="previous" style="width:${oldWidth}%"></i></div><strong>${valueText(oldAddress)}</strong></div>
+                <div class="store-compare-line"><span>2026</span><div class="store-compare-track"><i class="actual" style="width:${currentWidth}%"></i></div><strong>${valueText(currentAddress)}</strong></div>
               </div>
-            </article>`);
+              ${growthAddress ? `<div class="store-compare-growth"><span>BÜYÜME</span><strong>${format(get(growthAddress))}</strong></div>` : ""}
+            </article>`;
+        };
+        const categoryCards = [
+            {name: raw("H4"), old: "I5", current: "J5", growth: "I6"},
+            {name: raw("H7"), old: "I8", current: "J8", growth: "I9"},
+            {name: raw("H10"), old: "I11", current: "J11", growth: "I12"}
+        ].filter(item => item.name !== null && item.name !== undefined)
+         .map(item => comparisonCard(item.name, item.old, item.current, item.growth, true));
 
         const genderCards = [15,16,17,18,19].map(row => {
             const name = raw("H" + row);
-            if (name === null || name === undefined) return "";
-            return `
-              <article class="comparison-card">
-                <h4>${safe(name)}</h4>
-                <div class="comparison-values">
-                  <div><span>2025</span><strong>${format(get("I" + row))}</strong></div>
-                  <div><span>2026</span><strong>${format(get("J" + row))}</strong></div>
-                  <div><span>Büyüme</span><strong>${format(get("K" + row))}</strong></div>
-                </div>
-              </article>`;
+            return name === null || name === undefined ? "" : comparisonCard(name, "I" + row, "J" + row, "K" + row, true);
         }).filter(Boolean);
 
-        const stockCards = [
-            {name: raw("H24"), old: "I24", current: "J24"},
-            {name: raw("H25"), old: "I25", current: "J25"},
-            {name: raw("H26"), old: "I26", current: "J26"},
-            {name: raw("H27"), old: "I27", current: "J27"}
-        ].filter(item => item.name !== null && item.name !== undefined).map(item => `
-            <article class="comparison-card">
-              <h4>${safe(item.name)}</h4>
-              <div class="comparison-values">
-                <div><span>2025</span><strong>${format(get(item.old))}</strong></div>
-                <div><span>2026</span><strong>${format(get(item.current))}</strong></div>
-              </div>
-            </article>`);
+        const stockCards = [24,25,26,27].map(row => {
+            const name = raw("H" + row);
+            return name === null || name === undefined ? "" : comparisonCard(name, "I" + row, "J" + row, null, false);
+        }).filter(Boolean);
 
         const groups = [];
         groups.push(section("Dönem Bilgisi", "Excel tablosundaki dönem bilgileri", [
@@ -873,11 +871,8 @@ async function loadPerformanceDashboard() {
         const stockChartEntries = [24,25,26,27].map(row => ({
             name:raw("H"+row),old:numeric("I"+row),current:numeric("J"+row)
         })).filter(item => item.name !== null && item.name !== undefined);
-        const charts = '<section class="store-charts-grid" aria-label="Grafiklerle mağaza performansı">' +
+        const charts = '<section class="store-charts-grid" aria-label="KPI hedef gerçekleşme">' +
             attainmentChart() +
-            compareChart("Kategori Bazlı Ciro","KATEGORİ PERFORMANSI",categoryChartEntries,"2025","2026",true,"store-chart-category") +
-            compareChart("Cinsiyet Bazlı Ciro","CİNSİYET KIRILIMI",genderChartEntries,"2025","2026",true,"store-chart-gender") +
-            compareChart("Kategori Bazlı Stok","ENVANTER KARŞILAŞTIRMASI",stockChartEntries,"2025","2026",false,"store-chart-stock") +
             '</section>';
 
         root.innerHTML = `
