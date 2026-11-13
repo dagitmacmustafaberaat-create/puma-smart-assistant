@@ -5013,3 +5013,13 @@ body {
  .store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal .comparison-values{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
+
+
+/* MAĞAZA DURUMU — üst filtre ve kategori bazlı görünüm */
+.store-status-filter-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 18px;padding:13px 15px;border:1px solid rgba(255,255,255,.14);border-left:3px solid #d5001c;border-radius:12px;background:linear-gradient(120deg,rgba(28,29,34,.98),rgba(13,14,18,.98))}
+.store-status-filter-bar label{color:#ff536a;font-size:10px;font-weight:950;letter-spacing:1.15px}
+.store-status-filter-bar select{width:min(280px,65%);min-height:42px;padding:9px 36px 9px 12px;border:1px solid rgba(255,255,255,.2);border-radius:9px;background:#202127;color:#fff;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.store-status-filter-bar select:focus{outline:2px solid #d5001c;outline-offset:2px}
+#performanceSections [hidden]{display:none!important}
+#performanceSections .store-chart-card[hidden],#performanceSections .performance-group[hidden]{display:none!important}
+@media(max-width:600px){.store-status-filter-bar{align-items:stretch;flex-direction:column;gap:8px;padding:12px}.store-status-filter-bar select{width:100%;max-width:none}}
