@@ -1,8 +1,8 @@
-const CACHE_NAME = "buyaka-puma-app-v121-ios-safe-install";
+const CACHE_NAME = "buyaka-puma-app-v122-service-plan-back";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261113-personnel-hub-v2",
+  "./style.css?v=20261113-service-plan-back-v1",
   "./performance-league.js?v=20261102-excel-source",
   "./store-management.js?v=20261109-period-aware-comment-v3",
   "./weekly-champions.js?v=20261106-californian-champion-v5",
