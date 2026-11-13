@@ -1,4 +1,4 @@
-const CACHE_NAME = "buyaka-puma-app-v122-service-plan-back";
+const CACHE_NAME = "buyaka-puma-app-v123-w47-schedule";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,7 +8,7 @@ const APP_SHELL = [
   "./weekly-champions.js?v=20261106-californian-champion-v5",
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
   "./script.js?v=20261106-store-management-nav-fix",
-  "./shift-program.js?v=20261108-week-buttons-v1",
+  "./shift-program.js?v=20261113-w47-schedule-v1",
   "./sd-karne.js?v=20261113-dynamic-header-detect-v3",
   "./personnel-management.js?v=20261113-personnel-hub-v2",
   "./education.js?v=20261113-november-calendar-v2",
