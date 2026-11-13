@@ -240,7 +240,6 @@ function showStoreStatus() {
         if (el) el.style.display = "none";
     });
     if (area) area.style.display = "block";
-    if (typeof window.loadLeagueData === "function") window.loadLeagueData();
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -948,54 +947,39 @@ function organizeStoreStatusTabs() {
     const source = document.getElementById("performanceSections");
     const summary = document.getElementById("storeActionSummary");
     if (!panel || !source) return;
-    let page = document.getElementById("storePerformancePage");
-    if (!page) {
-        page = document.createElement("div");
-        page.id = "storePerformancePage";
-        page.className = "bp-dashboard";
-        page.setAttribute("role", "region");
-        page.setAttribute("aria-label", "Mağaza durumu raporu");
-        const anchor = panel.querySelector(".back-button");
-        if (anchor) anchor.insertAdjacentElement("afterend", page);
-        else panel.insertBefore(page, source);
+    const oldPage = document.getElementById("storePerformancePage");
+    if (oldPage) oldPage.remove();
+    source.hidden = false;
+    source.style.display = "grid";
+    source.classList.add("store-status-horizontal");
+    if (summary) {
+        summary.hidden = false;
+        summary.style.display = "block";
     }
-    source.hidden = true;
-    source.textContent = "";
-    if (summary) { summary.hidden = true; summary.textContent = ""; }
 }
-function renderStoreStatusVerticalDashboard() {
-    const page = document.getElementById("storePerformancePage");
-    if (!page) return;
-    const data = window.BUYAKA_LEAGUE_DATA;
-    const staff = Array.isArray(data?.staff) ? data.staff.slice() : [];
-    const fmt = (n,d=0) => new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n)||0);
-    const pct = n => "%"+fmt(n,1);
-    const clamp = n => Math.max(0,Math.min(100,Number(n)||0));
-    if (!staff.length) {
-        page.innerHTML = '<div class="bpl-loading">Personel performans verileri Excel kaynağından yükleniyor…</div>';
-        return;
-    }
-    const ranked = staff.map(person => {
-        const invoiceRate = person.invoiceTarget ? person.invoices / person.invoiceTarget * 100 : 0;
-        const unitRate = person.unitTarget ? person.units / person.unitTarget * 100 : 0;
-        return {...person, invoiceRate, unitRate, score:(invoiceRate+unitRate)/2};
-    }).sort((a,b)=>b.score-a.score);
-    const cards = ranked.map((person,index) => {
-        const first = index===0;
-        return '<article class="bpl-card'+(first?' is-leader':'')+'">'+
-          '<div class="bpl-card-head"><div class="bpl-person"><span class="bpl-rank">'+(first?'🏆 '+(index+1):String(index+1).padStart(2,'0'))+'</span><div><h3>'+escapeHTML(person.name)+'</h3><small>'+escapeHTML(person.role)+'</small></div></div><strong class="bpl-score">'+pct(person.score)+'</strong></div>'+
-          '<div class="bpl-overall-track" aria-label="Genel ilerleme"><i style="width:'+clamp(person.score)+'%"></i></div>'+
-          '<div class="bpl-target-row"><div class="bpl-target-copy"><span>FATURA HEDEFİ</span><strong>'+fmt(person.invoices)+' / '+fmt(person.invoiceTarget)+' · '+pct(person.invoiceRate)+'</strong></div><div class="bpl-bar"><i style="width:'+clamp(person.invoiceRate)+'%"></i></div></div>'+
-          '<div class="bpl-target-row"><div class="bpl-target-copy"><span>ÜRÜN HEDEFİ</span><strong>'+fmt(person.units)+' / '+fmt(person.unitTarget)+' · '+pct(person.unitRate)+'</strong></div><div class="bpl-bar"><i style="width:'+clamp(person.unitRate)+'%"></i></div></div>'+
-          '<div class="bpl-daily"><span>GÜNLÜK HEDEF</span><strong>'+fmt(person.dailyInvoice,1)+' FATURA</strong><strong>'+fmt(person.dailyUnits,1)+' ÜRÜN</strong></div>'+
-        '</article>';
-    }).join("");
-    page.innerHTML='<style>'+
-      '.bpl-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}'+
-      '.bpl-card{min-width:0;padding:18px;border:1px solid #34363d;border-radius:17px;background:linear-gradient(145deg,#1b1d22,#101115);box-shadow:0 9px 24px #0003;color:#f7f7f8}'+
-      '.bpl-card.is-leader{border-color:#d5001c;box-shadow:0 9px 28px #d5001c22}'+
-      '.bpl-card-head,.bpl-person{display:flex;align-items:center;gap:12px}.bpl-card-head{justify-content:space-between;margin-bottom:14px}.bpl-person{min-width:0}.bpl-rank{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:11px;background:#292b31;color:#fff;font-size:15px;font-weight:950}.bpl-card.is-leader .bpl-rank{background:#d5001c}.bpl-person h3{margin:0;color:#fff;font-size:15px;font-weight:950;line-height:1.2}.bpl-person small{display:block;margin-top:5px;color:#aeb2bb;font-size:9px;font-weight:850;letter-spacing:1px}.bpl-score{flex:0 0 auto;color:#ff536a;font-size:23px;font-weight:950}.bpl-overall-track,.bpl-bar{height:8px;overflow:hidden;border-radius:20px;background:#35373e}.bpl-overall-track{height:6px;margin:0 0 16px}.bpl-overall-track i,.bpl-bar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#a9001b,#ff3659)}.bpl-target-row{margin:12px 0}.bpl-target-copy{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}.bpl-target-copy span,.bpl-daily span{color:#aeb2bb;font-size:9px;font-weight:900;letter-spacing:.65px}.bpl-target-copy strong{color:#fff;font-size:11px;font-weight:850;text-align:right}.bpl-bar{height:7px}.bpl-daily{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px;padding-top:12px;border-top:1px solid #34363d}.bpl-daily span{margin-right:auto}.bpl-daily strong{color:#f4f4f5;font-size:10px;font-weight:900}.bpl-loading{padding:22px;border:1px dashed #4b4d54;border-radius:14px;color:#d4d5da;font-size:13px}@media(max-width:680px){.bpl-board{grid-template-columns:1fr;gap:11px}.bpl-card{padding:15px}.bpl-score{font-size:21px}.bpl-target-copy strong{font-size:10px}}'+
-      '</style><div class="bpl-board">'+cards+'</div>';
+function renderStoreStatusVerticalDashboard(cells) {
+    const root = document.getElementById("performanceSections");
+    if (!root || !cells) return;
+    const rows = [17,18,19,20,21,22,23];
+    root.querySelectorAll(".kpi-row-card").forEach((card,index) => {
+        const row = rows[index];
+        if (!row) return;
+        const targetCell = cells["C"+row];
+        const actualCell = cells["D"+row];
+        const target = Number(targetCell?.value);
+        const actual = Number(actualCell?.value);
+        if (!Number.isFinite(target) || target <= 0 || !Number.isFinite(actual)) return;
+        const rate = Math.max(0, Math.min(100, actual / target * 100));
+        const bar = document.createElement("div");
+        bar.className = "store-status-progress";
+        bar.setAttribute("role","img");
+        bar.setAttribute("aria-label","Hedef gerçekleşmesi yüzde "+rate.toFixed(1));
+        bar.innerHTML = '<span style="width:'+rate+'%"></span>';
+        card.appendChild(bar);
+        card.classList.add("store-status-kpi-horizontal");
+    });
+    root.querySelectorAll(".metric-card").forEach(card => card.classList.add("store-status-metric-horizontal"));
+    root.querySelectorAll(".comparison-card").forEach(card => card.classList.add("store-status-comparison-horizontal"));
 }
 document.addEventListener("DOMContentLoaded", loadPerformanceDashboard);
 
