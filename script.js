@@ -258,7 +258,7 @@ function applyStoreStatusView() {
     if (!root) return;
     const view = activeStoreStatusView || "main";
     const visibleGroups = {
-        main: [".period-group",".targets-group",".daily-group",".kpi-group",".forecast-group"],
+        main: [".kpi-group",".forecast-group"],
         category: [".category-group"],
         gender: [".gender-group"],
         stock: [".stock-group"],
@@ -280,7 +280,7 @@ function applyStoreStatusView() {
     const chartGrid = root.querySelector(".store-charts-grid");
     if (chartGrid) chartGrid.hidden = !chartGrid.querySelector(".store-chart-card:not([hidden])");
     const summary = document.getElementById("storeActionSummary");
-    if (summary) summary.hidden = view !== "main" && view !== "all";
+    if (summary) { summary.hidden = true; summary.innerHTML = ""; }
     const filter = document.getElementById("storeStatusFilter");
     if (filter && filter.value !== view) filter.value = view;
 }
@@ -798,13 +798,6 @@ async function loadPerformanceDashboard() {
         }).filter(Boolean);
 
         const groups = [];
-        groups.push(section("Dönem Bilgisi", "Excel tablosundaki dönem bilgileri", [
-            card("Ay Gün Sayısı", get("C4")),
-            card("Geçen Gün Sayısı", get("C5"))
-        ], "period-group"));
-        const targetPeriod = String(raw("B7") || "Aylık").replace(/\s+Hedefler.*$/i, "").replace(/\.(?=\d)/g, " ").replace(/\b(\d{2})\b/g, "20$1");
-        groups.push(section(targetPeriod + " Hedefleri", "Tablodaki aylık hedef değerleri", targets.map(([label, address]) => card(label, get(address))), "targets-group"));
-        groups.push(section("Günlük Yapılması Gerekenler", "Tablodaki günlük değerler; yeniden hesaplanmaz", daily.map(([label, address]) => card(label, get(address))), "daily-group"));
         groups.push(section("Bugüne Kadar: Hedef ve Gerçekleşen", "Excel tablosundaki KPI, fark ve sapma değerleri", kpiCards, "kpi-group"));
         groups.push(section("Tahmini Kapanış", "Tablodaki mevcut tahmin ve HGO değeri", [
             card("Tahmini Kapanış Cirosu", get("C25"), "metric-card-featured"),
@@ -900,12 +893,14 @@ async function loadPerformanceDashboard() {
                 kpiGrid.querySelectorAll(".kpi-row-card").forEach(item => {
                     item.hidden = selected !== "all" && item.querySelector("h4")?.textContent !== selected;
                 });
-                renderStoreActionSummary(cells, selected);
-                applySelectedKpiLayout(kpiGrid, document.getElementById("storeActionSummary"), selected);
+                const summary = document.getElementById("storeActionSummary");
+                if (summary) { summary.hidden = true; summary.innerHTML = ""; }
+                applySelectedKpiLayout(kpiGrid, summary, selected);
             });
             kpiHeading.appendChild(filter);
         }
-        renderStoreActionSummary(cells);
+        const actionSummary = document.getElementById("storeActionSummary");
+        if (actionSummary) { actionSummary.hidden = true; actionSummary.innerHTML = ""; }
         organizeStoreStatusTabs();
         renderStoreStatusVerticalDashboard(cells);
         applyStoreStatusView();
@@ -916,7 +911,7 @@ async function loadPerformanceDashboard() {
 }
 
 function applySelectedKpiLayout(kpiGrid, summaryRoot, selectedKpi) {
-    if (!kpiGrid || !summaryRoot) return;
+    if (!kpiGrid) return;
     const cards = [...kpiGrid.querySelectorAll(".kpi-row-card")];
     cards.forEach(card => {
         const oldLayout = card.querySelector(".kpi-selected-layout");
@@ -928,20 +923,10 @@ function applySelectedKpiLayout(kpiGrid, summaryRoot, selectedKpi) {
         card.classList.remove("kpi-card-selected");
     });
     kpiGrid.classList.toggle("kpi-grid-filtered", selectedKpi !== "all");
-    summaryRoot.hidden = selectedKpi !== "all";
+    if (summaryRoot) { summaryRoot.hidden = true; summaryRoot.innerHTML = ""; }
     if (selectedKpi === "all") return;
-
     const selectedCard = cards.find(card => card.querySelector("h4")?.textContent.trim() === selectedKpi);
-    const insight = summaryRoot.querySelector(".action-insight");
-    if (!selectedCard) return;
-    const values = selectedCard.querySelector(".kpi-values");
-    if (!values || !insight) return;
-
-    const layout = document.createElement("div");
-    layout.className = "kpi-selected-layout";
-    selectedCard.classList.add("kpi-card-selected");
-    layout.append(values, insight);
-    selectedCard.appendChild(layout);
+    if (selectedCard) selectedCard.classList.add("kpi-card-selected");
 }
 
 function renderStoreActionSummary(cells, selectedKpi = "all") {
