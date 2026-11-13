@@ -1,16 +1,17 @@
-const CACHE_NAME = "buyaka-puma-app-v102";
+const CACHE_NAME = "buyaka-puma-app-v103-personnel-hub";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261108-w44-manager-comment-v1",
+  "./style.css?v=20261113-personnel-hub-v2",
   "./performance-league.js?v=20261102-excel-source",
   "./store-management.js?v=20261108-dynamic-weekly-excel-v1",
   "./weekly-champions.js?v=20261106-californian-champion-v5",
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
   "./script.js?v=20261106-store-management-nav-fix",
   "./shift-program.js?v=20261108-week-buttons-v1",
-  "./sd-karne.js?v=20261106-weekly-data-v2",
-  "./education.js?v=20261106-inline-viewer-v1",
+  "./sd-karne.js?v=20261112-sd-metrics-v1",
+  "./personnel-management.js?v=20261113-personnel-hub-v2",
+  "./education.js?v=20261113-november-calendar-v2",
   "./Buyaka%20Puma%20%C5%9Eampiyonlar%20Kul%C3%BCb%C3%BC%20Kutlamas%C4%B1.png?v=20261106-champions-background",
   "./K%C4%B1rm%C4%B1z%C4%B1%20I%C5%9F%C4%B1kl%C4%B1%20Puma%20%C5%9Eampiyonluk%20Kupas%C4%B1.png?v=20261106-single-trophy",
   "./manifest.json",
