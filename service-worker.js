@@ -1,4 +1,4 @@
-const CACHE_NAME = "buyaka-puma-app-v109-home-shortcuts-hidden";
+const CACHE_NAME = "buyaka-puma-app-v110-service-plan";
 const APP_SHELL = [
   "./",
   "./index.html",
