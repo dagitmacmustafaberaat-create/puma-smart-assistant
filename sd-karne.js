@@ -131,7 +131,7 @@ function toggleSDKarneExcel(){
 }
 
 
-// Personel Yönetim Merkezi içindeki SD Karne sekmesi için gömülü orijinal Excel görüntüleyici.
+// Personel Yönetim Merkezi içindeki SD Karne sekmesinde gerçek Excel dosyasını gömülü aç.
 async function togglePMXSDKarneExcel(){
  const wrap=document.getElementById("pmxSdOriginalWrap");
  const host=document.getElementById("pmxSdOriginalTable");
@@ -141,23 +141,7 @@ async function togglePMXSDKarneExcel(){
  wrap.hidden=!opening;
  if(button)button.textContent=opening?"📂 ORİJİNAL TABLOYU GİZLE":"📂 ORİJİNAL TABLOYU AÇ";
  if(!opening)return;
- try{
-  if(!window.XLSX)throw new Error("Excel görüntüleyici yüklenemedi.");
-  if(!sdKarneBook){
-   host.textContent="GitHub'daki orijinal SD Karne Excel dosyası yükleniyor…";
-   const response=await fetch(SD_KARNE_URL,{cache:"no-store"});
-   if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
-   sdKarneBook=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
-  }
-  // Orijinal çalışma kitabındaki TÜM sayfaları, sıraları ve hücre içerikleriyle göster.
-  host.innerHTML=sdKarneBook.SheetNames.map((sheetName,index)=>{
-   const sheet=sdKarneBook.Sheets[sheetName];
-   return '<section class="pmx-original-sheet" style="margin:0 0 22px"><h3 style="position:sticky;left:0;margin:0 0 9px;padding:10px 12px;background:#f4f4f4;color:#d5001c;border:1px solid #ddd;font-size:14px">'+(index+1)+'. '+String(sheetName).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+'</h3><div style="overflow:auto">'+XLSX.utils.sheet_to_html(sheet,{id:"pmxSdOriginalSheet"+index,editable:false})+'</div></section>';
-  }).join("");
-  host.querySelectorAll("table").forEach(table=>{
-   table.style.borderCollapse="collapse";table.style.width="max-content";table.style.minWidth="100%";table.style.color="#111";table.style.background="#fff";
-   table.querySelectorAll("td,th").forEach(cell=>{cell.style.border="1px solid #d8d8d8";cell.style.padding="7px 9px";cell.style.whiteSpace="nowrap";cell.style.fontSize="12px";});
-  });
- }catch(error){host.textContent="Orijinal Excel tablosu açılamadı: "+error.message;console.error("Personel merkezi SD Excel görüntüleme hatası:",error);}
+ const officeViewer="https://view.officeapps.live.com/op/embed.aspx?src="+encodeURIComponent(SD_KARNE_URL);
+ host.innerHTML='<div style="width:100%;min-width:0"><div style="margin:0 0 10px;padding:10px 12px;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;color:#222;font-size:13px">GitHub’daki orijinal SD Karne Excel dosyası açılıyor. Excel’in sayfa düzeni ve biçimlendirmesi korunur.</div><iframe title="Orijinal SD Karne Excel çalışma kitabı" src="'+officeViewer+'" style="display:block;width:100%;height: min(78vh, 900px);min-height:560px;border:1px solid #d8d8d8;border-radius:8px;background:#fff" loading="lazy" allowfullscreen></iframe><p style="margin:10px 0 0;font-size:12px"><a href="'+SD_KARNE_URL+'" target="_blank" rel="noopener noreferrer" style="color:#d5001c;font-weight:700">Excel dosyasını doğrudan aç / indir ↗</a></p></div>';
 }
 window.togglePMXSDKarneExcel=togglePMXSDKarneExcel;
