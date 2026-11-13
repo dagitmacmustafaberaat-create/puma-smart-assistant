@@ -4979,3 +4979,36 @@ body {
 
 /* SERVİS PLANI ANA MENÜ DÖNÜŞÜ */
 .service-plan-back-button{align-self:flex-start;margin:0 0 18px;}
+
+
+/* STORE STATUS — keep the original Excel report data, present each item horizontally */
+.store-status-panel #performanceSections.store-status-horizontal{display:grid;gap:16px}
+.store-status-panel #performanceSections .performance-group{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:linear-gradient(145deg,rgba(30,31,36,.94),rgba(15,16,20,.96))}
+.store-status-panel #performanceSections .performance-group-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+.store-status-panel #performanceSections .metric-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.store-status-panel #performanceSections .metric-card.store-status-metric-horizontal{display:grid;grid-template-columns:minmax(105px,.8fr) minmax(0,1.2fr);align-items:center;gap:8px 14px;min-height:64px;padding:12px 14px}
+.store-status-panel #performanceSections .store-status-metric-horizontal .metric-label{font-weight:850;color:#c5c7ce}
+.store-status-panel #performanceSections .store-status-metric-horizontal .metric-value{text-align:right;font-size:clamp(16px,2vw,21px)}
+.store-status-panel #performanceSections .kpi-group .metric-card-grid{grid-template-columns:1fr;gap:10px}
+.store-status-panel #performanceSections .kpi-row-card.store-status-kpi-horizontal{position:relative;padding:14px 15px 18px;border-radius:13px}
+.store-status-panel #performanceSections .store-status-kpi-horizontal h4{margin:0 0 11px;color:#ff536a;font-size:14px}
+.store-status-panel #performanceSections .store-status-kpi-horizontal .kpi-values{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.store-status-panel #performanceSections .store-status-kpi-horizontal .kpi-values>div{padding:10px;background:rgba(255,255,255,.045)}
+.store-status-panel #performanceSections .store-status-kpi-horizontal .kpi-values strong{font-size:13px}
+.store-status-panel #performanceSections .store-status-progress{height:7px;overflow:hidden;margin-top:13px;border-radius:20px;background:#393b42}
+.store-status-panel #performanceSections .store-status-progress span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#a9001b,#ff3659)}
+.store-status-panel #performanceSections .comparison-group .metric-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal{padding:13px;border-radius:12px}
+.store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal h4{margin:0 0 9px;color:#fff;font-size:12px}
+.store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal .comparison-values{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal .comparison-values>div{padding:8px;background:rgba(255,255,255,.045)}
+.store-status-panel #performanceSections .store-charts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.store-status-panel #performanceSections .store-chart-card{min-width:0}
+.store-status-panel #storeActionSummary{margin-top:16px}
+@media(max-width:650px){
+ .store-status-panel #performanceSections .metric-card-grid,
+ .store-status-panel #performanceSections .comparison-group .metric-card-grid,
+ .store-status-panel #performanceSections .store-charts-grid{grid-template-columns:1fr}
+ .store-status-panel #performanceSections .store-status-kpi-horizontal .kpi-values{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .store-status-panel #performanceSections .comparison-card.store-status-comparison-horizontal .comparison-values{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
