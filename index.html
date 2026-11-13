@@ -82,6 +82,11 @@
             <span class="module-copy"><strong>Ürün Sorgulama</strong><small>Ürün kodu veya adıyla ara</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
+          <button class="menu-button module-card service-plan-menu-card" type="button" onclick="showServicePlan()">
+            <span class="module-sticker" aria-hidden="true">🚌</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10M4 12h16M7 16v3M17 16v3M7 8h.01M17 8h.01M4 16h16"></path></svg></span>
+            <span class="module-copy"><strong>SERVİS PLANI</strong><small>Personel servis planına erişim</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
           <button hidden style="display:none!important" class="menu-button module-card module-card-education" type="button" onclick="showEducationCenter()">
             <span class="module-sticker" aria-hidden="true">🎓</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5L2 9Z"></path><path d="M6 11v5c3.5 3 8.5 3 12 0v-5M22 9v6"></path></svg></span>
             <span class="module-copy"><strong>Eğitim Merkezi</strong><small>Eğitim takvimi ve dokümanlar</small></span>
@@ -144,7 +149,7 @@
               <a href="https://fastperakende.com/league.html" target="_blank" rel="noopener noreferrer">Fast League <span aria-hidden="true">↗</span></a>
               <a href="http://www.fastperakende.com/" target="_blank" rel="noopener noreferrer">Biz Kimiz <span aria-hidden="true">↗</span></a>
               <a href="https://www.fastspor.com/" target="_blank" rel="noopener noreferrer">İnternet Sitesi <span aria-hidden="true">↗</span></a>
-              <a href="https://fastperakende.com/fph.html">FAST PERAKENDE <span aria-hidden="true">↗</span></a>
+              
             </nav>
           </div>
         </div>
@@ -647,6 +652,21 @@
       </section>
     </section>
 
+    <section id="servicePlanArea" class="work-module fast-perakende-area service-plan-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeServicePlan()">← Ana Menü</button>
+      <header class="work-module-heading">
+        <p class="education-eyebrow">BUYAKA PUMA • PERSONEL ULAŞIMI</p>
+        <h1>SERVİS PLANI</h1>
+        <p>Servis planı bu ekranda açılır. Gömülü görüntüleme desteklenmezse aşağıdaki bağlantıyı kullanabilirsin.</p>
+      </header>
+      <div class="work-module-card fast-perakende-card">
+        <div class="fast-perakende-frame-wrap">
+          <iframe id="servicePlanFrame" title="Fast Perakende Servis Planı" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://fastperakende.com/servis-plani.html" allow="clipboard-read; clipboard-write"></iframe>
+        </div>
+        <p class="fast-perakende-external"><a href="https://fastperakende.com/servis-plani.html" target="_blank" rel="noopener noreferrer">Servis Planını ayrı pencerede aç ↗</a></p>
+      </div>
+    </section>
+
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeFastPerakende()">← Ana Menü</button>
       <header class="work-module-heading">
@@ -722,6 +742,21 @@
           if (area) area.style.display = "block";
           console.error("Personel modülü bulunamadı:", moduleName);
         }
+      }
+
+      function showServicePlan() {
+        ["mainMenu","productSearchArea","sizeSearchArea","educationArea","dailyTasksArea","vmStandardsArea","shiftProgramArea","sdKarneArea","performanceLeagueArea","fastPerakendeArea","weeklyChampionsArea","storeStatusArea","storeManagementArea","personnelManagementArea"].forEach(function(id) {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "none";
+        });
+        const area = document.getElementById("servicePlanArea");
+        if (area) area.style.display = "block";
+        window.scrollTo(0, 0);
+      }
+      function closeServicePlan() {
+        const area = document.getElementById("servicePlanArea");
+        if (area) area.style.display = "none";
+        showMainMenu();
       }
 
       function showFastPerakende() {
