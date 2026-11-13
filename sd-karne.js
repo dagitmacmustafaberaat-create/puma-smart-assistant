@@ -30,7 +30,7 @@ function sdFindTable(book){
   products:find(["urun adedi","urun sayisi","satilan urun","product quantity","adet toplam"]),
   atv:find(["atv","ortalama fis tutari","ortalama fatura tutari"]),
   asp:find(["asp","ortalama urun fiyati"]),
-  closingRevenue:find(["ay sonu kapanis ciro","tahmini kapanis ciro","kapanis ciro","projected sales","forecast sales"]),
+  closingRevenue:find(["ay sonu kapanis ciro","aysonu kapanis ciro","ay sonu ciro","aysonu ciro","tahmini kapanis ciro","tahmini ay sonu ciro","kapanis ciro","ay sonu satis","projected sales","forecast sales"]),
   hgo:find(["hgo","hedef gerceklesme orani","hedef gerceklesme %"]),
   ciroTarget:find(["ciro hedefi","hedef ciro","sales target"])
  };
