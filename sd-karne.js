@@ -144,15 +144,20 @@ async function togglePMXSDKarneExcel(){
  try{
   if(!window.XLSX)throw new Error("Excel görüntüleyici yüklenemedi.");
   if(!sdKarneBook){
-   host.textContent="GitHub üzerindeki SD Karne Excel dosyası yükleniyor…";
-   const response=await fetch(SD_KARNE_URL+"?v="+Date.now(),{cache:"no-store"});
+   host.textContent="GitHub'daki orijinal SD Karne Excel dosyası yükleniyor…";
+   const response=await fetch(SD_KARNE_URL,{cache:"no-store"});
    if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
    sdKarneBook=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
   }
-  const sheetName=sdKarneBook.SheetNames.find(n=>sdNorm(n)==="sd karne")||sdKarneBook.SheetNames[0];
-  host.innerHTML=XLSX.utils.sheet_to_html(sdKarneBook.Sheets[sheetName],{id:"pmxSdOriginalWorkbookTable",editable:false});
-  const table=host.querySelector("table");
-  if(table){table.style.borderCollapse="collapse";table.style.width="100%";table.style.color="#111";table.querySelectorAll("td,th").forEach(cell=>{cell.style.border="1px solid #ddd";cell.style.padding="7px 9px";cell.style.whiteSpace="nowrap";});}
- }catch(error){host.textContent="Orijinal tablo açılamadı: "+error.message;console.error("Personel merkezi SD Excel görüntüleme hatası:",error);}
+  // Orijinal çalışma kitabındaki TÜM sayfaları, sıraları ve hücre içerikleriyle göster.
+  host.innerHTML=sdKarneBook.SheetNames.map((sheetName,index)=>{
+   const sheet=sdKarneBook.Sheets[sheetName];
+   return '<section class="pmx-original-sheet" style="margin:0 0 22px"><h3 style="position:sticky;left:0;margin:0 0 9px;padding:10px 12px;background:#f4f4f4;color:#d5001c;border:1px solid #ddd;font-size:14px">'+(index+1)+'. '+String(sheetName).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+'</h3><div style="overflow:auto">'+XLSX.utils.sheet_to_html(sheet,{id:"pmxSdOriginalSheet"+index,editable:false})+'</div></section>';
+  }).join("");
+  host.querySelectorAll("table").forEach(table=>{
+   table.style.borderCollapse="collapse";table.style.width="max-content";table.style.minWidth="100%";table.style.color="#111";table.style.background="#fff";
+   table.querySelectorAll("td,th").forEach(cell=>{cell.style.border="1px solid #d8d8d8";cell.style.padding="7px 9px";cell.style.whiteSpace="nowrap";cell.style.fontSize="12px";});
+  });
+ }catch(error){host.textContent="Orijinal Excel tablosu açılamadı: "+error.message;console.error("Personel merkezi SD Excel görüntüleme hatası:",error);}
 }
 window.togglePMXSDKarneExcel=togglePMXSDKarneExcel;
