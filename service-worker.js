@@ -1,10 +1,10 @@
-const CACHE_NAME = "buyaka-puma-app-v120-sd-karne-dynamic-header";
+const CACHE_NAME = "buyaka-puma-app-v121-ios-safe-install";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20261113-personnel-hub-v3",
+  "./style.css?v=20261113-personnel-hub-v2",
   "./performance-league.js?v=20261102-excel-source",
-  "./store-management.js?v=20261108-dynamic-weekly-excel-v1",
+  "./store-management.js?v=20261109-period-aware-comment-v3",
   "./weekly-champions.js?v=20261106-californian-champion-v5",
   "./top5-analysis.js?v=20261106-business-unit-filter-v1",
   "./script.js?v=20261106-store-management-nav-fix",
@@ -21,7 +21,13 @@ const APP_SHELL = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+      .then((cache) => Promise.all(
+        APP_SHELL.map((url) => cache.add(url).catch((error) => {
+          // Tek bir dosyanın 404/ağ hatası tüm Service Worker kurulumunu engellemesin.
+          console.warn("Önbelleğe alınamayan uygulama dosyası:", url, error);
+          return null;
+        }))
+      ))
       .then(() => self.skipWaiting())
   );
 });
