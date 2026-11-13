@@ -92,6 +92,7 @@ function renderSDKarne(){
  '<div><span>CR</span><strong>'+sdFmt(p.cr,2)+'%</strong></div>'+
  '<div><span>AY SONU KAPANIŞ CİRO</span><strong>'+(p.closingRevenue?sdFmt(p.closingRevenue,0)+' TL':'—')+'</strong></div>'+
  '<div><span>HGO</span><strong>'+(p.hgo?sdFmt(p.hgo,1)+'%':'—')+'</strong></div>'+
+ '<div><span>'+p.closingHgoLabel+'</span><strong>'+(p.closingHgo?sdFmt(p.closingHgo,1)+'%':'—')+'</strong></div>'+ 
  '</div></article>').join("");
 }
 async function loadSDKarneData(){
