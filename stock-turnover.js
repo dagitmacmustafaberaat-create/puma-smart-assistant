@@ -103,6 +103,11 @@
     window.scrollTo({top:0,behavior:"smooth"});
     window.loadStockTurnover(true);
   };
+  // Modül açıkken GitHub Excel dosyasını dakikada bir kontrol et; yeni commitler ekrana otomatik yansısın.
+  window.setInterval(function(){
+    const area=document.getElementById("stockTurnoverArea");
+    if(area&&area.style.display!=="none"&&!document.hidden&&!loading)window.loadStockTurnover(true);
+  },60000);
   window.closeStockTurnover=function(){
     const area=document.getElementById("stockTurnoverArea");if(area)area.style.display="none";
     if(typeof window.showMainMenu==="function")window.showMainMenu();
