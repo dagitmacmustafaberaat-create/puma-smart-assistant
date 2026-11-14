@@ -23,6 +23,9 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 
 .report-stack{display:grid;gap:14px;margin:0 0 24px}.report-card{padding:19px}.report-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.report-heading h2{font-size:16px;letter-spacing:-.35px;margin:4px 0 0}.report-kicker{font-size:9px;letter-spacing:1.2px;color:var(--red);font-weight:900}.report-source{font-size:9px;font-weight:850;letter-spacing:.7px;color:var(--red);background:#fff0f2;padding:7px 9px;border-radius:6px}.report-days{display:flex;gap:10px;margin-bottom:15px}.report-days>div,.report-summary>div{background:#f7f7f5;border:1px solid var(--line);border-radius:8px;padding:10px 13px;min-width:130px}.report-days small,.report-summary small,.category-report small{display:block;color:#888;font-size:9px;font-weight:800;letter-spacing:.65px}.report-days strong{font-size:19px}.report-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.report-two h3,.category-report h3{font-size:11px;color:var(--red);margin:0 0 8px;font-weight:900}.report-table{width:100%;border-collapse:collapse;font-size:11px;white-space:nowrap}.report-table th,.report-table td{padding:9px 8px;border-bottom:1px solid #efefec;text-align:left}.report-table th{font-weight:750;color:#555}.report-table thead th{font-size:9px;color:#888;letter-spacing:.45px;background:#fafaf8}.report-table td{color:#222}.report-table .actual{font-weight:850}.report-table .negative,.negative{color:var(--red)!important;font-weight:800}.report-table .positive,.positive{color:var(--green)!important;font-weight:800}.report-table-wrap{overflow-x:auto}.report-summary{display:flex;gap:10px;margin-top:13px}.report-summary strong{display:block;font-size:19px;margin-top:3px}.report-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.category-report{border:1px solid var(--line);border-radius:9px;padding:13px;min-width:0}.category-report>div{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #f0f0ed}.category-report b{font-size:11px}.category-report em{display:block;font-size:12px;font-style:normal;font-weight:850;margin-top:9px}.report-bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.total-row{background:#fafaf8;font-weight:900}.report-table tbody tr:last-child th,.report-table tbody tr:last-child td{border-bottom:0}
 @media(max-width:800px){.report-two,.report-bottom-grid{grid-template-columns:1fr}.report-category-grid{grid-template-columns:1fr}.report-heading{align-items:flex-start;flex-direction:column}.report-table{font-size:10px}.report-table th,.report-table td{padding:8px 6px}.report-summary strong{font-size:17px}}
+
+.monthly-progress{padding:5px 2px 0}.monthly-progress-head{display:grid;grid-template-columns:1fr 1fr;gap:12px}.monthly-progress-head small{display:block;color:#888;font-size:9px;font-weight:850;letter-spacing:.6px}.monthly-progress-head strong{display:block;font-size:20px;letter-spacing:-.5px;margin:5px 0 13px}.progress-track{height:16px;border-radius:20px;background:#f0f0ed;overflow:hidden}.progress-track span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#e31b36,#ff6479)}.progress-foot{display:flex;justify-content:space-between;gap:8px;margin-top:9px;font-size:11px}.progress-foot b{font-size:13px}
+@media(max-width:700px){.monthly-progress-head strong{font-size:16px}.progress-foot{font-size:10px;flex-wrap:wrap}}
 </style></head>
 <body>
 <div class="shell">
@@ -94,26 +97,29 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 </div>
   <div class="welcome"><div><div class="eyebrow">GÜNÜN MAĞAZA ÖZETİ</div><h2>Merhaba, mağazanın nabzı burada.</h2><p>BUYAKA mağaza performansını tek ekrandan takip et, önceliklerini belirle.</p></div><button onclick="go('ai')">✦ AI MANAGER'A SOR</button></div>
   <div class="content-grid">
-   <div class="card"><div class="card-title"><h3>Ciro performans trendi</h3><div class="chart-legend"><span><i class="legend-dot"></i>Gerçekleşen</span><span><i class="legend-dot gray"></i>Hedef</span></div></div>
-    <div class="horizontal-trend">
-     <div class="trend-row"><b>Pzt</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-     <div class="trend-row"><b>Sal</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-     <div class="trend-row"><b>Çar</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-     <div class="trend-row"><b>Per</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-     <div class="trend-row"><b>Cum</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-     <div class="trend-row"><b>Cmt</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-     <div class="trend-row"><b>Paz</b><div class="trend-track"><span></span></div><em>Veri bekleniyor</em></div>
-    </div><div class="chart-note">Yatay gerçekleşen/hedef göstergeleri gerçek günlük ciro verisi eşleştirildiğinde dolacaktır.</div>
+   <div class="card"><div class="card-title"><h3>Ciro performans durumu</h3><span>Kasım 2026 · 13. gün</span></div>
+    <div class="monthly-progress">
+     <div class="monthly-progress-head"><div><small>GERÇEKLEŞEN CİRO</small><strong>1.230.638 TL</strong></div><div><small>13. GÜNDE OLMASI GEREKEN</small><strong>1.516.667 TL</strong></div></div>
+     <div class="progress-track"><span style="width:81.14%"></span></div>
+     <div class="progress-foot"><b class="negative">%81,14 HGO</b><span class="negative">-286.029 TL hedef farkı</span></div>
+    </div>
+    <div class="chart-note">Günlük Pazartesi–Pazar ciro kırılımı gönderdiğin rapor tablolarında bulunmadığı için günlük değer üretilmedi. Bu alanda mevcut dönem toplamı gösteriliyor.</div>
    </div>
-   <div class="card ai-card"><div class="ai-head"><div class="ai-icon">✦</div><div><strong>Akıllı Mağaza Koçu</strong><small>Günlük yönetici değerlendirmesi · Demo</small></div></div>
-    <div class="insight"><strong>İlk bakış:</strong> Örnek tabloda ciro hedefi aşılmış görünüyor. CR değeri ise geliştirme alanı olarak öne çıkıyor. UPT olumlu yönde.</div>
-    <div class="action-list"><div class="action"><span class="num">1</span><span>Müşteri karşılama ve satışa dönüşüm odağını güçlendir.</span></div><div class="action"><span class="num">2</span><span>Tamamlayıcı ürün önerilerini günlük koçlukta çalış.</span></div><div class="action"><span class="num">3</span><span>Hızlı satan ürünlerin beden stoklarını kontrol et.</span></div></div>
+   <div class="card ai-card"><div class="ai-head"><div class="ai-icon">✦</div><div><strong>Akıllı Mağaza Koçu</strong><small>Kasım 2026 · Gerçekleşen KPI değerlendirmesi</small></div></div>
+    <div class="insight"><strong>İlk bakış:</strong> Ciro hedeflenen seviyenin <strong>286.029 TL (%18,86)</strong> gerisinde. CR <strong>%10,06</strong> ile %7 hedefinin üzerinde; buna karşılık UPT <strong>1,48</strong> ile 1,80 hedefinin altında. Trafik de hedefin 1.532 kişi gerisinde.</div>
+    <div class="action-list"><div class="action"><span class="num">1</span><span>UPT’yi 1,48’den 1,80’e taşımak için her satışta tamamlayıcı ürün ve ikinci ürün önerisini standartlaştır.</span></div><div class="action"><span class="num">2</span><span>Trafik açığını kapatmak için mağaza önü karşılama ve müşteri davet aksiyonlarını yoğunlaştır.</span></div><div class="action"><span class="num">3</span><span>CR hedef üstünde olduğu için güçlü dönüşüm performansını korurken sepet ürün adedine odaklan.</span></div></div>
     <div style="margin-top:15px"><button onclick="go('coach')" style="border:0;background:#fff0f2;color:#d51b35;border-radius:7px;padding:9px 11px;font-size:10px;font-weight:850">DETAYLI DEĞERLENDİR →</button></div>
    </div>
   </div>
   <div class="bottom-grid">
-   <div class="card"><div class="card-title"><h3>Kategori performansı</h3><span>Pay ve dönemsel değişim</span></div><table class="mini-table"><thead><tr><th>KATEGORİ</th><th>CİRO PAYI</th><th>DEĞİŞİM</th></tr></thead><tbody><tr><td>Ayakkabı</td><td>—</td><td>—</td></tr><tr><td>Tekstil</td><td>—</td><td>—</td></tr><tr><td>Aksesuar</td><td>—</td><td>—</td></tr></tbody></table><div class="chart-note">Ciro tutarı gösterilmez. Yalnızca kategori ciro payı ve artış/azalış oranı yer alır.</div></div>
-   <div class="card"><div class="card-title"><h3>Yönetici gündemi</h3><span>Örnek öncelikler</span></div><div class="action-list"><div class="action"><span class="num">!</span><span>CR performansını vardiya bazında incele.</span></div><div class="action"><span class="num">↗</span><span>Ayakkabı kategorisindeki büyümeyi destekle.</span></div><div class="action"><span class="num">⌕</span><span>Aksesuar satış fırsatlarını kontrol et.</span></div></div></div>
+   <div class="card"><div class="card-title"><h3>Kategori performansı</h3><span>2026 ciro payı ve 2025'e göre değişim</span></div><table class="mini-table"><thead><tr><th>KATEGORİ</th><th>CİRO PAYI</th><th>DEĞİŞİM</th></tr></thead><tbody>
+    <tr><td>Ayakkabı</td><td>39,12%</td><td class="up">+4%</td></tr><tr><td>Tekstil</td><td>59,05%</td><td class="up">+55%</td></tr><tr><td>Aksesuar</td><td>1,83%</td><td class="up">+30%</td></tr>
+   </tbody></table><div class="chart-note">Ciro payları 2026 kategori cirolarının 1.230.638 TL toplam içindeki oranıdır.</div></div>
+   <div class="card"><div class="card-title"><h3>Yönetici gündemi</h3><span>Rapor verilerine göre öncelikler</span></div><div class="action-list">
+    <div class="action"><span class="num">1</span><span><strong>UPT:</strong> 1,48 gerçekleşme ile 1,80 hedefinin 0,32 altında. Ürün adedini artırmaya odaklan.</span></div>
+    <div class="action"><span class="num">2</span><span><strong>Trafik:</strong> 2.486 gerçekleşme, 4.018 beklentinin 1.532 altında. Mağaza giriş trafiğini artıracak aksiyonları güçlendir.</span></div>
+    <div class="action"><span class="num">3</span><span><strong>Kategori:</strong> Tekstil %59,05 ciro payıyla en yüksek katkıyı sağlıyor ve %55 büyüyor. Bu ivmeyi stok bulunurluğuyla destekle.</span></div>
+   </div></div>
   </div>
   <div class="section-head"><h3>Yönetim modülleri</h3><span>Bir modül seçerek demo ekranını aç</span></div>
   <div class="module-grid">
