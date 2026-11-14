@@ -20,6 +20,9 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 .trend-track span{position:absolute;inset:0 auto 0 0;width:0;border-radius:20px;background:linear-gradient(90deg,#e31b36,#ff6479)}
 .kpi-value{font-size:30px;color:#171717}
 @media(max-width:700px){.trend-row{grid-template-columns:30px minmax(50px,1fr) 92px;gap:8px}.trend-row em{font-size:10px}}
+
+.report-stack{display:grid;gap:14px;margin:0 0 24px}.report-card{padding:19px}.report-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.report-heading h2{font-size:16px;letter-spacing:-.35px;margin:4px 0 0}.report-kicker{font-size:9px;letter-spacing:1.2px;color:var(--red);font-weight:900}.report-source{font-size:9px;font-weight:850;letter-spacing:.7px;color:var(--red);background:#fff0f2;padding:7px 9px;border-radius:6px}.report-days{display:flex;gap:10px;margin-bottom:15px}.report-days>div,.report-summary>div{background:#f7f7f5;border:1px solid var(--line);border-radius:8px;padding:10px 13px;min-width:130px}.report-days small,.report-summary small,.category-report small{display:block;color:#888;font-size:9px;font-weight:800;letter-spacing:.65px}.report-days strong{font-size:19px}.report-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.report-two h3,.category-report h3{font-size:11px;color:var(--red);margin:0 0 8px;font-weight:900}.report-table{width:100%;border-collapse:collapse;font-size:11px;white-space:nowrap}.report-table th,.report-table td{padding:9px 8px;border-bottom:1px solid #efefec;text-align:left}.report-table th{font-weight:750;color:#555}.report-table thead th{font-size:9px;color:#888;letter-spacing:.45px;background:#fafaf8}.report-table td{color:#222}.report-table .actual{font-weight:850}.report-table .negative,.negative{color:var(--red)!important;font-weight:800}.report-table .positive,.positive{color:var(--green)!important;font-weight:800}.report-table-wrap{overflow-x:auto}.report-summary{display:flex;gap:10px;margin-top:13px}.report-summary strong{display:block;font-size:19px;margin-top:3px}.report-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.category-report{border:1px solid var(--line);border-radius:9px;padding:13px;min-width:0}.category-report>div{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #f0f0ed}.category-report b{font-size:11px}.category-report em{display:block;font-size:12px;font-style:normal;font-weight:850;margin-top:9px}.report-bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.total-row{background:#fafaf8;font-weight:900}.report-table tbody tr:last-child th,.report-table tbody tr:last-child td{border-bottom:0}
+@media(max-width:800px){.report-two,.report-bottom-grid{grid-template-columns:1fr}.report-category-grid{grid-template-columns:1fr}.report-heading{align-items:flex-start;flex-direction:column}.report-table{font-size:10px}.report-table th,.report-table td{padding:8px 6px}.report-summary strong{font-size:17px}}
 </style></head>
 <body>
 <div class="shell">
@@ -39,20 +42,57 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
  <div class="sidebar-foot"><div class="private"><i class="dot"></i> Kişisel yönetici alanı</div><div>2.0 CONCEPT DEMO · 2026</div></div>
 </aside>
 <main>
- <header class="topbar"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h1 id="pageTitle">Yönetici Kontrol Paneli</h1></div><div class="top-actions"><span class="demo-chip">VERİ DOĞRULAMA</span><span class="date-chip">14 Kasım 2026 · Cumartesi</span><div class="avatar">M</div></div></header>
- <section id="dashboardPage">
-  <div class="welcome"><div><div class="eyebrow">GÜNÜN MAĞAZA ÖZETİ</div><h2>Merhaba, mağazanın nabzı burada.</h2><p>BUYAKA mağaza performansını tek ekrandan takip et, önceliklerini belirle.</p></div><button onclick="go('ai')">✦ AI MANAGER'A SOR</button></div>
-  <div class="section-head"><h3>Mağaza performans göstergeleri</h3><span>Yalnızca Excel kaynağında doğrulanan değerler gösterilir</span></div>
-  <div class="kpis">
-   <div class="card"><div class="kpi-label">CİRO HEDEFİ GERÇEKLEŞME</div><div class="kpi-value">—</div><div class="kpi-meta">Gerçek ciro ve hedef alanı eşleştiriliyor</div></div>
-   <div class="card"><div class="kpi-label">CR</div><div class="kpi-value">—</div><div class="kpi-meta">Gerçek trafik ve fatura verisi bekleniyor</div></div>
-   <div class="card"><div class="kpi-label">UPT</div><div class="kpi-value">—</div><div class="kpi-meta">Ürün adedi / fatura verisi bekleniyor</div></div>
-   <div class="card"><div class="kpi-label">ATV</div><div class="kpi-value">—</div><div class="kpi-meta">Ciro / fatura verisi bekleniyor</div></div>
-  </div><div class="kpi-value">%108</div><div class="kpi-meta"><span class="up">▲ %8</span> günlük hedefin üzerinde</div></div>
-   <div class="card"><div class="kpi-label">CR</div><div class="kpi-value">%6,8</div><div class="kpi-meta"><span class="down">▼ 0,4 puan</span> örnek hedefin altında</div></div>
-   <div class="card"><div class="kpi-label">UPT</div><div class="kpi-value">1,72</div><div class="kpi-meta"><span class="up">▲ 0,08</span> önceki döneme göre</div></div>
-   <div class="card"><div class="kpi-label">ATV</div><div class="kpi-value">4.850 ₺</div><div class="kpi-meta">Örnek ortalama sepet tutarı</div></div>
+ <header class="topbar"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h1 id="pageTitle">Yönetici Kontrol Paneli</h1></div><div class="top-actions"><span class="demo-chip">KASIM 2026 DATA RAPORU</span><span class="date-chip">14 Kasım 2026 · Cumartesi</span><div class="avatar">M</div></div></header>
+ <section id="dashboardPage">\n  <div class="report-stack" id="novemberReport">
+ <section class="card report-card">
+  <div class="report-heading"><div><span class="report-kicker">KASIM 2026 · MAĞAZA PLANI</span><h2>Mağaza Performans ve Aylık Değerlendirme Raporu</h2></div><span class="report-source">KASIM 2026 DATA RAPORU</span></div>
+  <div class="report-days"><div><small>AY GÜN SAYISI</small><strong>30</strong></div><div><small>GEÇEN GÜN SAYISI</small><strong>13</strong></div></div>
+  <div class="report-two">
+   <div><h3>Kasım.26 Hedefler</h3><table class="report-table"><tbody>
+    <tr><th>Ciro</th><td>3.500.000 TL</td></tr><tr><th>UPT</th><td>1,80</td></tr><tr><th>CR</th><td>7,00%</td></tr><tr><th>ASP</th><td>3.000 TL</td></tr><tr><th>Fatura</th><td>649</td></tr><tr><th>Ürün Adedi</th><td>1.168</td></tr><tr><th>Trafik</th><td>9.272</td></tr>
+   </tbody></table></div>
+   <div><h3>Kasım.26 Günlük Yapılması Gerekenler</h3><table class="report-table"><tbody>
+    <tr><th>Ciro</th><td>116.667 TL</td></tr><tr><th>UPT</th><td>1,80</td></tr><tr><th>CR</th><td>7,00%</td></tr><tr><th>ASP</th><td>3.000 TL</td></tr><tr><th>Fatura</th><td>22</td></tr><tr><th>Ürün Adedi</th><td>39</td></tr><tr><th>Trafik</th><td>309</td></tr>
+   </tbody></table></div>
   </div>
+ </section>
+ <section class="card report-card"><div class="report-heading"><div><span class="report-kicker">13. GÜN SONUÇLARI</span><h2>KPI Gerçekleşme</h2></div></div>
+  <div class="report-table-wrap"><table class="report-table report-kpi"><thead><tr><th>KPI</th><th>Gerçekleşmesi Gereken</th><th>Gerçekleşen</th><th>Fark</th><th>Sapma</th></tr></thead><tbody>
+   <tr><th>Ciro</th><td>1.516.667 TL</td><td class="actual">1.230.638 TL</td><td class="negative">-286.029 TL</td><td class="negative">-18,86%</td></tr>
+   <tr><th>UPT</th><td>1,80</td><td class="actual">1,48</td><td class="negative">-0,32</td><td class="negative">-17,78%</td></tr>
+   <tr><th>CR</th><td>7,00%</td><td class="actual">10,06%</td><td class="positive">3,06%</td><td class="positive">43,71%</td></tr>
+   <tr><th>ASP</th><td>3.000 TL</td><td class="actual">3.335 TL</td><td class="positive">335 TL</td><td class="positive">11,17%</td></tr>
+   <tr><th>Fatura</th><td>281</td><td class="actual">250</td><td class="negative">-31</td><td class="negative">-11,11%</td></tr>
+   <tr><th>Ürün Adedi</th><td>506</td><td class="actual">369</td><td class="negative">-137</td><td class="negative">-27,09%</td></tr>
+   <tr><th>Trafik</th><td>4.018</td><td class="actual">2.486</td><td class="negative">-1.532</td><td class="negative">-38,13%</td></tr>
+  </tbody></table></div>
+  <div class="report-summary"><div><small>TAHMİNİ KAPANIŞ CİROSU</small><strong>2.839.934 TL</strong></div><div><small>HGO</small><strong class="negative">81,14%</strong></div></div>
+ </section>
+ <section class="card report-card"><div class="report-heading"><div><span class="report-kicker">KARŞILAŞTIRMALI PERFORMANS</span><h2>Kategori Cirosu · 2025 / 2026</h2></div></div>
+  <div class="report-category-grid">
+   <div class="category-report"><h3>FOOTWEAR</h3><div><small>2025</small><b>462.072 TL</b></div><div><small>2026</small><b>481.387 TL</b></div><em class="positive">+4%</em></div>
+   <div class="category-report"><h3>APPAREL</h3><div><small>2025</small><b>469.482 TL</b></div><div><small>2026</small><b>726.729 TL</b></div><em class="positive">+55%</em></div>
+   <div class="category-report"><h3>ACCESSORIES</h3><div><small>2025</small><b>17.296 TL</b></div><div><small>2026</small><b>22.522 TL</b></div><em class="positive">+30%</em></div>
+  </div>
+ </section>
+ <section class="report-bottom-grid">
+  <div class="card report-card"><div class="report-heading"><div><span class="report-kicker">SATIŞ KIRILIMI</span><h2>Cinsiyet · 2025 / 2026</h2></div></div>
+   <div class="report-table-wrap"><table class="report-table"><thead><tr><th>Cinsiyet</th><th>2025</th><th>2026</th><th>Büyüme</th></tr></thead><tbody>
+    <tr><th>Male</th><td>591.381 TL</td><td class="actual">978.490 TL</td><td class="positive">65,46%</td></tr>
+    <tr><th>Female</th><td>201.855 TL</td><td class="actual">163.967 TL</td><td class="negative">-18,77%</td></tr>
+    <tr><th>Kids</th><td>—</td><td>—</td><td>—</td></tr>
+    <tr><th>Unisex</th><td>155.614 TL</td><td class="actual">87.881 TL</td><td class="negative">-43,53%</td></tr>
+    <tr class="total-row"><th>Total</th><td>948.849 TL</td><td class="actual">1.230.338 TL</td><td class="positive">29,67%</td></tr>
+   </tbody></table></div>
+  </div>
+  <div class="card report-card"><div class="report-heading"><div><span class="report-kicker">ENVANTER DURUMU · 14.11.2026</span><h2>Stok · 2025 / 2026</h2></div></div>
+   <div class="report-table-wrap"><table class="report-table"><thead><tr><th>Kategori</th><th>2025</th><th>2026</th></tr></thead><tbody>
+    <tr><th>Footwear</th><td>1.707</td><td class="actual">1.747</td></tr><tr><th>Apparel</th><td>2.728</td><td class="actual">3.432</td></tr><tr><th>Accessories</th><td>245</td><td class="actual">367</td></tr><tr class="total-row"><th>Total</th><td>4.680</td><td class="actual">5.546</td></tr>
+   </tbody></table></div>
+  </div>
+ </section>
+</div>
+  <div class="welcome"><div><div class="eyebrow">GÜNÜN MAĞAZA ÖZETİ</div><h2>Merhaba, mağazanın nabzı burada.</h2><p>BUYAKA mağaza performansını tek ekrandan takip et, önceliklerini belirle.</p></div><button onclick="go('ai')">✦ AI MANAGER'A SOR</button></div>
   <div class="content-grid">
    <div class="card"><div class="card-title"><h3>Ciro performans trendi</h3><div class="chart-legend"><span><i class="legend-dot"></i>Gerçekleşen</span><span><i class="legend-dot gray"></i>Hedef</span></div></div>
     <div class="horizontal-trend">
@@ -233,6 +273,6 @@ go=function(page){
  if(page==="data"||sourceMap[page])renderExcelPage(page);
 };
 
-loadDashboardMetrics();
+// Ana rapor, kullanıcının Kasım 2026 Data Raporu üzerinden sağladığı doğrulanmış değerleri gösterir.
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 </script></body></html>
