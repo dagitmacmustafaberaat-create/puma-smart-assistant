@@ -217,9 +217,9 @@ async function renderExcelPage(page){
 }
 
 
-function normHead(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"")}
+function normHead(v){return String(v||"").toLocaleLowerCase("tr-TR").replace(/[ıİ]/g,"i").replace(/[ş]/g,"s").replace(/[ğ]/g,"g").replace(/[ü]/g,"u").replace(/[ö]/g,"o").replace(/[ç]/g,"c").replace(/[^a-z0-9]/g,"")}
 function findCol(headers,terms){return headers.findIndex(h=>terms.some(t=>normHead(h).includes(t)))}
-function asNum(v){if(typeof v==="number")return v;let s=String(v??"").trim().replace(/\\s/g,"").replace(/₺/g,"");if(!s)return 0;if(s.includes(",")&&s.includes("."))s=s.replace(/\\./g,"").replace(",",".");else if(s.includes(","))s=s.replace(",",".");const n=Number(s);return Number.isFinite(n)?n:0}
+function asNum(v){if(typeof v==="number")return v;let s=String(v??"").trim().replaceAll(" ","").replaceAll("₺","");if(!s)return 0;if(s.includes(",")&&s.includes("."))s=s.replaceAll(".","").replace(",",".");else if(s.includes(","))s=s.replace(",",".");const n=Number(s);return Number.isFinite(n)?n:0}
 async function renderOpportunitiesPage(){
  const host=document.getElementById("pageContent");
  host.innerHTML='<div class="card"><div class="card-title"><h3>Satış Fırsatları ve Kaçan Ciro</h3><span class="status">EXCEL ANALİZİ</span></div><p class="insight">Satış Verileri, Güncel Stok ve Stok Devir Tablo dosyaları okunuyor…</p></div>';
