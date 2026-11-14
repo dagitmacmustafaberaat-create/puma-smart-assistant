@@ -216,6 +216,46 @@ async function renderExcelPage(page){
  await Promise.all(files.map((f,i)=>mountExcelCard(f,"mapped_"+i)));
 }
 
+
+function normHead(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"")}
+function findCol(headers,terms){return headers.findIndex(h=>terms.some(t=>normHead(h).includes(t)))}
+function asNum(v){if(typeof v==="number")return v;let s=String(v??"").trim().replace(/\\s/g,"").replace(/₺/g,"");if(!s)return 0;if(s.includes(",")&&s.includes("."))s=s.replace(/\\./g,"").replace(",",".");else if(s.includes(","))s=s.replace(",",".");const n=Number(s);return Number.isFinite(n)?n:0}
+async function renderOpportunitiesPage(){
+ const host=document.getElementById("pageContent");
+ host.innerHTML='<div class="card"><div class="card-title"><h3>Satış Fırsatları ve Kaçan Ciro</h3><span class="status">EXCEL ANALİZİ</span></div><p class="insight">Satış Verileri, Güncel Stok ve Stok Devir Tablo dosyaları okunuyor…</p></div>';
+ try{
+  const names=["Satış Verileri.xlsx","Güncel Stok.xlsx","Stok Devir Tablo.xlsx"];
+  const books=await Promise.all(names.map(loadExcel));
+  const salesRows=[],stockRows=[];
+  books[0].sheets.forEach(sh=>{
+   const p=findCol(sh.headers,["urunadi","urunismi","productname","urun"]);
+   const q=findCol(sh.headers,["satisadedi","adet","unitsold","miktar"]);
+   const rev=findCol(sh.headers,["satistutari","ciro","revenue","netsatis"]);
+   const code=findCol(sh.headers,["urunkodu","stokodu","sku","barcode"]);
+   if(p>=0&&(q>=0||rev>=0))sh.rows.forEach(row=>salesRows.push({name:String(row[p]||"").trim(),code:code>=0?String(row[code]||"").trim():"",qty:q>=0?asNum(row[q]):0,revenue:rev>=0?asNum(row[rev]):0}));
+  });
+  books[1].sheets.concat(books[2].sheets).forEach(sh=>{
+   const p=findCol(sh.headers,["urunadi","urunismi","productname","urun"]);
+   const q=findCol(sh.headers,["guncelstok","stokadedi","eldek stok","mevcutstok","stok","quantity"]);
+   const code=findCol(sh.headers,["urunkodu","stokodu","sku","barcode"]);
+   if(p>=0&&q>=0)sh.rows.forEach(row=>stockRows.push({name:String(row[p]||"").trim(),code:code>=0?String(row[code]||"").trim():"",stock:asNum(row[q])}));
+  });
+  const sales=new Map();
+  salesRows.forEach(x=>{if(!x.name)return;const k=x.code||x.name;const a=sales.get(k)||{...x,qty:0,revenue:0};a.qty+=x.qty;a.revenue+=x.revenue;sales.set(k,a)});
+  const stocks=new Map();
+  stockRows.forEach(x=>{if(!x.name)return;const k=x.code||x.name;stocks.set(k,(stocks.get(k)||0)+x.stock)});
+  const items=[...sales.values()].map(x=>({...x,stock:stocks.has(x.code||x.name)?stocks.get(x.code||x.name):null})).sort((a,b)=>b.revenue-a.revenue);
+  const mapped=items.filter(x=>x.stock!==null);
+  const critical=mapped.filter(x=>x.stock>0&&x.qty>0&&x.stock<=Math.max(2,Math.ceil(x.qty/30*7)));
+  const out=mapped.filter(x=>x.stock===0&&x.qty>0);
+  const money=n=>new Intl.NumberFormat("tr-TR",{style:"currency",currency:"TRY",maximumFractionDigits:0}).format(n);
+  const qty=n=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n);
+  const rows=(arr,empty)=>arr.length?arr.slice(0,30).map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+qty(x.qty)+'</td><td>'+money(x.revenue)+'</td><td>'+qty(x.stock)+'</td><td>'+(x.stock===0?'<span class="status">Stok yok</span>':'<span class="status">Kritik stok</span>')+'</td></tr>').join(""):'<tr><td colspan="5">'+empty+'</td></tr>';
+  const possibleLost=out.reduce((s,x)=>s+x.revenue/Math.max(1,x.qty)*Math.min(x.qty,1),0);
+  host.innerHTML='<div class="report-stack"><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">ÜRÜN / STOK ANALİZİ</span><h2>Satış hızı ve stok riski</h2></div><span class="report-source">EXCEL KAYNAKLARI</span></div><div class="kpis"><div class="card"><div class="kpi-label">SATIŞI OKUNAN ÜRÜN</div><div class="kpi-value">'+qty(sales.size)+'</div><div class="kpi-meta">Satış dosyasından</div></div><div class="card"><div class="kpi-label">STOK EŞLEŞMESİ</div><div class="kpi-value">'+qty(mapped.length)+'</div><div class="kpi-meta">Ürün kodu / adı eşleşen</div></div><div class="card"><div class="kpi-label">KRİTİK STOK</div><div class="kpi-value">'+qty(critical.length)+'</div><div class="kpi-meta">Son 30 gün satış hızına göre 7 günlük stok eşiği</div></div><div class="card"><div class="kpi-label">SATIŞI OLUP STOKSUZ</div><div class="kpi-value">'+qty(out.length)+'</div><div class="kpi-meta">Satış kaydı var, güncel stok 0</div></div></div><p class="notice">Kaçan ciro, stokta yokken gerçekleşmeyen talep verisi olmadan kesin hesaplanamaz. Bu ekran kayıp ciroyu uydurmaz; stok riski ve satış geçmişini gösterir.</p></section><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">ÖNCELİKLİ MÜDAHALE</span><h2>Kritik stokta olan ürünler</h2></div></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>Ürün</th><th>Satış adedi</th><th>Satış cirosu</th><th>Güncel stok</th><th>Durum</th></tr></thead><tbody>'+rows(critical,"Kritik stok eşiğinde ürün bulunamadı veya gerekli sütunlar eşleşmedi.")+'</tbody></table></div></section><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">KAÇAN SATIŞ RİSKİ</span><h2>Satışı olan fakat stoğu sıfır ürünler</h2></div></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>Ürün</th><th>Satış adedi</th><th>Satış cirosu</th><th>Güncel stok</th><th>Durum</th></tr></thead><tbody>'+rows(out,"Stokta olmayan ve satış geçmişi bulunan eşleşmiş ürün bulunamadı.")+'</tbody></table></div></section><div class="card"><div class="card-title"><h3>Veri kapsamı</h3><span class="status ok">DOSYALAR OKUNDU</span></div><p class="insight">Kaynaklar: '+names.join(" · ")+'. Analiz ürün kodu varsa kodla, yoksa ürün adıyla eşleştirir. Stok devir tablosu ve güncel stok birlikte taranır. Beden bazlı kaçan ciro için beden bazında satış ve stok sütunlarının ayrıca eşleşmesi gerekir.</p></div></div>';
+ }catch(e){host.innerHTML='<div class="card"><h3>Satış fırsatı analizi yüklenemedi</h3><p class="notice">'+esc(e.message)+'</p><p class="insight">Üç Excel kaynağının bağlantısını ve sütun başlıklarını kontrol et.</p></div>'}
+}
+
 async function loadDashboardMetrics(){
  const fmt=(n,d=1)=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:d}).format(n);
  const money=n=>fmt(n,0)+" ₺",pct=n=>"%"+fmt(n,1);
@@ -258,7 +298,7 @@ async function loadDashboardMetrics(){
 const oldGo=go;
 go=function(page){
  oldGo(page);
- if(page==="data"||(sourceMap[page]&&page!=="coach"))renderExcelPage(page);
+ if(page==="opportunities")renderOpportunitiesPage();else if(page==="data"||(sourceMap[page]&&page!=="coach"))renderExcelPage(page);
 };
 
 // Ana rapor, kullanıcının Kasım 2026 Data Raporu üzerinden sağladığı doğrulanmış değerleri gösterir.
