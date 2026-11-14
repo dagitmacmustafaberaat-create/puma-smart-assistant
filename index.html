@@ -132,6 +132,12 @@
             <span class="module-sticker" aria-hidden="true">🏆</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"></path><path d="M8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 13v5M8 21h8M9 18h6"></path></svg></span>
             <span class="module-copy"><strong>HAFTANIN ENLERİ</strong><small>Ciro, UPT, ATV ve CR şampiyonları</small></span><span class="module-arrow" aria-hidden="true">↗</span>
           </button>
+          <button class="menu-button module-card stock-turnover-menu-card" type="button" onclick="showStockTurnover()">
+            <span class="module-sticker" aria-hidden="true">📦</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9Z"></path><path d="m3 7.5 9 4.5 9-4.5M12 12v9M7.5 5.2l9 4.6"></path></svg></span>
+            <span class="module-copy"><strong>STOK DEVİR ANALİZİ</strong><small>Gün, hafta ve ay bazında kategori stok takibi</small></span>
+            <span class="module-arrow" aria-hidden="true">↗</span>
+          </button>
+
           <button class="menu-button module-card top5-menu-card" type="button" onclick="showTop5Analysis()">
             <span class="module-sticker" aria-hidden="true">⭐</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17"></path><path d="M8 15v-4M13 15V7M18 15V3"></path><path d="M7 8l5-3 4 1 4-4"></path></svg></span>
             <span class="module-copy"><strong>SATIŞ &amp; ENVANTER ANALİZİ</strong><small>En çok satan ürünler ve güncel envanter</small></span>
@@ -576,6 +582,24 @@
       </section>
     </section>
 
+    <section id="stockTurnoverArea" class="stock-turnover-area" style="display:none;">
+      <button class="back-button" type="button" onclick="closeStockTurnover()">← Ana Menü</button>
+      <header class="sto-hero">
+        <p>BUYAKA PUMA • STOCK INTELLIGENCE</p>
+        <h1>STOK DEVİR ANALİZİ</h1>
+        <span>GÜN • HAFTA • AY</span>
+      </header>
+      <div class="sto-toolbar">
+        <span id="stoDataStatus" role="status">GitHub Excel dosyası yükleniyor…</span>
+        <button type="button" onclick="loadStockTurnover(true)">EXCEL VERİSİNİ YENİLE ↻</button>
+      </div>
+      <nav id="stoCategoryTabs" class="sto-category-tabs" role="tablist" aria-label="Stok devir kategorileri"></nav>
+      <div id="stoTableSummary" class="sto-table-summary"></div>
+      <div id="stoTableWrap" class="sto-table-wrap">
+        <div class="sto-empty">Stok devir tablosu yükleniyor…</div>
+      </div>
+    </section>
+
     <section id="servicePlanArea" class="work-module service-plan-gate" style="display:none;">
       <button type="button" class="back-button service-plan-back-button" onclick="closeServicePlan()">← Ana Menü</button>
       <div class="service-plan-gate-actions">
@@ -612,6 +636,37 @@
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261113-november-calendar-v2"></script>
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
+    <style id="stock-turnover-module-styles">
+      .stock-turnover-area{max-width:1320px;margin:0 auto;padding:18px 16px 48px;color:#171717}
+      .sto-hero{margin:14px 0 18px;padding:25px 24px;border-radius:17px;background:linear-gradient(125deg,#171717,#303030);border-left:5px solid #d5001c;color:#fff}
+      .sto-hero p{margin:0 0 8px;color:#ff525b;font-size:10px;font-weight:900;letter-spacing:1.8px}
+      .sto-hero h1{margin:0;font-size:clamp(25px,4vw,36px);font-weight:900;letter-spacing:.2px}
+      .sto-hero span{display:block;margin-top:7px;color:#d7d7d7;font-size:11px;font-weight:800;letter-spacing:1.5px}
+      .sto-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0;padding:12px 14px;border:1px solid #e3e3e3;border-radius:12px;background:#fff}
+      .sto-toolbar span{font-size:12px;color:#555;line-height:1.5}
+      .sto-toolbar button{flex:0 0 auto;border:0;border-radius:8px;padding:11px 14px;background:#d5001c;color:#fff;font-size:11px;font-weight:900;cursor:pointer}
+      .sto-category-tabs{display:flex;gap:8px;overflow-x:auto;padding:5px 1px 12px}
+      .sto-category-tab{flex:1 0 130px;min-height:43px;border:1px solid #d7d7d7;border-radius:9px;background:#f4f4f4;color:#333;font-size:12px;font-weight:900;cursor:pointer}
+      .sto-category-tab.active{border-color:#d5001c;background:#d5001c;color:#fff}
+      .sto-table-summary{margin:2px 0 10px;color:#555;font-size:12px;font-weight:700}
+      .sto-table-wrap{width:100%;overflow:auto;border:1px solid #dedede;border-radius:12px;background:#fff;box-shadow:0 5px 18px rgba(0,0,0,.05);-webkit-overflow-scrolling:touch}
+      .sto-table{width:100%;min-width:850px;border-collapse:separate;border-spacing:0;font-size:12px}
+      .sto-table th{position:sticky;top:0;z-index:1;padding:12px 11px;background:#d5001c;color:#fff;text-align:left;white-space:nowrap;font-size:10px;font-weight:900;letter-spacing:.25px}
+      .sto-table td{padding:10px 11px;border-bottom:1px solid #ededed;color:#222;white-space:nowrap}
+      .sto-table tbody tr:nth-child(even){background:#f8f8f8}
+      .sto-table tbody tr:hover{background:#fff0f1}
+      .sto-empty{padding:28px 16px;text-align:center;color:#666;font-size:13px}
+      @media(max-width:650px){
+        .stock-turnover-area{padding:14px 10px 35px}
+        .sto-hero{padding:21px 17px}
+        .sto-toolbar{align-items:stretch;flex-direction:column}
+        .sto-toolbar button{width:100%}
+        .sto-category-tab{flex-basis:115px}
+        .sto-table{min-width:760px;font-size:11px}
+        .sto-table th,.sto-table td{padding:9px 8px}
+      }
+    </style>
+    <script src="stock-turnover.js?v=20261114-category-tabs-v1"></script>
     <script src="shift-program.js?v=20261113-w47-schedule-v1"></script>
     <script src="sd-karne.js?v=20261113-dynamic-header-detect-v3"></script>
     <script src="personnel-management.js?v=20261113-personnel-hub-v2"></script>
