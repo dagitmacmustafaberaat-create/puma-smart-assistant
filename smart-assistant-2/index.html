@@ -187,11 +187,52 @@ async function renderExcelPage(page){
  root.innerHTML=files.map((f,i)=>excelCardMarkup(f,"mapped_"+i)).join("");
  await Promise.all(files.map((f,i)=>mountExcelCard(f,"mapped_"+i)));
 }
+
+async function loadDashboardMetrics(){
+ const fmt=(n,d=1)=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:d}).format(n);
+ const money=n=>fmt(n,0)+" ₺",pct=n=>"%"+fmt(n,1);
+ const readBook=async(name)=>{const url="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/"+encodeURIComponent(name);const res=await fetch(url+"?v="+Date.now(),{cache:"no-store"});if(!res.ok)throw new Error(name+" yüklenemedi ("+res.status+")");return XLSX.read(await res.arrayBuffer(),{type:"array",cellDates:true});};
+ const get=(ws,row,col)=>{const c=ws?.[XLSX.utils.encode_cell({r:row-1,c:col-1})];return c&&c.v!==undefined&&c.v!==null&&c.v!==""?c.v:null;};
+ const num=v=>{const n=Number(v);return Number.isFinite(n)?n:null;};
+ const pctVal=(v,c)=>{let n=num(v);if(n===null)return null;if(String(c?.z||"").includes("%"))n*=100;else if(n>0&&n<=1)n*=100;return n;};
+ const displayPct=v=>v===null?"—":pct(v);
+ try{
+  if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi.");
+  const [welcome,data]=await Promise.all([readBook("Welcome Sheet.xlsx"),readBook("Kasım 2026 Data.xlsx")]);
+  const ws=welcome.Sheets[welcome.SheetNames[0]],ds=data.Sheets[data.SheetNames[0]];
+  const cell=(sheet,row,col)=>sheet[XLSX.utils.encode_cell({r:row-1,c:col-1})];
+  const monthActual=num(get(ws,17,3)),monthTarget=num(get(ws,17,5));
+  const upt=pctVal(get(ws,11,14),cell(ws,11,14)),atv=num(get(ws,12,14)),cr=pctVal(get(ws,14,14),cell(ws,14,14));
+  const uptTarget=pctVal(get(ws,11,12),cell(ws,11,12)),atvTarget=num(get(ws,12,12)),crTarget=pctVal(get(ws,14,12),cell(ws,14,12));
+  const attainment=monthActual!==null&&monthTarget>0?monthActual/monthTarget*100:null;
+  const cards=document.querySelectorAll("#dashboardPage .kpis .card");
+  if(cards.length===4){
+   cards[0].querySelector(".kpi-value").textContent=displayPct(attainment);
+   cards[0].querySelector(".kpi-meta").textContent=monthActual!==null&&monthTarget!==null?money(monthActual)+" gerçekleşen · "+money(monthTarget)+" hedef":"Ciro hedef verisi bulunamadı";
+   cards[1].querySelector(".kpi-value").textContent=displayPct(cr);
+   cards[1].querySelector(".kpi-meta").textContent=crTarget!==null?"Hedef "+pct(crTarget):"CR hedefi kaynakta bulunamadı";
+   cards[2].querySelector(".kpi-value").textContent=upt===null?"—":fmt(upt,2);
+   cards[2].querySelector(".kpi-meta").textContent=uptTarget!==null?"Hedef "+fmt(uptTarget,2):"UPT hedefi kaynakta bulunamadı";
+   cards[3].querySelector(".kpi-value").textContent=atv===null?"—":money(atv);
+   cards[3].querySelector(".kpi-meta").textContent=atvTarget!==null?"Hedef "+money(atvTarget):"ATV hedefi kaynakta bulunamadı";
+  }
+  const periods=[{label:"HAFTALIK",actual:num(get(ws,14,3)),target:num(get(ws,14,5))},{label:"AYLIK",actual:monthActual,target:monthTarget},{label:"YILLIK",actual:num(get(ws,11,3)),target:num(get(ws,11,5))}];
+  const trend=document.querySelector(".horizontal-trend");
+  if(trend)trend.innerHTML=periods.map(p=>{const rate=p.actual!==null&&p.target>0?p.actual/p.target*100:null;const width=rate===null?0:Math.max(0,Math.min(100,rate));return '<div class="trend-row"><b>'+p.label+'</b><div class="trend-track"><span style="width:'+width+'%;background:'+(rate!==null&&rate>=100?'linear-gradient(90deg,#16845b,#31b77e)':'linear-gradient(90deg,#e31b36,#ff6479)')+'"></span></div><em>'+(rate===null?'Veri yok':pct(rate)+' · '+money(p.actual))+'</em></div>';}).join("");
+  const categories=[{name:get(ds,4,8),current:get(ds,5,10),growth:cell(ds,6,9)},{name:get(ds,7,8),current:get(ds,8,10),growth:cell(ds,9,9)},{name:get(ds,10,8),current:get(ds,11,10),growth:cell(ds,12,9)}];
+  const total=categories.reduce((sum,x)=>sum+(num(x.current)||0),0);
+  const tbody=document.querySelector("#dashboardPage .bottom-grid .mini-table tbody");
+  if(tbody)tbody.innerHTML=categories.filter(x=>x.name!==null&&x.name!==undefined).map(x=>{const share=total>0&&num(x.current)!==null?num(x.current)/total*100:null;const change=pctVal(x.growth?.v,x.growth);const cls=change===null?"":change>=0?"up":"down";return '<tr><td>'+String(x.name).replaceAll("&","&amp;").replaceAll("<","&lt;")+'</td><td>'+(share===null?"—":pct(share))+'</td><td class="'+cls+'">'+(change===null?"—":(change>0?"+":"")+pct(change))+'</td></tr>';}).join("");
+  const chip=document.querySelector(".demo-chip");if(chip)chip.textContent="CANLI EXCEL VERİSİ";
+ }catch(error){console.error("Dashboard Excel verisi yüklenemedi:",error);const chip=document.querySelector(".demo-chip");if(chip)chip.textContent="VERİ KAYNAĞI HATASI";document.querySelectorAll("#dashboardPage .kpis .kpi-meta").forEach(el=>el.textContent="Excel kaynağı okunamadı; bağlantı ve dosya kontrol edilmeli");}
+}
+
 const oldGo=go;
 go=function(page){
  oldGo(page);
  if(page==="data"||sourceMap[page])renderExcelPage(page);
 };
 
+loadDashboardMetrics();
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 </script></body></html>
