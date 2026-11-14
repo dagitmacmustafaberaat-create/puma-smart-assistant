@@ -162,7 +162,6 @@ const excelFiles=[
 const sourceMap={
  coach:["Kasım 2026 Data.xlsx","Welcome Sheet.xlsx"],
  opportunities:["Satış Verileri.xlsx","Güncel Stok.xlsx","Stok Devir Tablo.xlsx"],
- people:["SD Karne.xlsx","KASIM PERSONEL FATURA VE ÜRÜN ADEDİ HEDEF.xlsx"],
  operations:["Kasim_2026_Egitim_Takvimi.xlsx","Welcome Sheet.xlsx"],
  reports:["Kasım 2026 Data.xlsx","Welcome Sheet.xlsx","Top20.xlsx"],
  products:["Satış Verileri.xlsx","Güncel Stok.xlsx","Top20.xlsx"]
@@ -329,6 +328,10 @@ go=function(page){
    const p=content.coach;
    if(!p)throw new Error("Akıllı Mağaza Koçu içeriği bulunamadı.");
    intro.textContent=p.intro;host.innerHTML=p.html;
+  }else if(page==="people"){
+   const p=content.people;
+   intro.textContent=p.intro;
+   host.innerHTML=p.html;
   }else{
    const p=content[page];
    if(!p)throw new Error("Bu menü için içerik tanımlanmamış: "+page);
