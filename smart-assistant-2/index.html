@@ -26,6 +26,8 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 
 .monthly-progress{padding:5px 2px 0}.monthly-progress-head{display:grid;grid-template-columns:1fr 1fr;gap:12px}.monthly-progress-head small{display:block;color:#888;font-size:9px;font-weight:850;letter-spacing:.6px}.monthly-progress-head strong{display:block;font-size:20px;letter-spacing:-.5px;margin:5px 0 13px}.progress-track{height:16px;border-radius:20px;background:#f0f0ed;overflow:hidden}.progress-track span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#e31b36,#ff6479)}.progress-foot{display:flex;justify-content:space-between;gap:8px;margin-top:9px;font-size:11px}.progress-foot b{font-size:13px}
 @media(max-width:700px){.monthly-progress-head strong{font-size:16px}.progress-foot{font-size:10px;flex-wrap:wrap}}
+
+.category-pies{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:620px;margin:4px auto 14px}.category-pie-panel{display:flex;align-items:center;flex-direction:column;gap:5px;padding:14px 10px;background:#fafaf8;border:1px solid var(--line);border-radius:10px}.category-pie-panel h3{font-size:10px;letter-spacing:.7px;margin:0 0 5px;color:#555}.category-pie{width:142px;height:142px;border-radius:50%;position:relative;box-shadow:inset 0 0 0 1px #00000008}.pie-2025{background:conic-gradient(#e31b36 0% 48.70%,#252525 48.70% 98.18%,#bdbdb8 98.18% 100%)}.pie-2026{background:conic-gradient(#e31b36 0% 39.12%,#252525 39.12% 98.17%,#bdbdb8 98.17% 100%)}.category-pie-panel strong{font-size:15px;margin-top:3px}.category-pie-panel small{font-size:9px;color:#888}.category-legend{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:0 0 14px;font-size:10px;color:#555}.category-legend span{display:flex;align-items:center;gap:6px}.category-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}.legend-footwear{background:#e31b36}.legend-apparel{background:#252525}.legend-accessories{background:#bdbdb8}.category-detail-wrap{border:1px solid var(--line);border-radius:8px}.category-detail{min-width:760px}.category-detail td:last-child{white-space:normal;min-width:220px;line-height:1.4}.category-detail td,.category-detail th{vertical-align:middle}@media(max-width:700px){.category-pies{gap:8px}.category-pie{width:116px;height:116px}.category-pie-panel{padding:11px 6px}.category-legend{gap:12px}}
 </style></head>
 <body>
 <div class="shell">
@@ -71,12 +73,17 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
   </tbody></table></div>
   <div class="report-summary"><div><small>TAHMİNİ KAPANIŞ CİROSU</small><strong>2.839.934 TL</strong></div><div><small>HGO</small><strong class="negative">81,14%</strong></div></div>
  </section>
- <section class="card report-card"><div class="report-heading"><div><span class="report-kicker">KARŞILAŞTIRMALI PERFORMANS</span><h2>Kategori Cirosu · 2025 / 2026</h2></div></div>
-  <div class="report-category-grid">
-   <div class="category-report"><h3>FOOTWEAR</h3><div><small>2025</small><b>462.072 TL</b></div><div><small>2026</small><b>481.387 TL</b></div><em class="positive">+4%</em></div>
-   <div class="category-report"><h3>APPAREL</h3><div><small>2025</small><b>469.482 TL</b></div><div><small>2026</small><b>726.729 TL</b></div><em class="positive">+55%</em></div>
-   <div class="category-report"><h3>ACCESSORIES</h3><div><small>2025</small><b>17.296 TL</b></div><div><small>2026</small><b>22.522 TL</b></div><em class="positive">+30%</em></div>
+ <section class="card report-card"><div class="report-heading"><div><span class="report-kicker">KARŞILAŞTIRMALI PERFORMANS</span><h2>Kategori Cirosu · 2025 / 2026</h2></div><span class="report-source">3 KATEGORİ</span></div>
+  <div class="category-pies">
+   <div class="category-pie-panel"><h3>2025 CİRO DAĞILIMI</h3><div class="category-pie pie-2025" role="img" aria-label="2025 kategori payları: Ayakkabı yüzde 48,70, Tekstil yüzde 49,48, Aksesuar yüzde 1,82"></div><strong>948.850 TL</strong><small>Toplam kategori cirosu</small></div>
+   <div class="category-pie-panel"><h3>2026 CİRO DAĞILIMI</h3><div class="category-pie pie-2026" role="img" aria-label="2026 kategori payları: Ayakkabı yüzde 39,12, Tekstil yüzde 59,05, Aksesuar yüzde 1,83"></div><strong>1.230.638 TL</strong><small>Toplam kategori cirosu</small></div>
   </div>
+  <div class="category-legend"><span><i class="legend-footwear"></i>Ayakkabı</span><span><i class="legend-apparel"></i>Tekstil</span><span><i class="legend-accessories"></i>Aksesuar</span></div>
+  <div class="report-table-wrap category-detail-wrap"><table class="report-table category-detail"><thead><tr><th>Kategori</th><th>Ciro 2025</th><th>Ciro 2026</th><th>2026 Ciro Payı</th><th>Büyüme</th><th>Yorum</th></tr></thead><tbody>
+   <tr><th>Ayakkabı</th><td>462.072 TL</td><td class="actual">481.387 TL</td><td>39,12%</td><td class="positive">+4%</td><td>Payı gerilese de ciro büyümesini koruyor.</td></tr>
+   <tr><th>Tekstil</th><td>469.482 TL</td><td class="actual">726.729 TL</td><td>59,05%</td><td class="positive">+55%</td><td>En yüksek ciro payı ve büyüme; ana büyüme motoru.</td></tr>
+   <tr><th>Aksesuar</th><td>17.296 TL</td><td class="actual">22.522 TL</td><td>1,83%</td><td class="positive">+30%</td><td>Büyüme güçlü; toplam ciro içindeki payı düşük.</td></tr>
+  </tbody></table></div>
  </section>
  <section class="report-bottom-grid">
   <div class="card report-card"><div class="report-heading"><div><span class="report-kicker">SATIŞ KIRILIMI</span><h2>Cinsiyet · 2025 / 2026</h2></div></div>
