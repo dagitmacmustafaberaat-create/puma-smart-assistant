@@ -28,6 +28,11 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 @media(max-width:700px){.monthly-progress-head strong{font-size:16px}.progress-foot{font-size:10px;flex-wrap:wrap}}
 
 .category-pies{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:620px;margin:4px auto 14px}.category-pie-panel{display:flex;align-items:center;flex-direction:column;gap:5px;padding:14px 10px;background:#fafaf8;border:1px solid var(--line);border-radius:10px}.category-pie-panel h3{font-size:10px;letter-spacing:.7px;margin:0 0 5px;color:#555}.category-pie{width:142px;height:142px;border-radius:50%;position:relative;box-shadow:inset 0 0 0 1px #00000008}.pie-2025{background:conic-gradient(#e31b36 0% 48.70%,#252525 48.70% 98.18%,#bdbdb8 98.18% 100%)}.pie-2026{background:conic-gradient(#e31b36 0% 39.12%,#252525 39.12% 98.17%,#bdbdb8 98.17% 100%)}.category-pie-panel strong{font-size:15px;margin-top:3px}.category-pie-panel small{font-size:9px;color:#888}.category-legend{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:0 0 14px;font-size:10px;color:#555}.category-legend span{display:flex;align-items:center;gap:6px}.category-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}.legend-footwear{background:#e31b36}.legend-apparel{background:#252525}.legend-accessories{background:#bdbdb8}.category-detail-wrap{border:1px solid var(--line);border-radius:8px}.category-detail{min-width:760px}.category-detail td:last-child{white-space:normal;min-width:220px;line-height:1.4}.category-detail td,.category-detail th{vertical-align:middle}@media(max-width:700px){.category-pies{gap:8px}.category-pie{width:116px;height:116px}.category-pie-panel{padding:11px 6px}.category-legend{gap:12px}}
+
+.gender-pie-2025{background:conic-gradient(#e31b36 0% 62.34%,#252525 62.34% 83.61%,#bdbdb8 83.61% 100%)}
+.gender-pie-2026{background:conic-gradient(#e31b36 0% 79.53%,#252525 79.53% 92.86%,#bdbdb8 92.86% 100%)}
+.gender-detail{min-width:790px}
+.gender-report .category-pies{max-width:620px}
 </style></head>
 <body>
 <div class="shell">
@@ -86,13 +91,18 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
   </tbody></table></div>
  </section>
  <section class="report-bottom-grid">
-  <div class="card report-card"><div class="report-heading"><div><span class="report-kicker">SATIŞ KIRILIMI</span><h2>Cinsiyet · 2025 / 2026</h2></div></div>
-   <div class="report-table-wrap"><table class="report-table"><thead><tr><th>Cinsiyet</th><th>2025</th><th>2026</th><th>Büyüme</th></tr></thead><tbody>
-    <tr><th>Male</th><td>591.381 TL</td><td class="actual">978.490 TL</td><td class="positive">65,46%</td></tr>
-    <tr><th>Female</th><td>201.855 TL</td><td class="actual">163.967 TL</td><td class="negative">-18,77%</td></tr>
-    <tr><th>Kids</th><td>—</td><td>—</td><td>—</td></tr>
-    <tr><th>Unisex</th><td>155.614 TL</td><td class="actual">87.881 TL</td><td class="negative">-43,53%</td></tr>
-    <tr class="total-row"><th>Total</th><td>948.849 TL</td><td class="actual">1.230.338 TL</td><td class="positive">29,67%</td></tr>
+  <div class="card report-card gender-report"><div class="report-heading"><div><span class="report-kicker">SATIŞ KIRILIMI</span><h2>Cinsiyet · 2025 / 2026</h2></div></div>
+   <div class="category-pies gender-pies">
+    <div class="category-pie-panel"><h3>2025 CİNSİYET DAĞILIMI</h3><div class="category-pie gender-pie-2025" role="img" aria-label="2025 cinsiyet payları: Erkek yüzde 62,34, Kadın yüzde 21,27, Unisex yüzde 16,40"></div><strong>948.850 TL</strong><small>Dağılım toplamı · satırların toplamı</small></div>
+    <div class="category-pie-panel"><h3>2026 CİNSİYET DAĞILIMI</h3><div class="category-pie gender-pie-2026" role="img" aria-label="2026 cinsiyet payları: Erkek yüzde 79,53, Kadın yüzde 13,33, Unisex yüzde 7,14"></div><strong>1.230.338 TL</strong><small>Dağılım toplamı</small></div>
+   </div>
+   <div class="category-legend gender-legend"><span><i class="legend-footwear"></i>Erkek</span><span><i class="legend-apparel"></i>Kadın</span><span><i class="legend-accessories"></i>Unisex</span></div>
+   <div class="report-table-wrap category-detail-wrap"><table class="report-table category-detail gender-detail"><thead><tr><th>Cinsiyet</th><th>Ciro 2025</th><th>Ciro 2026</th><th>2026 Ciro Payı</th><th>Büyüme</th><th>Yorum</th></tr></thead><tbody>
+    <tr><th>Erkek</th><td>591.381 TL</td><td class="actual">978.490 TL</td><td>79,53%</td><td class="positive">+65,46%</td><td>En yüksek ciro payına sahip; büyümenin ana taşıyıcısı.</td></tr>
+    <tr><th>Kadın</th><td>201.855 TL</td><td class="actual">163.967 TL</td><td>13,33%</td><td class="negative">-18,77%</td><td>Ciro gerilemiş; ürün ve satış dönüşümü ayrıca incelenmeli.</td></tr>
+    <tr><th>Çocuk</th><td>—</td><td>—</td><td>—</td><td>—</td><td>Kaynakta değer bulunmadığı için dağılıma dahil edilmedi.</td></tr>
+    <tr><th>Unisex</th><td>155.614 TL</td><td class="actual">87.881 TL</td><td>7,14%</td><td class="negative">-43,53%</td><td>En yüksek oransal düşüş; kategori performansı kontrol edilmeli.</td></tr>
+    <tr class="total-row"><th>Toplam</th><td>948.849 TL</td><td class="actual">1.230.338 TL</td><td>100%</td><td class="positive">+29,67%</td><td>Kaynak rapordaki toplam satırı korunmuştur.</td></tr>
    </tbody></table></div>
   </div>
   <div class="card report-card"><div class="report-heading"><div><span class="report-kicker">ENVANTER DURUMU · 14.11.2026</span><h2>Stok · 2025 / 2026</h2></div></div>
