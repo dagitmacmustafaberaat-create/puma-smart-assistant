@@ -297,8 +297,18 @@ async function loadDashboardMetrics(){
 
 const oldGo=go;
 go=function(page){
+ if(page==="opportunities"){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  document.getElementById('pageTitle').textContent=titles[page];
+  document.getElementById('dashboardPage').classList.add('hidden');
+  document.getElementById('otherPage').classList.remove('hidden');
+  document.getElementById('pageIntro').textContent="";
+  renderOpportunitiesPage();
+  window.scrollTo({top:0,behavior:'smooth'});
+  return;
+ }
  oldGo(page);
- if(page==="opportunities")renderOpportunitiesPage();else if(page==="data"||(sourceMap[page]&&page!=="coach"))renderExcelPage(page);
+ if(page==="data"||(sourceMap[page]&&page!=="coach"))renderExcelPage(page);
 };
 
 // Ana rapor, kullanıcının Kasım 2026 Data Raporu üzerinden sağladığı doğrulanmış değerleri gösterir.
