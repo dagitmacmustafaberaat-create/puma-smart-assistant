@@ -295,22 +295,44 @@ async function loadDashboardMetrics(){
  }catch(error){console.error("Dashboard Excel verisi yüklenemedi:",error);const chip=document.querySelector(".demo-chip");if(chip)chip.textContent="VERİ KAYNAĞI HATASI";document.querySelectorAll("#dashboardPage .kpis .kpi-meta").forEach(el=>el.textContent="Excel kaynağı okunamadı; bağlantı ve dosya kontrol edilmeli");}
 }
 
-const oldGo=go;
+// Tek merkezden, bütün modüller için güvenli sayfa yönlendirmesi.
 go=function(page){
- if(page==="opportunities"){
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
-  document.getElementById('pageTitle').textContent=titles[page];
-  document.getElementById('dashboardPage').classList.add('hidden');
-  document.getElementById('otherPage').classList.remove('hidden');
-  document.getElementById('pageIntro').textContent="";
-  renderOpportunitiesPage();
-  window.scrollTo({top:0,behavior:'smooth'});
-  return;
+ const title=document.getElementById("pageTitle");
+ const dashboard=document.getElementById("dashboardPage");
+ const other=document.getElementById("otherPage");
+ const intro=document.getElementById("pageIntro");
+ const host=document.getElementById("pageContent");
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ if(title)title.textContent=titles[page]||"BUYAKA Store Intelligence";
+ const isHome=page==="dashboard";
+ dashboard.classList.toggle("hidden",!isHome);
+ other.classList.toggle("hidden",isHome);
+ if(isHome){window.scrollTo({top:0,behavior:"smooth"});return;}
+ intro.textContent="";
+ host.innerHTML='<div class="card"><p class="insight">Modül hazırlanıyor…</p></div>';
+ try{
+  if(page==="opportunities"){renderOpportunitiesPage();}
+  else if(page==="ai"){renderAI();}
+  else if(page==="coach"){
+   const p=content.coach;
+   if(!p)throw new Error("Akıllı Mağaza Koçu içeriği bulunamadı.");
+   intro.textContent=p.intro;host.innerHTML=p.html;
+  }else{
+   const p=content[page];
+   if(!p)throw new Error("Bu menü için içerik tanımlanmamış: "+page);
+   intro.textContent=p.intro||"";
+   host.innerHTML=p.html||"";
+   if(page==="data"||sourceMap[page]){
+    renderExcelPage(page).catch(err=>{
+     host.innerHTML='<div class="card"><h3>Veri modülü yüklenemedi</h3><p class="notice">'+esc(err.message||err)+'</p></div>';
+    });
+   }
+  }
+ }catch(err){
+  console.error("Modül açılış hatası:",page,err);
+  host.innerHTML='<div class="card"><div class="card-title"><h3>Modül açılırken hata oluştu</h3><span class="status">HATA</span></div><p class="notice">'+esc(err.message||err)+'</p></div>';
  }
- oldGo(page);
- if(page==="data"||(sourceMap[page]&&page!=="coach"))renderExcelPage(page);
+ window.scrollTo({top:0,behavior:"smooth"});
 };
-
-// Ana rapor, kullanıcının Kasım 2026 Data Raporu üzerinden sağladığı doğrulanmış değerleri gösterir.
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
+window.addEventListener("error",e=>console.error("BUYAKA uygulama hatası:",e.message));
 </script></body></html>
