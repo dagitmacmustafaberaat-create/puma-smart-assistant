@@ -54,7 +54,7 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 .ph-daily{display:flex;justify-content:space-between;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);font-size:9px;color:#777}.ph-score{font-size:17px;color:var(--red);font-weight:900}
 .ph-champ{display:flex;flex-direction:column;gap:8px;background:linear-gradient(145deg,#fff,#fafaf8)}.ph-champ small{font-size:9px;letter-spacing:.7px;color:var(--red);font-weight:900}.ph-champ strong{font-size:14px}.ph-champ b{font-size:18px}
 .ph-education{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);gap:12px}.ph-subcard{border:1px solid var(--line);border-radius:9px;padding:14px;min-width:0}.ph-subcard h4{font-size:12px;margin:0 0 12px}.ph-select{width:100%;padding:10px;border:1px solid var(--line);border-radius:7px;background:white;font:inherit;font-size:11px;margin-bottom:12px}.ph-topic{padding:11px 0;border-top:1px solid var(--line)}.ph-topic small{display:block;color:var(--red);font-size:9px;font-weight:850}.ph-topic b{display:block;font-size:11px;margin-top:5px;line-height:1.5}.ph-doc{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:11px}.ph-doc a{margin-left:auto;color:var(--red);font-weight:800;text-decoration:none}
-.ph-original{width:100%;margin-top:14px;padding:12px;border:1px solid var(--red);border-radius:8px;background:#fff;color:var(--red);font-size:10px;font-weight:900}.ph-status{font-size:10px;color:#888;text-align:right;padding:0 3px}.ph-loading,.ph-empty{padding:20px;text-align:center;color:#888;font-size:11px}
+.ph-analysis-intro{font-size:11px;color:#666;line-height:1.6;margin:-3px 0 14px}.ph-analysis-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ph-analysis-card{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fff;min-width:0}.ph-analysis-section{margin-top:13px;padding-top:11px;border-top:1px solid var(--line)}.ph-analysis-section h4{font-size:10px;letter-spacing:.5px;color:var(--red);margin:0 0 8px}.ph-analysis-line{padding:9px 10px;border-radius:7px;margin-top:6px;background:#f7f7f5}.ph-analysis-line b{display:block;font-size:10px;color:#222}.ph-analysis-line span{display:block;font-size:10px;line-height:1.5;color:#666;margin-top:4px}.ph-analysis-line.is-good{border-left:3px solid #258653}.ph-analysis-line.is-focus{border-left:3px solid var(--red)}@media(max-width:700px){.ph-analysis-grid{grid-template-columns:1fr}}.ph-original{width:100%;margin-top:14px;padding:12px;border:1px solid var(--red);border-radius:8px;background:#fff;color:var(--red);font-size:10px;font-weight:900}.ph-status{font-size:10px;color:#888;text-align:right;padding:0 3px}.ph-loading,.ph-empty{padding:20px;text-align:center;color:#888;font-size:11px}
 @media(max-width:700px){.ph-head{align-items:flex-start;flex-direction:column;padding:16px}.ph-refresh{width:100%}.ph-panel{padding:13px}.ph-stats{grid-template-columns:1fr 1fr}.ph-people-grid,.ph-league-grid,.ph-champs,.ph-education{grid-template-columns:1fr}.ph-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.ph-section-title{align-items:flex-start}}
 
 
@@ -105,7 +105,7 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="../sd-karne.js?v=20261113-dynamic-header-detect-v3"></script>
 <script src="../performance-league.js?v=20261102-excel-source"></script>
-<script src="../education.js?v=20261113-november-calendar-v2"></script>
+
 <script>
 const titles={dashboard:"Mağaza Genel Bakış",weekly:"Haftalık Veriler",annual:"Yıllık Veriler",coach:"Akıllı Mağaza Koçu",opportunities:"Satış Fırsatları ve Kaçan Ciro",people:"Personel Gelişim ve Koçluk",operations:"Günlük Görev ve Operasyon",reports:"AI Rapor Asistanı",products:"Kategori Bazlı Ürün Satışları",ai:"BUYAKA AI MANAGER",data:"Gerçek Excel Veri Merkezi"};
 const content={
@@ -113,11 +113,11 @@ coach:{intro:"Kasım 2026 mağaza performansını değerlendir ve günlük aksiy
 opportunities:{intro:"Ürün satış hızı, mevcut stok ve beden bulunurluğunu bir araya getirecek analiz alanı.",html:'<div class="card"><div class="card-title"><h3>Örnek stok fırsat listesi</h3><span>Temsili ürünler</span></div><table class="mini-table"><thead><tr><th>ÜRÜN</th><th>30G SATIŞ</th><th>STOK</th><th>DURUM</th></tr></thead><tbody><tr><td>Ürün A</td><td>24</td><td>2</td><td><span class="status">Kritik</span></td></tr><tr><td>Ürün B</td><td>18</td><td>15</td><td><span class="status ok">Normal</span></td></tr><tr><td>Ürün C</td><td>12</td><td>0</td><td><span class="status">Stok yok</span></td></tr></tbody></table><p class="notice">Beden bazlı eksik ve kaçan ciro analizi için satış ve güncel stok dosyalarının bağlanması gerekir.</p></div>'},
 people:{intro:"Ekip performansı, hedef takibi ve gelişim planı.",html:`<section id="peopleHub">
  <header class="ph-head"><div><span class="ph-kicker">BUYAKA PUMA · TEAM PERFORMANCE</span><h2>PERSONEL KOÇLUĞU</h2><p>Performans takibi ve ekip gelişim merkezi</p></div><button class="ph-refresh" onclick="initPeopleHub(true)">↻ VERİLERİ YENİLE</button></header>
- <div class="ph-tabs" role="tablist"><button class="ph-tab active" data-ph-tab="sd" onclick="showPeopleTab('sd')">🏅 SD KARNE</button><button class="ph-tab" data-ph-tab="league" onclick="showPeopleTab('league')">🏆 PERFORMANCE LEAGUE</button><button class="ph-tab" data-ph-tab="weekly" onclick="showPeopleTab('weekly')">⭐ HAFTANIN ENLERİ</button><button class="ph-tab" data-ph-tab="education" onclick="showPeopleTab('education')">🎓 EĞİTİM MERKEZİ</button></div>
+ <div class="ph-tabs" role="tablist"><button class="ph-tab active" data-ph-tab="sd" onclick="showPeopleTab('sd')">🏅 SD KARNE</button><button class="ph-tab" data-ph-tab="league" onclick="showPeopleTab('league')">🏆 PERFORMANCE LEAGUE</button><button class="ph-tab" data-ph-tab="weekly" onclick="showPeopleTab('weekly')">⭐ HAFTANIN ENLERİ</button><button class="ph-tab" data-ph-tab="analysis" onclick="showPeopleTab('analysis')">📊 PERSONEL ANALİZ</button></div>
  <section class="ph-panel active" data-ph-panel="sd"><div class="ph-section-title"><div><small>PERSONEL PERFORMANS RAPORU</small><h3>SD Karne</h3></div><span class="ph-source">SD KARNE.xlsx</span></div><div id="phSdData" class="ph-loading">Excel verileri yükleniyor…</div><button id="phOriginalBtn" class="ph-original" onclick="togglePeopleOriginal()">📂 ORİJİNAL TABLOYU AÇ</button><div id="phOriginal" hidden></div></section>
  <section class="ph-panel" data-ph-panel="league"><div class="ph-section-title"><div><small>MONTHLY PERFORMANCE RACE · KASIM 2026</small><h3>Performance League</h3></div><span class="ph-source">HEDEF EXCELİ</span></div><div id="phLeagueData" class="ph-loading">Hedefler okunuyor…</div></section>
  <section class="ph-panel" data-ph-panel="weekly"><div class="ph-section-title"><div><small>BUYAKA PUMA · PERFORMANCE AWARDS</small><h3>Haftanın Enleri</h3></div></div><div id="phWeeklyData" class="ph-loading">Şampiyonlar hesaplanıyor…</div></section>
- <section class="ph-panel" data-ph-panel="education"><div class="ph-section-title"><div><small>TEAM DEVELOPMENT</small><h3>Eğitim Merkezi</h3></div><span class="ph-source">KASIM 2026</span></div><div id="phEducationData" class="ph-loading">Eğitim takvimi yükleniyor…</div></section>
+ <section class="ph-panel" data-ph-panel="analysis"><div class="ph-section-title"><div><small>PERSONEL BAZLI GELİŞİM DEĞERLENDİRMESİ</small><h3>Personel Analiz</h3></div><span class="ph-source">SD KARNE + PERFORMANCE LEAGUE</span></div><div id="phAnalysisData" class="ph-loading">Personel verileri analiz ediliyor…</div></section>
  <div id="phStatus" class="ph-status">Excel kaynakları hazırlanıyor…</div>
 </section>`},
 operations:{intro:"Açılış, depo, ürün, kabin ve kapanış görevlerini takip et.",html:'<div class="card"><div class="card-title"><h3>Günlük operasyon kontrol listesi</h3><span id="taskCount">0 / 4 tamamlandı</span></div><div class="action-list" id="tasks"><label class="action"><input type="checkbox" onchange="taskUpdate()"> Açılış mağaza kontrolü</label><label class="action"><input type="checkbox" onchange="taskUpdate()"> Eksik beden kontrolü</label><label class="action"><input type="checkbox" onchange="taskUpdate()"> Ürün yerleşimi ve kabin düzeni</label><label class="action"><input type="checkbox" onchange="taskUpdate()"> Kapanış kontrolü</label></div></div>'},
@@ -154,19 +154,41 @@ function renderPeopleWeekly(){
  const specs=[["CİRO ŞAMPİYONU","ciro",phMoney],["UPT ŞAMPİYONU","upt",v=>phNum(v,2)+" UPT"],["ATV ŞAMPİYONU","atv",phMoney],["CR ŞAMPİYONU","cr",v=>phNum(v,2)+"%"]];
  root.innerHTML='<div class="ph-champs">'+specs.map(([label,key,fmt])=>{const p=enriched.reduce((a,b)=>b[key]>a[key]?b:a);return '<article class="ph-champ"><small>'+label+'</small><strong>'+p.name+'</strong><b>'+fmt(p[key])+'</b></article>';}).join('')+'</div>';
 }
-function renderPeopleEducation(){
- const root=document.getElementById("phEducationData"),data=window.BUYAKA_TRAINING_DATA;if(!root)return;
- if(!data){root.innerHTML='<div class="ph-empty">Eğitim takvimi yüklenemedi.</div>';return;}
- const dates=Object.keys(data.calendar||{}).sort(),today="2026-11-14",selected=dates.includes(today)?today:(dates.find(d=>d>=today)||dates[0]||"");
- const opts=dates.map(d=>'<option value="'+d+'" '+(d===selected?'selected':'')+'>'+d.split('-').reverse().join('.')+'</option>').join('');
- const docs=(data.library||[]).map(d=>'<div class="ph-doc"><span>'+d.icon+'</span><b>'+d.title+'</b><a href="../'+encodeURIComponent(d.file).replace(/%2F/g,'/')+'" target="_blank" rel="noopener">AÇ ↗</a></div>').join('');
- root.innerHTML='<div class="ph-education"><section class="ph-subcard"><h4>GÜNLÜK GELİŞİM PLANI</h4><select class="ph-select" id="phEduDate" onchange="renderPeopleEducationDay(this.value)">'+opts+'</select><div id="phEduTopics"></div></section><section class="ph-subcard"><h4>ÖĞRENME KÜTÜPHANESİ</h4>'+docs+'</section></div>';
- if(selected)renderPeopleEducationDay(selected);
-}
-function renderPeopleEducationDay(date){
- const root=document.getElementById("phEduTopics"),d=window.BUYAKA_TRAINING_DATA?.calendar?.[date];if(!root)return;
- if(!d){root.innerHTML='<div class="ph-empty">Bu tarih için içerik bulunmuyor.</div>';return;}
- root.innerHTML=[["VM & SATIŞ TEKNİKLERİ",d.vmSales||d.vm||[]],["ÜRÜN TEKNOLOJİLERİ",d.technology||d.tech||[]],["SAHA UYGULAMASI",d.practice||[]]].map(([h,v])=>'<div class="ph-topic"><small>'+h+'</small><b>'+(Array.isArray(v)?v.join(' · '):v||'—')+'</b></div>').join('');
+
+function renderPeopleAnalysis(){
+ const root=document.getElementById("phAnalysisData"),rows=window.BUYAKA_SD_KARNE_ROWS||[],league=window.BUYAKA_LEAGUE_DATA?.staff||[];
+ if(!root)return;
+ if(!rows.length&&!league.length){root.innerHTML='<div class="ph-empty">Personel analizi için SD Karne ve Performance League Excel verileri yüklenemedi.</div>';return;}
+ const month=window.BUYAKA_LEAGUE_DATA?.month||"2026-11",parts=month.split("-").map(Number),days=new Date(parts[0],parts[1],0).getDate(),now=new Date(),currentMonth=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0"),elapsed=month===currentMonth?Math.min(days,now.getDate()):(month<currentMonth?days:0);
+ const teamAvg=key=>rows.reduce((n,x)=>n+(Number(x[key])||0),0)/(rows.length||1);
+ const sdComments=p=>{
+  const items=[];
+  const add=(label,value,target,goodText,badText,unit="")=>{
+   if(!Number.isFinite(Number(value))||Number(value)===0){items.push('<div class="ph-analysis-line"><b>'+label+'</b><span>Veri bulunmadığı için değerlendirme yapılamadı.</span></div>');return;}
+   const good=Number(value)>=target;
+   items.push('<div class="ph-analysis-line '+(good?'is-good':'is-focus')+'"><b>'+label+' · '+phNum(value,2)+unit+'</b><span>'+(good?goodText:badText)+'</span></div>');
+  };
+  add("UPT",p.upt,1.8,"1,80 hedefini karşılıyor veya aşıyor; tamamlayıcı ürün önerilerini sürdür.","1,80 hedefinin altında. Her satışta ihtiyaca uygun ikinci ürün ve kombin önerisine odaklan.");
+  add("CR",p.cr,7,"%7 mağaza hedefini karşılıyor veya aşıyor; satış kapanış kalitesini koru.","%7 mağaza hedefinin altında. İhtiyaç analizi, ürün denetimi ve satış kapanış adımlarını güçlendir.","%");
+  if(Number(p.hgo)>0)add("Ciro HGO",p.hgo,100,"%100 hedef gerçekleşmesine ulaşmış veya geçmiş.","Ciro hedef gerçekleşmesi %100'ün altında. Kalan ciro açığını günlük satış hedefine bölerek takip et.","%");
+  [["Ciro","ciro"],["ATV","atv"],["ASP","asp"]].forEach(([label,key])=>{const avg=teamAvg(key),v=Number(p[key])||0;if(!v||!avg)return;const good=v>=avg;items.push('<div class="ph-analysis-line '+(good?'is-good':'is-focus')+'"><b>'+label+' · '+phMoney(v)+'</b><span>'+(good?'Ekip ortalaması '+phMoney(avg)+' seviyesinin üzerinde.':'Ekip ortalaması '+phMoney(avg)+' seviyesinin '+phMoney(avg-v)+' altında. Sepet tutarı ve ürün değerini artıracak ürün sunumlarına odaklan.')+'</span></div>');});
+  return items.join("");
+ };
+ const leagueComments=p=>{
+  const invExpected=Number(p.dailyInvoice||0)*elapsed,unitExpected=Number(p.dailyUnits||0)*elapsed;
+  const invGap=Number(p.invoices||0)-invExpected,unitGap=Number(p.units||0)-unitExpected;
+  const invMonth=Number(p.invoiceTarget)?Number(p.invoices||0)/Number(p.invoiceTarget)*100:0,unitMonth=Number(p.unitTarget)?Number(p.units||0)/Number(p.unitTarget)*100:0;
+  const line=(label,actual,target,expected,gap,monthRate)=>{
+   const ahead=gap>=0,remaining=Math.max(0,days-elapsed),needed=Math.max(0,(Number(target)-Number(actual||0))/Math.max(1,remaining));
+   return '<div class="ph-analysis-line '+(ahead?'is-good':'is-focus')+'"><b>'+label+' · '+phNum(actual)+' / '+phNum(target)+' · aylık hedefin %'+phNum(monthRate,1)+'’i</b><span>Bugüne kadar beklenen: '+phNum(expected,1)+'. '+(ahead?'Aylık tempoda '+phNum(gap,1)+' '+(label==="Fatura"?'fatura':'ürün')+' önde.':'Aylık tempoda '+phNum(Math.abs(gap),1)+' '+(label==="Fatura"?'fatura':'ürün')+' geride; kalan '+remaining+' günde hedefe ulaşmak için günlük ortalama '+phNum(needed,1)+' '+(label==="Fatura"?'fatura':'ürün')+' gerekli.')+'</span></div>';
+  };
+  return line("Fatura",p.invoices,p.invoiceTarget,invExpected,invGap,invMonth)+line("Ürün",p.units,p.unitTarget,unitExpected,unitGap,unitMonth);
+ };
+ const names=[...new Set([...rows.map(p=>p.name),...league.map(p=>p.name)])];
+ root.innerHTML='<div class="ph-analysis-intro">SD Karne KPI değerlendirmesi ile Performance League aylık hedef temposu kişi bazında birleştirilmiştir. Aylık tempo, ilgili ayın bugüne kadar geçen gününe göre hesaplanır.</div><div class="ph-analysis-grid">'+names.map(name=>{
+  const p=rows.find(x=>x.name===name),l=league.find(x=>x.name===name);
+  return '<article class="ph-analysis-card"><div class="ph-person-top"><div><strong>'+name+'</strong><small>PERSONEL GELİŞİM RAPORU</small></div><span class="ph-rank">'+(l?l.role:"SD KARNE")+'</span></div><section class="ph-analysis-section"><h4>SD KARNE · KPI GERİ BİLDİRİMİ</h4>'+(p?sdComments(p):'<div class="ph-empty">SD Karne verisi bulunamadı.</div>')+'</section><section class="ph-analysis-section"><h4>PERFORMANCE LEAGUE · AYLIK HEDEF TEMPOSU</h4>'+(l?leagueComments(l):'<div class="ph-empty">Aylık fatura ve ürün hedef verisi bulunamadı.</div>')+'</section></article>';
+ }).join("")+'</div>';
 }
 function togglePeopleOriginal(){
  const wrap=document.getElementById("phOriginal"),btn=document.getElementById("phOriginalBtn");if(!wrap)return;
@@ -178,9 +200,9 @@ async function initPeopleHub(force=false){
  const jobs=[];
  if(typeof window.loadSDKarneData==="function")jobs.push(window.loadSDKarneData());
  if(typeof window.loadLeagueData==="function")jobs.push(window.loadLeagueData());
- if(typeof window.loadTrainingCalendarWorkbook==="function")jobs.push(window.loadTrainingCalendarWorkbook());
+
  await Promise.allSettled(jobs);
- renderPeopleSD();renderPeopleLeague();renderPeopleWeekly();renderPeopleEducation();
+ renderPeopleSD();renderPeopleLeague();renderPeopleWeekly();renderPeopleAnalysis();
  if(status)status.textContent="Kaynaklar güncellendi · "+new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
 }
 function go(page){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('pageTitle').textContent=titles[page];document.getElementById('dashboardPage').classList.toggle('hidden',page!=='dashboard');document.getElementById('otherPage').classList.toggle('hidden',page==='dashboard');if(page!=='dashboard'){if(page==='ai'||page==='coach'){renderAI()}else{const p=content[page];document.getElementById('pageIntro').textContent=p.intro;document.getElementById('pageContent').innerHTML=p.html;if(page==='people')initPeopleHub();if(page==='products')renderProductGuide()}}window.scrollTo({top:0,behavior:'smooth'})}
