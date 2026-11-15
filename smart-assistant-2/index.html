@@ -411,21 +411,40 @@ function renderExecutiveDashboard(){
  ].join("");
  const cat=d.categories.map(c=>{const g=rate(c.current,c.prior),ug=rate(c.units,c.priorUnits);return '<article class="exec-cat category-performance-card"><h4>'+c.name.toLocaleUpperCase("tr-TR")+'</h4><strong>'+money(c.current)+'</strong><p>2025 aynı dönem: '+money(c.prior)+'</p><p>Ciro değişimi: <b class="'+(g>=0?'positive':'negative')+'">'+(g>0?'+':'')+pct(g)+'</b></p><p>Adet: '+fmt(c.units)+' · 2025: '+fmt(c.priorUnits)+' · '+(ug>0?'+':'')+pct(ug)+'</p><p>Ciro payı: '+pct(c.share)+'</p><div class="exec-bar"><i style="width:'+c.share+'%"></i></div></article>'}).join("");
  
- const annualCards=[
-  '<div class="exec-year-callout"><small>2026 OCAK–KASIM GERÇEKLEŞEN CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong><p>2026 yıl içi gerçekleşen toplamı · kaynak yıllık veri</p></div>',
-  '<div class="exec-year-callout"><small>2026 YILLIK CİRO HEDEFİ</small><strong>'+pct(d.annual.ytd2026/d.annual.target2026*100)+'</strong><p>'+money(d.annual.ytd2026)+' gerçekleşen / '+money(d.annual.target2026)+' hedef</p></div>',
-  '<div class="exec-year-callout"><small>2025 TAM YIL CİRO</small><strong>'+money(d.annual.full2025)+'</strong><p>2025 yıllık hedef: '+money(d.annual2025.target)+' · Ocak–Aralık kapanışı</p></div>'
- ].join("");
- const annualRows=[
-  ['Ciro',d.annual.ytd2026,d.annual2025.actual,'money'],
-  ['Fatura (yıllık toplam)',d.annual.transactions2026,d.annual2025.transactions,''],
-  ['Ürün adedi (yıllık toplam)',d.annual.units2026,d.annual2025.units,''],
-  ['Trafik (yıllık toplam)',d.annual.visitors2026,d.annual2025.visitors,''],
-  ['UPT',d.annual.upt2026,d.annual2025.upt,''],
-  ['CR',d.annual.cr2026,d.annual2025.cr,'percent'],
-  ['ATV',d.annual.atv2026,d.annual2025.atv,'money'],
-  ['MULTIS',d.annual.multis2026,d.annual2025.multis,'percent']
- ].map(x=>{const [n,a,b,u]=x;const f=u==="money"?money:u==="percent"?pct:v=>fmt(v,u===""&&n==="UPT"?2:0);return '<tr><th>'+n+'</th><td>'+f(a)+'</td><td>'+f(b)+'</td><td class="exec-note-cell">Farklı dönem kapsamı</td></tr>'}).join("");
+ const annualTotals={
+  y2025:{target:29170340,actual:23762812,transactions:5289,multi:2451,units:8907,visitors:93944},
+  y2026:{target:30930000,actual:25986137,transactions:5139,multi:2419,units:8501,visitors:87152}
+ };
+ const annualKpi=o=>({hgo:o.actual/o.target*100,upt:o.units/o.transactions,cr:o.transactions/o.visitors*100,atv:o.actual/o.transactions,asp:o.actual/o.units,multis:o.multi/o.transactions*100});
+ const a25=annualTotals.y2025,a26=annualTotals.y2026,k25=annualKpi(a25),k26=annualKpi(a26);
+ const annualCards='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">YILLIK PERFORMANS · EŞ DÖNEM</span><h2>2025 / 2026 · Ocak–15 Kasım</h2><p>Ocak–Ekim tam aylar, Kasım her iki yılda da 15 günlük gerçekleşme üzerinden karşılaştırılır.</p></div></div><div class="exec-grid">'+[
+  '<article class="exec-kpi"><small>2026 GERÇEKLEŞEN CİRO</small><strong>'+money(a26.actual)+'</strong><div class="compare">Hedef: '+money(a26.target)+'</div><div class="delta positive">HGO '+pct(k26.hgo)+'</div></article>',
+  '<article class="exec-kpi"><small>2025 GERÇEKLEŞEN CİRO</small><strong>'+money(a25.actual)+'</strong><div class="compare">Hedef: '+money(a25.target)+'</div><div class="delta">HGO '+pct(k25.hgo)+'</div></article>',
+  '<article class="exec-kpi"><small>CİRO BÜYÜMESİ</small><strong class="'+(a26.actual>=a25.actual?'positive':'negative')+'">'+(a26.actual>=a25.actual?'+':'')+pct((a26.actual/a25.actual-1)*100)+'</strong><div class="compare">Fark: '+(a26.actual>=a25.actual?'+':'')+money(a26.actual-a25.actual)+'</div><div class="delta">2026 / 2025</div></article>',
+  '<article class="exec-kpi"><small>HEDEF GERÇEKLEŞME FARKI</small><strong class="'+(k26.hgo>=k25.hgo?'positive':'negative')+'">'+(k26.hgo-k25.hgo>=0?'+':'')+fmt(k26.hgo-k25.hgo,2)+' puan</strong><div class="compare">2026 '+pct(k26.hgo)+' · 2025 '+pct(k25.hgo)+'</div><div class="delta">HGO karşılaştırması</div></article>'
+ ].join("")+'</div></section>';
+ const annualMetricRows=[
+  ["Hedef",a26.target,a25.target,"money"],
+  ["Gerçekleşen ciro",a26.actual,a25.actual,"money"],
+  ["Hedef gerçekleşme (HGO)",k26.hgo,k25.hgo,"percentPoint"],
+  ["Fatura",a26.transactions,a25.transactions,"number"],
+  ["Çoklu ürünlü fatura",a26.multi,a25.multi,"number"],
+  ["Ürün adedi",a26.units,a25.units,"number"],
+  ["Mağaza trafiği",a26.visitors,a25.visitors,"number"],
+  ["UPT",k26.upt,k25.upt,"decimal"],
+  ["CR",k26.cr,k25.cr,"percentPoint"],
+  ["ATV",k26.atv,k25.atv,"moneyDecimal"],
+  ["ASP",k26.asp,k25.asp,"moneyDecimal"],
+  ["MULTİS",k26.multis,k25.multis,"percentPoint"]
+ ];
+ const annualRows=annualMetricRows.map(([name,x,y,type])=>{
+  const diff=x-y,change=y?(diff/y*100):0;
+  const f=v=>type==="money"?money(v):type==="moneyDecimal"?money(v):type==="percentPoint"?"%"+fmt(v,2):type==="decimal"?fmt(v,2):fmt(v);
+  const diffText=type==="percentPoint"?(diff>=0?"+":"")+fmt(diff,2)+" puan":(diff>0?"+":"")+f(diff);
+  const changeText=(change>0?"+":"")+pct(change);
+  const good=diff>=0;
+  return '<tr><th>'+name+'</th><td>'+f(x)+'</td><td>'+f(y)+'</td><td class="'+(good?'positive':'negative')+'">'+diffText+'</td><td class="'+(good?'positive':'negative')+'">'+changeText+'</td></tr>';
+ }).join("");
  const monthlySeries=[
   {name:"CİRO",kind:"money",a:[1751459,1460632,2770880,1995756,2378886,2776560,1792252,2490118,2377229,2793727,1022976,2119020],b:[1919765,1665353,3078515,2427269,3197242,2070598,2869130,2010409,2764304,2632213,1351340,null]},
   {name:"FATURA",kind:"num",a:[512,392,538,419,465,687,507,536,434,579,195,467],b:[489,340,497,451,581,423,687,481,514,401,275,null]},
@@ -534,9 +553,8 @@ const monthlyTable=(item)=>{
  '<div class="exec-note">Veri notu: 2026 aylık hedef listesinin toplamı 30.930.000 TL; yıllık hedef alanında verilen 29.197.940 TL kullanıldı. İki kaynak arasında 1.732.060 TL fark bulunduğundan yıllık hedef oranı doğrudan yıllık hedef değeri üzerinden hesaplanır. Kasım 2026 aylık çalışma sayfasındaki ciro hedefi 3.500.000 TL’dir. 2026 yıllık tabloda Kasım hedefi 1.680.000 TL göründüğü için iki hedef birbirine karıştırılmadı; aylık bölümde günlük veri setinin 3.500.000 TL hedefi esas alındı. 2025 karşılaştırması yalnızca 1–14 Kasım günlük satırlarından hesaplandı. 15 Kasım ve sonrası, 2026 verisi oluştuğunda otomatik olarak karşılaştırmaya dahil edilecek şekilde günlük veri kapsamı esas alınmalıdır.</div>'+
  '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">04 · YILLIK PERFORMANS</span><h2>Ocak–Kasım karşılaştırması</h2><p>Yıllık bölüm aylık analizlerin altında yer alır. Aralık 2026 henüz kapsama alınmamıştır.</p></div></div><div class="exec-grid">'+annualCards+'</div>'+annualCharts+'<article class="exec-panel"><h3>YILLIK KPI ÖZETİ</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026 YTD</th><th>2025 TAM YIL</th><th>Not</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">Yıllık KPI tablosunda 2026 Ocak–Kasım ile 2025 tam yıl karşılaştırması dönem kapsamı bakımından eşit değildir. Bu nedenle büyüme yüzdesi gösterilmedi. Ciro için ayrıca 2025 Ocak–Kasım toplamı hesaplanarak eş dönem karşılaştırması yukarıda verildi.</p></article></section>'+
  '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">05 · YILLIK KATEGORİ KIRILIMI</span><h2>Kategori ciro dağılımı</h2><p>Kaynak yıllık toplamları; dönem kapsamı farklı olduğu için değişim oranı verilmez.</p></div></div><div class="exec-category">'+d.annual.cat2026.map((v,i)=>'<article class="exec-cat"><h4>'+["AYAKKABI","TEKSTİL","AKSESUAR"][i]+'</h4><strong>'+money(v)+'</strong><p>2026 Ocak–Kasım · '+pct(d.annual.catShare2026[i])+'</p><p>Adet: '+fmt(d.annual.catUnits2026[i])+'</p><p>2025 tam yıl: '+money(d.annual2025.cat[i])+' · '+pct(d.annual2025.catShare[i])+'</p></article>').join("")+'</div></section>';
- const janNovDiff=d.annual.ytd2026-d.annual.janNov2025,janNovRate=janNovDiff/d.annual.janNov2025*100;
- const janNovHTML='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">OCAK–KASIM KARŞILAŞTIRMASI</span><h2>2025 / 2026 · Eş dönem ciro</h2><p>Her iki yılın Ocak–Kasım toplamı aynı dönem üzerinden karşılaştırılır.</p></div></div><div class="exec-two"><article class="exec-panel"><h3>2026 OCAK–KASIM</h3><div class="exec-year-callout"><small>GERÇEKLEŞEN CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong></div></article><article class="exec-panel"><h3>2025 OCAK–KASIM</h3><div class="exec-year-callout"><small>GERÇEKLEŞEN CİRO</small><strong>'+money(d.annual.janNov2025)+'</strong></div></article></div><div class="exec-year-callout" style="margin-top:10px"><small>EŞ DÖNEM DEĞİŞİMİ</small><strong class="'+(janNovDiff>=0?'positive':'negative')+'">'+(janNovDiff>0?'+':'')+money(janNovDiff)+' · '+(janNovRate>0?'+':'')+pct(janNovRate)+'</strong></div></section>';
- const annualSummaryHTML='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">YILLIK KPI ÖZETİ</span><h2>2026 Ocak–Kasım / 2025 tam yıl</h2></div></div><article class="exec-panel"><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026 YTD</th><th>2025 TAM YIL</th><th>Not</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">Dönem kapsamları farklı olduğundan yıllık KPI özetinde büyüme yüzdesi gösterilmez.</p></article></section>';
+ const janNovHTML="";
+ const annualSummaryHTML='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">YILLIK KPI KARŞILAŞTIRMASI</span><h2>2026 / 2025 · Toplam hedef ve gerçekleşen</h2><p>Fark ve değişim, aynı dönem kapsamındaki toplam veriler üzerinden hesaplanmıştır.</p></div></div><article class="exec-panel"><div class="exec-table-wrap"><table class="exec-table monthly-compare-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">2025 ve 2026 karşılaştırması Ocak–Ekim tam aylar ve Kasımın 15 günlük verileriyle hazırlanmıştır. Aralık dahil değildir.</p></article></section>';
  const annualCategoryHTML='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KATEGORİ CİRO DAĞILIMI</span><h2>2026 Ocak–Kasım kategori kırılımı</h2><p>2025 tam yıl değerleri ayrıca referans olarak gösterilir.</p></div></div><div class="exec-category">'+d.annual.cat2026.map((v,i)=>'<article class="exec-cat"><h4>'+["FTW","APP","ACC"][i]+'</h4><strong>'+money(v)+'</strong><p>2026 Ocak–Kasım · '+pct(d.annual.catShare2026[i])+'</p><p>Ürün adedi: '+fmt(d.annual.catUnits2026[i])+'</p><p>2025 tam yıl: '+money(d.annual2025.cat[i])+' · '+pct(d.annual2025.catShare[i])+'</p></article>').join("")+'</div></section>';
  const temp=document.createElement("div");temp.innerHTML=fullDashboardHTML;
  const hero=temp.querySelector(".exec-hero");
@@ -553,7 +571,7 @@ const monthlyTable=(item)=>{
   if(kicker.includes("03 · KATEGORİ")||kicker.includes("04 · YILLIK")||kicker.includes("05 · YILLIK"))section.remove();
  });
  window.__weeklyDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · WEEKLY</div><h2>Haftalık Performans</h2><p>Günlük ve haftalık KPI karşılaştırmaları düz metin ve tablolarla sunulur.</p></div></section>'+(weeklyOnly?weeklyOnly.outerHTML:"")+'</div>';
- window.__annualDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · ANNUAL</div><h2>Yıllık Performans</h2><p>Yıllık KPI ve kategori verileri bu bölümde toplu olarak sunulur.</p></div></section>'+annualCards+janNovHTML+annualSummaryHTML+annualCategoryHTML+annualCharts+'</div>';
+ window.__annualDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · ANNUAL</div><h2>Yıllık Performans</h2><p>2025 / 2026 eş dönem toplam hedef, gerçekleşen ve KPI karşılaştırması.</p></div></section>'+annualCards+annualSummaryHTML+annualCategoryHTML+annualCharts+'</div>';
  window.__monthlyKpiAllHTML=monthlySeries.map(monthlyTable).join("");
  window.__monthlyKpiTableMap=Object.fromEntries(monthlySeries.map(item=>[item.name,monthlyTable(item)]));
  window.__monthlyCategoryAllHTML=categoryMonthlyHTML;
