@@ -495,7 +495,7 @@ function renderExecutiveDashboard(){
  const compare=(a,b)=>{const diff=a-b,change=b?diff/b*100:(a?100:0);return '<td>'+fmt(a,window.__unused||"num")+'</td>'};
  const weeks=[{title:"1. HAFTA · 1–7 KASIM",from:0,to:7},{title:"2. HAFTA · 8–14 KASIM",from:7,to:14}];
  const renderMetricTable=(a,b)=>metricRows.map(([label,key,type])=>{const x=a[key],y=b[key],diff=x-y,change=y?diff/y*100:(x?100:0);const good=diff>=0;return '<tr><th>'+label+'</th><td>'+fmt(x,type)+'</td><td>'+fmt(y,type)+'</td><td class="'+(good?'positive':'negative')+'">'+(diff>0?'+':'')+fmt(diff,type)+'</td><td class="'+(good?'positive':'negative')+'">'+(change>0?'+':'')+pct(change)+'</td></tr>'}).join("");
- const renderMetricCards=(a,b)=>'<div class="weekly-metric-grid">'+metricRows.map(([label,key,type])=>{const x=a[key],y=b[key],diff=x-y,change=y?diff/y*100:(x?100:0),good=diff>=0,cls=good?"positive":"negative";return '<article class="weekly-metric-card"><small>'+label+'</small><div class="weekly-metric-values"><span><em>2026</em><b>'+fmt(x,type)+'</b></span><span><em>2025</em><b>'+fmt(y,type)+'</b></span></div><div class="weekly-metric-delta"><span class="'+cls+'">Fark: '+(diff>0?"+":"")+fmt(diff,type)+'</span><span class="'+cls+'">'+(change>0?"+":"")+pct(change)+'</span></div></article>'}).join("")+'</div>';
+ const renderMetricCards=(a,b)=>'<div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+renderMetricTable(a,b)+'</tbody></table></div>';
  return '<div class="exec-filter" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0 16px;padding:12px;background:#f7f7f7;border:1px solid #e5e5e5;border-radius:10px"><label for="weeklyCompareFilter" style="font-weight:800;font-size:12px">GÖRÜNÜM SEÇ</label><select id="weeklyCompareFilter" onchange="filterWeeklyCompare(this.value)" style="min-width:190px;padding:9px 12px;border:1px solid #ccc;border-radius:7px;background:#fff;font:inherit"><option value="all">Tüm günler ve haftalar</option><option value="week-0">1. Hafta toplamı · 1–7 Kasım</option><option value="week-1">2. Hafta toplamı · 8–14 Kasım</option>'+Array.from({length:y26.length},(_,i)=>'<option value="day-'+i+'">'+(i+1)+' Kasım · Günlük karşılaştırma</option>').join('')+'</select><span class="exec-note">Günlük görünümde seçilen tarih, haftalık görünümde seçilen haftanın toplamı gösterilir.</span></div><div class="exec-category" id="weeklyCompareResults">'+weeks.map((w,wi)=>{
   let html='<article class="exec-panel" data-compare-week="'+wi+'" style="margin-bottom:14px"><h3>'+w.title+'</h3><p class="exec-note">Her tarih kendi karşılığıyla eşleştirilmiştir: 1 Kasım 2025 ↔ 1 Kasım 2026 gibi.</p>';
   for(let i=w.from;i<w.to&&i<y26.length;i++){
@@ -524,14 +524,14 @@ function renderExecutiveDashboard(){
  const weekly=sectionBy("02 · HAFTALIK");
  const annual=[sectionBy("04 · YILLIK PERFORMANS"),sectionBy("05 · YILLIK KATEGORİ")].filter(Boolean);
  const two=temp.querySelector(".exec-two");
- root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+annualCharts+janNovHTML+annualSummaryHTML+annualCategoryHTML+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+'</div>';
+ root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+'</div>';
  const weeklyOnly=weekly?weekly.cloneNode(true):null;
  if(weeklyOnly)[...weeklyOnly.querySelectorAll(".exec-section")].forEach(section=>{
   const kicker=section.querySelector(".report-kicker")?.textContent||"";
   if(kicker.includes("04 · YILLIK")||kicker.includes("05 · YILLIK"))section.remove();
  });
  window.__weeklyDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · WEEKLY</div><h2>Haftalık Performans</h2><p>Günlük ve haftalık KPI karşılaştırmaları düz metin ve tablolarla sunulur.</p></div></section>'+(weeklyOnly?weeklyOnly.outerHTML:"")+'</div>';
- window.__annualDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · ANNUAL</div><h2>Yıllık Performans</h2><p>Yıllık KPI ve kategori verileri, aylık genel bakıştan ayrı gösterilir.</p></div></section>'+annual.map(x=>x.outerHTML).join("")+'</div>';
+ window.__annualDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · ANNUAL</div><h2>Yıllık Performans</h2><p>Yıllık KPI ve kategori verileri bu bölümde toplu olarak sunulur.</p></div></section>'+annualCharts+janNovHTML+annualSummaryHTML+annualCategoryHTML+annual.map(x=>x.outerHTML).join("")+'</div>';
  window.__monthlyKpiAllHTML=monthlySeries.map(monthlyTable).join("");
  window.__monthlyKpiTableMap=Object.fromEntries(monthlySeries.map(item=>[item.name,monthlyTable(item)]));
  window.__monthlyCategoryAllHTML=categoryMonthlyHTML;
