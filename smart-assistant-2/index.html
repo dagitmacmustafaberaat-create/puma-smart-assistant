@@ -57,6 +57,24 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 .ph-original{width:100%;margin-top:14px;padding:12px;border:1px solid var(--red);border-radius:8px;background:#fff;color:var(--red);font-size:10px;font-weight:900}.ph-status{font-size:10px;color:#888;text-align:right;padding:0 3px}.ph-loading,.ph-empty{padding:20px;text-align:center;color:#888;font-size:11px}
 @media(max-width:700px){.ph-head{align-items:flex-start;flex-direction:column;padding:16px}.ph-refresh{width:100%}.ph-panel{padding:13px}.ph-stats{grid-template-columns:1fr 1fr}.ph-people-grid,.ph-league-grid,.ph-champs,.ph-education{grid-template-columns:1fr}.ph-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.ph-section-title{align-items:flex-start}}
 
+
+/* Executive dashboard v2 */
+.exec-dashboard{display:grid;gap:16px}
+.exec-hero{background:#171717;color:#fff;border-radius:14px;padding:22px 24px;display:flex;justify-content:space-between;gap:18px;align-items:center}
+.exec-hero .eyebrow{color:#ff6579}.exec-hero h2{font-size:22px;margin:5px 0}.exec-hero p{margin:0;color:#ccc;font-size:11px}
+.exec-hero-side{text-align:right}.exec-hero-side strong{display:block;font-size:24px}.exec-hero-side small{color:#bbb;font-size:10px}
+.exec-section{display:grid;gap:11px}.exec-section-head{display:flex;justify-content:space-between;align-items:end;gap:10px}.exec-section-head h2{font-size:17px;margin:3px 0}.exec-section-head p{margin:0;color:#888;font-size:10px}
+.exec-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.exec-kpi{background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px;min-width:0}
+.exec-kpi small{font-size:9px;color:#888;font-weight:850;letter-spacing:.7px}.exec-kpi strong{display:block;font-size:23px;letter-spacing:-.7px;margin:6px 0 3px;overflow-wrap:anywhere}.exec-kpi .compare{font-size:10px;color:#777}.exec-kpi .delta{font-weight:850;margin-top:7px;font-size:11px}
+.exec-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.exec-panel{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px;min-width:0}.exec-panel h3{font-size:12px;margin:0 0 12px}.exec-table-wrap{overflow-x:auto}.exec-table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:11px}.exec-table th,.exec-table td{padding:9px 8px;border-bottom:1px solid #eee;text-align:right}.exec-table th:first-child,.exec-table td:first-child{text-align:left}.exec-table thead th{font-size:9px;color:#888;background:#fafaf8}.exec-table tbody tr:last-child td,.exec-table tbody tr:last-child th{border-bottom:0}
+.exec-note{border:1px solid #f0dfc4;background:#fff9ed;color:#79551d;border-radius:8px;padding:10px 12px;font-size:10px;line-height:1.5}
+.exec-category{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.exec-cat{border:1px solid var(--line);border-radius:9px;padding:13px}.exec-cat h4{font-size:11px;margin:0 0 9px}.exec-cat strong{font-size:17px}.exec-cat p{font-size:10px;color:#777;margin:5px 0}.exec-bar{height:8px;background:#eee;border-radius:9px;overflow:hidden;margin-top:8px}.exec-bar i{display:block;height:100%;background:var(--red)}
+.exec-month-strip{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:5px;align-items:end;height:118px;padding:8px 0}.exec-month-col{height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:5px}.exec-month-col i{width:70%;max-width:22px;background:#e31b36;border-radius:4px 4px 0 0;min-height:3px}.exec-month-col small{font-size:8px;color:#888}.exec-year-callout{background:#fafaf8;border:1px solid var(--line);border-radius:9px;padding:13px}.exec-year-callout small{font-size:9px;color:#888;font-weight:800}.exec-year-callout strong{display:block;font-size:21px;margin:5px 0}.exec-year-callout p{font-size:10px;color:#777;margin:0}
+@media(max-width:900px){.exec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.exec-hero{align-items:flex-start;flex-direction:column;padding:18px}.exec-hero-side{text-align:left}.exec-two{grid-template-columns:1fr}.exec-category{grid-template-columns:1fr}.exec-section-head{align-items:flex-start;flex-direction:column}.exec-kpi{padding:12px}.exec-kpi strong{font-size:20px}.exec-month-strip{gap:3px}.exec-month-col small{font-size:7px}}
+
 </style></head>
 <body>
 <div class="shell">
@@ -77,67 +95,7 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 </aside>
 <main>
  <header class="topbar"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h1 id="pageTitle">Yönetici Kontrol Paneli</h1></div><div class="top-actions"><span class="demo-chip">KASIM 2026 DATA RAPORU</span><span class="date-chip">14 Kasım 2026 · Cumartesi</span><div class="avatar">M</div></div></header>
- <section id="dashboardPage">\n  <div class="report-stack" id="novemberReport">
- <section class="card report-card">
-  <div class="report-heading"><div><span class="report-kicker">KASIM 2026 · MAĞAZA PLANI</span><h2>Mağaza Performans ve Aylık Değerlendirme Raporu</h2></div><span class="report-source">KASIM 2026 DATA RAPORU</span></div>
-  <div class="report-days"><div><small>AY GÜN SAYISI</small><strong>30</strong></div><div><small>GEÇEN GÜN SAYISI</small><strong>13</strong></div></div>
-  <div class="report-two">
-   <div><h3>Kasım.26 Hedefler</h3><table class="report-table"><tbody>
-    <tr><th>Ciro</th><td>3.500.000 TL</td></tr><tr><th>UPT</th><td>1,80</td></tr><tr><th>CR</th><td>7,00%</td></tr><tr><th>ASP</th><td>3.000 TL</td></tr><tr><th>Fatura</th><td>649</td></tr><tr><th>Ürün Adedi</th><td>1.168</td></tr><tr><th>Trafik</th><td>9.272</td></tr>
-   </tbody></table></div>
-   <div><h3>Kasım.26 Günlük Yapılması Gerekenler</h3><table class="report-table"><tbody>
-    <tr><th>Ciro</th><td>116.667 TL</td></tr><tr><th>UPT</th><td>1,80</td></tr><tr><th>CR</th><td>7,00%</td></tr><tr><th>ASP</th><td>3.000 TL</td></tr><tr><th>Fatura</th><td>22</td></tr><tr><th>Ürün Adedi</th><td>39</td></tr><tr><th>Trafik</th><td>309</td></tr>
-   </tbody></table></div>
-  </div>
- </section>
- <section class="card report-card"><div class="report-heading"><div><span class="report-kicker">13. GÜN SONUÇLARI</span><h2>KPI Gerçekleşme</h2></div></div>
-  <div class="report-table-wrap"><table class="report-table report-kpi"><thead><tr><th>KPI</th><th>Gerçekleşmesi Gereken</th><th>Gerçekleşen</th><th>Fark</th><th>Sapma</th></tr></thead><tbody>
-   <tr><th>Ciro</th><td>1.516.667 TL</td><td class="actual">1.230.638 TL</td><td class="negative">-286.029 TL</td><td class="negative">-18,86%</td></tr>
-   <tr><th>UPT</th><td>1,80</td><td class="actual">1,48</td><td class="negative">-0,32</td><td class="negative">-17,78%</td></tr>
-   <tr><th>CR</th><td>7,00%</td><td class="actual">10,06%</td><td class="positive">3,06%</td><td class="positive">43,71%</td></tr>
-   <tr><th>ASP</th><td>3.000 TL</td><td class="actual">3.335 TL</td><td class="positive">335 TL</td><td class="positive">11,17%</td></tr>
-   <tr><th>Fatura</th><td>281</td><td class="actual">250</td><td class="negative">-31</td><td class="negative">-11,11%</td></tr>
-   <tr><th>Ürün Adedi</th><td>506</td><td class="actual">369</td><td class="negative">-137</td><td class="negative">-27,09%</td></tr>
-   <tr><th>Trafik</th><td>4.018</td><td class="actual">2.486</td><td class="negative">-1.532</td><td class="negative">-38,13%</td></tr>
-  </tbody></table></div>
-  <div class="report-summary"><div><small>TAHMİNİ KAPANIŞ CİROSU</small><strong>2.839.934 TL</strong></div><div><small>HGO</small><strong class="negative">81,14%</strong></div></div>
- </section>
- <section class="card report-card"><div class="report-heading"><div><span class="report-kicker">KARŞILAŞTIRMALI PERFORMANS</span><h2>Kategori Cirosu · 2025 / 2026</h2></div><span class="report-source">3 KATEGORİ</span></div>
-  <div class="category-pies">
-   <div class="category-pie-panel"><h3>2025 CİRO DAĞILIMI</h3><div class="category-pie pie-2025" role="img" aria-label="2025 kategori payları: Ayakkabı yüzde 48,70, Tekstil yüzde 49,48, Aksesuar yüzde 1,82"></div><strong>948.850 TL</strong><small>Toplam kategori cirosu</small></div>
-   <div class="category-pie-panel"><h3>2026 CİRO DAĞILIMI</h3><div class="category-pie pie-2026" role="img" aria-label="2026 kategori payları: Ayakkabı yüzde 39,12, Tekstil yüzde 59,05, Aksesuar yüzde 1,83"></div><strong>1.230.638 TL</strong><small>Toplam kategori cirosu</small></div>
-  </div>
-  <div class="category-legend"><span><i class="legend-footwear"></i>Ayakkabı</span><span><i class="legend-apparel"></i>Tekstil</span><span><i class="legend-accessories"></i>Aksesuar</span></div>
-  <div class="report-table-wrap category-detail-wrap"><table class="report-table category-detail"><thead><tr><th>Kategori</th><th>Ciro 2025</th><th>Ciro 2026</th><th>2026 Ciro Payı</th><th>Büyüme</th><th>Yorum</th></tr></thead><tbody>
-   <tr><th>Ayakkabı</th><td>462.072 TL</td><td class="actual">481.387 TL</td><td>39,12%</td><td class="positive">+4%</td><td>Payı gerilese de ciro büyümesini koruyor.</td></tr>
-   <tr><th>Tekstil</th><td>469.482 TL</td><td class="actual">726.729 TL</td><td>59,05%</td><td class="positive">+55%</td><td>En yüksek ciro payı ve büyüme; ana büyüme motoru.</td></tr>
-   <tr><th>Aksesuar</th><td>17.296 TL</td><td class="actual">22.522 TL</td><td>1,83%</td><td class="positive">+30%</td><td>Büyüme güçlü; toplam ciro içindeki payı düşük.</td></tr>
-  </tbody></table></div>
- </section>
- <section class="report-bottom-grid">
-  <div class="card report-card gender-report"><div class="report-heading"><div><span class="report-kicker">SATIŞ KIRILIMI</span><h2>Cinsiyet · 2025 / 2026</h2></div></div>
-   <div class="category-pies gender-pies">
-    <div class="category-pie-panel"><h3>2025 CİNSİYET DAĞILIMI</h3><div class="category-pie gender-pie-2025" role="img" aria-label="2025 cinsiyet payları: Erkek yüzde 62,34, Kadın yüzde 21,27, Unisex yüzde 16,40"></div><strong>948.850 TL</strong><small>Dağılım toplamı · satırların toplamı</small></div>
-    <div class="category-pie-panel"><h3>2026 CİNSİYET DAĞILIMI</h3><div class="category-pie gender-pie-2026" role="img" aria-label="2026 cinsiyet payları: Erkek yüzde 79,53, Kadın yüzde 13,33, Unisex yüzde 7,14"></div><strong>1.230.338 TL</strong><small>Dağılım toplamı</small></div>
-   </div>
-   <div class="category-legend gender-legend"><span><i class="legend-footwear"></i>Erkek</span><span><i class="legend-apparel"></i>Kadın</span><span><i class="legend-accessories"></i>Unisex</span></div>
-   <div class="report-table-wrap category-detail-wrap"><table class="report-table category-detail gender-detail"><thead><tr><th>Cinsiyet</th><th>Ciro 2025</th><th>Ciro 2026</th><th>2026 Ciro Payı</th><th>Büyüme</th><th>Yorum</th></tr></thead><tbody>
-    <tr><th>Erkek</th><td>591.381 TL</td><td class="actual">978.490 TL</td><td>79,53%</td><td class="positive">+65,46%</td><td>En yüksek ciro payına sahip; büyümenin ana taşıyıcısı.</td></tr>
-    <tr><th>Kadın</th><td>201.855 TL</td><td class="actual">163.967 TL</td><td>13,33%</td><td class="negative">-18,77%</td><td>Ciro gerilemiş; ürün ve satış dönüşümü ayrıca incelenmeli.</td></tr>
-    <tr><th>Çocuk</th><td>—</td><td>—</td><td>—</td><td>—</td><td>Kaynakta değer bulunmadığı için dağılıma dahil edilmedi.</td></tr>
-    <tr><th>Unisex</th><td>155.614 TL</td><td class="actual">87.881 TL</td><td>7,14%</td><td class="negative">-43,53%</td><td>En yüksek oransal düşüş; kategori performansı kontrol edilmeli.</td></tr>
-    <tr class="total-row"><th>Toplam</th><td>948.849 TL</td><td class="actual">1.230.338 TL</td><td>100%</td><td class="positive">+29,67%</td><td>Kaynak rapordaki toplam satırı korunmuştur.</td></tr>
-   </tbody></table></div>
-  </div>
-  <div class="card report-card"><div class="report-heading"><div><span class="report-kicker">ENVANTER DURUMU · 14.11.2026</span><h2>Stok · 2025 / 2026</h2></div></div>
-   <div class="report-table-wrap"><table class="report-table"><thead><tr><th>Kategori</th><th>2025</th><th>2026</th></tr></thead><tbody>
-    <tr><th>Footwear</th><td>1.707</td><td class="actual">1.747</td></tr><tr><th>Apparel</th><td>2.728</td><td class="actual">3.432</td></tr><tr><th>Accessories</th><td>245</td><td class="actual">367</td></tr><tr class="total-row"><th>Total</th><td>4.680</td><td class="actual">5.546</td></tr>
-   </tbody></table></div>
-  </div>
- </section>
-</div>
-  <!-- Ana ekranda yalnızca Kasım 2026 Data Raporu gösterilir; demo özet/trend/koç/kategori/gündem/modül kartları kaldırıldı. -->
- </section>
+ <section id="dashboardPage"><div id="executiveDashboard" class="exec-dashboard"><div class="card"><p>Dashboard hazırlanıyor…</p></div></div></section>
 <section id="otherPage" class="hidden"><p class="page-intro" id="pageIntro"></p><div id="pageContent"></div></section>
 </main></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -401,43 +359,80 @@ async function renderOpportunitiesPage(){
  }catch(e){host.innerHTML='<div class="card"><h3>Satış fırsatı analizi yüklenemedi</h3><p class="notice">'+esc(e.message)+'</p><p class="insight">Üç Excel kaynağının bağlantısını ve sütun başlıklarını kontrol et.</p></div>'}
 }
 
-async function loadDashboardMetrics(){
- const fmt=(n,d=1)=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:d}).format(n);
- const money=n=>fmt(n,0)+" ₺",pct=n=>"%"+fmt(n,1);
- const readBook=async(name)=>{const url="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/"+encodeURIComponent(name);const res=await fetch(url+"?v="+Date.now(),{cache:"no-store"});if(!res.ok)throw new Error(name+" yüklenemedi ("+res.status+")");return XLSX.read(await res.arrayBuffer(),{type:"array",cellDates:true});};
- const get=(ws,row,col)=>{const c=ws?.[XLSX.utils.encode_cell({r:row-1,c:col-1})];return c&&c.v!==undefined&&c.v!==null&&c.v!==""?c.v:null;};
- const num=v=>{const n=Number(v);return Number.isFinite(n)?n:null;};
- const pctVal=(v,c)=>{let n=num(v);if(n===null)return null;if(String(c?.z||"").includes("%"))n*=100;else if(n>0&&n<=1)n*=100;return n;};
- const displayPct=v=>v===null?"—":pct(v);
- try{
-  if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi.");
-  const [welcome,data]=await Promise.all([readBook("Welcome Sheet.xlsx"),readBook("Kasım 2026 Data.xlsx")]);
-  const ws=welcome.Sheets[welcome.SheetNames[0]],ds=data.Sheets[data.SheetNames[0]];
-  const cell=(sheet,row,col)=>sheet[XLSX.utils.encode_cell({r:row-1,c:col-1})];
-  const monthActual=num(get(ws,17,3)),monthTarget=num(get(ws,17,5));
-  const upt=pctVal(get(ws,11,14),cell(ws,11,14)),atv=num(get(ws,12,14)),cr=pctVal(get(ws,14,14),cell(ws,14,14));
-  const uptTarget=pctVal(get(ws,11,12),cell(ws,11,12)),atvTarget=num(get(ws,12,12)),crTarget=pctVal(get(ws,14,12),cell(ws,14,12));
-  const attainment=monthActual!==null&&monthTarget>0?monthActual/monthTarget*100:null;
-  const cards=document.querySelectorAll("#dashboardPage .kpis .card");
-  if(cards.length===4){
-   cards[0].querySelector(".kpi-value").textContent=displayPct(attainment);
-   cards[0].querySelector(".kpi-meta").textContent=monthActual!==null&&monthTarget!==null?money(monthActual)+" gerçekleşen · "+money(monthTarget)+" hedef":"Ciro hedef verisi bulunamadı";
-   cards[1].querySelector(".kpi-value").textContent=displayPct(cr);
-   cards[1].querySelector(".kpi-meta").textContent=crTarget!==null?"Hedef "+pct(crTarget):"CR hedefi kaynakta bulunamadı";
-   cards[2].querySelector(".kpi-value").textContent=upt===null?"—":fmt(upt,2);
-   cards[2].querySelector(".kpi-meta").textContent=uptTarget!==null?"Hedef "+fmt(uptTarget,2):"UPT hedefi kaynakta bulunamadı";
-   cards[3].querySelector(".kpi-value").textContent=atv===null?"—":money(atv);
-   cards[3].querySelector(".kpi-meta").textContent=atvTarget!==null?"Hedef "+money(atvTarget):"ATV hedefi kaynakta bulunamadı";
-  }
-  const periods=[{label:"HAFTALIK",actual:num(get(ws,14,3)),target:num(get(ws,14,5))},{label:"AYLIK",actual:monthActual,target:monthTarget},{label:"YILLIK",actual:num(get(ws,11,3)),target:num(get(ws,11,5))}];
-  const trend=document.querySelector(".horizontal-trend");
-  if(trend)trend.innerHTML=periods.map(p=>{const rate=p.actual!==null&&p.target>0?p.actual/p.target*100:null;const width=rate===null?0:Math.max(0,Math.min(100,rate));return '<div class="trend-row"><b>'+p.label+'</b><div class="trend-track"><span style="width:'+width+'%;background:'+(rate!==null&&rate>=100?'linear-gradient(90deg,#16845b,#31b77e)':'linear-gradient(90deg,#e31b36,#ff6479)')+'"></span></div><em>'+(rate===null?'Veri yok':pct(rate)+' · '+money(p.actual))+'</em></div>';}).join("");
-  const categories=[{name:get(ds,4,8),current:get(ds,5,10),growth:cell(ds,6,9)},{name:get(ds,7,8),current:get(ds,8,10),growth:cell(ds,9,9)},{name:get(ds,10,8),current:get(ds,11,10),growth:cell(ds,12,9)}];
-  const total=categories.reduce((sum,x)=>sum+(num(x.current)||0),0);
-  const tbody=document.querySelector("#dashboardPage .bottom-grid .mini-table tbody");
-  if(tbody)tbody.innerHTML=categories.filter(x=>x.name!==null&&x.name!==undefined).map(x=>{const share=total>0&&num(x.current)!==null?num(x.current)/total*100:null;const change=pctVal(x.growth?.v,x.growth);const cls=change===null?"":change>=0?"up":"down";return '<tr><td>'+String(x.name).replaceAll("&","&amp;").replaceAll("<","&lt;")+'</td><td>'+(share===null?"—":pct(share))+'</td><td class="'+cls+'">'+(change===null?"—":(change>0?"+":"")+pct(change))+'</td></tr>';}).join("");
-  const chip=document.querySelector(".demo-chip");if(chip)chip.textContent="CANLI EXCEL VERİSİ";
- }catch(error){console.error("Dashboard Excel verisi yüklenemedi:",error);const chip=document.querySelector(".demo-chip");if(chip)chip.textContent="VERİ KAYNAĞI HATASI";document.querySelectorAll("#dashboardPage .kpis .kpi-meta").forEach(el=>el.textContent="Excel kaynağı okunamadı; bağlantı ve dosya kontrol edilmeli");}
+
+function renderExecutiveDashboard(){
+ const root=document.getElementById("executiveDashboard");if(!root)return;
+ const d={
+  month:{name:"Kasım 2026",days:30,through:14,target:3500000,actual:1351340,transactions:275,multiTransactions:96,units:409,visitors:2778,upt:1.49,cr:9.90,atv:4913.96,asp:3304.01,multis:34.91,forecast:2775759,forecastRate:79.31,weekdayAvg:50553,weekendAvg:190461},
+  prior:{actual:3503048,transactions:649,multiTransactions:560,units:1236,visitors:9208,upt:1.90,cr:7.05,atv:5397.61,asp:2834.18,multis:86.29},
+  categories:[
+   {name:"Ayakkabı",current:515464,prior:1696068,units:122,priorUnits:507,share:38.14},
+   {name:"Tekstil",current:807696,prior:1740628,units:259,priorUnits:674,share:59.77},
+   {name:"Aksesuar",current:28180,prior:66353,units:28,priorUnits:55,share:2.09}
+  ],
+  annual:{ytd2026:25986137,janNov2025:26090547,full2025:28209567,target2026:30930000,transactions2026:5139,multi2026:2419,units2026:8501,visitors2026:87152,upt2026:1.65,cr2026:5.90,atv2026:5056.65,multis2026:47.07,cat2026:[12613819,12387907,984410],catUnits2026:[3363,4430,708],catShare2026:[48.54,47.67,3.79]},
+  annual2025:{target:34280086,actual:28209567,transactions:6185,multi:3006,units:10449,visitors:107822,upt:1.69,cr:5.70,atv:4560.96,multis:48.60,cat:[13992119,13319943,897505],catUnits:[3964,5676,809],catShare:[49.60,47.22,3.18]},
+  months2026:[1751459,1460632,2770880,1995756,2378886,2776560,1792252,2490118,2377229,2793727,1351340],
+  labels:["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas"]
+ };
+ const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(n);
+ const money=n=>fmt(n)+" TL",pct=n=>"%"+fmt(n,1);
+ const delta=(a,b)=>a-b,rate=(a,b)=>b?((a-b)/b*100):0;
+ const trend=(v)=>'<span class="delta '+(v>=0?'positive':'negative')+'">'+(v>0?'+':'')+pct(v)+'</span>';
+ const kpi=(name,a,b,unit="",digits=0,goodUp=true)=>{const diff=delta(a,b),change=rate(a,b),f=unit==="money"?money:unit==="percent"?pct:n=>fmt(n,digits);const favorable=(diff>=0)===goodUp;return '<article class="exec-kpi"><small>'+name+'</small><strong>'+f(a)+'</strong><div class="compare">2025 Kasım: '+f(b)+'</div><div class="delta '+(favorable?'positive':'negative')+'">'+(diff>0?'+':'')+f(diff)+' · '+(change>0?'+':'')+pct(change)+'</div></article>'};
+ const row=(label,a,b,unit="",digits=0,goodUp=true)=>{const diff=a-b,chg=rate(a,b),f=unit==="money"?money:unit==="percent"?pct:n=>fmt(n,digits);const favorable=(diff>=0)===goodUp;return '<tr><th>'+label+'</th><td>'+f(a)+'</td><td>'+f(b)+'</td><td class="'+(favorable?'positive':'negative')+'">'+(diff>0?'+':'')+f(diff)+'</td><td class="'+(favorable?'positive':'negative')+'">'+(chg>0?'+':'')+pct(chg)+'</td></tr>'};
+ const month=d.month,prior=d.prior;
+ const kpis=[
+  kpi("CİRO",month.actual,prior.actual,"money"),
+  kpi("FATURA",month.transactions,prior.transactions),
+  kpi("ÜRÜN ADEDİ",month.units,prior.units),
+  kpi("MAĞAZA TRAFİĞİ",month.visitors,prior.visitors),
+  kpi("UPT",month.upt,prior.upt,"",2),
+  kpi("CR",month.cr,prior.cr,"percent",1),
+  kpi("ATV",month.atv,prior.atv,"money"),
+  kpi("ASP",month.asp,prior.asp,"money"),
+  kpi("MULTIS",month.multis,prior.multis,"percent",1,false)
+ ].join("");
+ const rows=[
+  row("Ciro",month.actual,prior.actual,"money"),
+  row("Fatura",month.transactions,prior.transactions),
+  row("Fatura başı çoklu ürün",month.multiTransactions,prior.multiTransactions),
+  row("Ürün adedi",month.units,prior.units),
+  row("Trafik",month.visitors,prior.visitors),
+  row("UPT",month.upt,prior.upt,"",2),
+  row("CR",month.cr,prior.cr,"percent",1),
+  row("ATV",month.atv,prior.atv,"money"),
+  row("ASP",month.asp,prior.asp,"money"),
+  row("MULTIS",month.multis,prior.multis,"percent",1,false)
+ ].join("");
+ const cat=d.categories.map(c=>{const g=rate(c.current,c.prior),ug=rate(c.units,c.priorUnits);return '<article class="exec-cat"><h4>'+c.name.toLocaleUpperCase("tr-TR")+'</h4><strong>'+money(c.current)+'</strong><p>2025: '+money(c.prior)+'</p><p>Ciro değişimi: <b class="'+(g>=0?'positive':'negative')+'">'+(g>0?'+':'')+pct(g)+'</b></p><p>Adet: '+fmt(c.units)+' · 2025: '+fmt(c.priorUnits)+' · '+(ug>0?'+':'')+pct(ug)+'</p><p>Ciro payı: '+pct(c.share)+'</p><div class="exec-bar"><i style="width:'+c.share+'%"></i></div></article>'}).join("");
+ const annualChange=rate(d.annual.ytd2026,d.annual.janNov2025);
+ const annualCards=[
+  '<div class="exec-year-callout"><small>2026 OCAK–KASIM CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong><p>2025 aynı dönem: '+money(d.annual.janNov2025)+'<br><b class="'+(annualChange>=0?'positive':'negative')+'">'+(annualChange>0?'+':'')+pct(annualChange)+'</b> değişim</p></div>',
+  '<div class="exec-year-callout"><small>2026 YILLIK CİRO HEDEFİ</small><strong>'+pct(d.annual.ytd2026/d.annual.target*100)+'</strong><p>'+money(d.annual.ytd2026)+' gerçekleşen / '+money(d.annual.target)+' hedef</p></div>',
+  '<div class="exec-year-callout"><small>2025 TAM YIL CİRO</small><strong>'+money(d.annual.full2025)+'</strong><p>Ocak–Aralık 2025 kapanış sonucu</p></div>'
+ ].join("");
+ const annualRows=[
+  ['Ciro (Ocak–Kasım)',d.annual.ytd2026,d.annual.janNov2025,'money'],
+  ['Fatura (yıllık toplam)',d.annual.transactions2026,d.annual2025.transactions,''],
+  ['Ürün adedi (yıllık toplam)',d.annual.units2026,d.annual2025.units,''],
+  ['Trafik (yıllık toplam)',d.annual.visitors2026,d.annual2025.visitors,''],
+  ['UPT',d.annual.upt2026,d.annual2025.upt,''],
+  ['CR',d.annual.cr2026,d.annual2025.cr,'percent'],
+  ['ATV',d.annual.atv2026,d.annual2025.atv,'money'],
+  ['MULTIS',d.annual.multis2026,d.annual2025.multis,'percent']
+ ].map(x=>{const [n,a,b,u]=x;const f=u==="money"?money:u==="percent"?pct:v=>fmt(v,u===""&&n==="UPT"?2:0);return '<tr><th>'+n+'</th><td>'+f(a)+'</td><td>'+f(b)+'</td><td class="exec-note-cell">Farklı dönem kapsamı</td></tr>'}).join("");
+ const max=Math.max(...d.months2026);
+ const chart=d.months2026.map((v,i)=>'<div class="exec-month-col"><i style="height:'+Math.max(3,v/max*78)+'px"></i><small>'+d.labels[i]+'</small></div>').join("");
+ root.innerHTML=
+ '<section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · EXECUTIVE DASHBOARD</div><h2>Mağaza Genel Bakış</h2><p>Önce aylık performans, ardından yıllık karşılaştırma ve kategori kırılımı.</p></div><div class="exec-hero-side"><small>KASIM 2026 · 14. GÜN VERİSİ</small><strong>'+pct(month.actual/month.target*100)+'</strong><small>aylık ciro hedef gerçekleşmesi</small></div></section>'+
+ '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">01 · AYLIK PERFORMANS</span><h2>Kasım 2026 / Kasım 2025</h2><p>Her KPI ayrı kartta; gerçekleşen değer, geçen yıl, mutlak fark ve büyüme/küçülme.</p></div></div><div class="exec-grid">'+kpis+'</div></section>'+
+ '<section class="exec-two"><article class="exec-panel"><h3>AYLIK KPI KARŞILAŞTIRMA TABLOSU</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+rows+'</tbody></table></div></article>'+
+ '<article class="exec-panel"><h3>KASIM 2026 HEDEF VE KAPANIŞ GÖRÜNÜMÜ</h3><div class="exec-year-callout"><small>AYLIK CİRO HEDEFİ</small><strong>'+money(month.target)+'</strong><p>Gerçekleşen: '+money(month.actual)+' · HGO: '+pct(month.actual/month.target*100)+'</p></div><div class="exec-year-callout" style="margin-top:9px"><small>TAHMİNİ AY SONU CİROSU</small><strong>'+money(month.forecast)+'</strong><p>Beklenen kapanış HGO: '+pct(month.forecastRate)+'</p></div><div class="exec-year-callout" style="margin-top:9px"><small>HAFTA İÇİ / HAFTA SONU ORTALAMA CİRO</small><strong>'+money(month.weekdayAvg)+' / '+money(month.weekendAvg)+'</strong><p>Günlük ortalamalar</p></div></article></section>'+
+ '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">02 · KATEGORİ PERFORMANSI</span><h2>Kasım kategori karşılaştırması</h2><p>2026 gerçekleşen ciro ve adet, 2025 Kasım ile karşılaştırılır.</p></div></div><div class="exec-category">'+cat+'</div></section>'+
+ '<div class="exec-note">Veri notu: Kasım 2026 aylık çalışma sayfasındaki ciro hedefi 3.500.000 TL’dir. 2026 yıllık tabloda Kasım hedefi 1.680.000 TL göründüğü için iki hedef birbirine karıştırılmadı; aylık bölümde günlük veri setinin 3.500.000 TL hedefi esas alındı. 2025 Kasım CR değeri üst KPI satırındaki %7,05 olarak kullanıldı; %86,29 değeri MULTIS oranıdır.</div>'+
+ '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">03 · YILLIK PERFORMANS</span><h2>Ocak–Kasım karşılaştırması</h2><p>Yıllık bölüm aylık analizlerin altında yer alır. Aralık 2026 henüz kapsama alınmamıştır.</p></div></div><div class="exec-grid">'+annualCards+'</div><article class="exec-panel"><h3>2026 AYLIK CİRO TRENDİ · OCAK–KASIM</h3><div class="exec-month-strip">'+chart+'</div></article><article class="exec-panel"><h3>YILLIK KPI ÖZETİ</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026 YTD</th><th>2025 TAM YIL</th><th>Not</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">Yıllık KPI tablosunda 2026 Ocak–Kasım ile 2025 tam yıl karşılaştırması dönem kapsamı bakımından eşit değildir. Bu nedenle büyüme yüzdesi gösterilmedi. Ciro için ayrıca 2025 Ocak–Kasım toplamı hesaplanarak eş dönem karşılaştırması yukarıda verildi.</p></article></section>'+
+ '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">04 · YILLIK KATEGORİ KIRILIMI</span><h2>Kategori ciro dağılımı</h2><p>Kaynak yıllık toplamları; dönem kapsamı farklı olduğu için değişim oranı verilmez.</p></div></div><div class="exec-category">'+d.annual.cat2026.map((v,i)=>'<article class="exec-cat"><h4>'+["AYAKKABI","TEKSTİL","AKSESUAR"][i]+'</h4><strong>'+money(v)+'</strong><p>2026 Ocak–Kasım · '+pct(d.annual.catShare2026[i])+'</p><p>Adet: '+fmt(d.annual.catUnits2026[i])+'</p><p>2025 tam yıl: '+money(d.annual2025.cat[i])+' · '+pct(d.annual2025.catShare[i])+'</p></article>').join("")+'</div></section>';
 }
 
 // Tek merkezden, bütün modüller için güvenli sayfa yönlendirmesi.
@@ -484,4 +479,5 @@ go=function(page){
  window.scrollTo({top:0,behavior:"smooth"});
 };
 window.addEventListener("error",e=>console.error("BUYAKA uygulama hatası:",e.message));
+renderExecutiveDashboard();
 </script></body></html>
