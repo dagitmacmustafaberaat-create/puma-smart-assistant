@@ -538,13 +538,13 @@ const monthlyTable=(item)=>{
  const weekly=sectionBy("02 · HAFTALIK");
  const annual=[sectionBy("04 · YILLIK PERFORMANS"),sectionBy("05 · YILLIK KATEGORİ")].filter(Boolean);
  const two=temp.querySelector(".exec-two");
- root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+'</div>';
+ root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+'</div>';
  const weeklyOnly=weekly?weekly.cloneNode(true):null;
  if(weeklyOnly)[...weeklyOnly.querySelectorAll(".exec-section")].forEach(section=>{
   const kicker=section.querySelector(".report-kicker")?.textContent||"";
   if(kicker.includes("04 · YILLIK")||kicker.includes("05 · YILLIK"))section.remove();
  });
- window.__weeklyDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · WEEKLY</div><h2>Haftalık Performans</h2><p>Günlük ve haftalık KPI karşılaştırmaları düz metin ve tablolarla sunulur.</p></div></section>'+(weeklyOnly?weeklyOnly.outerHTML:"")+'</div>';
+ window.__weeklyDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · WEEKLY</div><h2>Haftalık Performans</h2><p>Günlük ve haftalık KPI karşılaştırmaları düz metin ve tablolarla sunulur.</p></div></section>'+(monthly[1]?monthly[1].outerHTML:"")+(weeklyOnly?weeklyOnly.outerHTML:"")+'</div>';
  window.__annualDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · ANNUAL</div><h2>Yıllık Performans</h2><p>Yıllık KPI ve kategori verileri bu bölümde toplu olarak sunulur.</p></div></section>'+annualCards+janNovHTML+annualSummaryHTML+annualCategoryHTML+annualCharts+'</div>';
  window.__monthlyKpiAllHTML=monthlySeries.map(monthlyTable).join("");
  window.__monthlyKpiTableMap=Object.fromEntries(monthlySeries.map(item=>[item.name,monthlyTable(item)]));
