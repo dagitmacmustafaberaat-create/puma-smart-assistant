@@ -538,7 +538,7 @@ const monthlyTable=(item)=>{
  const weekly=sectionBy("02 · HAFTALIK");
  const annual=[sectionBy("04 · YILLIK PERFORMANS"),sectionBy("05 · YILLIK KATEGORİ")].filter(Boolean);
  const two=temp.querySelector(".exec-two");
- root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+'</div>';
+ root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+annualCharts+'</div>';
  const weeklyOnly=weekly?weekly.cloneNode(true):null;
  if(weeklyOnly)[...weeklyOnly.querySelectorAll(".exec-section")].forEach(section=>{
   const kicker=section.querySelector(".report-kicker")?.textContent||"";
