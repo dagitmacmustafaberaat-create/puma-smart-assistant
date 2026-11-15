@@ -327,40 +327,36 @@ async function renderExcelPage(page){
 function normHead(v){return String(v||"").toLocaleLowerCase("tr-TR").replace(/[ıİ]/g,"i").replace(/[ş]/g,"s").replace(/[ğ]/g,"g").replace(/[ü]/g,"u").replace(/[ö]/g,"o").replace(/[ç]/g,"c").replace(/[^a-z0-9]/g,"")}
 function findCol(headers,terms){return headers.findIndex(h=>terms.some(t=>normHead(h).includes(t)))}
 function asNum(v){if(typeof v==="number")return v;let s=String(v??"").trim().replaceAll(" ","").replaceAll("₺","");if(!s)return 0;if(s.includes(",")&&s.includes("."))s=s.replaceAll(".","").replace(",",".");else if(s.includes(","))s=s.replace(",",".");const n=Number(s);return Number.isFinite(n)?n:0}
+function renderOpportunityMode(mode){
+ const root=document.getElementById("opportunityResults");if(!root||!window.__opportunityItems)return;
+ const all=window.__opportunityItems;
+ const configs={
+  fast:{title:"Satışı en hızlı olan ilk 10 ürün",desc:"Satış adedi yüksek ve güncel stoğu bulunan ürünler. Satış hızı yüksek ürünleri stok tükenmeden takip et.",items:all.filter(x=>x.sales>0&&x.stock>0).sort((a,b)=>b.sales-a.sales||a.turnDays-b.turnDays),empty:"Satışı ve güncel stoğu birlikte bulunan ürün yok."},
+  high:{title:"Satış hareketi olmayan, stoğu en yüksek ilk 10 ürün",desc:"Satış adedi sıfır olmasına rağmen mağazada stoğu bulunan ürünler. Eldeki yüksek stoğu görünür kılar.",items:all.filter(x=>x.sales===0&&x.stock>0).sort((a,b)=>b.stock-a.stock),empty:"Satış hareketi olmayan ve stoğu bulunan ürün yok."},
+  zero:{title:"Satışı olup stoğu kalmayan ilk 10 ürün",desc:"Satış kaydı bulunan ancak güncel stoğu sıfır olan ürünler. Yeniden talep / sipariş değerlendirmesi için liste.",items:all.filter(x=>x.sales>0&&x.stock===0).sort((a,b)=>b.sales-a.sales),empty:"Satış yapmış ve güncel stoğu sıfır olan ürün yok."}
+ };
+ const c=configs[mode]||configs.fast,fmt=n=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}).format(Number(n)||0);
+ const rows=c.items.slice(0,10).map((x,i)=>'<tr><td>'+(i+1)+'</td><td><strong>'+esc(x.name)+'</strong><small style="display:block;color:#777">'+esc(x.code)+'</small></td><td>'+esc(x.category)+'</td><td>'+fmt(x.sales)+'</td><td>'+fmt(x.stock)+'</td><td>'+fmt(x.turnDays)+'</td><td>'+fmt(x.turnWeeks)+'</td><td>'+fmt(x.turnMonths)+'</td><td>'+esc(x.status||"—")+'</td></tr>').join("");
+ root.innerHTML='<div class="card report-card"><div class="report-heading"><div><span class="report-kicker">İLK 10 ÜRÜN · '+(mode==="fast"?"SATIŞ HIZI":mode==="high"?"YÜKSEK STOK":"STOKTA YOK")+'</span><h2>'+c.title+'</h2><p>'+c.desc+'</p></div><span class="report-source">'+c.items.length+' ÜRÜN</span></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>#</th><th>ÜRÜN / STOK KODU</th><th>KATEGORİ</th><th>SATIŞ ADET</th><th>GÜNCEL STOK</th><th>DEVİR GÜN</th><th>DEVİR HAFTA</th><th>DEVİR AY</th><th>DURUM</th></tr></thead><tbody>'+(rows||'<tr><td colspan="9">'+c.empty+'</td></tr>')+'</tbody></table></div><p class="notice">Liste, Stok Devir Tablo.xlsx içindeki satış adedi, güncel stok ve stok devir alanlarından oluşturulur. Sıralama ilk 10 ürünle sınırlıdır.</p></div>';
+ document.querySelectorAll("[data-opportunity-mode]").forEach(b=>{const active=b.dataset.opportunityMode===mode;b.classList.toggle("active",active);b.setAttribute("aria-pressed",active?"true":"false");});
+}
 async function renderOpportunitiesPage(){
  const host=document.getElementById("pageContent");
- host.innerHTML='<div class="card"><div class="card-title"><h3>Satış Fırsatları ve Kaçan Ciro</h3><span class="status">EXCEL ANALİZİ</span></div><p class="insight">Satış Verileri, Güncel Stok ve Stok Devir Tablo dosyaları okunuyor…</p></div>';
+ host.innerHTML='<div class="card"><div class="card-title"><h3>Satış Fırsatları ve Kaçan Ciro</h3><span class="status">EXCEL ANALİZİ</span></div><p class="insight">Stok Devir Tablo.xlsx okunuyor…</p></div>';
  try{
-  const names=["Satış Verileri.xlsx","Güncel Stok.xlsx","Stok Devir Tablo.xlsx"];
-  const books=await Promise.all(names.map(loadExcel));
-  const salesRows=[],stockRows=[];
-  books[0].sheets.forEach(sh=>{
-   const p=findCol(sh.headers,["urunadi","urunismi","productname","urun"]);
-   const q=findCol(sh.headers,["satisadedi","adet","unitsold","miktar"]);
-   const rev=findCol(sh.headers,["satistutari","ciro","revenue","netsatis"]);
-   const code=findCol(sh.headers,["urunkodu","stokodu","sku","barcode"]);
-   if(p>=0&&(q>=0||rev>=0))sh.rows.forEach(row=>salesRows.push({name:String(row[p]||"").trim(),code:code>=0?String(row[code]||"").trim():"",qty:q>=0?asNum(row[q]):0,revenue:rev>=0?asNum(row[rev]):0}));
+  const book=await loadExcel("Stok Devir Tablo.xlsx"),items=[];
+  book.sheets.forEach(sh=>{
+   const code=findCol(sh.headers,["stokodu","urunkodu","sku"]),name=findCol(sh.headers,["urunadi","urunismi","productname"]),sales=findCol(sh.headers,["satisadet","satisadedi"]),stock=findCol(sh.headers,["guncelstokadet","guncelstok","stokadedi"]),days=findCol(sh.headers,["stokdevirgun"]),weeks=findCol(sh.headers,["stokdevirhafta"]),months=findCol(sh.headers,["stokdeviray"]),status=findCol(sh.headers,["durum"]);
+   if(name<0||sales<0||stock<0)throw new Error(sh.name+" sayfasında ürün adı, satış adet veya güncel stok sütunu bulunamadı.");
+   sh.rows.forEach(row=>{
+    const product=String(row[name]||"").trim();if(!product)return;
+    items.push({category:sh.name,code:code>=0?String(row[code]||"").trim():"",name:product,sales:asNum(row[sales]),stock:asNum(row[stock]),turnDays:days>=0?asNum(row[days]):0,turnWeeks:weeks>=0?asNum(row[weeks]):0,turnMonths:months>=0?asNum(row[months]):0,status:status>=0?String(row[status]||"").trim():""});
+   });
   });
-  books[1].sheets.concat(books[2].sheets).forEach(sh=>{
-   const p=findCol(sh.headers,["urunadi","urunismi","productname","urun"]);
-   const q=findCol(sh.headers,["guncelstok","stokadedi","eldek stok","mevcutstok","stok","quantity"]);
-   const code=findCol(sh.headers,["urunkodu","stokodu","sku","barcode"]);
-   if(p>=0&&q>=0)sh.rows.forEach(row=>stockRows.push({name:String(row[p]||"").trim(),code:code>=0?String(row[code]||"").trim():"",stock:asNum(row[q])}));
-  });
-  const sales=new Map();
-  salesRows.forEach(x=>{if(!x.name)return;const k=x.code||x.name;const a=sales.get(k)||{...x,qty:0,revenue:0};a.qty+=x.qty;a.revenue+=x.revenue;sales.set(k,a)});
-  const stocks=new Map();
-  stockRows.forEach(x=>{if(!x.name)return;const k=x.code||x.name;stocks.set(k,(stocks.get(k)||0)+x.stock)});
-  const items=[...sales.values()].map(x=>({...x,stock:stocks.has(x.code||x.name)?stocks.get(x.code||x.name):null})).sort((a,b)=>b.revenue-a.revenue);
-  const mapped=items.filter(x=>x.stock!==null);
-  const critical=mapped.filter(x=>x.stock>0&&x.qty>0&&x.stock<=Math.max(2,Math.ceil(x.qty/30*7)));
-  const out=mapped.filter(x=>x.stock===0&&x.qty>0);
-  const money=n=>new Intl.NumberFormat("tr-TR",{style:"currency",currency:"TRY",maximumFractionDigits:0}).format(n);
-  const qty=n=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(n);
-  const rows=(arr,empty)=>arr.length?arr.slice(0,30).map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+qty(x.qty)+'</td><td>'+money(x.revenue)+'</td><td>'+qty(x.stock)+'</td><td>'+(x.stock===0?'<span class="status">Stok yok</span>':'<span class="status">Kritik stok</span>')+'</td></tr>').join(""):'<tr><td colspan="5">'+empty+'</td></tr>';
-  const possibleLost=out.reduce((s,x)=>s+x.revenue/Math.max(1,x.qty)*Math.min(x.qty,1),0);
-  host.innerHTML='<div class="report-stack"><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">ÜRÜN / STOK ANALİZİ</span><h2>Satış hızı ve stok riski</h2></div><span class="report-source">EXCEL KAYNAKLARI</span></div><div class="kpis"><div class="card"><div class="kpi-label">SATIŞI OKUNAN ÜRÜN</div><div class="kpi-value">'+qty(sales.size)+'</div><div class="kpi-meta">Satış dosyasından</div></div><div class="card"><div class="kpi-label">STOK EŞLEŞMESİ</div><div class="kpi-value">'+qty(mapped.length)+'</div><div class="kpi-meta">Ürün kodu / adı eşleşen</div></div><div class="card"><div class="kpi-label">KRİTİK STOK</div><div class="kpi-value">'+qty(critical.length)+'</div><div class="kpi-meta">Son 30 gün satış hızına göre 7 günlük stok eşiği</div></div><div class="card"><div class="kpi-label">SATIŞI OLUP STOKSUZ</div><div class="kpi-value">'+qty(out.length)+'</div><div class="kpi-meta">Satış kaydı var, güncel stok 0</div></div></div><p class="notice">Kaçan ciro, stokta yokken gerçekleşmeyen talep verisi olmadan kesin hesaplanamaz. Bu ekran kayıp ciroyu uydurmaz; stok riski ve satış geçmişini gösterir.</p></section><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">ÖNCELİKLİ MÜDAHALE</span><h2>Kritik stokta olan ürünler</h2></div></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>Ürün</th><th>Satış adedi</th><th>Satış cirosu</th><th>Güncel stok</th><th>Durum</th></tr></thead><tbody>'+rows(critical,"Kritik stok eşiğinde ürün bulunamadı veya gerekli sütunlar eşleşmedi.")+'</tbody></table></div></section><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">KAÇAN SATIŞ RİSKİ</span><h2>Satışı olan fakat stoğu sıfır ürünler</h2></div></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>Ürün</th><th>Satış adedi</th><th>Satış cirosu</th><th>Güncel stok</th><th>Durum</th></tr></thead><tbody>'+rows(out,"Stokta olmayan ve satış geçmişi bulunan eşleşmiş ürün bulunamadı.")+'</tbody></table></div></section><div class="card"><div class="card-title"><h3>Veri kapsamı</h3><span class="status ok">DOSYALAR OKUNDU</span></div><p class="insight">Kaynaklar: '+names.join(" · ")+'. Analiz ürün kodu varsa kodla, yoksa ürün adıyla eşleştirir. Stok devir tablosu ve güncel stok birlikte taranır. Beden bazlı kaçan ciro için beden bazında satış ve stok sütunlarının ayrıca eşleşmesi gerekir.</p></div></div>';
- }catch(e){host.innerHTML='<div class="card"><h3>Satış fırsatı analizi yüklenemedi</h3><p class="notice">'+esc(e.message)+'</p><p class="insight">Üç Excel kaynağının bağlantısını ve sütun başlıklarını kontrol et.</p></div>'}
+  window.__opportunityItems=items;
+  host.innerHTML='<div class="report-stack"><section class="card report-card"><div class="report-heading"><div><span class="report-kicker">STORE INTELLIGENCE / BUYAKA</span><h2>Satış Fırsatları ve Kaçan Ciro</h2><p>Ürün hareketini üç ayrı açıdan incele: hızlı satanlar, elde biriken stok ve stoğu tükenen ürünler.</p></div><span class="report-source">STOK DEVİR TABLOSU</span></div><div class="ph-tabs opportunity-tabs"><button class="ph-tab active" data-opportunity-mode="fast" aria-pressed="true" onclick="renderOpportunityMode(\'fast\')">En hızlı satan ilk 10</button><button class="ph-tab" data-opportunity-mode="high" aria-pressed="false" onclick="renderOpportunityMode(\'high\')">Satışı yok · Stoğu yüksek ilk 10</button><button class="ph-tab" data-opportunity-mode="zero" aria-pressed="false" onclick="renderOpportunityMode(\'zero\')">Satışı var · Stoğu yok ilk 10</button></div></section><div id="opportunityResults"></div><div class="card"><div class="card-title"><h3>Veri kapsamı</h3><span class="status ok">3 KATEGORİ · '+items.length+' ÜRÜN</span></div><p class="insight">Kaynak: Stok Devir Tablo.xlsx · Tekstil, Ayakkabı ve Aksesuar sayfaları. Her seçenek aynı kaynaktan hesaplanır.</p></div></div>';
+  renderOpportunityMode("fast");
+ }catch(e){host.innerHTML='<div class="card"><h3>Satış fırsatı analizi yüklenemedi</h3><p class="notice">'+esc(e.message)+'</p><p class="insight">Stok Devir Tablo.xlsx dosyasının bağlantısını ve sütun başlıklarını kontrol et.</p></div>'}
 }
 
 
