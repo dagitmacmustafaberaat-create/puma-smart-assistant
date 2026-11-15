@@ -409,9 +409,9 @@ function renderExecutiveDashboard(){
   row("MULTIS",month.multis,prior.multis,"percent",1,false)
  ].join("");
  const cat=d.categories.map(c=>{const g=rate(c.current,c.prior),ug=rate(c.units,c.priorUnits);return '<article class="exec-cat"><h4>'+c.name.toLocaleUpperCase("tr-TR")+'</h4><strong>'+money(c.current)+'</strong><p>2025 aynı dönem: '+money(c.prior)+'</p><p>Ciro değişimi: <b class="'+(g>=0?'positive':'negative')+'">'+(g>0?'+':'')+pct(g)+'</b></p><p>Adet: '+fmt(c.units)+' · 2025: '+fmt(c.priorUnits)+' · '+(ug>0?'+':'')+pct(ug)+'</p><p>Ciro payı: '+pct(c.share)+'</p><div class="exec-bar"><i style="width:'+c.share+'%"></i></div></article>'}).join("");
- const annualChange=rate(d.annual.ytd2026,d.annual2025.actual);
+ 
  const annualCards=[
-  '<div class="exec-year-callout"><small>2026 OCAK–KASIM CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong><p>2025 aynı dönem: '+money(d.annual.janNov2025)+'<br><b class="'+(annualChange>=0?'positive':'negative')+'">'+(annualChange>0?'+':'')+pct(annualChange)+'</b> değişim</p></div>',
+  '<div class="exec-year-callout"><small>2026 OCAK–KASIM GERÇEKLEŞEN CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong><p>2026 yıl içi gerçekleşen toplamı · kaynak yıllık veri</p></div>,
   '<div class="exec-year-callout"><small>2026 YILLIK CİRO HEDEFİ</small><strong>'+pct(d.annual.ytd2026/d.annual.target2026*100)+'</strong><p>'+money(d.annual.ytd2026)+' gerçekleşen / '+money(d.annual.target2026)+' hedef</p></div>',
   '<div class="exec-year-callout"><small>2025 TAM YIL CİRO</small><strong>'+money(d.annual.full2025)+'</strong><p>2025 yıllık hedef: '+money(d.annual2025.target)+' · Ocak–Aralık kapanışı</p></div>'
  ].join("");
@@ -469,7 +469,7 @@ function renderExecutiveDashboard(){
  const sectionBy=(needle)=>sections.find(el=>(el.querySelector(".report-kicker")?.textContent||"").includes(needle));
  const monthly=[sectionBy("01 · AYLIK"),sectionBy("03 · KATEGORİ")].filter(Boolean);
  const weekly=sectionBy("02 · HAFTALIK");
- const annual=[sectionBy("04 · YILLIK"),sectionBy("05 · YILLIK")].filter(Boolean);
+ const annual=[sectionBy("04 · YILLIK PERFORMANS"),sectionBy("05 · YILLIK KATEGORİ")].filter(Boolean);
  const two=temp.querySelector(".exec-two");
  root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+'</div>';
  window.__weeklyDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · WEEKLY</div><h2>Haftalık Performans</h2><p>Günlük trend grafiği ve haftalık KPI karşılaştırmaları.</p></div></section>'+(weekly?weekly.outerHTML:"")+'</div>';
