@@ -439,7 +439,7 @@ function renderExecutiveDashboard(){
  ];
  const annualRows=annualMetricRows.map(([name,x,y,type])=>{
   const diff=x-y,change=y?(diff/y*100):0;
-  const f=v=>type==="money"?money(v):type==="moneyDecimal"?money(v):type==="percentPoint"?"%"+fmt(v,2):type==="decimal"?fmt(v,2):fmt(v);
+  const f=v=>type==="money"?money(v):type==="moneyDecimal"?fmt(v,2)+" TL":type==="percentPoint"?"%"+fmt(v,2):type==="decimal"?fmt(v,2):fmt(v);
   const diffText=type==="percentPoint"?(diff>=0?"+":"")+fmt(diff,2)+" puan":(diff>0?"+":"")+f(diff);
   const changeText=(change>0?"+":"")+pct(change);
   const good=diff>=0;
