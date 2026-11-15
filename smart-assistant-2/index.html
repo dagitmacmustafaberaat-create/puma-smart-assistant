@@ -411,7 +411,7 @@ function renderExecutiveDashboard(){
  const cat=d.categories.map(c=>{const g=rate(c.current,c.prior),ug=rate(c.units,c.priorUnits);return '<article class="exec-cat"><h4>'+c.name.toLocaleUpperCase("tr-TR")+'</h4><strong>'+money(c.current)+'</strong><p>2025 aynı dönem: '+money(c.prior)+'</p><p>Ciro değişimi: <b class="'+(g>=0?'positive':'negative')+'">'+(g>0?'+':'')+pct(g)+'</b></p><p>Adet: '+fmt(c.units)+' · 2025: '+fmt(c.priorUnits)+' · '+(ug>0?'+':'')+pct(ug)+'</p><p>Ciro payı: '+pct(c.share)+'</p><div class="exec-bar"><i style="width:'+c.share+'%"></i></div></article>'}).join("");
  
  const annualCards=[
-  '<div class="exec-year-callout"><small>2026 OCAK–KASIM GERÇEKLEŞEN CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong><p>2026 yıl içi gerçekleşen toplamı · kaynak yıllık veri</p></div>,
+  '<div class="exec-year-callout"><small>2026 OCAK–KASIM GERÇEKLEŞEN CİRO</small><strong>'+money(d.annual.ytd2026)+'</strong><p>2026 yıl içi gerçekleşen toplamı · kaynak yıllık veri</p></div>',
   '<div class="exec-year-callout"><small>2026 YILLIK CİRO HEDEFİ</small><strong>'+pct(d.annual.ytd2026/d.annual.target2026*100)+'</strong><p>'+money(d.annual.ytd2026)+' gerçekleşen / '+money(d.annual.target2026)+' hedef</p></div>',
   '<div class="exec-year-callout"><small>2025 TAM YIL CİRO</small><strong>'+money(d.annual.full2025)+'</strong><p>2025 yıllık hedef: '+money(d.annual2025.target)+' · Ocak–Aralık kapanışı</p></div>'
  ].join("");
