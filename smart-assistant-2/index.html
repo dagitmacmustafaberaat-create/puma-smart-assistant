@@ -469,7 +469,7 @@ function renderExecutiveDashboard(){
  if(item.name==="ATV")return sum(revenue)/sum(invoices);
  if(item.name==="ASP")return sum(revenue)/sum(units);
  if(item.name==="MULTIS")return sum(vals.map((v,i)=>v==null?0:v*invoices[i]))/sum(invoices);
- if(item.name.endsWith("CİRO PAYI"))return sum(pick(item.name.replace(" CİRO PAYI","")+" CİRO"))/sum(revenue)*100;
+ if(item.name.endsWith("CİRO PAYI")){const cat=categorySeries.find(q=>q.name===item.name.replace(" CİRO PAYI"," CİRO"));const catValues=cat[year==="2025"?"a":"b"];return sum(catValues)/sum(revenue)*100;}
  return sum(vals.filter(v=>v!=null));
 };
 const monthlyTable=(item)=>{
