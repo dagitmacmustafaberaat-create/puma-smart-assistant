@@ -3,7 +3,7 @@ const SD_STAFF=["Sinem Palaz","Serkan Canik","Cem Aktaş","Merve Çetin","Ecenur
 let sdKarneRows=[];
 let sdKarneBook=null;
 function sdNorm(v){return String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/\s+/g," ").trim();}
-function sdNum(v){if(typeof v==="number")return Number.isFinite(v)?v:0;let s=String(v??"").trim().replace(/₺|tl/gi,"").replace(/\s/g,"");if(!s)return 0;if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",",".");else if(s.includes(","))s=s.replace(",",".");else if(/^-?\d{1,3}(?:\.\d{3})+$/.test(s))s=s.replace(/\./g,"");const n=Number(s.replace(/[^0-9.-]/g,""));return Number.isFinite(n)?n:0;}
+function sdNum(v){if(typeof v==="number")return Number.isFinite(v)?v:0;let s=String(v??"").trim().replace(/₺|tl|\$/gi,"").replace(/\s/g,"");if(!s)return 0;const comma=s.lastIndexOf(","),dot=s.lastIndexOf(".");if(comma>=0&&dot>=0){if(dot>comma)s=s.replace(/,/g,"");else s=s.replace(/\./g,"").replace(",",".");}else if(comma>=0){const tail=s.length-comma-1;if(tail===3&&/^\d+$/.test(s.slice(comma+1)))s=s.replace(/,/g,"");else s=s.replace(",",".");}else if(dot>=0&&/^[-+]?\d{1,3}(?:\.\d{3})+$/.test(s)){s=s.replace(/\./g,"");}const n=Number(s.replace(/[^0-9.-]/g,""));return Number.isFinite(n)?n:0;}
 function sdMetricIndex(headers,type){
  const cells=headers.map((v,i)=>({i,t:sdNorm(v)}));
  const tests={
