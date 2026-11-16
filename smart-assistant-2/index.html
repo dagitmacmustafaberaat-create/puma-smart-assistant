@@ -336,7 +336,16 @@ function buyakaOpenEditor(file,book){
  const sh=buyakaEditorBook.sheets[0];
  root.innerHTML='<div class="card-title"><div><h3>'+esc(file)+' · Tablo Düzenleme</h3><span class="excel-meta">Hücreye tıklayarak düzenle · en fazla 300 satır önizlenir</span></div><button onclick="buyakaSaveEditedWorkbook()" style="border:0;border-radius:8px;background:var(--red);color:#fff;padding:10px 14px;font-weight:800">Değişiklikleri Kaydet</button></div><div class="excel-tools"><select id="buyakaEditSheet" onchange="buyakaChangeEditorSheet(this.value)">'+buyakaEditorBook.sheets.map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+' ('+x.total+')</option>').join("")+'</select></div><div class="excel-table-wrap"><table class="mini-table excel-table"><thead><tr>'+sh.headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+sh.rows.slice(0,300).map((r,ri)=>'<tr>'+sh.headers.map((_,ci)=>'<td contenteditable="true" data-ri="'+ri+'" data-ci="'+ci+'">'+esc(r[ci]??"")+'</td>').join("")+'</tr>').join("")+'</tbody></table></div><p class="excel-meta">Düzenleme alanı önizlenen ilk 300 satırı gösterir. Dosyanın tüm satırları kayıtta korunur.</p>';
 }
-function buyakaChangeEditorSheet(name){const sh=buyakaEditorBook?.sheets.find(x=>x.name===name);if(!sh)return;const root=document.getElementById("buyakaEditor");const old=buyakaEditorFile;buyakaOpenEditor(old,{...buyakaEditorBook,sheets:buyakaEditorBook.sheets.map(x=>x.name===name?x:x)});const select=document.getElementById("buyakaEditSheet");if(select)select.value=name;const table=root.querySelector("tbody");if(table)table.innerHTML=sh.rows.slice(0,300).map((r,ri)=>'<tr>'+sh.headers.map((_,ci)=>'<td contenteditable="true" data-ri="'+ri+'" data-ci="'+ci+'">'+esc(r[ci]??"")+'</td>').join("")+'</tr>').join("");root.querySelector("thead").innerHTML="<tr>"+sh.headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";}
+function buyakaChangeEditorSheet(name){
+ const root=document.getElementById("buyakaEditor");if(!root||!buyakaEditorBook)return;
+ const currentName=document.getElementById("buyakaEditSheet")?.value;
+ const current=buyakaEditorBook.sheets.find(x=>x.name===currentName);
+ if(current)root.querySelectorAll("td[contenteditable=true]").forEach(td=>{const ri=Number(td.dataset.ri),ci=Number(td.dataset.ci);if(current.rows[ri])current.rows[ri][ci]=td.textContent;});
+ const sh=buyakaEditorBook.sheets.find(x=>x.name===name);if(!sh)return;
+ const table=root.querySelector("tbody");
+ if(table)table.innerHTML=sh.rows.slice(0,300).map((r,ri)=>'<tr>'+sh.headers.map((_,ci)=>'<td contenteditable="true" data-ri="'+ri+'" data-ci="'+ci+'">'+esc(r[ci]??"")+'</td>').join("")+'</tr>').join("");
+ root.querySelector("thead").innerHTML="<tr>"+sh.headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";
+}
 async function buyakaSaveEditedWorkbook(){
  const root=document.getElementById("buyakaEditor"),name=document.getElementById("buyakaEditSheet")?.value,sh=buyakaEditorBook?.sheets.find(x=>x.name===name);if(!root||!sh)return;
  root.querySelectorAll("td[contenteditable=true]").forEach(td=>{const ri=Number(td.dataset.ri),ci=Number(td.dataset.ci);if(sh.rows[ri])sh.rows[ri][ci]=td.textContent;});
