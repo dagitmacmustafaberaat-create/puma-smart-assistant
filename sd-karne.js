@@ -105,14 +105,19 @@ async function loadSDKarneData(){
  try{
   if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi.");
   if(status)status.textContent="SD Karne verileri yükleniyor…";
-  let book=null;
+  let book=null,sharedError=null;
+  // Ortak Excel kaynağını önce dene; ancak personel başlıkları doğrulanmadan geçerli sayma.
   try{
    const shared=window.BUYAKA_FETCH_EXCEL_SOURCE?await window.BUYAKA_FETCH_EXCEL_SOURCE("SD Karne.xlsx"):null;
-   if(shared&&window.BUYAKA_BUILD_SHEETJS_BOOK)book=window.BUYAKA_BUILD_SHEETJS_BOOK(shared);
-  }catch(sharedError){console.warn("Ortak SD Karne kaynağı okunamadı:",sharedError);}
+   if(shared&&window.BUYAKA_BUILD_SHEETJS_BOOK){
+    const sharedBook=window.BUYAKA_BUILD_SHEETJS_BOOK(shared);
+    sdReadData(sharedBook); // Şema/başlık doğrulaması
+    book=sharedBook;
+   }
+  }catch(error){sharedError=error;console.warn("Ortak SD Karne kaynağı geçersiz; GitHub Excel yedeği deneniyor:",error);}
   if(!book){
    const response=await fetch(SD_KARNE_URL+"?v="+Date.now(),{cache:"no-store"});
-   if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
+   if(!response.ok)throw new Error("Ortak Excel başlıkları okunamadı ("+(sharedError?.message||"geçersiz tablo")+"). GitHub Excel yedeğine erişilemedi ("+response.status+").");
    book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
   }
   sdKarneBook=book;
