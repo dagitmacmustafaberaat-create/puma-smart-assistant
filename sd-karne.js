@@ -105,9 +105,16 @@ async function loadSDKarneData(){
  try{
   if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi.");
   if(status)status.textContent="SD Karne verileri yükleniyor…";
-  const response=await fetch(SD_KARNE_URL+"?v="+Date.now(),{cache:"no-store"});
-  if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
-  const book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
+  let book=null;
+  try{
+   const shared=window.BUYAKA_FETCH_EXCEL_SOURCE?await window.BUYAKA_FETCH_EXCEL_SOURCE("SD Karne.xlsx"):null;
+   if(shared&&window.BUYAKA_BUILD_SHEETJS_BOOK)book=window.BUYAKA_BUILD_SHEETJS_BOOK(shared);
+  }catch(sharedError){console.warn("Ortak SD Karne kaynağı okunamadı:",sharedError);}
+  if(!book){
+   const response=await fetch(SD_KARNE_URL+"?v="+Date.now(),{cache:"no-store"});
+   if(!response.ok)throw new Error("GitHub Excel dosyasına erişilemedi ("+response.status+").");
+   book=XLSX.read(await response.arrayBuffer(),{type:"array",cellDates:false});
+  }
   sdKarneBook=book;
   sdKarneRows=sdReadData(book);
   window.BUYAKA_SD_KARNE_ROWS=sdKarneRows;
