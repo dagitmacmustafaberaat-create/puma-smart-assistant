@@ -103,7 +103,7 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <section id="otherPage" class="hidden"><p class="page-intro" id="pageIntro"></p><div id="pageContent"></div></section>
 </main></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="../sd-karne.js?v=20261113-dynamic-header-detect-v3"></script>
+<script src="../sd-karne.js?v=20261116-shared-excel-source-v1"></script>
 <script src="../performance-league.js?v=20261102-excel-source"></script>
 
 <script>
@@ -291,6 +291,8 @@ async function buyakaGetWorkbook(file){
  const rows=await buyakaDbRequest(q);
  return rows&&rows[0]?rows[0]:null;
 }
+window.BUYAKA_FETCH_EXCEL_SOURCE=async function(file){const row=await buyakaGetWorkbook(file);return row?.workbook||null;};
+window.BUYAKA_BUILD_SHEETJS_BOOK=function(parsed){const book={SheetNames:[],Sheets:{}};(parsed?.sheets||[]).forEach(sh=>{book.SheetNames.push(sh.name);book.Sheets[sh.name]=XLSX.utils.aoa_to_sheet([sh.headers,...sh.rows]);});return book;};
 function buyakaParseWorkbook(file,arrayBuffer){
  const wb=XLSX.read(arrayBuffer,{type:"array",cellDates:true});
  const parsed={name:file,sheets:[]};
