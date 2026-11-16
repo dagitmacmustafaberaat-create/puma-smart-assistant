@@ -502,7 +502,7 @@ async function renderExecutiveDashboard(){
   daily2026=readDays("2026 kasım");daily2025=readDays("2025 kasım");
   const agg=rows=>{const sum=k=>rows.reduce((n,x)=>n+x[k],0),actual=sum("rev"),transactions=sum("tr"),multiTransactions=sum("multi"),units=sum("units"),visitors=sum("vis");return {actual,transactions,multiTransactions,units,visitors,upt:transactions?units/transactions:0,cr:visitors?transactions/visitors*100:0,atv:transactions?actual/transactions:0,asp:units?actual/units:0,multis:transactions?multiTransactions/transactions*100:0,through:Math.max(0,...rows.map(x=>x.day))};};
   const cur=agg(daily2026),prev=agg(daily2025);
-  if(cur.through){Object.assign(d.month,cur,{name:"Kasım 2026",days:30,target:3500000,forecast:cur.actual/cur.through*30,forecastRate:cur.actual/cur.through*30/3500000*100});Object.assign(d.prior,prev);
+  if(cur.through){Object.assign(d.month,cur,{name:"Kasım 2026",days:30,target:3500000,forecast:cur.actual/cur.through*30,forecastRate:cur.actual/cur.through*30/3500000*100});Object.assign(d.prior,prev);d.months2026[10]=cur.actual;d.months2025[10]=prev.actual;
    const cats=[["Ayakkabı","ftw","ftwUnits"],["Tekstil","app","appUnits"],["Aksesuar","acc","accUnits"]];
    d.categories=cats.map(([name,rev,units])=>({name,current:daily2026.reduce((n,x)=>n+x[rev],0),prior:daily2025.reduce((n,x)=>n+x[rev],0),units:daily2026.reduce((n,x)=>n+x[units],0),priorUnits:daily2025.reduce((n,x)=>n+x[units],0)}));
    const total=d.categories.reduce((n,x)=>n+x.current,0);d.categories.forEach(x=>x.share=total?x.current/total*100:0);
