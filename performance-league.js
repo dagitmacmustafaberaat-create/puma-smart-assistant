@@ -28,11 +28,23 @@ async function loadLeagueData(){
    const targetRow=rows.slice(3,8).find(r=>leagueNameKey(r?.[0])===leagueNameKey(person.name));
    const actualRow=rows.slice(3,9).find(r=>leagueNameKey(r?.[6])===leagueNameKey(person.name));
    const dailyRow=rows.slice(12,17).find(r=>leagueNameKey(r?.[0])===leagueNameKey(person.name));
-   if(!targetRow||!actualRow||!dailyRow)throw new Error(person.name+" için Excel satırı bulunamadı.");
-   return {...person,invoiceTarget:Number(targetRow[2])||0,unitTarget:Number(targetRow[3])||0,invoices:Number(actualRow[8])||0,units:Number(actualRow[9])||0,dailyInvoice:Number(dailyRow[1])||0,dailyUnits:Number(dailyRow[2])||0};
+   if(!targetRow||!actualRow||!dailyRow)throw new Error(person.name+" için hedef Excel satırı bulunamadı.");
+   return {...person,invoiceTarget:Number(targetRow[2])||0,unitTarget:Number(targetRow[3])||0,dailyInvoice:Number(dailyRow[1])||0,dailyUnits:Number(dailyRow[2])||0};
   });
   if(staff.some(s=>!s.invoiceTarget||!s.unitTarget))throw new Error("Excel hedef değerleri boş veya hatalı.");
-  leagueData={month,staff,source:"GitHub Excel"};
+
+  // Güncel gerçekleşen fatura ve ürün adetlerinin tek kaynağı SD Karne'dir.
+  let sdRows=Array.isArray(window.BUYAKA_SD_KARNE_ROWS)?window.BUYAKA_SD_KARNE_ROWS:[];
+  if(!sdRows.length&&typeof window.loadSDKarneData==="function")sdRows=await window.loadSDKarneData();
+  if(!Array.isArray(sdRows)||!sdRows.length)throw new Error("Güncel SD Karne verileri yüklenemedi; gerçekleşen fatura ve ürün adetleri gösterilemiyor.");
+  const sdByName=new Map(sdRows.map(p=>[leagueNameKey(p.name),p]));
+  for(const person of staff){
+   const sd=sdByName.get(leagueNameKey(person.name));
+   if(!sd||!Number.isFinite(Number(sd.invoices))||!Number.isFinite(Number(sd.products)))throw new Error(person.name+" için SD Karne fatura/ürün adedi bulunamadı.");
+   person.invoices=Number(sd.invoices);
+   person.units=Number(sd.products);
+  }
+  leagueData={month,staff,source:"Hedefler: GitHub Excel · Gerçekleşen fatura/ürün: SD Karne"};
   window.BUYAKA_LEAGUE_DATA=leagueData;
   if(status)status.textContent="✓ GitHub Excel dosyasından güncel veriler yüklendi · "+new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
  }catch(error){
