@@ -77,6 +77,8 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 @media(max-width:900px){.exec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.exec-hero{align-items:flex-start;flex-direction:column;padding:18px}.exec-hero-side{text-align:left}.exec-two{grid-template-columns:1fr}.exec-category{grid-template-columns:1fr}.exec-section-head{align-items:flex-start;flex-direction:column}.exec-kpi{padding:12px}.exec-kpi strong{font-size:20px}.exec-month-strip{gap:3px}.exec-month-col small{font-size:7px}}
 
+
+.sales-report-shell{display:grid;gap:13px}.sales-report-intro p{font-size:12px;color:#666;line-height:1.65;margin:0}.sales-report-card{padding:18px}.sales-period-tabs,.sales-category-tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 8px}.sales-period-tabs .ph-tab{min-width:150px}.sales-category-tabs .ph-tab{white-space:nowrap}.sales-report-summary{margin:10px 0 14px}.sales-report-filters{display:grid;grid-template-columns:minmax(180px,1.5fr) repeat(4,minmax(130px,1fr));gap:8px;margin:12px 0}.sales-report-filters input,.sales-report-filters select{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px;font:inherit;font-size:11px;color:#444}.sales-report-filters select:disabled{background:#f7f7f5;color:#999}.sales-report-table-wrap{max-height:65vh}.sales-report-table{min-width:1050px}.sales-report-table th{position:sticky;top:0;z-index:1}.sales-report-table td:nth-child(6){white-space:normal;min-width:220px}.sales-size-note{margin-top:12px}@media(max-width:950px){.sales-report-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.sales-report-filters input{grid-column:1/-1}}@media(max-width:600px){.sales-report-filters{grid-template-columns:1fr}.sales-report-filters input{grid-column:auto}.sales-report-summary{flex-wrap:wrap}.sales-period-tabs .ph-tab{min-width:125px}}
 </style></head>
 <body>
 <div class="shell">
@@ -86,6 +88,7 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
  <button class="active" data-page="dashboard"><span class="ico">▦</span> Genel Bakış</button>
  <button data-page="weekly"><span class="ico">▥</span> Haftalık Veriler</button>
  <button data-page="annual"><span class="ico">▤</span> Yıllık Veriler</button>
+ <button data-page="salesReports"><span class="ico">▣</span> Haftalık &amp; Aylık Satış Raporları</button>
  <button data-page="coach"><span class="ico">✦</span> Akıllı Mağaza Koçu</button>
  <button data-page="opportunities"><span class="ico">◈</span> Satış Fırsatları</button>
  <button data-page="people"><span class="ico">♙</span> Personel Koçluğu</button>
@@ -104,7 +107,7 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <script src="../performance-league.js?v=20261102-excel-source"></script>
 
 <script>
-const titles={dashboard:"Mağaza Genel Bakış",weekly:"Haftalık Veriler",annual:"Yıllık Veriler",coach:"Akıllı Mağaza Koçu",opportunities:"Satış Fırsatları ve Kaçan Ciro",people:"Personel Gelişim ve Koçluk",operations:"Günlük Görev ve Operasyon",reports:"AI Rapor Asistanı",products:"Kategori Bazlı Ürün Satışları",ai:"BUYAKA AI MANAGER",data:"Gerçek Excel Veri Merkezi"};
+const titles={dashboard:"Mağaza Genel Bakış",weekly:"Haftalık Veriler",annual:"Yıllık Veriler",salesReports:"Haftalık & Aylık Satış Raporları",coach:"Akıllı Mağaza Koçu",opportunities:"Satış Fırsatları ve Kaçan Ciro",people:"Personel Gelişim ve Koçluk",operations:"Günlük Görev ve Operasyon",reports:"AI Rapor Asistanı",products:"Kategori Bazlı Ürün Satışları",ai:"BUYAKA AI MANAGER",data:"Gerçek Excel Veri Merkezi"};
 const content={
 coach:{intro:"Kasım 2026 mağaza performansını değerlendir ve günlük aksiyonları belirle.",html:'<div class="report-stack"><div class="card report-card"><div class="report-heading"><div><span class="report-kicker">KASIM 2026 · 13. GÜN</span><h2>Akıllı Mağaza Koçu</h2></div><span class="report-source">GERÇEK RAPOR VERİSİ</span></div><div class="kpis"><div class="card"><div class="kpi-label">CİRO GERÇEKLEŞEN</div><div class="kpi-value">1.230.638 TL</div><div class="kpi-meta">Gerekli: 1.516.667 TL</div></div><div class="card"><div class="kpi-label">CİRO HEDEF HGO</div><div class="kpi-value down">%81,14</div><div class="kpi-meta">286.029 TL hedef açığı</div></div><div class="card"><div class="kpi-label">UPT</div><div class="kpi-value down">1,48</div><div class="kpi-meta">Hedef: 1,80</div></div><div class="card"><div class="kpi-label">CR</div><div class="kpi-value up">%10,06</div><div class="kpi-meta">Hedef: %7,00</div></div></div></div><div class="card report-card"><div class="report-heading"><div><span class="report-kicker">YÖNETİCİ DEĞERLENDİRMESİ</span><h2>Öncelikli gelişim alanları</h2></div></div><div class="action-list"><div class="action"><span class="num">1</span><span><strong>UPT gelişimi:</strong> 1,48 olan UPT değerini 1,80 hedefine yaklaştırmak için her müşteriye ihtiyaca uygun tamamlayıcı ürün önerisi yapılmalı.</span></div><div class="action"><span class="num">2</span><span><strong>Trafik açığı:</strong> 2.486 gerçekleşen trafik, 4.018 olması gereken seviyenin 1.532 altında. Mağaza önü karşılama ve yoğun saat planlaması gözden geçirilmeli.</span></div><div class="action"><span class="num">3</span><span><strong>Ciro açığı:</strong> 286.029 TL farkı kapatmak için yüksek ciro potansiyelli ürünler ve kombin satışları vardiya bazında takip edilmeli.</span></div><div class="action"><span class="num">4</span><span><strong>Güçlü alanı koru:</strong> CR %10,06 ile %7 hedefinin üzerinde. Dönüşüm kalitesini korurken trafik ve sepet büyüklüğüne odaklan.</span></div></div></div></div>'},
 opportunities:{intro:"Ürün satış hızı, mevcut stok ve beden bulunurluğunu bir araya getirecek analiz alanı.",html:'<div class="card"><div class="card-title"><h3>Örnek stok fırsat listesi</h3><span>Temsili ürünler</span></div><table class="mini-table"><thead><tr><th>ÜRÜN</th><th>30G SATIŞ</th><th>STOK</th><th>DURUM</th></tr></thead><tbody><tr><td>Ürün A</td><td>24</td><td>2</td><td><span class="status">Kritik</span></td></tr><tr><td>Ürün B</td><td>18</td><td>15</td><td><span class="status ok">Normal</span></td></tr><tr><td>Ürün C</td><td>12</td><td>0</td><td><span class="status">Stok yok</span></td></tr></tbody></table><p class="notice">Beden bazlı eksik ve kaçan ciro analizi için satış ve güncel stok dosyalarının bağlanması gerekir.</p></div>'},
@@ -793,6 +796,52 @@ function filterWeeklyCompare(value){
   week.style.display=(showWeek||showDay)?"":"none";
  });
 }
+
+let salesReportRows={weekly:[],monthly:[]};
+let salesReportState={period:"weekly",category:"all",gender:"all",businessUnit:"all",search:"",sort:"qty-desc"};
+const salesReportMoney=v=>new Intl.NumberFormat("tr-TR",{style:"currency",currency:"TRY",maximumFractionDigits:0}).format(Number(v)||0);
+function salesReportCategory(v){const n=normHead(v);if(n.includes("ayakkabi")||n==="ftw"||n==="footwear")return "FTW";if(n.includes("tekstil")||n==="app"||n==="apparel")return "APP";if(n.includes("aksesuar")||n==="acc"||n==="accessories")return "ACC";return "OTHER";}
+function salesReportReadRows(book){
+ const out=[];
+ (book?.sheets||[]).forEach(sh=>{
+  const h=sh.headers||[],ix={gender:findCol(h,["cinsiyet","gender"]),category:findCol(h,["pumakategori","kategori","category"]),unit:findCol(h,["businessunit","business","unit"]),sku:findCol(h,["stokkodu","sku","productcode"]),name:findCol(h,["stokadi","urunadi","productname"]),qty:findCol(h,["netsatisadedi","satisadedi","units"]),amount:findCol(h,["netsatistutarikdvharic","netsatistutar","salesamount","amount"])};
+  if(ix.category<0||ix.name<0||ix.qty<0)return;
+  (sh.rows||[]).forEach(row=>{const name=String(row[ix.name]??"").trim(),category=salesReportCategory(row[ix.category]);if(!name||category==="OTHER")return;out.push({gender:String(row[ix.gender]??"").trim(),category,unit:String(row[ix.unit]??"").trim(),sku:String(row[ix.sku]??"").trim(),name,qty:asNum(row[ix.qty]),amount:asNum(row[ix.amount])});});
+ });
+ return out;
+}
+function salesReportOptionList(values,current,label){const opts=[...new Set(values.map(v=>String(v||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"tr"));return '<option value="all">'+label+'</option>'+opts.map(v=>'<option value="'+esc(v)+'" '+(v===current?"selected":"")+'>'+esc(v)+'</option>').join("");}
+function salesReportRenderTable(){
+ const period=salesReportState.period,root=document.getElementById("salesReportTableBody");if(!root)return;
+ const all=salesReportRows[period]||[],categoryRows=all.filter(r=>salesReportState.category==="all"||r.category===salesReportState.category);
+ const genderSelect=document.getElementById("salesReportGender"),unitSelect=document.getElementById("salesReportBusinessUnit");
+ if(genderSelect)genderSelect.innerHTML=salesReportOptionList(categoryRows.map(r=>r.gender),salesReportState.gender,"Tüm cinsiyetler");
+ if(unitSelect)unitSelect.innerHTML=salesReportOptionList(categoryRows.map(r=>r.unit),salesReportState.businessUnit,"Tüm Business Unit");
+ let rows=categoryRows.filter(r=>(salesReportState.gender==="all"||r.gender===salesReportState.gender)&&(salesReportState.businessUnit==="all"||r.unit===salesReportState.businessUnit));
+ const q=salesReportState.search.toLocaleLowerCase("tr-TR");if(q)rows=rows.filter(r=>[r.name,r.sku,r.unit,r.gender].some(v=>String(v).toLocaleLowerCase("tr-TR").includes(q)));
+ const sort=salesReportState.sort;rows.sort((a,b)=>sort==="qty-asc"?a.qty-b.qty:sort==="amount-desc"?b.amount-a.amount:sort==="amount-asc"?a.amount-b.amount:sort==="name-asc"?a.name.localeCompare(b.name,"tr"):b.qty-a.qty);
+ const totalQty=rows.reduce((n,r)=>n+r.qty,0),totalAmount=rows.reduce((n,r)=>n+r.amount,0);
+ const count=document.getElementById("salesReportCount"),qty=document.getElementById("salesReportQty"),amount=document.getElementById("salesReportAmount");
+ if(count)count.textContent=rows.length.toLocaleString("tr-TR")+" ürün satırı";if(qty)qty.textContent=totalQty.toLocaleString("tr-TR");if(amount)amount.textContent=salesReportMoney(totalAmount);
+ root.innerHTML=rows.length?rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+esc(r.category)+'</b></td><td>'+esc(r.gender||"—")+'</td><td>'+esc(r.unit||"—")+'</td><td>'+esc(r.sku||"—")+'</td><td>'+esc(r.name)+'</td><td class="actual">'+r.qty.toLocaleString("tr-TR")+'</td><td>'+salesReportMoney(r.amount)+'</td></tr>').join(""):'<tr><td colspan="8" style="text-align:center;padding:25px;color:#888">Seçilen filtrelerde ürün bulunamadı.</td></tr>';
+}
+async function renderSalesReportsPage(){
+ const host=document.getElementById("pageContent");if(!host)return;host.innerHTML='<div class="card"><p>Haftalık ve aylık satış dosyaları yükleniyor…</p></div>';
+ try{
+  const [weekly,monthly]=await Promise.all([loadExcel("haftalık satış.xlsx"),loadExcel("aylık satış.xlsx")]);
+  salesReportRows={weekly:salesReportReadRows(weekly),monthly:salesReportReadRows(monthly)};
+  salesReportState={period:"weekly",category:"all",gender:"all",businessUnit:"all",search:"",sort:"qty-desc"};
+  host.innerHTML='<section class="sales-report-shell"><div class="card sales-report-intro"><div class="report-heading"><div><span class="report-kicker">BUYAKA · PRODUCT SALES INTELLIGENCE</span><h2>Haftalık &amp; Aylık Satış Raporları</h2></div><span class="report-source">CANLI EXCEL KAYNAĞI</span></div><p>Haftalık ve aylık ürün hareketlerini ayrı ayrı incele. Kategori, cinsiyet, Business Unit ve ürün filtrelerini birlikte kullan; satış adedini veya tutarını artan ya da azalan sırala.</p></div><div class="sales-period-tabs"><button type="button" class="ph-tab active" data-sales-period="weekly">HAFTALIK SATIŞ</button><button type="button" class="ph-tab" data-sales-period="monthly">AYLIK SATIŞ</button></div><div class="card sales-report-card"><div class="report-heading"><div><span class="report-kicker" id="salesReportPeriodLabel">HAFTALIK · ÜRÜN SATIŞI</span><h2>Ürün performans tablosu</h2></div><span class="report-source" id="salesReportCount"></span></div><div class="sales-category-tabs"><button type="button" class="ph-tab active" data-sales-category="all">TÜM KATEGORİLER</button><button type="button" class="ph-tab" data-sales-category="FTW">FTW · AYAKKABI</button><button type="button" class="ph-tab" data-sales-category="APP">APP · TEKSTİL</button><button type="button" class="ph-tab" data-sales-category="ACC">ACC · AKSESUAR</button></div><div class="report-summary sales-report-summary"><div><small>FİLTRELENEN ÜRÜN ADEDİ</small><strong id="salesReportQty">0</strong></div><div><small>FİLTRELENEN SATIŞ TUTARI</small><strong id="salesReportAmount">₺0</strong></div></div><div class="sales-report-filters"><input id="salesReportSearch" type="search" placeholder="Ürün adı veya stok kodu ara…"><select id="salesReportGender"></select><select id="salesReportBusinessUnit"></select><select id="salesReportSort"><option value="qty-desc">Satış adedi · Çoktan aza</option><option value="qty-asc">Satış adedi · Azdan çoğa</option><option value="amount-desc">Satış tutarı · Çoktan aza</option><option value="amount-asc">Satış tutarı · Azdan çoğa</option><option value="name-asc">Ürün adı · A-Z</option></select><select disabled title="Mevcut haftalık ve aylık Excel kaynaklarında beden alanı yok"><option>Beden filtresi · kaynakta yok</option></select></div><div class="excel-meta" id="salesReportSourceNote">Kaynak: haftalık satış.xlsx</div><div class="excel-table-wrap sales-report-table-wrap"><table class="report-table sales-report-table"><thead><tr><th>#</th><th>KATEGORİ</th><th>CİNSİYET</th><th>BUSINESS UNIT</th><th>STOK KODU</th><th>ÜRÜN ADI</th><th>SATIŞ ADEDİ</th><th>SATIŞ TUTARI</th></tr></thead><tbody id="salesReportTableBody"></tbody></table></div><p class="notice sales-size-note">Beden bazlı adet bu iki Excel dosyasında yer almıyor. Beden kırılımı içeren satış dosyası eklendiğinde beden filtresi de gerçek veriye bağlanabilir.</p></div></section>';
+  host.querySelectorAll("[data-sales-period]").forEach(btn=>btn.addEventListener("click",()=>{salesReportState.period=btn.dataset.salesPeriod;host.querySelectorAll("[data-sales-period]").forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("salesReportPeriodLabel").textContent=(salesReportState.period==="weekly"?"HAFTALIK":"AYLIK")+" · ÜRÜN SATIŞI";document.getElementById("salesReportSourceNote").textContent="Kaynak: "+(salesReportState.period==="weekly"?"haftalık satış.xlsx":"aylık satış.xlsx");salesReportState.gender="all";salesReportState.businessUnit="all";salesReportRenderTable();}));
+  host.querySelectorAll("[data-sales-category]").forEach(btn=>btn.addEventListener("click",()=>{salesReportState.category=btn.dataset.salesCategory;host.querySelectorAll("[data-sales-category]").forEach(x=>x.classList.toggle("active",x===btn));salesReportState.gender="all";salesReportState.businessUnit="all";salesReportRenderTable();}));
+  document.getElementById("salesReportSearch").addEventListener("input",e=>{salesReportState.search=e.target.value;salesReportRenderTable();});
+  document.getElementById("salesReportGender").addEventListener("change",e=>{salesReportState.gender=e.target.value;salesReportRenderTable();});
+  document.getElementById("salesReportBusinessUnit").addEventListener("change",e=>{salesReportState.businessUnit=e.target.value;salesReportRenderTable();});
+  document.getElementById("salesReportSort").addEventListener("change",e=>{salesReportState.sort=e.target.value;salesReportRenderTable();});
+  salesReportRenderTable();
+ }catch(e){host.innerHTML='<div class="card"><h3>Satış raporları yüklenemedi</h3><p class="notice">'+esc(e.message||e)+'</p></div>';}
+}
+
 // Tek merkezden, bütün modüller için güvenli sayfa yönlendirmesi.
 go=function(page){
  const title=document.getElementById("pageTitle");
@@ -817,6 +866,7 @@ go=function(page){
  host.innerHTML='<div class="card"><p class="insight">Modül hazırlanıyor…</p></div>';
  try{
   if(page==="opportunities"){renderOpportunitiesPage();}
+  else if(page==="salesReports"){renderSalesReportsPage();}
   else if(page==="ai"){renderAI();}
   else if(page==="coach"){
    const p=content.coach;
