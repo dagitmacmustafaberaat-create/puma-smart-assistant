@@ -491,13 +491,13 @@ async function renderExecutiveDashboard(){
  let daily2025=[],daily2026=[];
  try{
   const source=await window.BUYAKA_FETCH_EXCEL_SOURCE("Mağaza Datası.xlsx");
-  const norm=v=>String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"");
+  const norm=v=>String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"");
   const num=v=>{let x=String(v??"").trim().replace(/[^0-9,.-]/g,"");if(x.includes(",")&&x.includes("."))x=x.replace(/,/g,"");else if(x.includes(","))x=x.replace(",",".");return Number(x)||0;};
   const readDays=name=>{
    const sh=(source?.sheets||[]).find(x=>norm(x.name)===norm(name));if(!sh)throw new Error(name+" sayfası bulunamadı");
    const ix=key=>sh.headers.findIndex(h=>norm(h)===norm(key));
    const c={date:ix("Tarih"),rev:ix("Actual"),tr:ix("Transaction"),multi:ix("Transactions with more than 1 unit"),units:ix("Units"),vis:ix("Visitors"),ftw:ix("FTW"),ftwUnits:ix("FTW units"),app:ix("APP"),appUnits:ix("APP units"),acc:ix("ACC"),accUnits:ix("ACC units")};
-   return sh.rows.map(r=>{const m=String(r[c.date]||"").match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{2,4})$/);if(!m)return null;const day=+m[2],year=+(m[3].length===2?"20"+m[3]:m[3]);if(year!==+name.slice(0,4)||day>15)return null;const v=k=>c[k]>=0?num(r[c[k]]):0;return {day,date:new Date(year,10,day),rev:v("rev"),tr:v("tr"),multi:v("multi"),units:v("units"),vis:v("vis"),ftw:v("ftw"),ftwUnits:v("ftwUnits"),app:v("app"),appUnits:v("appUnits"),acc:v("acc"),accUnits:v("accUnits")};}).filter(x=>x&&x.rev>0).sort((a,b)=>a.day-b.day);
+   return sh.rows.map(r=>{const m=String(r[c.date]||"").match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);if(!m)return null;const day=+m[2],year=+(m[3].length===2?"20"+m[3]:m[3]);if(year!==+name.slice(0,4)||day>15)return null;const v=k=>c[k]>=0?num(r[c[k]]):0;return {day,date:new Date(year,10,day),rev:v("rev"),tr:v("tr"),multi:v("multi"),units:v("units"),vis:v("vis"),ftw:v("ftw"),ftwUnits:v("ftwUnits"),app:v("app"),appUnits:v("appUnits"),acc:v("acc"),accUnits:v("accUnits")};}).filter(x=>x&&x.rev>0).sort((a,b)=>a.day-b.day);
   };
   daily2026=readDays("2026 kasım");daily2025=readDays("2025 kasım");
   const agg=rows=>{const sum=k=>rows.reduce((n,x)=>n+x[k],0),actual=sum("rev"),transactions=sum("tr"),multiTransactions=sum("multi"),units=sum("units"),visitors=sum("vis");return {actual,transactions,multiTransactions,units,visitors,upt:transactions?units/transactions:0,cr:visitors?transactions/visitors*100:0,atv:transactions?actual/transactions:0,asp:units?actual/units:0,multis:transactions?multiTransactions/transactions*100:0,through:Math.max(0,...rows.map(x=>x.day))};};
