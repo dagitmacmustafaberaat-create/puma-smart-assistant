@@ -344,7 +344,7 @@ async function mountExcelCard(file,id){
  catch(e){card.querySelector(".excel-state").innerHTML='<div class="notice">'+esc(e.message)+'</div>'}
 }
 async function renderExcelPage(page){
- const host=document.getElementById("pageContent");
+ const host=page==="dashboard"?document.getElementById("executiveDashboard"):document.getElementById("pageContent");
  if(page==="data"){
   host.innerHTML='<div class="card"><div class="card-title"><h3>BUYAKA gerçek veri kaynakları</h3><span class="status ok">'+excelFiles.length+' DOSYA</span></div><p class="insight">Aşağıdaki tablolar GitHub deposundaki Excel dosyalarından doğrudan okunur. Dosyalar değiştirildiğinde sayfayı yenileyerek güncel veriyi alabilirsin.</p><div class="excel-file-list">'+excelFiles.map(f=>'<span>'+esc(f.name)+'</span>').join("")+'</div></div><div id="allExcelCards" class="excel-stack"></div>';
   const root=document.getElementById("allExcelCards");
