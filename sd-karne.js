@@ -57,7 +57,7 @@ function sdReadData(book){
   const closingHgo=table.map.closingHgo>=0?val("closingHgo"):0;
   const closingHgoLabel=table.map.closingHgo>=0?String((table.rows[table.headerRow]||[])[table.map.closingHgo]).trim():"AY SONU KAPANIŞ HGO";
   let hgo=table.map.hgo>=0?val("hgo"):(table.map.ciroTarget>=0&&val("ciroTarget")>0?(closingRevenue||ciro)/val("ciroTarget")*100:0);
-  if(hgo>0&&hgo<=1)hgo*=100;
+  if(hgo>0&&hgo<=10)hgo*=100;
   let closingHgoPct=closingHgo;if(closingHgoPct>0&&closingHgoPct<=1)closingHgoPct*=100;
   out.push({name,ciro,ciroTarget:val("ciroTarget"),upt:val("upt"),cr,bonus:val("bonus"),invoices,products,atv,asp,closingRevenue,closingHgo:closingHgoPct,closingHgoLabel,hgo,hasInvoices:table.map.invoices>=0,hasProducts:table.map.products>=0});
  }
