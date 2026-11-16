@@ -1,4 +1,6 @@
-const SD_KARNE_URL="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/SD%20Karne.xlsx";
+const SD_KARNE_URL=location.pathname.includes("/smart-assistant-2/")
+ ? "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/smart-assistant-2/SD%20Karne.xlsx"
+ : "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/SD%20Karne.xlsx";
 const SD_STAFF=["Sinem Palaz","Serkan Canik","Cem Aktaş","Merve Çetin","Ecenur Temür"];
 let sdKarneRows=[];
 let sdKarneBook=null;
