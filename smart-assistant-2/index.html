@@ -299,7 +299,13 @@ function buyakaParseWorkbook(file,arrayBuffer){
  wb.SheetNames.forEach(sheetName=>{
   const raw=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:"",raw:false});
   let headerIndex=0,best=-1;
-  raw.slice(0,25).forEach((row,i)=>{const score=row.filter(v=>String(v).trim()!=="").length;if(score>best){best=score;headerIndex=i}});
+  if(file==="SD Karne.xlsx"){
+   // SD Karne çok sayıda birleştirilmiş hücre içerir; en dolu satır ilk personel satırı olabilir.
+   // İlk satırı başlık kabul edip tüm sonraki satırları koru; SD modülü gerçek başlık satırını kendi bulur.
+   headerIndex=0;
+  }else{
+   raw.slice(0,25).forEach((row,i)=>{const score=row.filter(v=>String(v).trim()!=="").length;if(score>best){best=score;headerIndex=i}});
+  }
   const headers=(raw[headerIndex]||[]).map((v,i)=>String(v||"Sütun "+(i+1)).trim()||"Sütun "+(i+1));
   const rows=raw.slice(headerIndex+1).filter(row=>row.some(v=>String(v).trim()!=="")).map(row=>headers.map((_,i)=>row[i]??""));
   parsed.sheets.push({name:sheetName,headers,rows,total:rows.length});
