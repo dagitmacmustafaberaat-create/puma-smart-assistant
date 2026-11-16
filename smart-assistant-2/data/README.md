@@ -3,7 +3,7 @@
 Bu klasör, Smart Assistant 2.0 uygulamasında kullanılacak rapor dosyaları için ayrılmıştır.
 
 ## Dosya yükleme
-- Excel raporlarınızı (`.xlsx``) bu klasöre yükleyin.
+- Excel raporlarınızı (`.xlsx`) bu klasöre yükleyin.
 - Dosya adlarını mümkün olduğunca anlaşılır ve dönem belirtecek şekilde kullanın (ör. `WEEKLY_W46.xlsx`, `AYLIK_KASIM_2026.xlsx`, `YILLIK_2026.xlsx`).
 - Aynı raporun yeni sürümünü yüklerken eski dosyayı güncelleyin veya sürümünü açıkça belirtin.
 
