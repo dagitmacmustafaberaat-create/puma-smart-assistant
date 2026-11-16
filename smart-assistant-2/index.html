@@ -472,7 +472,7 @@ async function renderOpportunitiesPage(){
 }
 
 
-function renderExecutiveDashboard(){
+async function renderExecutiveDashboard(){
  const root=document.getElementById("executiveDashboard");if(!root)return;
  const d={
   month:{name:"Kasım 2026",days:30,through:14,target:3500000,actual:1351340,transactions:275,multiTransactions:96,units:409,visitors:2778,upt:1.49,cr:9.90,atv:4913.96,asp:3304.01,multis:34.91,forecast:2775759,forecastRate:79.31,weekdayAvg:50553,weekendAvg:190461},
@@ -488,6 +488,27 @@ function renderExecutiveDashboard(){
   months2026:[1919765,1665353,3078515,2427269,3197242,2070598,2869130,2010409,2764304,2632213,1351340],
   labels:["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas"]
  };
+ let daily2025=[],daily2026=[];
+ try{
+  const source=await window.BUYAKA_FETCH_EXCEL_SOURCE("Mağaza Datası.xlsx");
+  const norm=v=>String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"");
+  const num=v=>{let x=String(v??"").trim().replace(/[^0-9,.-]/g,"");if(x.includes(",")&&x.includes("."))x=x.replace(/,/g,"");else if(x.includes(","))x=x.replace(",",".");return Number(x)||0;};
+  const readDays=name=>{
+   const sh=(source?.sheets||[]).find(x=>norm(x.name)===norm(name));if(!sh)throw new Error(name+" sayfası bulunamadı");
+   const ix=key=>sh.headers.findIndex(h=>norm(h)===norm(key));
+   const c={date:ix("Tarih"),rev:ix("Actual"),tr:ix("Transaction"),multi:ix("Transactions with more than 1 unit"),units:ix("Units"),vis:ix("Visitors"),ftw:ix("FTW"),ftwUnits:ix("FTW units"),app:ix("APP"),appUnits:ix("APP units"),acc:ix("ACC"),accUnits:ix("ACC units")};
+   return sh.rows.map(r=>{const m=String(r[c.date]||"").match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{2,4})$/);if(!m)return null;const day=+m[2],year=+(m[3].length===2?"20"+m[3]:m[3]);if(year!==+name.slice(0,4)||day>15)return null;const v=k=>c[k]>=0?num(r[c[k]]):0;return {day,date:new Date(year,10,day),rev:v("rev"),tr:v("tr"),multi:v("multi"),units:v("units"),vis:v("vis"),ftw:v("ftw"),ftwUnits:v("ftwUnits"),app:v("app"),appUnits:v("appUnits"),acc:v("acc"),accUnits:v("accUnits")};}).filter(x=>x&&x.rev>0).sort((a,b)=>a.day-b.day);
+  };
+  daily2026=readDays("2026 kasım");daily2025=readDays("2025 kasım");
+  const agg=rows=>{const sum=k=>rows.reduce((n,x)=>n+x[k],0),actual=sum("rev"),transactions=sum("tr"),multiTransactions=sum("multi"),units=sum("units"),visitors=sum("vis");return {actual,transactions,multiTransactions,units,visitors,upt:transactions?units/transactions:0,cr:visitors?transactions/visitors*100:0,atv:transactions?actual/transactions:0,asp:units?actual/units:0,multis:transactions?multiTransactions/transactions*100:0,through:Math.max(0,...rows.map(x=>x.day))};};
+  const cur=agg(daily2026),prev=agg(daily2025);
+  if(cur.through){Object.assign(d.month,cur,{name:"Kasım 2026",days:30,target:3500000,forecast:cur.actual/cur.through*30,forecastRate:cur.actual/cur.through*30/3500000*100});Object.assign(d.prior,prev);
+   const cats=[["Ayakkabı","ftw","ftwUnits"],["Tekstil","app","appUnits"],["Aksesuar","acc","accUnits"]];
+   d.categories=cats.map(([name,rev,units])=>({name,current:daily2026.reduce((n,x)=>n+x[rev],0),prior:daily2025.reduce((n,x)=>n+x[rev],0),units:daily2026.reduce((n,x)=>n+x[units],0),priorUnits:daily2025.reduce((n,x)=>n+x[units],0)}));
+   const total=d.categories.reduce((n,x)=>n+x.current,0);d.categories.forEach(x=>x.share=total?x.current/total*100:0);
+   const wd=rows=>{const a=rows.filter(x=>![0,6].includes(x.date.getDay()));const b=rows.filter(x=>[0,6].includes(x.date.getDay()));return [a.length?a.reduce((n,x)=>n+x.rev,0)/a.length:0,b.length?b.reduce((n,x)=>n+x.rev,0)/b.length:0];};[d.month.weekdayAvg,d.month.weekendAvg]=wd(daily2026);
+  }
+ }catch(e){console.warn("Mağaza Datası.xlsx okunamadı; sabit rapor verisi korunuyor:",e);}
  const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(n);
  const money=n=>fmt(n)+" TL",pct=n=>"%"+fmt(n,1);
  const delta=(a,b)=>a-b,rate=(a,b)=>b?((a-b)/b*100):0;
@@ -620,8 +641,8 @@ const monthlyTable=(item)=>{
  const max=Math.max(...d.months2025,...d.months2026);
  const chart=d.months2025.map((v,i)=>'<div class="exec-month-col"><div class="exec-month-bars"><i title="2025: '+money(v)+'" style="height:'+Math.max(3,v/max*78)+'px"></i><b title="2026: '+money(d.months2026[i])+'" style="height:'+Math.max(3,d.months2026[i]/max*78)+'px"></b></div><small>'+d.labels[i]+'</small></div>').join("");
  const fullDashboardHTML=
- '<section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · EXECUTIVE DASHBOARD</div><h2>Mağaza Genel Bakış</h2><p>Önce aylık performans, ardından yıllık karşılaştırma ve kategori kırılımı.</p></div><div class="exec-hero-side"><small>KASIM 2026 · 1–14 KASIM</small><strong>'+pct(month.actual/month.target*100)+'</strong><small>aylık ciro hedef gerçekleşmesi</small></div></section>'+
- '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">01 · AYLIK PERFORMANS</span><h2>Kasım 2026 / Kasım 2025 · 1–14 Kasım</h2><p>Her KPI ayrı kartta; gerçekleşen değer, geçen yıl, mutlak fark ve büyüme/küçülme.</p></div></div><div class="exec-grid">'+kpis+'</div></section>'+
+ '<section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · EXECUTIVE DASHBOARD</div><h2>Mağaza Genel Bakış</h2><p>Önce aylık performans, ardından yıllık karşılaştırma ve kategori kırılımı.</p></div><div class="exec-hero-side"><small>KASIM 2026 · 1–'+month.through+' KASIM</small><strong>'+pct(month.actual/month.target*100)+'</strong><small>aylık ciro hedef gerçekleşmesi</small></div></section>'+
+ '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">01 · AYLIK PERFORMANS</span><h2>Kasım 2026 / Kasım 2025 · 1–'+month.through+' Kasım</h2><p>Her KPI ayrı kartta; gerçekleşen değer, geçen yıl, mutlak fark ve büyüme/küçülme.</p></div></div><div class="exec-grid">'+kpis+'</div></section>'+
  '<section class="exec-two"><article class="exec-panel"><h3>AYLIK KPI KARŞILAŞTIRMA TABLOSU</h3><div class="exec-table-wrap"><table class="exec-table monthly-compare-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+rows+'</tbody></table></div></article>'+
  '<article class="exec-panel"><h3>KASIM 2026 HEDEF VE KAPANIŞ GÖRÜNÜMÜ</h3><div class="exec-year-callout"><small>AYLIK CİRO HEDEFİ</small><strong>'+money(month.target)+'</strong><p>Gerçekleşen: '+money(month.actual)+' · HGO: '+pct(month.actual/month.target*100)+'</p></div><div class="exec-year-callout" style="margin-top:9px"><small>TAHMİNİ AY SONU CİROSU</small><strong>'+money(month.forecast)+'</strong><p>Beklenen kapanış HGO: '+pct(month.forecastRate)+'</p></div><div class="exec-year-callout" style="margin-top:9px"><small>HAFTA İÇİ / HAFTA SONU ORTALAMA CİRO</small><strong>'+money(month.weekdayAvg)+' / '+money(month.weekendAvg)+'</strong><p>Günlük ortalamalar</p></div></article></section>'+
 
@@ -659,7 +680,7 @@ const monthlyTable=(item)=>{
  })()+
  '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">03 · KATEGORİ PERFORMANSI</span><h2>Kasım kategori karşılaştırması</h2><p>2026 gerçekleşen ciro ve adet, 2025 Kasım ile karşılaştırılır.</p></div></div><div class="exec-category">'+cat+'</div></section>'+
 
- '<div class="exec-note">Veri notu: 2026 aylık hedef listesinin toplamı 30.930.000 TL; yıllık hedef alanında verilen 29.197.940 TL kullanıldı. İki kaynak arasında 1.732.060 TL fark bulunduğundan yıllık hedef oranı doğrudan yıllık hedef değeri üzerinden hesaplanır. Kasım 2026 aylık çalışma sayfasındaki ciro hedefi 3.500.000 TL’dir. 2026 yıllık tabloda Kasım hedefi 1.680.000 TL göründüğü için iki hedef birbirine karıştırılmadı; aylık bölümde günlük veri setinin 3.500.000 TL hedefi esas alındı. 2025 karşılaştırması yalnızca 1–14 Kasım günlük satırlarından hesaplandı. 15 Kasım ve sonrası, 2026 verisi oluştuğunda otomatik olarak karşılaştırmaya dahil edilecek şekilde günlük veri kapsamı esas alınmalıdır.</div>'+
+ '<div class="exec-note">Veri notu: 2026 aylık hedef listesinin toplamı 30.930.000 TL; yıllık hedef alanında verilen 29.197.940 TL kullanıldı. İki kaynak arasında 1.732.060 TL fark bulunduğundan yıllık hedef oranı doğrudan yıllık hedef değeri üzerinden hesaplanır. Kasım 2026 aylık çalışma sayfasındaki ciro hedefi 3.500.000 TL’dir. 2026 yıllık tabloda Kasım hedefi 1.680.000 TL göründüğü için iki hedef birbirine karıştırılmadı; aylık bölümde günlük veri setinin 3.500.000 TL hedefi esas alındı. 2025 ve 2026 karşılaştırması, Mağaza Datası.xlsx içindeki son tamamlanmış ortak güne kadar olan günlük satırlardan hesaplanır. Henüz gerçekleşmesi girilmemiş günler toplama katılmaz.</div>'+
  '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">04 · YILLIK PERFORMANS</span><h2>Ocak–Kasım karşılaştırması</h2><p>Yıllık bölüm aylık analizlerin altında yer alır. Aralık 2026 henüz kapsama alınmamıştır.</p></div></div><div class="exec-grid">'+annualCards+'</div>'+annualCharts+'<article class="exec-panel"><h3>YILLIK KPI ÖZETİ</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026 YTD</th><th>2025 TAM YIL</th><th>Not</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">Yıllık KPI tablosunda 2026 Ocak–Kasım ile 2025 tam yıl karşılaştırması dönem kapsamı bakımından eşit değildir. Bu nedenle büyüme yüzdesi gösterilmedi. Ciro için ayrıca 2025 Ocak–Kasım toplamı hesaplanarak eş dönem karşılaştırması yukarıda verildi.</p></article></section>'+
  '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">05 · YILLIK KATEGORİ KIRILIMI</span><h2>Kategori ciro dağılımı</h2><p>Kaynak yıllık toplamları; dönem kapsamı farklı olduğu için değişim oranı verilmez.</p></div></div><div class="exec-category exec-annual-category">'+d.annual.cat2026.map((v,i)=>'<article class="exec-cat"><h4>'+["AYAKKABI","TEKSTİL","AKSESUAR"][i]+'</h4><strong>'+money(v)+'</strong><p>2026 Ocak–Kasım · '+pct(d.annual.catShare2026[i])+'</p><p>Adet: '+fmt(d.annual.catUnits2026[i])+'</p><p>2025 tam yıl: '+money(d.annual2025.cat[i])+' · '+pct(d.annual2025.catShare[i])+'</p></article>').join("")+'</div></section>';
  const janNovHTML="";
