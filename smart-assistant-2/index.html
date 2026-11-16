@@ -205,7 +205,7 @@ async function initPeopleHub(force=false){
  renderPeopleSD();renderPeopleLeague();renderPeopleWeekly();renderPeopleAnalysis();
  if(status)status.textContent="Kaynaklar güncellendi · "+new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
 }
-function go(page){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('pageTitle').textContent=titles[page];document.getElementById('dashboardPage').classList.toggle('hidden',page!=='dashboard');document.getElementById('otherPage').classList.toggle('hidden',page==='dashboard');if(page!=='dashboard'){if(page==='ai'||page==='coach'){renderAI()}else{const p=content[page];document.getElementById('pageIntro').textContent=p.intro;document.getElementById('pageContent').innerHTML=p.html;if(page==='people')initPeopleHub();if(page==='products')renderProductGuide()}}window.scrollTo({top:0,behavior:'smooth'})}
+function go(page){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('pageTitle').textContent=titles[page];document.getElementById('dashboardPage').classList.toggle('hidden',page!=='dashboard');document.getElementById('otherPage').classList.toggle('hidden',page==='dashboard');if(page!=='dashboard'){if(page==='data'){document.getElementById('pageIntro').textContent="Excel dosyalarını yükle, düzenle ve ortak rapor kaynağını güncelle.";buyakaRenderDataCenter()}else if(page==='ai'||page==='coach'){renderAI()}else{const p=content[page];document.getElementById('pageIntro').textContent=p.intro;document.getElementById('pageContent').innerHTML=p.html;if(page==='people')initPeopleHub();if(page==='products')renderProductGuide()}}window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
 function taskUpdate(){const c=document.querySelectorAll('#tasks input:checked').length;document.getElementById('taskCount').textContent=c+' / 4 tamamlandı'}
 function makeReport(t){document.getElementById('reportOutput').innerHTML='<div class="card" style="background:#fafaf8"><strong>'+t+'</strong><p class="insight">Örnek rapor: Günlük ciro hedef gerçekleşmesi %108 seviyesinde. CR %6,8 ile gelişim alanı olarak izlenmelidir. UPT 1,72 seviyesindedir. Bu metin temsili verilerle oluşturulmuştur; gerçek rapor için veri kaynağı bağlanmalıdır.</p><button onclick="navigator.clipboard?.writeText(document.getElementById(\'reportOutput\').innerText)" style="border:1px solid var(--line);background:white;padding:8px 11px;border-radius:7px">Metni kopyala</button></div>'}
@@ -266,6 +266,81 @@ function renderAI(){document.getElementById('pageIntro').textContent='Mağaza ve
 function ask(q){document.getElementById('chatInput').value=q;sendChat(new Event('submit',{cancelable:true}))}
 function sendChat(e){e.preventDefault();const input=document.getElementById('chatInput');const q=input.value.trim();if(!q)return;const box=document.getElementById('messages');box.insertAdjacentHTML('beforeend','<div class="msg user"></div>');box.lastChild.textContent=q;let answer='Bu soruyu gerçek mağaza verilerine göre yanıtlamak için ilgili Excel veya veri kaynağının bağlanması gerekiyor. Şu anda yalnızca örnek dashboard verileri var; kesin bir sonuç üretmem doğru olmaz.';if(/kpi|odak/i.test(q))answer='Demo göstergelerinde CR %6,8 ile gelişim alanı, UPT 1,72 ise olumlu bir gösterge olarak sunuluyor. İlk aksiyon olarak müşteri karşılama ve satışa dönüşüm kalitesini inceleyebilir, UPT tarafındaki tamamlayıcı ürün davranışını koruyabilirsin. Bu yorum yalnızca örnek verilere dayanır.';else if(/stok|ürün/i.test(q))answer='Stok fırsatı analizi için ürün bazında son 7/15/30 günlük satış, güncel stok ve beden kırılımı gerekli. Bu kaynaklar bağlandığında yüksek satış hızına rağmen düşük stoğu olan ürünleri ve eksik bedenleri önceliklendirebilirim.';else if(/hedef|gerisinde/i.test(q))answer='Hedef açığının nedenini güvenilir biçimde bulmak için ciro, trafik, fatura, CR, UPT ve kategori verilerini aynı dönem ve geçen yıl karşılaştırmasıyla incelemeliyim. Demo verisinde günlük ciro hedefi %108; aylık hedef hakkında gerçek veri bulunmuyor.';else if(/ekip|personel/i.test(q))answer='Ekibe özel öneri verebilmek için kişi bazında hedef, gerçekleşen KPI ve eğitim geçmişi gerekir. Genel demo önerim, kısa vardiya başı hedef paylaşımı ve tamamlayıcı ürün önerisi üzerine gözlem/koçluk yapılması.';box.insertAdjacentHTML('beforeend','<div class="msg bot"></div>');box.lastChild.textContent=answer;input.value='';box.scrollTop=box.scrollHeight}
 
+
+const BUYAKA_SUPABASE_URL="https://zjxphwqcmmmbikgrbhyn.supabase.co";
+const BUYAKA_SUPABASE_KEY="sb_publishable_OF_6Dt6vWB3Z0XlyvOxIog_evFp_M57";
+const BUYAKA_DATA_FILES=[
+ {name:"Mağaza Datası.xlsx",label:"Mağaza Datası",group:"Mağaza KPI"},
+ {name:"Welcome Sheet.xlsx",label:"Welcome Sheet",group:"Mağaza Yönetimi"},
+ {name:"haftalık satış.xlsx",label:"Haftalık Satış",group:"Haftalık Rapor"},
+ {name:"aylık satış.xlsx",label:"Aylık Satış",group:"Aylık Rapor"},
+ {name:"Top20.xlsx",label:"Top20",group:"Ürün Analizi"},
+ {name:"SD Karne.xlsx",label:"SD Karne",group:"Personel"}
+];
+const BUYAKA_DATA_ALIASES={"Kasım 2026 Data.xlsx":"Mağaza Datası.xlsx","Haftalık Satış.xlsx":"haftalık satış.xlsx","Aylık Satış.xlsx":"aylık satış.xlsx"};
+let buyakaEditorBook=null, buyakaEditorFile="";
+async function buyakaDbRequest(path,options={}){
+ const res=await fetch(BUYAKA_SUPABASE_URL+"/rest/v1/"+path,{...options,headers:{apikey:BUYAKA_SUPABASE_KEY,Authorization:"Bearer "+BUYAKA_SUPABASE_KEY,"Content-Type":"application/json",Prefer:"return=representation",...(options.headers||{})}});
+ const raw=await res.text();let data=null;try{data=raw?JSON.parse(raw):null}catch{}
+ if(!res.ok)throw new Error(data?.message||data?.hint||raw||("Supabase HTTP "+res.status));
+ return data;
+}
+async function buyakaGetWorkbook(file){
+ const actual=BUYAKA_DATA_ALIASES[file]||file;
+ const q="buyaka_excel_sources?select=file_key,file_name,workbook,updated_at&file_name=eq."+encodeURIComponent(actual)+"&limit=1";
+ const rows=await buyakaDbRequest(q);
+ return rows&&rows[0]?rows[0]:null;
+}
+function buyakaParseWorkbook(file,arrayBuffer){
+ const wb=XLSX.read(arrayBuffer,{type:"array",cellDates:true});
+ const parsed={name:file,sheets:[]};
+ wb.SheetNames.forEach(sheetName=>{
+  const raw=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:"",raw:false});
+  let headerIndex=0,best=-1;
+  raw.slice(0,25).forEach((row,i)=>{const score=row.filter(v=>String(v).trim()!=="").length;if(score>best){best=score;headerIndex=i}});
+  const headers=(raw[headerIndex]||[]).map((v,i)=>String(v||"Sütun "+(i+1)).trim()||"Sütun "+(i+1));
+  const rows=raw.slice(headerIndex+1).filter(row=>row.some(v=>String(v).trim()!=="")).map(row=>headers.map((_,i)=>row[i]??""));
+  parsed.sheets.push({name:sheetName,headers,rows,total:rows.length});
+ });
+ return parsed;
+}
+async function buyakaSaveWorkbook(file,book){
+ const payload={file_key:"smart-assistant-2/"+file,file_name:file,workbook:book,updated_at:new Date().toISOString()};
+ await buyakaDbRequest("buyaka_excel_sources?on_conflict=file_key",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=representation"},body:JSON.stringify(payload)});
+ excelCache[file]=book;
+ Object.keys(BUYAKA_DATA_ALIASES).forEach(alias=>{if(BUYAKA_DATA_ALIASES[alias]===file)excelCache[alias]=book});
+}
+function buyakaRenderDataCenter(){
+ const host=document.getElementById("pageContent");if(!host)return;
+ host.innerHTML='<div class="card" style="margin-bottom:14px"><div class="card-title"><h3>BUYAKA Yönetici Veri Merkezi</h3><span class="status ok">ORTAK VERİTABANI</span></div><p class="insight">Bu alana yüklenen Excel dosyaları ortak veritabanına kaydedilir. Aynı dosya yeniden yüklendiğinde eski sürümün yerini alır; rapor ekranları veriyi buradan okur.</p><div class="excel-file-list">'+BUYAKA_DATA_FILES.map(x=>'<span>'+esc(x.label)+'</span>').join("")+'</div><div class="notice">Dosyayı seçip yükle. Yükleme tamamlandığında önizleme ve hücre düzenleme alanı açılır. Değişiklikleri Kaydet dediğinde raporlar yeni tabloyu kullanır.</div></div><div id="buyakaDataFileCards" class="excel-stack">'+BUYAKA_DATA_FILES.map((f,i)=>'<div class="card excel-card" id="buyaka-file-'+i+'"><div class="card-title"><div><h3>'+esc(f.label)+'</h3><span class="excel-meta">'+esc(f.group)+'</span></div><span class="status">EXCEL</span></div><div class="excel-tools"><input type="file" accept=".xlsx,.xls" onchange="buyakaUploadWorkbook(this,'+i+')"></div><div class="excel-state" id="buyaka-state-'+i+'">Henüz bu oturumda yüklenmedi. Dosya seçerek güncelleyebilirsin.</div></div>').join("")+'</div><div id="buyakaEditor" class="card" style="margin-top:14px"><div class="card-title"><h3>Tablo Düzenleme</h3><span class="status">ÖNİZLEME</span></div><p class="insight">Bir Excel yükledikten sonra burada satırları düzenleyebilir ve ortak kaynağa kaydedebilirsin.</p></div>';
+ BUYAKA_DATA_FILES.forEach(async(f,i)=>{try{const saved=await buyakaGetWorkbook(f.name);if(saved){const el=document.getElementById("buyaka-state-"+i);if(el)el.innerHTML='<span class="status ok">KAYITLI</span> Son güncelleme: '+new Date(saved.updated_at).toLocaleString("tr-TR")+' · '+saved.workbook.sheets.reduce((n,x)=>n+x.total,0)+' satır';}}catch(e){const el=document.getElementById("buyaka-state-"+i);if(el)el.textContent="Veritabanı okunamadı: "+e.message;}});
+}
+async function buyakaUploadWorkbook(input,index){
+ const file=BUYAKA_DATA_FILES[index],state=document.getElementById("buyaka-state-"+index);
+ if(!input.files||!input.files[0])return;
+ try{
+  if(!window.XLSX)throw new Error("Excel okuma kütüphanesi hazır değil.");
+  state.textContent="Excel okunuyor ve ortak veritabanına kaydediliyor…";
+  const book=buyakaParseWorkbook(file.name,await input.files[0].arrayBuffer());
+  if(!book.sheets.length)throw new Error("Dosyada okunabilir sayfa bulunamadı.");
+  await buyakaSaveWorkbook(file.name,book);
+  state.innerHTML='<span class="status ok">KAYDEDİLDİ</span> '+book.sheets.length+' sayfa · '+book.sheets.reduce((n,x)=>n+x.total,0)+' satır · '+new Date().toLocaleTimeString("tr-TR");
+  buyakaOpenEditor(file.name,book);
+ }catch(e){state.innerHTML='<div class="notice">Yükleme başarısız: '+esc(e.message)+'</div>';}
+}
+function buyakaOpenEditor(file,book){
+ buyakaEditorFile=file;buyakaEditorBook=JSON.parse(JSON.stringify(book));
+ const root=document.getElementById("buyakaEditor");if(!root)return;
+ const sh=buyakaEditorBook.sheets[0];
+ root.innerHTML='<div class="card-title"><div><h3>'+esc(file)+' · Tablo Düzenleme</h3><span class="excel-meta">Hücreye tıklayarak düzenle · en fazla 300 satır önizlenir</span></div><button onclick="buyakaSaveEditedWorkbook()" style="border:0;border-radius:8px;background:var(--red);color:#fff;padding:10px 14px;font-weight:800">Değişiklikleri Kaydet</button></div><div class="excel-tools"><select id="buyakaEditSheet" onchange="buyakaChangeEditorSheet(this.value)">'+buyakaEditorBook.sheets.map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+' ('+x.total+')</option>').join("")+'</select></div><div class="excel-table-wrap"><table class="mini-table excel-table"><thead><tr>'+sh.headers.map(h=>'<th>'+esc(h)+'</th>').join("")+'</tr></thead><tbody>'+sh.rows.slice(0,300).map((r,ri)=>'<tr>'+sh.headers.map((_,ci)=>'<td contenteditable="true" data-ri="'+ri+'" data-ci="'+ci+'">'+esc(r[ci]??"")+'</td>').join("")+'</tr>').join("")+'</tbody></table></div><p class="excel-meta">Düzenleme alanı önizlenen ilk 300 satırı gösterir. Dosyanın tüm satırları kayıtta korunur.</p>';
+}
+function buyakaChangeEditorSheet(name){const sh=buyakaEditorBook?.sheets.find(x=>x.name===name);if(!sh)return;const root=document.getElementById("buyakaEditor");const old=buyakaEditorFile;buyakaOpenEditor(old,{...buyakaEditorBook,sheets:buyakaEditorBook.sheets.map(x=>x.name===name?x:x)});const select=document.getElementById("buyakaEditSheet");if(select)select.value=name;const table=root.querySelector("tbody");if(table)table.innerHTML=sh.rows.slice(0,300).map((r,ri)=>'<tr>'+sh.headers.map((_,ci)=>'<td contenteditable="true" data-ri="'+ri+'" data-ci="'+ci+'">'+esc(r[ci]??"")+'</td>').join("")+'</tr>').join("");root.querySelector("thead").innerHTML="<tr>"+sh.headers.map(h=>"<th>"+esc(h)+"</th>").join("")+"</tr>";}
+async function buyakaSaveEditedWorkbook(){
+ const root=document.getElementById("buyakaEditor"),name=document.getElementById("buyakaEditSheet")?.value,sh=buyakaEditorBook?.sheets.find(x=>x.name===name);if(!root||!sh)return;
+ root.querySelectorAll("td[contenteditable=true]").forEach(td=>{const ri=Number(td.dataset.ri),ci=Number(td.dataset.ci);if(sh.rows[ri])sh.rows[ri][ci]=td.textContent;});
+ try{await buyakaSaveWorkbook(buyakaEditorFile,buyakaEditorBook);const old=root.querySelector(".excel-meta");if(old)old.textContent="Ortak veritabanına kaydedildi · "+new Date().toLocaleTimeString("tr-TR");}catch(e){alert("Kaydedilemedi: "+e.message);}
+}
+
 const excelFiles=[
  {name:"Güncel Stok.xlsx",group:"Stok"},
  {name:"KASIM PERSONEL FATURA VE ÜRÜN ADEDİ HEDEF.xlsx",group:"Personel"},
@@ -289,6 +364,7 @@ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 async function loadExcel(file){
  if(excelCache[file])return excelCache[file];
  if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi. İnternet bağlantısını kontrol et.");
+ try{const shared=await buyakaGetWorkbook(file);if(shared?.workbook){excelCache[file]=shared.workbook;return shared.workbook;}}catch(e){console.warn("Ortak Excel kaynağı okunamadı; eski kaynak deneniyor:",e.message);}
  const url="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/"+encodeURIComponent(file).replace(/%2F/g,"/");
  const res=await fetch(url,{cache:"no-store"});
  if(!res.ok)throw new Error(file+" indirilemedi ("+res.status+").");
@@ -331,6 +407,8 @@ async function mountExcelCard(file,id){
 async function renderExcelPage(page){
  const host=document.getElementById("pageContent");
  if(page==="data"){
+  buyakaRenderDataCenter();
+  return;
   host.innerHTML='<div class="card"><div class="card-title"><h3>BUYAKA gerçek veri kaynakları</h3><span class="status ok">9 DOSYA</span></div><p class="insight">Aşağıdaki tablolar GitHub deposundaki Excel dosyalarından doğrudan okunur. Dosyalar değiştirildiğinde sayfayı yenileyerek güncel veriyi alabilirsin.</p><div class="excel-file-list">'+excelFiles.map(f=>'<span>'+esc(f.name)+'</span>').join("")+'</div></div><div id="allExcelCards" class="excel-stack"></div>';
   const root=document.getElementById("allExcelCards");
   root.innerHTML=excelFiles.map((f,i)=>excelCardMarkup(f.name,"excel_"+i)).join("");
