@@ -309,8 +309,8 @@ function buyakaParseWorkbook(file,arrayBuffer){
 async function buyakaSaveWorkbook(file,book){
  const payload={file_key:"smart-assistant-2/"+file,file_name:file,workbook:book,updated_at:new Date().toISOString()};
  await buyakaDbRequest("buyaka_excel_sources?on_conflict=file_key",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=representation"},body:JSON.stringify(payload)});
- excelCache[file]=book;
- Object.keys(BUYAKA_DATA_ALIASES).forEach(alias=>{if(BUYAKA_DATA_ALIASES[alias]===file)excelCache[alias]=book});
+ excelCache[file]=book;excelCacheTime[file]=Date.now();
+ Object.keys(BUYAKA_DATA_ALIASES).forEach(alias=>{if(BUYAKA_DATA_ALIASES[alias]===file){excelCache[alias]=book;excelCacheTime[alias]=Date.now();}});
 }
 function buyakaRenderDataCenter(){
  const host=document.getElementById("pageContent");if(!host)return;
@@ -371,11 +371,12 @@ const sourceMap={
  products:["Satış Verileri.xlsx","Güncel Stok.xlsx","Top20.xlsx"]
 };
 const excelCache={};
+const excelCacheTime={};
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 async function loadExcel(file){
- if(excelCache[file])return excelCache[file];
+ if(excelCache[file]&&Date.now()-(excelCacheTime[file]||0)<15000)return excelCache[file];
  if(!window.XLSX)throw new Error("Excel okuma kütüphanesi yüklenemedi. İnternet bağlantısını kontrol et.");
- try{const shared=await buyakaGetWorkbook(file);if(shared?.workbook){excelCache[file]=shared.workbook;return shared.workbook;}}catch(e){console.warn("Ortak Excel kaynağı okunamadı; eski kaynak deneniyor:",e.message);}
+ try{const shared=await buyakaGetWorkbook(file);if(shared?.workbook){excelCache[file]=shared.workbook;excelCacheTime[file]=Date.now();return shared.workbook;}}catch(e){console.warn("Ortak Excel kaynağı okunamadı; eski kaynak deneniyor:",e.message);}
  const url="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/"+encodeURIComponent(file).replace(/%2F/g,"/");
  const res=await fetch(url,{cache:"no-store"});
  if(!res.ok)throw new Error(file+" indirilemedi ("+res.status+").");
@@ -389,7 +390,7 @@ async function loadExcel(file){
   const rows=raw.slice(headerIndex+1).filter(row=>row.some(v=>String(v).trim()!==""));
   parsed.sheets.push({name:sheetName,headers,rows,total:rows.length});
  });
- excelCache[file]=parsed;return parsed;
+ excelCache[file]=parsed;excelCacheTime[file]=Date.now();return parsed;
 }
 function excelCardMarkup(file,id){
  return '<div class="card excel-card" id="'+id+'"><div class="card-title"><h3>'+esc(file)+'</h3><span class="status">EXCEL KAYNAĞI</span></div><div class="excel-state">Dosya yükleniyor…</div></div>';
