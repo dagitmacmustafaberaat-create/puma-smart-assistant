@@ -281,9 +281,10 @@ const excelFiles=[
  {name:"Kasım 2026 Data.xlsx",group:"Mağaza KPI"}
 ];
 const sourceMap={
- weekly:["haftalık satış.xlsx"],
- annual:["aylık satış.xlsx","Mağaza Datası.xlsx"],
- coach:["Mağaza Datası.xlsx","Welcome Sheet.xlsx"],
+ dashboard:["Welcome Sheet.xlsx","Mağaza Datası.xlsx","haftalık satış.xlsx","aylık satış.xlsx","Top20.xlsx"],
+ weekly:["haftalık satış.xlsx","Welcome Sheet.xlsx"],
+ annual:["aylık satış.xlsx","Mağaza Datası.xlsx","Welcome Sheet.xlsx"],
+ coach:["Mağaza Datası.xlsx","Welcome Sheet.xlsx","haftalık satış.xlsx","aylık satış.xlsx"],
  opportunities:["Mağaza Datası.xlsx","Güncel Stok.xlsx","Stok Devir Tablo.xlsx"],
  operations:["Kasim_2026_Egitim_Takvimi.xlsx","Welcome Sheet.xlsx"],
  reports:["Mağaza Datası.xlsx","Welcome Sheet.xlsx","Top20.xlsx"],
@@ -345,7 +346,7 @@ async function mountExcelCard(file,id){
 async function renderExcelPage(page){
  const host=document.getElementById("pageContent");
  if(page==="data"){
-  host.innerHTML='<div class="card"><div class="card-title"><h3>BUYAKA gerçek veri kaynakları</h3><span class="status ok">9 DOSYA</span></div><p class="insight">Aşağıdaki tablolar GitHub deposundaki Excel dosyalarından doğrudan okunur. Dosyalar değiştirildiğinde sayfayı yenileyerek güncel veriyi alabilirsin.</p><div class="excel-file-list">'+excelFiles.map(f=>'<span>'+esc(f.name)+'</span>').join("")+'</div></div><div id="allExcelCards" class="excel-stack"></div>';
+  host.innerHTML='<div class="card"><div class="card-title"><h3>BUYAKA gerçek veri kaynakları</h3><span class="status ok">'+excelFiles.length+' DOSYA</span></div><p class="insight">Aşağıdaki tablolar GitHub deposundaki Excel dosyalarından doğrudan okunur. Dosyalar değiştirildiğinde sayfayı yenileyerek güncel veriyi alabilirsin.</p><div class="excel-file-list">'+excelFiles.map(f=>'<span>'+esc(f.name)+'</span>').join("")+'</div></div><div id="allExcelCards" class="excel-stack"></div>';
   const root=document.getElementById("allExcelCards");
   root.innerHTML=excelFiles.map((f,i)=>excelCardMarkup(f.name,"excel_"+i)).join("");
   await Promise.all(excelFiles.map((f,i)=>mountExcelCard(f.name,"excel_"+i)));
@@ -353,7 +354,7 @@ async function renderExcelPage(page){
  }
  const files=sourceMap[page]||[];
  if(!files.length)return;
- host.innerHTML='<div class="card" style="margin-bottom:14px"><div class="card-title"><h3>Canlı Excel kaynakları</h3><span class="status ok">GERÇEK VERİ</span></div><p class="insight">Bu modül aşağıdaki kaynak dosyalardaki gerçek satırları kullanır. Her tablo içinde sayfa seçebilir ve arama yapabilirsin.</p></div><div id="mappedExcelCards" class="excel-stack"></div>';
+ host.innerHTML='<div class="card" style="margin-bottom:14px"><div class="card-title"><h3>Canlı Excel kaynakları</h3><span class="status ok">GERÇEK VERİ</span></div><p class="insight">Aşağıda GitHub’daki güncel Excel dosyalarının gerçek sayfaları gösterilir. Rakamlar sabit örneklerden değil, dosyalardan okunur; sayfa seçebilir ve satırlarda arama yapabilirsin.</p></div><div id="mappedExcelCards" class="excel-stack"></div>';
  const root=document.getElementById("mappedExcelCards");
  root.innerHTML=files.map((f,i)=>excelCardMarkup(f,"mapped_"+i)).join("");
  await Promise.all(files.map((f,i)=>mountExcelCard(f,"mapped_"+i)));
@@ -397,250 +398,12 @@ async function renderOpportunitiesPage(){
 
 
 function renderExecutiveDashboard(){
- const root=document.getElementById("executiveDashboard");if(!root)return;
- const d={
-  month:{name:"Kasım 2026",days:30,through:14,target:3500000,actual:1351340,transactions:275,multiTransactions:96,units:409,visitors:2778,upt:1.49,cr:9.90,atv:4913.96,asp:3304.01,multis:34.91,forecast:2775759,forecastRate:79.31,weekdayAvg:50553,weekendAvg:190461},
-  prior:{actual:1022976,transactions:195,multiTransactions:124,units:319,visitors:3675,upt:1.64,cr:5.31,atv:5246.03,asp:3206.82,multis:63.59},
-  categories:[
-   {name:"Ayakkabı",current:515464,prior:495035,units:122,priorUnits:124,share:38.14},
-   {name:"Tekstil",current:807696,prior:510642,units:259,priorUnits:178,share:59.77},
-   {name:"Aksesuar",current:28180,prior:17302,units:28,priorUnits:17,share:2.09}
-  ],
-  annual:{ytd2026:25986137,janNov2025:22716526,full2025:28209567,target2026:29197940,transactions2026:5139,multi2026:2419,units2026:8501,visitors2026:87152,upt2026:1.65,cr2026:5.90,atv2026:5056.65,multis2026:47.07,cat2026:[12613819,12387907,984410],catUnits2026:[3363,4430,708],catShare2026:[48.54,47.67,3.79]},
-  annual2025:{target:34280086,actual:28209567,transactions:6185,multi:3006,units:10449,visitors:107822,upt:1.69,cr:5.70,atv:4560.96,multis:48.60,cat:[13992119,13319943,897505],catUnits:[3964,5676,809],catShare:[49.60,47.22,3.18]},
-  months2025:[1751459,1460632,2770880,1995756,2378886,2776560,1792252,2490118,2377229,2793727,1175313],
-  months2026:[1919765,1665353,3078515,2427269,3197242,2070598,2869130,2010409,2764304,2632213,1351340],
-  labels:["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas"]
- };
- const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(n);
- const money=n=>fmt(n)+" TL",pct=n=>"%"+fmt(n,1);
- const delta=(a,b)=>a-b,rate=(a,b)=>b?((a-b)/b*100):0;
- const trend=(v)=>'<span class="delta '+(v>=0?'positive':'negative')+'">'+(v>0?'+':'')+pct(v)+'</span>';
- const kpi=(name,a,b,unit="",digits=0,goodUp=true)=>{const diff=delta(a,b),change=rate(a,b),f=unit==="money"?money:unit==="percent"?pct:n=>fmt(n,digits);const favorable=(diff>=0)===goodUp;return '<article class="exec-kpi"><small>'+name+'</small><strong>'+f(a)+'</strong><div class="compare">2025 aynı gün aralığı: '+f(b)+'</div><div class="delta '+(favorable?'positive':'negative')+'">'+(diff>0?'+':'')+f(diff)+' · '+(change>0?'+':'')+pct(change)+'</div></article>'};
- const row=(label,a,b,unit="",digits=0,goodUp=true)=>{const diff=a-b,chg=rate(a,b),f=unit==="money"?money:unit==="percent"?pct:n=>fmt(n,digits);const favorable=(diff>=0)===goodUp;return '<tr><th>'+label+'</th><td>'+f(a)+'</td><td>'+f(b)+'</td><td class="'+(favorable?'positive':'negative')+'">'+(diff>0?'+':'')+f(diff)+'</td><td class="'+(favorable?'positive':'negative')+'">'+(chg>0?'+':'')+pct(chg)+'</td></tr>'};
- const month=d.month,prior=d.prior;
- const kpis=[
-  kpi("CİRO",month.actual,prior.actual,"money"),
-  kpi("FATURA",month.transactions,prior.transactions),
-  kpi("ÜRÜN ADEDİ",month.units,prior.units),
-  kpi("MAĞAZA TRAFİĞİ",month.visitors,prior.visitors),
-  kpi("UPT",month.upt,prior.upt,"",2),
-  kpi("CR",month.cr,prior.cr,"percent",1),
-  kpi("ATV",month.atv,prior.atv,"money"),
-  kpi("ASP",month.asp,prior.asp,"money"),
-  kpi("MULTIS",month.multis,prior.multis,"percent",1)
- ].join("");
- const rows=[
-  row("Ciro",month.actual,prior.actual,"money"),
-  row("Fatura",month.transactions,prior.transactions),
-  row("Fatura başı çoklu ürün",month.multiTransactions,prior.multiTransactions),
-  row("Ürün adedi",month.units,prior.units),
-  row("Trafik",month.visitors,prior.visitors),
-  row("UPT",month.upt,prior.upt,"",2),
-  row("CR",month.cr,prior.cr,"percent",1),
-  row("ATV",month.atv,prior.atv,"money"),
-  row("ASP",month.asp,prior.asp,"money"),
-  row("MULTIS",month.multis,prior.multis,"percent",1,false)
- ].join("");
- const cat=d.categories.map(c=>{const g=rate(c.current,c.prior),ug=rate(c.units,c.priorUnits);return '<article class="exec-cat category-performance-card"><h4>'+c.name.toLocaleUpperCase("tr-TR")+'</h4><strong>'+money(c.current)+'</strong><p>2025 aynı dönem: '+money(c.prior)+'</p><p>Ciro değişimi: <b class="'+(g>=0?'positive':'negative')+'">'+(g>0?'+':'')+pct(g)+'</b></p><p>Adet: '+fmt(c.units)+' · 2025: '+fmt(c.priorUnits)+' · '+(ug>0?'+':'')+pct(ug)+'</p><p>Ciro payı: '+pct(c.share)+'</p><div class="exec-bar"><i style="width:'+c.share+'%"></i></div></article>'}).join("");
- 
- const annualTotals={
-  y2025:{target:29170340,actual:23762812,transactions:5289,multi:2451,units:8907,visitors:93944},
-  y2026:{target:30930000,actual:25986137,transactions:5139,multi:2419,units:8501,visitors:87152}
- };
- const annualKpi=o=>({hgo:o.actual/o.target*100,upt:o.units/o.transactions,cr:o.transactions/o.visitors*100,atv:o.actual/o.transactions,asp:o.actual/o.units,multis:o.multi/o.transactions*100});
- const a25=annualTotals.y2025,a26=annualTotals.y2026,k25=annualKpi(a25),k26=annualKpi(a26);
- const annualCards='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">YILLIK PERFORMANS · EŞ DÖNEM</span><h2>2025 / 2026 · Ocak–15 Kasım</h2><p>Ocak–Ekim tam aylar, Kasım her iki yılda da 15 günlük gerçekleşme üzerinden karşılaştırılır.</p></div></div><div class="exec-grid">'+[
-  '<article class="exec-kpi"><small>2026 GERÇEKLEŞEN CİRO</small><strong>'+money(a26.actual)+'</strong><div class="compare">Hedef: '+money(a26.target)+'</div><div class="delta positive">HGO '+pct(k26.hgo)+'</div></article>',
-  '<article class="exec-kpi"><small>2025 GERÇEKLEŞEN CİRO</small><strong>'+money(a25.actual)+'</strong><div class="compare">Hedef: '+money(a25.target)+'</div><div class="delta">HGO '+pct(k25.hgo)+'</div></article>',
-  '<article class="exec-kpi"><small>CİRO BÜYÜMESİ</small><strong class="'+(a26.actual>=a25.actual?'positive':'negative')+'">'+(a26.actual>=a25.actual?'+':'')+pct((a26.actual/a25.actual-1)*100)+'</strong><div class="compare">Fark: '+(a26.actual>=a25.actual?'+':'')+money(a26.actual-a25.actual)+'</div><div class="delta">2026 / 2025</div></article>',
-  '<article class="exec-kpi"><small>HEDEF GERÇEKLEŞME FARKI</small><strong class="'+(k26.hgo>=k25.hgo?'positive':'negative')+'">'+(k26.hgo-k25.hgo>=0?'+':'')+fmt(k26.hgo-k25.hgo,2)+' puan</strong><div class="compare">2026 '+pct(k26.hgo)+' · 2025 '+pct(k25.hgo)+'</div><div class="delta">HGO karşılaştırması</div></article>'
- ].join("")+'</div></section>';
- const annualMetricRows=[
-  ["Hedef",a26.target,a25.target,"money"],
-  ["Gerçekleşen ciro",a26.actual,a25.actual,"money"],
-  ["Hedef gerçekleşme (HGO)",k26.hgo,k25.hgo,"percentPoint"],
-  ["Fatura",a26.transactions,a25.transactions,"number"],
-  ["Çoklu ürünlü fatura",a26.multi,a25.multi,"number"],
-  ["Ürün adedi",a26.units,a25.units,"number"],
-  ["Mağaza trafiği",a26.visitors,a25.visitors,"number"],
-  ["UPT",k26.upt,k25.upt,"decimal"],
-  ["CR",k26.cr,k25.cr,"percentPoint"],
-  ["ATV",k26.atv,k25.atv,"moneyDecimal"],
-  ["ASP",k26.asp,k25.asp,"moneyDecimal"],
-  ["MULTİS",k26.multis,k25.multis,"percentPoint"]
- ];
- const annualRows=annualMetricRows.map(([name,x,y,type])=>{
-  const diff=x-y,change=y?(diff/y*100):0;
-  const f=v=>type==="money"?money(v):type==="moneyDecimal"?fmt(v,2)+" TL":type==="percentPoint"?"%"+fmt(v,2):type==="decimal"?fmt(v,2):fmt(v);
-  const diffText=type==="percentPoint"?(diff>=0?"+":"")+fmt(diff,2)+" puan":(diff>0?"+":"")+f(diff);
-  const changeText=(change>0?"+":"")+pct(change);
-  const good=diff>=0;
-  return '<tr><th>'+name+'</th><td>'+f(x)+'</td><td>'+f(y)+'</td><td class="'+(good?'positive':'negative')+'">'+diffText+'</td><td class="'+(good?'positive':'negative')+'">'+changeText+'</td></tr>';
- }).join("");
- const monthlySeries=[
-  {name:"CİRO",kind:"money",a:[1751459,1460632,2770880,1995756,2378886,2776560,1792252,2490118,2377229,2793727,1022976,2119020],b:[1919765,1665353,3078515,2427269,3197242,2070598,2869130,2010409,2764304,2632213,1351340,null]},
-  {name:"FATURA",kind:"num",a:[512,392,538,419,465,687,507,536,434,579,195,467],b:[489,340,497,451,581,423,687,481,514,401,275,null]},
-  {name:"ÜRÜN ADEDİ",kind:"num",a:[885,667,1060,756,975,1040,764,861,663,871,319,671],b:[725,512,786,731,1175,767,1205,758,763,670,409,null]},
-  {name:"MAĞAZA TRAFİĞİ",kind:"num",a:[8212,8445,10597,8150,8131,10584,8569,9774,8819,8590,3675,8743],b:[9087,6246,10820,8111,11742,7540,8014,7914,8566,6334,2778,null]},
-  {name:"UPT",kind:"decimal",a:[1.73,1.70,1.97,1.80,2.10,1.51,1.51,1.61,1.53,1.50,1.64,1.44],b:[1.48,1.51,1.58,1.62,2.02,1.81,1.75,1.58,1.48,1.67,1.49,null]},
-  {name:"CR",kind:"percent",a:[6.20,4.60,5.10,5.10,5.70,6.50,5.90,5.50,4.90,6.70,5.31,5.30],b:[5.40,5.40,4.60,5.60,4.90,5.60,8.60,6.10,6.00,6.30,9.90,null]},
-  {name:"ATV",kind:"money",a:[3420.82,3726.10,5150.33,4763.14,5115.88,4041.57,3535.01,4645.74,5477.49,4825.09,5246.03,4537.52],b:[3925.90,4898.10,6194.19,5381.97,5503.00,4895.03,4176.32,4179.64,5378.02,6564.12,4913.96,null]},
-  {name:"MULTIS",kind:"percent",a:[46.68,51.02,51.30,59.19,83.23,34.64,33.14,33.02,35.71,37.13,63.59,30.62],b:[31.90,32.35,43.26,59.20,68.67,55.79,49.20,38.25,33.66,61.10,34.91,null]},
-  {name:"ASP",kind:"money",a:[1984.70,2192.85,2613.09,2639.36,2439.88,2669.77,2345.88,2892.12,3586.17,3207.50,3206.82,3158.90],b:[2647.95,3252.64,3916.94,3320.48,2721.91,2700.65,2381.02,2651.20,3623.47,3928.68,3304.01,null]}
- ];
- const rev25=monthlySeries.find(x=>x.name==="CİRO").a,rev26=monthlySeries.find(x=>x.name==="CİRO").b,units25=monthlySeries.find(x=>x.name==="ÜRÜN ADEDİ").a,units26=monthlySeries.find(x=>x.name==="ÜRÜN ADEDİ").b;
- const asp=monthlySeries.find(x=>x.name==="ASP");asp.a=rev25.map((v,i)=>v/units25[i]);asp.b=rev26.map((v,i)=>v==null?null:v/units26[i]);
- const categorySeries=[
-  {name:"FTW CİRO",kind:"money",a:[981381,604763,1539904,972143,1341958,1683944,960752,1032493,1104291,1161718,495035,912704],b:[878962,776003,1387425,1147241,1544167,1216090,1770275,1095150,1333281,949761,515464,null]},
-  {name:"APP CİRO",kind:"money",a:[719207,801049,1147134,941815,981309,1043408,800235,1327966,1122846,1550989,510642,1143357],b:[985879,814141,1567227,1157939,1500882,775930,1038511,844704,1298619,1596381,807696,null]},
-  {name:"ACC CİRO",kind:"money",a:[50871,54820,83842,81798,55619,49207,31265,129659,150092,81020,17302,62960],b:[54924,75210,123862,122089,152193,78578,60345,70555,132403,86071,28180,null]},
-  {name:"FTW ÜRÜN ADEDİ",kind:"num",a:[366,187,426,276,369,494,303,296,241,270,124,229],b:[252,158,276,249,380,356,634,412,348,176,122,null]},
-  {name:"APP ÜRÜN ADEDİ",kind:"num",a:[452,420,541,405,543,495,415,477,332,520,178,402],b:[438,316,448,408,641,347,507,291,336,439,259,null]},
-  {name:"ACC ÜRÜN ADEDİ",kind:"num",a:[67,60,93,75,63,51,46,88,90,81,17,40],b:[35,38,62,74,154,64,64,55,79,55,28,null]},
-  {name:"FTW CİRO PAYI",kind:"percent",a:[56.03,41.40,55.57,48.71,56.41,60.65,53.61,41.46,46.45,41.58,48.42,43.07],b:[45.78,46.60,45.07,47.26,48.30,58.73,61.70,54.47,48.23,36.08,38.14,null]},
-  {name:"APP CİRO PAYI",kind:"percent",a:[41.06,54.84,41.40,47.19,41.25,37.58,44.65,53.33,47.23,55.52,49.69,53.96],b:[51.35,48.89,50.91,47.71,46.94,37.47,36.20,42.02,46.98,60.65,59.77,null]},
-  {name:"ACC CİRO PAYI",kind:"percent",a:[2.90,3.75,3.03,4.10,2.34,1.77,1.74,5.21,6.31,2.90,1.89,2.97],b:[2.86,4.52,4.02,5.03,4.76,3.79,2.10,3.51,4.79,3.27,2.09,null]}
- ];
- const monthlyChart=(item)=>{
-  const vals=[...item.a,...item.b].filter(v=>v!==null&&Number.isFinite(v)),max=Math.max(...vals,1);
-  const label=v=>item.kind==="money"?fmt(v,0):item.kind==="percent"?"%"+fmt(v,1):item.kind==="decimal"?fmt(v,2):fmt(v,0);
-  const cols=d.labels.concat(["Ara"]).map((m,i)=>{
-   const a=item.a[i],b=item.b[i],ha=a==null?0:Math.max(2,a/max*76),hb=b==null?0:Math.max(2,b/max*76);
-   return '<div class="exec-month-compare"><div class="exec-month-values"><span class="old">'+(a==null?"—":label(a))+'</span><span class="new">'+(b==null?"—":label(b))+'</span></div><div class="exec-month-pair"><i style="height:'+ha+'px" title="2025: '+(a==null?"Veri yok":label(a))+'"></i><b style="height:'+hb+'px" title="2026: '+(b==null?"Veri yok":label(b))+'"></b></div><small>'+m+'</small></div>';
-  }).join("");
-  return '<article class="exec-panel exec-monthly-kpi"><h3>'+item.name+'</h3><div class="exec-monthly-legend"><span><i></i>2025</span><span><b></b>2026</span></div><div class="exec-monthly-chart">'+cols+'</div></article>';
- };
- const annualKpiTotal=(item,year)=>{
- const vals=year==="2025"?item.a:item.b;
- const sum=arr=>arr.reduce((z,v)=>z+(v||0),0);
- const pick=name=>{const x=monthlySeries.find(q=>q.name===name);return x[year==="2025"?"a":"b"]};
- const revenue=pick("CİRO"),invoices=pick("FATURA"),units=pick("ÜRÜN ADEDİ"),traffic=pick("MAĞAZA TRAFİĞİ");
- if(item.name==="UPT")return sum(units)/sum(invoices);
- if(item.name==="CR")return sum(invoices)/sum(traffic)*100;
- if(item.name==="ATV")return sum(revenue)/sum(invoices);
- if(item.name==="ASP")return sum(revenue)/sum(units);
- if(item.name==="MULTIS")return sum(vals.map((v,i)=>v==null?0:v*invoices[i]))/sum(invoices);
- if(item.name.endsWith("CİRO PAYI")){const cat=categorySeries.find(q=>q.name===item.name.replace(" CİRO PAYI"," CİRO"));const catValues=cat[year==="2025"?"a":"b"];return sum(catValues)/sum(revenue)*100;}
- return sum(vals.filter(v=>v!=null));
-};
-const monthlyTable=(item)=>{
- const label=v=>item.kind==="money"?money(v):item.kind==="percent"?"%"+fmt(v,1):item.kind==="decimal"?fmt(v,2):fmt(v,0);
- const rows=d.labels.concat(["Ara"]).map((m,i)=>{
-  const a=item.a[i],b=item.b[i],diff=a==null||b==null?null:b-a,change=a?diff/a*100:null;
-  const cell=v=>v==null?"—":label(v),cls=diff==null?"":diff>=0?"positive":"negative";
-  return '<tr><th>'+m+'</th><td>'+cell(a)+'</td><td>'+cell(b)+'</td><td class="'+cls+'">'+(diff==null?"—":(diff>0?"+":"")+label(diff))+'</td><td class="'+cls+'">'+(change==null?"—":(change>0?"+":"")+pct(change))+'</td></tr>';
- }).join("");
- const total25=annualKpiTotal(item,"2025"),total26=annualKpiTotal(item,"2026"),diff=total26-total25,change=total25?diff/total25*100:null,cls=diff>=0?"positive":"negative";
- const totalRow='<tr class="annual-total-row"><th>YILLIK TOPLAM / ORTALAMA</th><td>'+label(total25)+'</td><td>'+label(total26)+'</td><td class="'+cls+'">'+(diff>0?"+":"")+label(diff)+'</td><td class="'+cls+'">'+(change==null?"—":(change>0?"+":"")+pct(change))+'</td></tr>';
- return '<article class="exec-panel"><h3>'+item.name+' · AYLIK KARŞILAŞTIRMA</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>AY</th><th>2025</th><th>2026</th><th>FARK</th><th>DEĞİŞİM</th></tr></thead><tbody>'+rows+totalRow+'</tbody></table></div></article>';
-};
- const monthlyFilter='<div class="exec-filter"><label for="monthlyKpiFilter">KPI SEÇ</label><select id="monthlyKpiFilter" onchange="filterMonthlyKPI(this.value)"><option value="all">Tüm KPI verileri</option>'+monthlySeries.map(x=>'<option value="'+x.name+'">'+x.name+'</option>').join("")+'</select></div>';
- const categoryFilter='<div class="exec-filter"><label for="monthlyCategoryFilter">KATEGORİ SEÇ</label><select id="monthlyCategoryFilter" onchange="filterMonthlyCategory(this.value)"><option value="all">Tüm kategoriler</option><option value="FTW">FTW</option><option value="APP">APP</option><option value="ACC">ACC</option></select></div>';
- const categoryNames=["FTW","APP","ACC"];
- const categoryMetrics=["CİRO","CİRO PAYI","ÜRÜN ADEDİ"];
- const categoryMonthlyHTML=categoryNames.map(cat=>categoryMetrics.map(metric=>categorySeries.find(item=>item.name===cat+" "+metric)).map(monthlyTable).join("")).join("");
- const annualCharts='<div class="exec-section-head" style="margin-top:20px"><div><span class="report-kicker">AYLIK KPI KARŞILAŞTIRMALARI</span><h2>2025 / 2026 · Ay ay tüm KPI verileri</h2><p>Kasım, yalnızca 1–14 Kasım eşit geçen gün aralığıyla karşılaştırılır; Aralık 2026 gerçekleşmesi henüz yoktur.</p></div></div>'+monthlyFilter+'<div class="exec-category" id="monthlyKpiTables">'+monthlySeries.map(monthlyTable).join("")+'</div><div class="exec-section-head" style="margin-top:24px"><div><span class="report-kicker">KATEGORİ / DİVİZYON</span><h2>FTW · APP · ACC aylık karşılaştırmaları</h2><p>Seçilen kategorinin ciro, ciro payı ve ürün adedi birlikte gösterilir.</p></div></div>'+categoryFilter+'<div class="exec-category" id="monthlyCategoryTables">'+categoryMonthlyHTML+'</div>';
- const max=Math.max(...d.months2025,...d.months2026);
- const chart=d.months2025.map((v,i)=>'<div class="exec-month-col"><div class="exec-month-bars"><i title="2025: '+money(v)+'" style="height:'+Math.max(3,v/max*78)+'px"></i><b title="2026: '+money(d.months2026[i])+'" style="height:'+Math.max(3,d.months2026[i]/max*78)+'px"></b></div><small>'+d.labels[i]+'</small></div>').join("");
- const fullDashboardHTML=
- '<section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · EXECUTIVE DASHBOARD</div><h2>Mağaza Genel Bakış</h2><p>Önce aylık performans, ardından yıllık karşılaştırma ve kategori kırılımı.</p></div><div class="exec-hero-side"><small>KASIM 2026 · 1–14 KASIM</small><strong>'+pct(month.actual/month.target*100)+'</strong><small>aylık ciro hedef gerçekleşmesi</small></div></section>'+
- '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">01 · AYLIK PERFORMANS</span><h2>Kasım 2026 / Kasım 2025 · 1–14 Kasım</h2><p>Her KPI ayrı kartta; gerçekleşen değer, geçen yıl, mutlak fark ve büyüme/küçülme.</p></div></div><div class="exec-grid">'+kpis+'</div></section>'+
- '<section class="exec-two"><article class="exec-panel"><h3>AYLIK KPI KARŞILAŞTIRMA TABLOSU</h3><div class="exec-table-wrap"><table class="exec-table monthly-compare-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+rows+'</tbody></table></div></article>'+
- '<article class="exec-panel"><h3>KASIM 2026 HEDEF VE KAPANIŞ GÖRÜNÜMÜ</h3><div class="exec-year-callout"><small>AYLIK CİRO HEDEFİ</small><strong>'+money(month.target)+'</strong><p>Gerçekleşen: '+money(month.actual)+' · HGO: '+pct(month.actual/month.target*100)+'</p></div><div class="exec-year-callout" style="margin-top:9px"><small>TAHMİNİ AY SONU CİROSU</small><strong>'+money(month.forecast)+'</strong><p>Beklenen kapanış HGO: '+pct(month.forecastRate)+'</p></div><div class="exec-year-callout" style="margin-top:9px"><small>HAFTA İÇİ / HAFTA SONU ORTALAMA CİRO</small><strong>'+money(month.weekdayAvg)+' / '+money(month.weekendAvg)+'</strong><p>Günlük ortalamalar</p></div></article></section>'+
-
- '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">02 · HAFTALIK PERFORMANS</span><h2>2025 / 2026 · Günlük karşılaştırma</h2><p>Günlük KPI karşılaştırmaları ve her yıl için ayrı hafta günü ortalamaları.</p></div></div>'+
- (function(){
- const y25=[[54570,14,4,18,280],[74457,19,4,22,366],[76166,14,3,18,164],[41488,10,5,16,147],[26116,6,1,7,160],[35472,10,3,12,157],[51443,10,5,16,152],[123384,21,18,39,330],[162920,25,25,51,516],[72196,12,11,23,242],[99979,17,13,30,320],[43402,6,4,10,300],[87254,16,14,28,284],[74129,15,14,29,257],[152337,25,24,46,398]];
- const y26=[[159010,32,16,49,353],[16269,3,2,4,82],[45805,9,4,15,87],[39570,9,3,13,108],[15896,4,0,4,111],[89842,18,7,25,170],[278835,55,14,87,430],[276246,56,24,86,517],[57601,13,7,22,117],[57485,10,4,17,128],[52908,11,3,14,152],[99675,21,1,22,124],[41495,9,2,11,107],[120702,25,9,40,292]];
- const metricRows=[["Ciro","rev","money"],["Fatura","tr","num"],["Çoklu ürünlü fatura","multi","num"],["Ürün adedi","units","num"],["Trafik","vis","num"],["UPT","upt","upt"],["CR","cr","percent"],["ATV","atv","money"],["ASP","asp","money"],["MULTIS","multis","percent"]];
- const sum=arr=>arr.reduce((z,r)=>r.map((v,i)=>z[i]+v),[0,0,0,0,0]);
- const calc=arr=>{const [rev,tr,multi,units,vis]=sum(arr);return {rev,tr,multi,units,vis,upt:tr?units/tr:0,cr:vis?tr/vis*100:0,atv:tr?rev/tr:0,asp:units?rev/units:0,multis:tr?multi/tr*100:0}};
- const fmt=(v,t)=>t==="money"?money(v):t==="percent"?pct(v):t==="upt"?fmtNum(v,2):fmtNum(v);
- const fmtNum=(v,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(v);
- const compare=(a,b)=>{const diff=a-b,change=b?diff/b*100:(a?100:0);return '<td>'+fmt(a,window.__unused||"num")+'</td>'};
- const weeks=[{title:"1. HAFTA · 1–7 KASIM",from:0,to:7},{title:"2. HAFTA · 8–14 KASIM",from:7,to:14}];
- const renderMetricTable=(a,b)=>metricRows.map(([label,key,type])=>{const x=a[key],y=b[key],diff=x-y,change=y?diff/y*100:(x?100:0);const good=diff>=0;return '<tr><th>'+label+'</th><td>'+fmt(x,type)+'</td><td>'+fmt(y,type)+'</td><td class="'+(good?'positive':'negative')+'">'+(diff>0?'+':'')+fmt(diff,type)+'</td><td class="'+(good?'positive':'negative')+'">'+(change>0?'+':'')+pct(change)+'</td></tr>'}).join("");
- const weekdayNames=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
- const averageByWeekday=(rows,year)=>weekdayNames.map((name,day)=>{
-  const matched=rows.slice(0,14).map((row,i)=>({row,date:new Date(year,10,i+1)})).filter(item=>item.date.getDay()===day);
-  if(!matched.length)return {name,rev:0,tr:0,units:0,vis:0,cr:0,upt:0,atv:0,asp:0};
-  const daily=matched.map(item=>calc([item.row]));
-  const keys=["rev","tr","units","vis","cr","upt","atv","asp"];
-  const result={name};keys.forEach(key=>result[key]=daily.reduce((total,item)=>total+item[key],0)/daily.length);return result;
+ const root=document.getElementById("executiveDashboard");
+ if(!root)return;
+ root.innerHTML='<div class="card"><p class="insight">GitHub raporlarından güncel mağaza verileri okunuyor…</p></div>';
+ renderExcelPage("dashboard").catch(err=>{
+  root.innerHTML='<div class="card"><h3>Güncel mağaza raporları yüklenemedi</h3><p class="notice">'+esc(err.message||err)+'</p></div>';
  });
- const renderWeekdayAverage=(year,rows)=> '<article class="exec-panel" style="margin-bottom:12px"><h3>'+year+' · HAFTA GÜNLERİ ORTALAMASI</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>Gün</th><th>Ciro</th><th>Fatura</th><th>Ürün</th><th>Trafik</th><th>CR</th><th>UPT</th><th>ATV</th><th>ASP</th></tr></thead><tbody>'+averageByWeekday(rows,year).map(item=>'<tr><th>'+item.name+'</th><td>'+money(item.rev)+'</td><td>'+fmtNum(item.tr,1)+'</td><td>'+fmtNum(item.units,1)+'</td><td>'+fmtNum(item.vis,1)+'</td><td>'+pct(item.cr)+'</td><td>'+fmtNum(item.upt,2)+'</td><td>'+money(item.atv)+'</td><td>'+money(item.asp)+'</td></tr>').join("")+'</tbody></table></div></article>';
- const renderMetricCards=(a,b)=>'<div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+renderMetricTable(a,b)+'</tbody></table></div>';
- return renderWeekdayAverage(2025,y25)+renderWeekdayAverage(2026,y26)+'<div class="exec-filter" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0 16px;padding:12px;background:#f7f7f7;border:1px solid #e5e5e5;border-radius:10px"><label for="weeklyCompareFilter" style="font-weight:800;font-size:12px">GÖRÜNÜM SEÇ</label><select id="weeklyCompareFilter" onchange="filterWeeklyCompare(this.value)" style="min-width:190px;padding:9px 12px;border:1px solid #ccc;border-radius:7px;background:#fff;font:inherit"><option value="all">Tüm günler</option>'+Array.from({length:y26.length},(_,i)=>'<option value="day-'+i+'">'+(i+1)+' Kasım · Günlük karşılaştırma</option>').join('')+'</select><span class="exec-note">2025 ve 2026 ortalama tabloları birbirinden bağımsızdır. Aşağıda gün gün karşılaştırma yer alır.</span></div><div class="exec-category" id="weeklyCompareResults">'+weeks.map((w,wi)=>{
-  let html='<article class="exec-panel" data-compare-week="'+wi+'" style="margin-bottom:14px"><h3>'+w.title+'</h3><p class="exec-note">Her tarih kendi karşılığıyla eşleştirilmiştir: 1 Kasım 2025 ↔ 1 Kasım 2026 gibi.</p>';
-  for(let i=w.from;i<w.to&&i<y26.length;i++){
-   const a=calc([y26[i]]),b=calc([y25[i]]);
-   html+='<div data-compare-day="'+i+'" style="margin:12px 0"><h4 style="margin:0 0 7px;color:var(--red)">'+(i+1)+' KASIM 2026 ↔ '+(i+1)+' KASIM 2025</h4>'+renderMetricCards(a,b)+'</div>';
-  }
-  html+='</article>';
-  return html;
- }).join("")+'</div>';
- })()+
- '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">03 · KATEGORİ PERFORMANSI</span><h2>Kasım kategori karşılaştırması</h2><p>2026 gerçekleşen ciro ve adet, 2025 Kasım ile karşılaştırılır.</p></div></div><div class="exec-category">'+cat+'</div></section>'+
-
- '<div class="exec-note">Veri notu: 2026 aylık hedef listesinin toplamı 30.930.000 TL; yıllık hedef alanında verilen 29.197.940 TL kullanıldı. İki kaynak arasında 1.732.060 TL fark bulunduğundan yıllık hedef oranı doğrudan yıllık hedef değeri üzerinden hesaplanır. Kasım 2026 aylık çalışma sayfasındaki ciro hedefi 3.500.000 TL’dir. 2026 yıllık tabloda Kasım hedefi 1.680.000 TL göründüğü için iki hedef birbirine karıştırılmadı; aylık bölümde günlük veri setinin 3.500.000 TL hedefi esas alındı. 2025 karşılaştırması yalnızca 1–14 Kasım günlük satırlarından hesaplandı. 15 Kasım ve sonrası, 2026 verisi oluştuğunda otomatik olarak karşılaştırmaya dahil edilecek şekilde günlük veri kapsamı esas alınmalıdır.</div>'+
- '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">04 · YILLIK PERFORMANS</span><h2>Ocak–Kasım karşılaştırması</h2><p>Yıllık bölüm aylık analizlerin altında yer alır. Aralık 2026 henüz kapsama alınmamıştır.</p></div></div><div class="exec-grid">'+annualCards+'</div>'+annualCharts+'<article class="exec-panel"><h3>YILLIK KPI ÖZETİ</h3><div class="exec-table-wrap"><table class="exec-table"><thead><tr><th>KPI</th><th>2026 YTD</th><th>2025 TAM YIL</th><th>Not</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">Yıllık KPI tablosunda 2026 Ocak–Kasım ile 2025 tam yıl karşılaştırması dönem kapsamı bakımından eşit değildir. Bu nedenle büyüme yüzdesi gösterilmedi. Ciro için ayrıca 2025 Ocak–Kasım toplamı hesaplanarak eş dönem karşılaştırması yukarıda verildi.</p></article></section>'+
- '<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">05 · YILLIK KATEGORİ KIRILIMI</span><h2>Kategori ciro dağılımı</h2><p>Kaynak yıllık toplamları; dönem kapsamı farklı olduğu için değişim oranı verilmez.</p></div></div><div class="exec-category exec-annual-category">'+d.annual.cat2026.map((v,i)=>'<article class="exec-cat"><h4>'+["AYAKKABI","TEKSTİL","AKSESUAR"][i]+'</h4><strong>'+money(v)+'</strong><p>2026 Ocak–Kasım · '+pct(d.annual.catShare2026[i])+'</p><p>Adet: '+fmt(d.annual.catUnits2026[i])+'</p><p>2025 tam yıl: '+money(d.annual2025.cat[i])+' · '+pct(d.annual2025.catShare[i])+'</p></article>').join("")+'</div></section>';
- const janNovHTML="";
- const annualSummaryHTML='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">YILLIK KPI KARŞILAŞTIRMASI</span><h2>2026 / 2025 · Toplam hedef ve gerçekleşen</h2><p>Fark ve değişim, aynı dönem kapsamındaki toplam veriler üzerinden hesaplanmıştır.</p></div></div><article class="exec-panel"><div class="exec-table-wrap"><table class="exec-table monthly-compare-table"><thead><tr><th>KPI</th><th>2026</th><th>2025</th><th>Fark</th><th>Değişim</th></tr></thead><tbody>'+annualRows+'</tbody></table></div><p class="exec-note" style="margin-top:10px">2025 ve 2026 karşılaştırması Ocak–Ekim tam aylar ve Kasımın 15 günlük verileriyle hazırlanmıştır. Aralık dahil değildir.</p></article></section>';
- const annualCategoryHTML='<section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KATEGORİ CİRO DAĞILIMI</span><h2>2026 Ocak–Kasım kategori kırılımı</h2><p>2025 tam yıl değerleri ayrıca referans olarak gösterilir.</p></div></div><div class="exec-category exec-annual-category">'+d.annual.cat2026.map((v,i)=>'<article class="exec-cat"><h4>'+["FOOTWEAR · FTW","APPAREL · APP","ACCESSORIES · ACC"][i]+'</h4><strong>'+money(v)+'</strong><p><b>2026 Ocak–Kasım ciro</b></p><p>Ciro payı: '+pct(d.annual.catShare2026[i])+'</p><p>Ürün adedi: '+fmt(d.annual.catUnits2026[i])+'</p><div class="exec-note" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line,#ddd)"><b>2025 tam yıl referansı</b><p style="margin:5px 0 0">'+money(d.annual2025.cat[i])+' · '+pct(d.annual2025.catShare[i])+' ciro payı</p><p style="margin:4px 0 0">Ürün adedi: '+fmt(d.annual2025.catUnits[i])+'</p></div></article>').join("")+'</div></section>';
- const temp=document.createElement("div");temp.innerHTML=fullDashboardHTML;
- const hero=temp.querySelector(".exec-hero");
- const sections=[...temp.querySelectorAll(".exec-section")];
- const sectionBy=(needle)=>sections.find(el=>(el.querySelector(".report-kicker")?.textContent||"").includes(needle));
- const monthly=[sectionBy("01 · AYLIK"),sectionBy("03 · KATEGORİ")].filter(Boolean);
- const weekly=sectionBy("02 · HAFTALIK");
- const annual=[sectionBy("04 · YILLIK PERFORMANS"),sectionBy("05 · YILLIK KATEGORİ")].filter(Boolean);
- const two=temp.querySelector(".exec-two");
- root.innerHTML='<div class="exec-page-view">'+(hero?hero.outerHTML:"")+(monthly[0]?.outerHTML||"")+(two?two.outerHTML:"")+(monthly[1]?.outerHTML||"")+'</div>';
- const weeklyOnly=weekly?weekly.cloneNode(true):null;
- if(weeklyOnly)[...weeklyOnly.querySelectorAll(".exec-section")].forEach(section=>{
-  const kicker=section.querySelector(".report-kicker")?.textContent||"";
-  if(kicker.includes("03 · KATEGORİ")||kicker.includes("04 · YILLIK")||kicker.includes("05 · YILLIK"))section.remove();
- });
- window.__weeklyDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · WEEKLY</div><h2>Haftalık Performans</h2><p>Günlük ve haftalık KPI karşılaştırmaları düz metin ve tablolarla sunulur.</p></div></section>'+(weeklyOnly?weeklyOnly.outerHTML:"")+'</div>';
-
-
- const chPct=n=>"%"+fmt(n,1),chSigned=(n)=>n>0?"+":"";
- const chChange=(now,old)=>old?(now-old)/old*100:0;
- const chSentence=(label,now,old,unit="money",digits=0)=>{const f=v=>unit==="money"?money(v):unit==="percent"?"%"+fmt(v,2):fmt(v,digits);const change=chChange(now,old);return '<p><strong>'+label+':</strong> 2026’da '+f(now)+', 2025 aynı dönemde '+f(old)+'. '+(change>=0?'Geçen yılın '+pct(change)+' üzerindesin.':'Geçen yılın '+pct(Math.abs(change))+' altındasın.')+'</p>';};
- const chAnnualChange=(now,old)=>chChange(now,old);
- const chCategoryNarrative=d.categories.map(c=>{const g=chAnnualChange(c.current,c.prior),ug=chAnnualChange(c.units,c.priorUnits);return '<article class="exec-panel"><h3>'+c.name.toLocaleUpperCase("tr-TR")+'</h3><strong>'+money(c.current)+'</strong><p>2025 aynı dönem: '+money(c.prior)+' · '+(g>=0?'geçen yılın '+pct(g)+' üzerindesin.':'geçen yılın '+pct(Math.abs(g))+' altındasın.')+'</p><p>Ürün adedi '+fmt(c.units)+'; geçen yıl '+fmt(c.priorUnits)+'. Adet değişimi '+(ug>=0?'+':'')+pct(ug)+'. Ciro payı '+pct(c.share)+'.</p></article>';}).join("");
- const chMonthComments=[
- chSentence("Ciro",month.actual,prior.actual),
- chSentence("Fatura",month.transactions,prior.transactions,"num"),
- chSentence("Ürün adedi",month.units,prior.units,"num"),
- chSentence("Trafik",month.visitors,prior.visitors,"num"),
- chSentence("UPT",month.upt,prior.upt,"decimal",2),
- chSentence("CR",month.cr,prior.cr,"percent",2),
- chSentence("ATV",month.atv,prior.atv),
- chSentence("ASP",month.asp,prior.asp),
- chSentence("MULTIS",month.multis,prior.multis,"percent",2)
- ].join("");
- const chAnnualComments=[
- chSentence("Yıllık ciro",a26.actual,a25.actual),
- chSentence("Yıllık fatura",a26.transactions,a25.transactions,"num"),
- chSentence("Yıllık ürün adedi",a26.units,a25.units,"num"),
- chSentence("Yıllık trafik",a26.visitors,a25.visitors,"num"),
- chSentence("Yıllık UPT",k26.upt,k25.upt,"decimal",2),
- chSentence("Yıllık CR",k26.cr,k25.cr,"percent",2),
- chSentence("Yıllık ATV",k26.atv,k25.atv),
- chSentence("Yıllık MULTIS",k26.multis,k25.multis,"percent",2)
- ].join("");
- const chCategoryAnnual=d.annual.cat2026.map((v,i)=>{const old=d.annual2025.cat[i],units=d.annual.catUnits2026[i],oldUnits=d.annual2025.catUnits[i],g=chChange(v,old),ug=chChange(units,oldUnits),name=["FTW","APP","ACC"][i];return '<article class="exec-panel"><h3>'+name+'</h3><strong>'+money(v)+'</strong><p>2025 tam yıl: '+money(old)+' · '+(g>=0?'geçen yılın '+pct(g)+' üzerindesin.':'geçen yılın '+pct(Math.abs(g))+' altındasın.')+'</p><p>Ürün adedi '+fmt(units)+'; 2025 tam yıl '+fmt(oldUnits)+' ('+(ug>=0?'+':'')+pct(ug)+'). Ciro payı '+pct(d.annual.catShare2026[i])+'.</p></article>';}).join("");
- const chDailyWeekly='<p>Günlük ve haftalık yorumlar, Haftalık Veriler bölümünde bulunan güncel gün/hafta gerçekleşmeleriyle desteklenir. Güncel haftalık veri kapsamı koçta ayrıca rakamlı özet olarak gösterilir.</p>';
- window.__coachDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h2>Akıllı Mağaza Koçu</h2><p>Tablo ve rapor tekrarı değil; verilerin anlamını, geçen yıla göre konumunu ve yönetici aksiyonunu anlatır.</p></div><div class="exec-hero-side"><small>'+month.name.toLocaleUpperCase("tr-TR")+' · 1–'+month.through+'</small><strong>'+pct(month.actual/month.target*100)+'</strong><small>ciro hedef gerçekleşmesi</small></div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">01 · GÜNLÜK / HAFTALIK KOÇLUK</span><h2>Satış temposu ve kısa dönem değerlendirmesi</h2></div></div><article class="exec-panel"><p><strong>Günlük ciro temposu:</strong> Aylık hedef '+money(month.target)+'. Ayın '+month.through+'. gününde doğrusal hedef '+money(month.target/month.days*month.through)+', gerçekleşen '+money(month.actual)+'. Tempo farkı '+money(month.target/month.days*month.through-month.actual)+'.</p><p><strong>Haftalık takip:</strong> Haftalık rapordaki son hafta ile önceki haftanın ciro, fatura, ürün adedi, UPT, CR ve kategori hareketleri esas alınarak değerlendirilir. Günlük/haftalık veride olmayan değerler tahmin edilmez.</p></article></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">02 · AYLIK YÖNETİCİ YORUMU</span><h2>Kasım performansın geçen yıla göre nasıl?</h2></div></div><article class="exec-panel">'+chMonthComments+'</article></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">03 · KATEGORİ KOÇLUĞU</span><h2>FTW · APP · ACC</h2><p>Kasım ayı kategori cirosu, geçen yıl aynı dönem, ürün adedi ve ciro payı.</p></div></div><div class="exec-grid">'+chCategoryNarrative+'</div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">04 · YILLIK YÖNETİCİ YORUMU</span><h2>Yıllık performans ve geçen yıla göre konum</h2></div></div><article class="exec-panel"><p>Yıllık kıyaslamada mevcut 2026 birikimli değerleri 2025 yılının aynı dönem verisiyle karşılaştırıyorum. Tam yıl 2025 rakamları ayrıca referans olarak kullanılır; farklı uzunluktaki dönemleri eşit dönem büyümesi gibi yorumlamıyorum.</p>'+chAnnualComments+'</article><div class="exec-grid">'+chCategoryAnnual+'</div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">05 · KOÇUN SONUCU</span><h2>Öncelikli yönetici aksiyonları</h2></div></div><article class="exec-panel"><p><strong>1. Sepet derinliği:</strong> UPT hedefi 1,80. Mevcut '+fmt(month.upt,2)+' değerini yükseltmek için her satışta tamamlayıcı ürün önerisini standartlaştır.</p><p><strong>2. Kategori dengesi:</strong> FTW, APP ve ACC içinden geçen yılın aynı dönemine göre geride olan kategoriye vardiya bazında odaklan; iyi giden kategorinin ivmesini koru.</p><p><strong>3. Trafik ve dönüşüm:</strong> CR hedefi %7. Dönüşüm hedefin üzerindeyse bu gücü korurken mağaza trafiği ve fatura hacmini büyüt.</p><p><strong>4. Ciro açığı:</strong> Kalan hedef farkını kalan gün sayısına bölerek günlük gerekli ciroyu takip et; vardiya ve ürün grubu bazında sorumluluk ver.</p></article></section></div>';
- window.__annualDashboardHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">BUYAKA STORE INTELLIGENCE · ANNUAL</div><h2>Yıllık Performans</h2><p>2025 / 2026 eş dönem toplam hedef, gerçekleşen ve KPI karşılaştırması.</p></div></section>'+annualCards+annualSummaryHTML+annualCategoryHTML+annualCharts+'</div>';
- window.__monthlyKpiAllHTML=monthlySeries.map(monthlyTable).join("");
- window.__monthlyKpiTableMap=Object.fromEntries(monthlySeries.map(item=>[item.name,monthlyTable(item)]));
- window.__monthlyCategoryAllHTML=categoryMonthlyHTML;
- window.__monthlyCategoryTableMap=Object.fromEntries(categoryNames.map(cat=>[cat,categoryMetrics.map(metric=>categorySeries.find(item=>item.name===cat+" "+metric)).map(monthlyTable).join("")]));
-
 }
 
 function filterMonthlyKPI(value){
@@ -688,12 +451,12 @@ go=function(page){
  if(isAnalyticsPage){
   dashboard.classList.add("hidden");other.classList.remove("hidden");
   if(intro)intro.textContent="";
-  if(host)host.innerHTML=page==="weekly"?(window.__weeklyDashboardHTML||'<p>Haftalık veriler hazırlanıyor.</p>'):(window.__annualDashboardHTML||'<p>Yıllık veriler hazırlanıyor.</p>');
+  if(host)renderExcelPage(page).catch(err=>{host.innerHTML='<div class="card"><h3>Rapor yüklenemedi</h3><p class="notice">'+esc(err.message||err)+'</p></div>';});
   window.scrollTo({top:0,behavior:"smooth"});return;
  }
  dashboard.classList.toggle("hidden",!isHome);
  other.classList.toggle("hidden",isHome);
- if(isHome){window.scrollTo({top:0,behavior:"smooth"});return;}
+ if(isHome){renderExcelPage("dashboard").catch(err=>{const root=document.getElementById("executiveDashboard");if(root)root.innerHTML='<div class="card"><h3>Güncel raporlar yüklenemedi</h3><p class="notice">'+esc(err.message||err)+'</p></div>';});window.scrollTo({top:0,behavior:"smooth"});return;}
  intro.textContent="";
  host.innerHTML='<div class="card"><p class="insight">Modül hazırlanıyor…</p></div>';
  try{
