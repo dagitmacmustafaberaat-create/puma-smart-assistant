@@ -127,6 +127,22 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <script src="../performance-league.js?v=20261102-excel-source"></script>
 
 <script>
+/* Ana uygulama betiğinden önce kaydedilen hata yakalayıcı */
+window.addEventListener("error",function(e){
+ const root=document.getElementById("executiveDashboard");
+ if(!root)return;
+ const msg=(e.message||"Bilinmeyen JavaScript hatası")+" | "+(e.filename||"")+" : "+(e.lineno||0)+":"+(e.colno||0);
+ root.innerHTML='<div class="card"><h3>JavaScript hata kaydı</h3><p class="notice" style="white-space:pre-wrap;overflow-wrap:anywhere">'+msg.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</p><p>Bu hata kaydını bana aynen gönder.</p></div>';
+ console.error("BUYAKA ana betik hata kaydı:",msg,e.error);
+});
+window.addEventListener("unhandledrejection",function(e){
+ const root=document.getElementById("executiveDashboard");
+ if(!root)return;
+ const msg="İşlenmeyen Promise hatası: "+String(e.reason&&e.reason.message||e.reason||"Bilinmeyen hata");
+ root.innerHTML='<div class="card"><h3>JavaScript işlem hatası</h3><p class="notice" style="white-space:pre-wrap;overflow-wrap:anywhere">'+msg.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</p><p>Bu hata kaydını bana aynen gönder.</p></div>';
+});
+</script>
+<script>
 const titles={dashboard:"Mağaza Genel Bakış",weekly:"Haftalık Veriler",annual:"Yıllık Veriler",salesReports:"Haftalık & Aylık Satış Raporları",coach:"Akıllı Mağaza Koçu",opportunities:"Satış Fırsatları ve Kaçan Ciro",people:"Personel Gelişim ve Koçluk",operations:"Günlük Görev ve Operasyon",reports:"AI Rapor Asistanı",products:"Kategori Bazlı Ürün Satışları",ai:"BUYAKA AI MANAGER",data:"Gerçek Excel Veri Merkezi"};
 const content={
 coach:{intro:"Kasım 2026 mağaza performansını değerlendir ve günlük aksiyonları belirle.",html:'<div class="report-stack"><div class="card report-card"><div class="report-heading"><div><span class="report-kicker">KASIM 2026 · 13. GÜN</span><h2>Akıllı Mağaza Koçu</h2></div><span class="report-source">GERÇEK RAPOR VERİSİ</span></div><div class="kpis"><div class="card"><div class="kpi-label">CİRO GERÇEKLEŞEN</div><div class="kpi-value">1.230.638 TL</div><div class="kpi-meta">Gerekli: 1.516.667 TL</div></div><div class="card"><div class="kpi-label">CİRO HEDEF HGO</div><div class="kpi-value down">%81,14</div><div class="kpi-meta">286.029 TL hedef açığı</div></div><div class="card"><div class="kpi-label">UPT</div><div class="kpi-value down">1,48</div><div class="kpi-meta">Hedef: 1,80</div></div><div class="card"><div class="kpi-label">CR</div><div class="kpi-value up">%10,06</div><div class="kpi-meta">Hedef: %7,00</div></div></div></div><div class="card report-card"><div class="report-heading"><div><span class="report-kicker">YÖNETİCİ DEĞERLENDİRMESİ</span><h2>Öncelikli gelişim alanları</h2></div></div><div class="action-list"><div class="action"><span class="num">1</span><span><strong>UPT gelişimi:</strong> 1,48 olan UPT değerini 1,80 hedefine yaklaştırmak için her müşteriye ihtiyaca uygun tamamlayıcı ürün önerisi yapılmalı.</span></div><div class="action"><span class="num">2</span><span><strong>Trafik açığı:</strong> 2.486 gerçekleşen trafik, 4.018 olması gereken seviyenin 1.532 altında. Mağaza önü karşılama ve yoğun saat planlaması gözden geçirilmeli.</span></div><div class="action"><span class="num">3</span><span><strong>Ciro açığı:</strong> 286.029 TL farkı kapatmak için yüksek ciro potansiyelli ürünler ve kombin satışları vardiya bazında takip edilmeli.</span></div><div class="action"><span class="num">4</span><span><strong>Güçlü alanı koru:</strong> CR %10,06 ile %7 hedefinin üzerinde. Dönüşüm kalitesini korurken trafik ve sepet büyüklüğüne odaklan.</span></div></div></div></div>'},
