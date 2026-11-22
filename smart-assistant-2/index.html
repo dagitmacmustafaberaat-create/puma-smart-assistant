@@ -1191,4 +1191,24 @@ go=function(page){
 };
 window.addEventListener("error",e=>console.error("BUYAKA uygulama hatası:",e.message));
 renderDecemberComparisonDashboard();
+</script>
+<script>
+/* Dashboard açılış güvenlik kontrolü: ana betik başlatılamazsa yüklemeyi yeniden dener. */
+(function(){
+ const launchDashboard=function(){
+  const root=document.getElementById("executiveDashboard");
+  if(!root || !root.textContent.includes("Dashboard hazırlanıyor")) return;
+  if(typeof window.renderDecemberComparisonDashboard==="function"){
+   try{window.renderDecemberComparisonDashboard();}
+   catch(err){
+    console.error("Dashboard başlatma hatası:",err);
+    root.innerHTML='<div class="card"><h3>Dashboard başlatılamadı</h3><p class="notice">'+String(err&&err.message||err).replace(/</g,"&lt;")+'</p></div>';
+   }
+  }else{
+   root.innerHTML='<div class="card"><h3>Dashboard betiği yüklenemedi</h3><p class="notice">Sayfanın ana JavaScript kodu çalışmadı. Lütfen sayfayı yenileyin. Sorun devam ederse teknik hata kaydı incelenmelidir.</p></div>';
+  }
+ };
+ if(document.readyState==="complete") setTimeout(launchDashboard,0);
+ else window.addEventListener("load",function(){setTimeout(launchDashboard,0);},{once:true});
+})();
 </script></body></html>
