@@ -1137,7 +1137,7 @@ async function renderDecemberComparisonDashboard(){
  @media(max-width:700px){#executiveDashboard .cat-vertical-bars{min-height:190px!important;gap:10px!important;padding:10px 2px 4px!important}#executiveDashboard .cat-vtrack{height:130px!important;width:100%!important}#executiveDashboard .cat-vvalue{font-size:12px!important}#executiveDashboard .cat-vcol>span{font-size:9px!important}}
 
 `+
-  '
+  String.raw`
 /* Daily comparison: visible paired indicator tracks, matching category bars */
 #executiveDashboard .bars{height:270px!important;min-height:270px!important;align-items:stretch!important;padding:12px 5px 24px!important;gap:2px!important;overflow:visible!important}
 #executiveDashboard .barpair{height:100%!important;display:flex!important;align-items:stretch!important;justify-content:center!important;gap:1px!important;position:relative!important;flex:1 1 0!important;min-width:0!important;overflow:visible!important;border:0!important}
@@ -1146,7 +1146,8 @@ async function renderDecemberComparisonDashboard(){
 #executiveDashboard .day-track.new-track i{background:linear-gradient(180deg,#55c2ff,#087fd0)!important}
 #executiveDashboard .barpair span{position:absolute!important;display:block!important;bottom:-19px!important;left:0!important;right:0!important;text-align:center!important;font-size:8px!important;color:#fff!important;font-weight:850!important}
 #executiveDashboard .barpair em{display:none!important}
-</style><div class="kpi-layout">'+
+</style>`+
+  '<div class="kpi-layout">'+
   '<header class="dash-head"><div class="dash-tools"><span style="font-size:9px;color:#aabbd0;font-weight:800">KÜMÜLATİF: 1–'+String(lastDay).padStart(2,"0")+' ARALIK</span><select id="dashRange"><option value="1-7">01 – 07 Aralık</option><option value="1-15">01 – 15 Aralık</option><option value="1-31" selected>01 – 31 Aralık</option></select><button id="dashReload" aria-label="Verileri yenile">↻</button></div></header>'+
   '<section class="kpi-grid">'+cards+'</section><section class="mid">'+lower+'</section>'+
   '<section class="chart"><div class="panel-head"><span>GÜNLÜK CİRO KARŞILAŞTIRMASI · 01–31 ARALIK 2025 / 2026</span><span id="dashDayTrend" style="font-weight:950;white-space:nowrap">GÜN SEÇİMİ</span></div><div class="legend"><span><i class="dot"></i>2025</span><span><i class="dot blue"></i>2026</span></div><div class="axis-chart"><div class="axis-labels"><span>MAKS.</span><span>¾</span><span>½</span><span>¼</span><span>0</span></div><div class="bars-scroll"><div class="bars" id="dashBars"></div></div></div><div id="dashDayFocus" style="margin:8px 12px 12px;padding:10px 12px;border:1px solid #29425c;border-radius:8px;background:#14263a;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:10px;color:#c7d7e8"><strong id="dashDayTitle" style="color:#55baff">GÜNLÜK KARŞILAŞTIRMA</strong><span id="dashDay25">2025: —</span><span id="dashDay26">2026: —</span><b id="dashDayDiff" style="color:#fff">Gün seçin</b></div></section>'+
