@@ -930,11 +930,11 @@ async function renderDecemberComparisonDashboard(){
   const data=defs.map(([name,key,type],i)=>({name,type,t25:targets[i].t25,v25:metric(agg25,key),t26:targets[i].t26,v26:metric(agg26,key)}));
   const cats=["FTW","APP","ACC"].map(name=>({name,a:agg25.cats[name].a,b:agg26.cats[name].a,ua:agg25.cats[name].u,ub:agg26.cats[name].u}));
   const progress=(actual,target)=>target>0?Math.max(0,Math.min(100,actual/target*100)):0;
-  const cards=data.slice(0,6).map((k,i)=>{
-   const p25=progress(k.v25,k.t25),p26=progress(k.v26,k.t26),diff=(k.v25?(k.v26-k.v25)/Math.abs(k.v25)*100:0);
-   return '<article class="kpi-card"><div class="kpi-card-head"><span>'+k.name+'</span></div><div class="kpi-values"><div class="kpi-year"><span>2025 GERÇEKLEŞEN</span><b>'+show(k.v25,k.type)+'</b></div><div class="kpi-year current"><span>2026 GERÇEKLEŞEN</span><b>'+show(k.v26,k.type)+'</b></div></div><div class="kpi-delta '+(diff>=0?"positive":"negative")+'">'+(diff>=0?"▲":"▼")+' '+fmt(Math.abs(diff),1)+'% <small>2025’e göre</small></div><div class="kpi-gauges"><div class="gauge-line"><span>2025</span><div class="gauge-track"><i style="width:'+p25+'%"></i></div><b>%'+fmt(p25,0)+'</b></div><div class="gauge-line blue"><span>2026</span><div class="gauge-track"><i style="width:'+p26+'%"></i></div><b>%'+fmt(p26,0)+'</b></div></div><div class="kpi-target"><span>2026 HEDEF</span><b>'+show(k.t26,k.type)+'</b></div></article>';
+  const cards=data.slice(0,6).map(k=>{
+   const diff=k.v25?(k.v26-k.v25)/Math.abs(k.v25)*100:0;
+   return '<article class="kpi-card"><div class="kpi-card-head"><span>'+k.name+'</span></div><div class="kpi-values"><div class="kpi-year"><span>2025 GERÇEKLEŞEN</span><b>'+show(k.v25,k.type)+'</b></div><div class="kpi-year current"><span>2026 GERÇEKLEŞEN</span><b>'+show(k.v26,k.type)+'</b></div></div><div class="kpi-delta '+(diff>=0?"positive":"negative")+'">'+(diff>=0?"▲":"▼")+' '+fmt(Math.abs(diff),1)+'%</div></article>';
   }).join("");
-  const lower=data.slice(6).map(k=>{const diff=k.v25?(k.v26-k.v25)/Math.abs(k.v25)*100:0;return '<article class="small-kpi"><div class="small-kpi-head">'+k.name+'</div><div class="small-kpi-values"><div><small>2025</small><b>'+fmt(k.v25)+'</b></div><div><small>2026</small><b>'+fmt(k.v26)+'</b></div></div><div class="small-kpi-change '+(diff>=0?"positive":"negative")+'">'+(diff>=0?"▲ +":"▼ ")+fmt(Math.abs(diff),1)+'%</div></article>';}).join("");
+  const lower=data.slice(6).map(k=>{const diff=k.v25?(k.v26-k.v25)/Math.abs(k.v25)*100:0;return '<article class="kpi-card small-kpi"><div class="kpi-card-head small-kpi-head"><span>'+k.name+'</span></div><div class="kpi-values small-kpi-values"><div class="kpi-year"><span>2025 GERÇEKLEŞEN</span><b>'+show(k.v25,k.type)+'</b></div><div class="kpi-year current"><span>2026 GERÇEKLEŞEN</span><b>'+show(k.v26,k.type)+'</b></div></div><div class="kpi-delta small-kpi-change '+(diff>=0?"positive":"negative")+'">'+(diff>=0?"▲":"▼")+' '+fmt(Math.abs(diff),1)+'%</div></article>';}).join("");
    const renderCategoryCards=key=>cats.filter(c=>key==="all"||c.name===key).map(c=>{const mx=Math.max(1,c.a,c.b),h25=c.a?Math.max(3,c.a/mx*100):0,h26=c.b?Math.max(3,c.b/mx*100):0;return '<article class="cat-card" data-cat="'+c.name+'"><div class="cat-card-title">'+c.name+'</div><div class="cat-vertical-bars"><div class="cat-vcol"><b class="cat-vvalue">'+money(c.a)+'</b><div class="cat-vtrack"><i style="height:'+h25+'%"></i></div><span>2025 CİRO</span></div><div class="cat-vcol blue"><b class="cat-vvalue">'+money(c.b)+'</b><div class="cat-vtrack"><i style="height:'+h26+'%"></i></div><span>2026 CİRO</span></div></div><div class="cat-foot"><span>2025 ADET <b>'+fmt(c.ua)+'</b></span><span>2026 ADET <b>'+fmt(c.ub)+'</b></span></div></article>';}).join("");
    const catHTML=renderCategoryCards("all");
   const renderSplit=key=>{
@@ -1105,6 +1105,22 @@ async function renderDecemberComparisonDashboard(){
 #executiveDashboard .barpair b{right:0!important;background:linear-gradient(180deg,#55c2ff,#087fd0)!important}
 #executiveDashboard .barpair span{position:absolute!important;display:block!important;bottom:-16px!important;left:0!important;right:0!important;text-align:center!important;color:#fff!important;font-size:6px!important}
 #executiveDashboard .panel-head #dashDayTrend{margin-left:auto!important;text-align:right!important;font-size:11px!important}
+/* All KPI cards use the same stacked 2025 / 2026 / variance layout */
+#executiveDashboard .kpi-card,#executiveDashboard .small-kpi{display:flex!important;flex-direction:column!important;min-height:0!important}
+#executiveDashboard .kpi-values,#executiveDashboard .small-kpi-values{display:grid!important;grid-template-columns:1fr!important;gap:0!important;padding:9px 11px 3px!important;margin:0!important}
+#executiveDashboard .kpi-year,#executiveDashboard .small-kpi-values .kpi-year{display:block!important;border:0!important;border-bottom:1px solid #293c51!important;padding:5px 0 7px!important}
+#executiveDashboard .kpi-year:last-child{border-bottom:0!important;padding-top:7px!important}
+#executiveDashboard .kpi-year span{display:block!important;font-size:9px!important;color:#aabbd0!important;letter-spacing:.45px!important}
+#executiveDashboard .kpi-year b{display:block!important;font-size:19px!important;margin-top:3px!important;white-space:normal!important}
+#executiveDashboard .kpi-delta,#executiveDashboard .small-kpi-change{display:block!important;padding:5px 11px 11px!important;margin-top:auto!important;font-size:13px!important;font-weight:950!important;text-align:left!important}
+#executiveDashboard .kpi-gauges,#executiveDashboard .kpi-target{display:none!important}
+#executiveDashboard .small-kpi-head{margin:0!important;padding:8px 10px!important;text-align:left!important}
+@media(max-width:700px){
+ #executiveDashboard .kpi-values,#executiveDashboard .small-kpi-values{padding:7px 8px 2px!important}
+ #executiveDashboard .kpi-year span{font-size:8px!important}
+ #executiveDashboard .kpi-year b{font-size:16px!important}
+ #executiveDashboard .kpi-delta,#executiveDashboard .small-kpi-change{font-size:11px!important;padding:5px 8px 9px!important}
+}
  #executiveDashboard .cat-list{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;padding:12px!important}
  #executiveDashboard .cat-card{width:100%!important;box-sizing:border-box!important;padding:0 12px 12px!important}
  #executiveDashboard .cat-vertical-bars{display:grid!important;grid-template-columns:1fr 1fr!important;gap:16px!important;align-items:end!important;padding:12px 8px 4px!important;min-height:210px!important}
