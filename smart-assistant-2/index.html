@@ -996,8 +996,8 @@ async function renderDecemberComparisonDashboard(){
    for(let day=1;day<=31;day++){
     const x=left+(day-1)*step+step/2,old=metricValue(m,rows25,day),now=metricValue(m,entered,day),dow=new Date(2026,11,day).getDay();
     if(dow===0||dow===6)svg+='<rect x="'+(left+(day-1)*step)+'" y="'+top+'" width="'+step+'" height="'+ph+'" fill="#f1f4f8"/>';
-    if(old!==null){const yy=y(old),h=top+ph-yy,bx=x-bw-1;svg+='<rect x="'+bx+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#64748b"><title>2025 '+day+' Aralık: '+label(old)+'</title></rect><text x="'+(bx+bw/2)+'" y="'+(yy-5)+'" transform="rotate(-90 '+(bx+bw/2)+' '+(yy-5)+')" text-anchor="end" font-size="9" font-weight="700" fill="#475569">'+label(old)+'</text>';}
-    if(now!==null){const yy=y(now),h=top+ph-yy,bx=x+1;svg+='<rect x="'+bx+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#e31b36"><title>2026 '+day+' Aralık: '+label(now)+'</title></rect><text x="'+(bx+bw/2)+'" y="'+(yy-5)+'" transform="rotate(-90 '+(bx+bw/2)+' '+(yy-5)+')" text-anchor="end" font-size="9" font-weight="700" fill="#e31b36">'+label(now)+'</text>';}
+    if(old!==null){const yy=y(old),h=top+ph-yy,bx=x-bw-1;svg+='<rect x="'+bx+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#64748b"><title>2025 '+day+' Aralık: '+label(old)+'</title></rect><text x="'+(bx+bw/2)+'" y="'+(yy-5)+'" transform="rotate(-90 '+(bx+bw/2)+' '+(yy-5)+')" text-anchor="end" font-size="9" font-weight="700" fill="#111111">'+label(old)+'</text>';}
+    if(now!==null){const yy=y(now),h=top+ph-yy,bx=x+1;svg+='<rect x="'+bx+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#e31b36"><title>2026 '+day+' Aralık: '+label(now)+'</title></rect><text x="'+(bx+bw/2)+'" y="'+(yy-5)+'" transform="rotate(-90 '+(bx+bw/2)+' '+(yy-5)+')" text-anchor="end" font-size="9" font-weight="700" fill="#111111">'+label(now)+'</text>';}
     svg+='<text x="'+x+'" y="'+(top+ph+18)+'" text-anchor="middle" font-size="9" fill="#334155">'+day+'</text>';
    }
    svg+='</svg>';
