@@ -933,7 +933,11 @@ function renderDailyComparisonChart(days){
  const wd=days.filter(x=>!["Cumartesi","Pazar"].includes(x.dow)),we=days.filter(x=>["Cumartesi","Pazar"].includes(x.dow));
  const avg=a=>a.length?a.reduce((n,x)=>n+x.actual,0)/a.length:0;
  const multiPct=143/467*100,upt=671/467,cr=467/8743*100,atv=2119020.39/467,asp=2119020.39/671;
- root.innerHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h2>Aralık Günlük Performans</h2><p>2025 ve 2026 günlük KPI karşılaştırması</p></div></section><section id="dailyMetricChart"></section></div>';
+ const volumeCards=[["FATURA",467],["ÜRÜN ADEDİ",671],["TRAFİK",8743]];
+ const volumeHtml=volumeCards.map(([name,value])=>'<article class="exec-kpi"><small>'+name+'</small><strong>2025 · '+fmt(value)+'</strong><div class="compare">2025 gerçekleşen</div><div class="delta" style="color:#9a6b16">2026 gerçekleşme: Veri bekleniyor</div></article>').join("");
+ const cardsHtml=metricCards+volumeHtml;
+ const enteredDays=0;
+ root.innerHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h2>Aralık 2025 – Aralık 2026 KPI Karşılaştırma Dashboard</h2><p>Aynı takvim tarihi esas alınarak karşılaştırılır; 2026 günlük veri girildikçe otomatik güncellenir.</p><div style="margin-top:10px;font-weight:700">2026 veri girilen gün: <b>'+enteredDays+' / 31</b>　·　Karşılaştırma: <b>Aralık 2025 ↔ Aralık 2026</b></div><p style="margin-top:8px;color:#9a6b16">2026 gerçekleşen veriler henüz girilmedi. Şu an 2025 referans değerleri gösteriliyor.</p></div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KPI ÖZETİ · 2025 GERÇEKLEŞEN / 2026</span><h2>Aylık performans göstergeleri</h2><p>Her KPI ayrı kartta; 2026 hedefi ve gerçekleşmesi ayrı ayrı gösterilir.</p></div></div><div class="exec-grid">'+cardsHtml+'</div></section><section id="dailyMetricChart"></section></div>';
  renderDailyComparisonChart(days);
 }
 
