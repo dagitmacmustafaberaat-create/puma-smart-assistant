@@ -99,6 +99,43 @@ main{min-width:0;padding:28px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 .daily-chart-empty{font-size:13px;color:#8b641c;background:#fff9e9;border-radius:8px;padding:10px 12px}
 @media(max-width:700px){.daily-compare-panel{padding:13px}.daily-metric-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:5px}.daily-metric-tabs button{padding:8px 11px}.daily-compare-top h3{font-size:15px}}
 
+
+/* BUYAKA 2.0 — Uygulama genelinde koyu tema */
+:root{--ink:#f4f7ff;--muted:#aab6ca;--line:#26364e;--paper:#070b14;--white:#101827;--shadow:0 10px 30px rgba(0,0,0,.24)}
+html,body{min-height:100%;background:#070b14!important;color:#f4f7ff!important}
+body{background:linear-gradient(145deg,#070b14 0%,#0a1221 55%,#080d18 100%)!important;color:#f4f7ff!important}
+.shell,main,#dashboardPage,#otherPage,#pageContent{background:transparent!important;color:#f4f7ff!important}
+.sidebar{background:#0b1321!important;border-color:#26364e!important;color:#f4f7ff!important}
+.brand,.sidebar-foot{border-color:#26364e!important}
+.brand-sub,.nav-label,.sidebar-foot,.page-intro,.section-head span,.kpi-meta,.card-title span,.excel-meta{color:#aab6ca!important}
+.nav button{color:#dce6f5!important}
+.nav button:hover,.nav button.active{background:#142b4b!important;color:#62a8ff!important}
+.topbar h1,.section-head h3,.card-title h3,.report-heading h2,.report-two h3,.category-report h3,.ph-section-title h3,.ph-head h2,.ph-person-top strong,.ph-league-top strong,.ph-stat strong,.ph-metric b{color:#65aaff!important}
+.card,.module,.ai-card,.report-card,.report-category-grid .category-report,.ph-panel,.ph-head,.ph-person,.ph-league,.ph-champ,.ph-subcard,.excel-card,.category-pie-panel,.category-detail-wrap,.category-report,.chat-box,.suggestions button,.sales-report-card,.sales-report-intro{background:#101a2a!important;border-color:#293b56!important;color:#f4f7ff!important;box-shadow:0 8px 24px rgba(0,0,0,.22)!important}
+.welcome{background:#101a2a!important;border:1px solid #29486d!important;color:#f4f7ff!important}
+.welcome p,.insight,.action,.module small,.ph-head p,.ph-person-top small,.ph-league-top small,.ph-source,.ph-bonus,.ph-daily,.ph-champ small,.category-pie-panel small,.category-legend,.chart-note{color:#c0cde0!important}
+.kpi-label,.ph-stat small,.ph-metric small,.ph-kicker,.report-kicker,.report-two h3,.category-report small{color:#65aaff!important}
+.kpi-value,.report-days strong,.report-summary strong,.category-report b,.category-report em{color:#f4f7ff!important}
+.report-days>div,.report-summary>div,.ph-stat,.ph-metric,.ph-daily,.category-pie-panel,.category-detail-wrap,.excel-file-list span,.ph-track,.trend-track,.progress-track{background:#17243a!important;border-color:#30435f!important}
+.report-table,.mini-table,.excel-table,.category-detail,.gender-detail{color:#f4f7ff!important}
+.report-table th,.mini-table th,.excel-table th{background:#17243a!important;color:#9fcaff!important;border-color:#30435f!important}
+.report-table td,.mini-table td,.excel-table td{color:#edf3ff!important;border-color:#26364e!important}
+.total-row,.report-table tbody tr:last-child{background:#17243a!important}
+input,select,textarea,.excel-tools input,.excel-tools select,.chat-compose input{background:#111d30!important;color:#f4f7ff!important;border-color:#344966!important}
+input::placeholder,textarea::placeholder{color:#91a2ba!important}
+button{color:inherit}
+.date-chip,.demo-chip{background:#142238!important;color:#eaf2ff!important;border-color:#344966!important}
+.status,.report-source{background:#182c49!important;color:#75b6ff!important}
+.status.ok,.positive,.up{color:#55d6a0!important}
+.down,.negative{color:#ff7184!important}
+.chart{background:repeating-linear-gradient(to bottom,transparent 0,transparent 46px,#26364e 47px,#26364e 48px)!important;border-color:#344966!important}
+.bar{background:#40516a!important}
+.trend-track:before{background:linear-gradient(90deg,#24334a,#1a2940)!important}
+.ph-tabs .ph-tab,.sales-category-tabs .ph-tab,.sales-period-tabs .ph-tab{background:#111d30!important;color:#dce8fa!important;border-color:#344966!important}
+.ph-tabs .ph-tab.active,.sales-category-tabs .ph-tab.active,.sales-period-tabs .ph-tab.active{background:#17365c!important;color:#75b8ff!important;border-color:#3979ba!important}
+.notice{background:#302717!important;color:#f6d28d!important;border-color:#6a5129!important}
+#executiveDashboard{background:transparent!important}
+@media(max-width:700px){.sidebar{background:#0b1321!important}.nav{background:transparent!important}}
 </style></head>
 <body>
 <div class="shell">
