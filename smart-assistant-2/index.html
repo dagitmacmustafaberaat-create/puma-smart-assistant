@@ -870,144 +870,41 @@ const monthlyTable=(item)=>{
 
 async function renderDecemberComparisonDashboard(){
  const root=document.getElementById("executiveDashboard");if(!root)return;
- const metrics=[
-  {id:"revenue",name:"CİRO",sub:"NET SATIŞ",unit:"TL"},
-  {id:"upt",name:"UPT",sub:"FATURA BAŞINA ÜRÜN",unit:""},
-  {id:"cr",name:"CR",sub:"DÖNÜŞÜM ORANI",unit:"%"},
-  {id:"atv",name:"ATV",sub:"ORTALAMA FİŞ",unit:"TL"},
-  {id:"multis",name:"MULTIS",sub:"ÇOKLU ÜRÜN ORANI",unit:"%"},
-  {id:"asp",name:"ASP",sub:"ORTALAMA ÜRÜN FİYATI",unit:"TL"},
-  {id:"invoices",name:"FATURA",sub:"TOPLAM İŞLEM",unit:"ADET"},
-  {id:"units",name:"ÜRÜN ADEDİ",sub:"TOPLAM SATILAN",unit:"ADET"},
-  {id:"traffic",name:"TRAFİK",sub:"MAĞAZA ZİYARETİ",unit:"KİŞİ"}
- ];
- const fmt=n=>new Intl.NumberFormat("tr-TR").format(n);
- root.innerHTML=`
- <style>
- #executiveDashboard{color:#171717;font-family:Arial,Helvetica,sans-serif}
- #executiveDashboard *{box-sizing:border-box}
- .ov-wrap{display:grid;gap:18px}
- .ov-intro{background:#171717;color:#fff;border-radius:13px;padding:21px 24px;display:flex;justify-content:space-between;align-items:center;gap:15px;position:relative;overflow:hidden}
- .ov-intro:after{content:"";position:absolute;width:210px;height:210px;border:26px solid rgba(255,255,255,.045);border-radius:50%;right:13%;top:-120px}
- .ov-kicker{font-size:10px;font-weight:900;letter-spacing:2px;color:#ff4355}
- .ov-intro h2{font-size:23px;line-height:1.2;margin:7px 0 5px;font-weight:900;letter-spacing:-.5px}
- .ov-intro p{font-size:11px;color:#c9c9c9;margin:0;line-height:1.6}
- .ov-period{border:1px solid #555;border-radius:8px;padding:10px 13px;font-size:10px;font-weight:900;letter-spacing:.8px;white-space:nowrap;z-index:1}
- .ov-section{display:grid;gap:11px}
- .ov-head{display:flex;align-items:end;justify-content:space-between;gap:12px}
- .ov-head h3{font-size:15px;margin:0;font-weight:900;letter-spacing:.1px}
- .ov-head p{font-size:10px;color:#888;margin:4px 0 0}
- .ov-tag{font-size:9px;font-weight:900;letter-spacing:1px;color:#e31b35}
- .ov-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
- .ov-kpi{border:1px solid #e6e6e6;border-radius:10px;background:#fff;overflow:hidden;min-width:0;box-shadow:0 2px 7px rgba(0,0,0,.025)}
- .ov-kpi-top{background:#e31b35;color:#fff;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
- .ov-kpi-top strong{font-size:11px;font-weight:900;letter-spacing:.8px}
- .ov-kpi-top span{font-size:8px;opacity:.86;font-weight:800;letter-spacing:.7px}
- .ov-kpi-body{padding:12px 13px 13px}
- .ov-kpi-values{display:grid;grid-template-columns:1fr 1fr;gap:10px}
- .ov-kpi-values small{display:block;font-size:8px;color:#888;font-weight:900;letter-spacing:.7px;margin-bottom:5px}
- .ov-kpi-values b{font-size:19px;letter-spacing:-.5px;display:block;white-space:nowrap}
- .ov-kpi-values .new b{color:#e31b35}
- .ov-kpi-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;margin-top:11px;padding-top:9px;gap:8px}
- .ov-kpi-foot span{font-size:9px;color:#888;font-weight:800}
- .ov-pending{font-size:8px!important;color:#777!important;background:#f4f4f4;border-radius:20px;padding:5px 8px;letter-spacing:.4px}
- .ov-panel{background:#fff;border:1px solid #e7e7e7;border-radius:11px;padding:16px;min-width:0}
- .ov-chart-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
- .ov-tabs{display:flex;gap:5px;flex-wrap:wrap}
- .ov-tabs button{border:1px solid #e2e2e2;background:#fff;color:#555;border-radius:6px;padding:7px 10px;font-size:9px;font-weight:900;cursor:pointer}
- .ov-tabs button.active{background:#171717;border-color:#171717;color:#fff}
- .ov-mode{display:flex;gap:4px;background:#f3f3f3;padding:3px;border-radius:7px}
- .ov-mode button{border:0;background:transparent;border-radius:5px;padding:7px 10px;font-size:9px;font-weight:900;color:#666;cursor:pointer}
- .ov-mode button.active{background:#fff;color:#171717;box-shadow:0 1px 4px #00000014}
- .ov-chart-area{border:1px solid #eee;border-radius:8px;background:linear-gradient(180deg,#fff,#fcfcfc);padding:10px;min-height:220px}
- .ov-chart-area svg{display:block;width:100%;height:auto;min-height:190px}
- .ov-chart-foot{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
- .ov-legend{display:flex;gap:16px;align-items:center;font-size:9px;color:#666;font-weight:800}
- .ov-legend i{display:inline-block;width:16px;height:3px;background:#999;margin-right:6px;vertical-align:middle;border-radius:3px}
- .ov-legend i.red{background:#e31b35}
- .ov-note{font-size:9px;color:#999}
- .ov-cat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
- .ov-cat{border:1px solid #e6e6e6;border-radius:9px;overflow:hidden;background:#fff}
- .ov-cat-head{padding:11px 13px;background:#171717;color:#fff;display:flex;justify-content:space-between;align-items:center}
- .ov-cat-head b{font-size:12px;letter-spacing:.7px}
- .ov-cat-head span{font-size:8px;color:#ccc;font-weight:800}
- .ov-cat-body{padding:12px}
- .ov-cat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
- .ov-cat-row div{background:#f7f7f7;padding:10px;border-radius:7px}
- .ov-cat-row small{display:block;font-size:8px;color:#888;font-weight:900;margin-bottom:5px}
- .ov-cat-row b{font-size:16px}
- .ov-cat-row .new{background:#fff3f4}
- .ov-cat-row .new b{color:#e31b35}
- .ov-cat-foot{border-top:1px solid #eee;margin-top:10px;padding-top:9px;display:flex;justify-content:space-between;font-size:9px;color:#888;font-weight:800}
- .ov-table-wrap{overflow-x:auto}
- .ov-table{border-collapse:collapse;width:100%;min-width:650px;font-size:10px}
- .ov-table th{background:#171717;color:#fff;text-align:right;padding:11px 10px;font-size:8px;letter-spacing:.5px;white-space:nowrap}
- .ov-table th:first-child,.ov-table td:first-child{text-align:left}
- .ov-table td{padding:11px 10px;border-bottom:1px solid #eee;text-align:right;white-space:nowrap;font-weight:700}
- .ov-table td:first-child{font-weight:900}
- .ov-table tr:last-child td{border-bottom:0}
- .ov-table .new-col{color:#e31b35}
- .ov-filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
- .ov-filters label{font-size:9px;color:#777;font-weight:900;display:flex;align-items:center;gap:6px}
- .ov-filters input,.ov-filters select{border:1px solid #ddd;border-radius:6px;padding:7px 8px;background:#fff;font:inherit;color:#222}
- .ov-daily-empty{padding:23px;text-align:center;color:#999;font-size:10px}
- @media(max-width:850px){.ov-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.ov-cat-grid{grid-template-columns:1fr}}
- @media(max-width:540px){.ov-intro{padding:17px;align-items:flex-start;flex-direction:column}.ov-intro h2{font-size:19px}.ov-period{white-space:normal}.ov-kpis{grid-template-columns:1fr 1fr;gap:7px}.ov-kpi-top{padding:9px}.ov-kpi-body{padding:10px}.ov-kpi-values b{font-size:16px}.ov-kpi-values{gap:5px}.ov-panel{padding:11px}.ov-head{align-items:flex-start;flex-direction:column}}
- </style>
- <div class="ov-wrap">
-  <section class="ov-intro">
-   <div><div class="ov-kicker">PUMA / BUYAKA STORE INTELLIGENCE</div><h2>STORE PERFORMANCE OVERVIEW</h2><p>Aralık 2025 ve Aralık 2026 · Aynı takvim günleri üzerinden performans karşılaştırması</p></div>
-   <div class="ov-period">DECEMBER PERFORMANCE<br>2025 ↔ 2026</div>
-  </section>
-  <section class="ov-section">
-   <div class="ov-head"><div><h3>MAĞAZA KPI PERFORMANSI</h3><p>Dokuz temel performans göstergesi · 2025 / 2026 karşılaştırması</p></div><span class="ov-tag">01 / KPI OVERVIEW</span></div>
-   <div class="ov-kpis" id="ovKpiGrid"></div>
-  </section>
-  <section class="ov-section">
-   <div class="ov-head"><div><h3>GÜNLÜK PERFORMANS KARŞILAŞTIRMASI</h3><p>Seçilen KPI için günlük veya kümülatif trend</p></div><span class="ov-tag">02 / DAILY TREND</span></div>
-   <div class="ov-panel">
-    <div class="ov-chart-tools"><div class="ov-tabs" id="ovMetricTabs"></div><div class="ov-mode"><button class="active" data-ov-mode="daily">GÜNLÜK</button><button data-ov-mode="cumulative">KÜMÜLATİF</button></div></div>
-    <div class="ov-chart-area"><div id="ovChartTitle" style="font-size:11px;font-weight:900;margin:2px 0 8px">CİRO · GÜNLÜK KARŞILAŞTIRMA</div>
-     <svg viewBox="0 0 900 220" role="img" aria-label="2025 ve 2026 günlük performans karşılaştırma grafik yerleşimi">
-      <g stroke="#ededed" stroke-width="1"><path d="M52 25H875 M52 65H875 M52 105H875 M52 145H875 M52 185H875"/></g>
-      <g fill="#999" font-size="9"><text x="8" y="28">100</text><text x="16" y="68">75</text><text x="16" y="108">50</text><text x="16" y="148">25</text><text x="25" y="188">0</text><text x="52" y="210">1 ARA</text><text x="250" y="210">8 ARA</text><text x="450" y="210">15 ARA</text><text x="650" y="210">22 ARA</text><text x="835" y="210">31 ARA</text></g>
-      <path d="M52 140 C100 130 125 92 165 110 S235 150 270 105 S340 85 375 115 S445 135 480 90 S550 65 585 100 S655 125 690 80 S760 62 795 95 S850 110 875 75" fill="none" stroke="#aaa" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 7"/>
-      <path d="M52 160 C100 150 125 125 165 138 S235 165 270 130 S340 112 375 145 S445 152 480 120 S550 95 585 132 S655 145 690 112 S760 92 795 125 S850 138 875 108" fill="none" stroke="#e31b35" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 7"/>
-     </svg>
-     <div class="ov-chart-foot"><div class="ov-legend"><span><i></i>2025</span><span><i class="red"></i>2026</span></div><span class="ov-note">Grafik çizgileri yalnızca tasarım yerleşimini gösterir; gerçek veri değildir.</span></div>
-    </div>
-   </div>
-  </section>
-  <section class="ov-section">
-   <div class="ov-head"><div><h3>KATEGORİ KARŞILAŞTIRMASI</h3><p>Her kategori kendi içinde · Ciro ve adet performansı</p></div><span class="ov-tag">03 / CATEGORY MIX</span></div>
-   <div class="ov-cat-grid" id="ovCategoryGrid"></div>
-  </section>
-  <section class="ov-section">
-   <div class="ov-head"><div><h3>KPI HEDEF / GERÇEKLEŞEN</h3><p>2025 ve 2026 hedefleri ile gerçekleşen sonuçların karşılaştırması</p></div><span class="ov-tag">04 / TARGET VS ACTUAL</span></div>
-   <div class="ov-panel ov-table-wrap"><table class="ov-table"><thead><tr><th>KPI</th><th>2025 HEDEF</th><th>2025 GERÇEKLEŞEN</th><th>2025 HGO</th><th>2026 HEDEF</th><th>2026 GERÇEKLEŞEN</th><th>2026 HGO</th></tr></thead><tbody id="ovTargetRows"></tbody></table></div>
-  </section>
-  <section class="ov-section">
-   <div class="ov-head"><div><h3>GÜNLÜK CİRO KARŞILAŞTIRMASI</h3><p>Takvim tarihi bazında 2025 / 2026 net satış karşılaştırması</p></div><span class="ov-tag">05 / DAILY SALES</span></div>
-   <div class="ov-panel">
-    <div class="ov-filters" style="margin-bottom:12px"><label>BAŞLANGIÇ <input type="date" id="ovDateFrom" value="2026-12-01"></label><label>BİTİŞ <input type="date" id="ovDateTo" value="2026-12-31"></label><label>GÖRÜNÜM <select id="ovDailyView"><option value="daily">Günlük</option><option value="cumulative">Kümülatif</option></select></label></div>
-    <div class="ov-table-wrap"><table class="ov-table"><thead><tr><th>TARİH</th><th>2025 CİRO</th><th>2026 CİRO</th><th>FARK</th><th>DEĞİŞİM %</th></tr></thead><tbody id="ovDailyRows"></tbody></table></div>
-    <div class="ov-daily-empty">Günlük veriler Excel bağlantısı kurulduğunda bu tabloda tarih filtresiyle görüntülenecek.</div>
-   </div>
-  </section>
-  <div style="text-align:center;padding:5px 0 12px;color:#aaa;font-size:8px;letter-spacing:1.2px;font-weight:900">BUYAKA STORE INTELLIGENCE · PUMA MANAGEMENT DASHBOARD</div>
- </div>`;
- const kpiGrid=document.getElementById("ovKpiGrid");
- kpiGrid.innerHTML=metrics.map(m=>'<article class="ov-kpi"><div class="ov-kpi-top"><strong>'+m.name+'</strong><span>'+m.sub+'</span></div><div class="ov-kpi-body"><div class="ov-kpi-values"><div><small>2025 GERÇEKLEŞEN</small><b>—</b></div><div class="new"><small>2026 GERÇEKLEŞEN</small><b>—</b></div></div><div class="ov-kpi-foot"><span>DEĞİŞİM · —</span><span class="ov-pending">VERİ BEKLİYOR</span></div></div></article>').join("");
- document.getElementById("ovCategoryGrid").innerHTML=["FTW · AYAKKABI","APP · TEKSTİL","ACC · AKSESUAR"].map(n=>'<article class="ov-cat"><div class="ov-cat-head"><b>'+n+'</b><span>KATEGORİ PERFORMANSI</span></div><div class="ov-cat-body"><div class="ov-cat-row"><div><small>2025 CİRO</small><b>—</b></div><div class="new"><small>2026 CİRO</small><b>—</b></div><div><small>2025 ADET</small><b>—</b></div><div class="new"><small>2026 ADET</small><b>—</b></div></div><div class="ov-cat-foot"><span>CİRO DEĞİŞİMİ · —</span><span>ADET DEĞİŞİMİ · —</span></div></div></article>').join("");
- const targetMetrics=["Ciro","UPT","CR","ATV","MULTIS","ASP","Fatura","Ürün Adedi","Trafik"];
- document.getElementById("ovTargetRows").innerHTML=targetMetrics.map(n=>'<tr><td>'+n+'</td><td>—</td><td>—</td><td>—</td><td class="new-col">—</td><td class="new-col">—</td><td class="new-col">—</td></tr>').join("");
- document.getElementById("ovDailyRows").innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;padding:20px">Excel veri bağlantısı sonraki aşamada kurulacak.</td></tr>';
- const tabs=document.getElementById("ovMetricTabs");
- tabs.innerHTML=metrics.map((m,i)=>'<button type="button" class="'+(i===0?"active":"")+'" data-ov-metric="'+m.id+'">'+m.name+'</button>').join("");
- tabs.querySelectorAll("[data-ov-metric]").forEach(btn=>btn.addEventListener("click",()=>{tabs.querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("ovChartTitle").textContent=btn.textContent+" · "+(document.querySelector("[data-ov-mode].active")?.textContent||"GÜNLÜK")+" KARŞILAŞTIRMA";}));
- document.querySelectorAll("[data-ov-mode]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-ov-mode]").forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("ovChartTitle").textContent=(tabs.querySelector(".active")?.textContent||"CİRO")+" · "+btn.textContent+" KARŞILAŞTIRMA";}));
+ const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n)||0),money=n=>fmt(n)+" TL";
+ const norm=v=>String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"");
+ const num=v=>{if(typeof v==="number")return Number.isFinite(v)?v:0;let x=String(v??"").replace(/%/g,"").replace(/\s/g,"").replace(/[^0-9,.-]/g,"");if(!x)return 0;const c=x.lastIndexOf(","),d=x.lastIndexOf(".");if(c>=0&&d>=0){if(c>d)x=x.replace(/\./g,"").replace(",",".");else x=x.replace(/,/g,"");}else if(c>=0)x=x.replace(",",".");else if(d>=0){const a=x.split(".");if(a.length>2||a.slice(1).every(z=>z.length===3))x=x.replace(/\./g,"");}const n=Number(x);return Number.isFinite(n)?n:0;};
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ root.innerHTML='<div class="card"><p>Aralık Excel verisi okunuyor…</p></div>';
+ try{
+  const book=await window.BUYAKA_FETCH_EXCEL_SOURCE("Mağaza Datası.xlsx"),sheets=book?.sheets||[];
+  const sheet=n=>sheets.find(x=>norm(x.name)===norm(n)),cmp=sheet("2025-2026 Karşılaştırma"),s25=sheet("2025 Aralık"),s26=sheet("2026 Aralık");
+  if(!cmp||!s25||!s26)throw new Error("2025-2026 Karşılaştırma, 2025 Aralık ve 2026 Aralık sayfaları bulunamadı.");
+  const find=(name)=>cmp.rows.find(r=>norm(r[0])===norm(name))||[];
+  const defs=[["CİRO","Ciro","money"],["UPT","UPT","decimal"],["CR","CR","percent"],["ATV","ATV","money"],["MULTIS","MULTIS","percent"],["ASP","ASP","money"],["FATURA","Fatura","number"],["ÜRÜN ADEDİ","Ürün adedi","number"],["TRAFİK","Trafik","number"]];
+  const data=defs.map(([name,key,type])=>{const r=find(key);return {name,type,t25:num(r[1]),v25:num(r[2]),t26:num(r[4]),v26:num(r[5]),change:num(r[7])};});
+  const show=(v,t)=>t==="money"?money(v):t==="percent"?(v>1?"%"+fmt(v,1):"%"+fmt(v*100,1)):t==="decimal"?fmt(v,2):fmt(v);
+  const daily=(sh,year)=>sh.rows.map(r=>{const m=String(r[0]||"").match(/(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/);if(!m||Number(m[1])!==12)return null;const yr=Number(m[3].length===2?"20"+m[3]:m[3]);if(yr!==year)return null;return {day:+m[2],rev:num(r[year===2025?7:8])};}).filter(Boolean);
+  const d25=daily(s25,2025),d26=daily(s26,2026);
+  const h=cmp.rows.findIndex(r=>norm(r[0]).includes("kategoribazlikarsilastirma"));
+  const cats=(h<0?[]:cmp.rows.slice(h+2).filter(r=>["ftw","app","acc"].includes(norm(r[0])))).map(r=>({name:String(r[0]).toUpperCase(),a:num(r[1]),b:num(r[2]),ua:num(r[5]),ub:num(r[6])}));
+  const cards=data.slice(0,6).map(k=>'<article class="kpi"><h3>'+k.name+'</h3><div class="year">2025 GERÇEKLEŞEN</div><div class="value">'+show(k.v25,k.type)+'</div><div class="year">2026 GERÇEKLEŞEN</div><div class="value">'+show(k.v26,k.type)+'</div><div class="change '+(k.change>=0?"up":"down")+'">'+(k.change>=0?"▲ +":"▼ ")+fmt(k.change,1)+'%</div><div class="target">2026 Hedef: '+show(k.t26,k.type)+'</div></article>').join("");
+  const lower=data.slice(6).map(k=>{const g=k.v25?(k.v26-k.v25)/k.v25*100:0;return '<article class="kpi"><h3>'+k.name+'</h3><div class="year">2025</div><div class="value">'+fmt(k.v25)+'</div><div class="year">2026</div><div class="value">'+fmt(k.v26)+'</div><div class="change '+(g>=0?"up":"down")+'">'+(g>=0?"▲ +":"▼ ")+fmt(g,1)+'%</div></article>';}).join("");
+  const catHTML=cats.map(c=>'<article class="cat-card"><h4>'+c.name+'</h4><div><small>2025 CİRO</small><b>'+money(c.a)+'</b></div><div><small>2026 CİRO</small><b>'+money(c.b)+'</b></div><div><small>2025 ADET</small><b>'+fmt(c.ua)+'</b></div><div><small>2026 ADET</small><b>'+fmt(c.ub)+'</b></div><p>Ciro '+(c.a?(c.b-c.a)/c.a*100:0).toFixed(1)+'% · Adet '+(c.ua?(c.ub-c.ua)/c.ua*100:0).toFixed(1)+'%</p></article>').join("");
+  root.innerHTML='<style>'+
+  '#executiveDashboard{font-family:Arial,Helvetica,sans-serif;color:#171717}#executiveDashboard .kpi-layout{display:grid;gap:10px}#executiveDashboard .dash-head{display:flex;align-items:center;gap:12px;border-bottom:1px solid #ddd;padding:0 2px 9px;min-height:55px}#executiveDashboard .puma{font-size:22px;font-weight:950;font-style:italic;white-space:nowrap}#executiveDashboard .divider-red{height:38px;width:3px;background:#df0010}#executiveDashboard .brand{font-size:18px;font-weight:900}#executiveDashboard .brand small{display:block;font-size:11px;font-weight:500}#executiveDashboard .ribbon{margin-left:auto;background:linear-gradient(110deg,#ed0010,#c9000b);color:#fff;padding:11px 20px;font-size:14px;font-weight:900;transform:skew(-20deg);white-space:nowrap}#executiveDashboard .ribbon span{display:block;transform:skew(20deg)}#executiveDashboard .dash-tools{display:flex;gap:6px}#executiveDashboard select,#executiveDashboard button{font:inherit}#executiveDashboard .dash-tools select{border:1px solid #bbb;background:#fff;border-radius:5px;padding:6px;font-size:9px;font-weight:700}#executiveDashboard .dash-tools button{border:1px solid #bbb;background:#fff;border-radius:5px;padding:5px 9px}#executiveDashboard .kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}#executiveDashboard .kpi{border:1px solid #d9dce0;border-radius:7px;overflow:hidden;text-align:center;min-width:0;min-height:140px;background:#fff;display:flex;flex-direction:column}#executiveDashboard .kpi h3{margin:0;background:linear-gradient(#ff1823,#cf000b);color:#fff;font-size:11px;padding:6px 3px}#executiveDashboard .year{font-size:8px;font-weight:800;color:#687078;margin-top:6px}#executiveDashboard .value{font-size:15px;font-weight:900;margin:2px 0;white-space:nowrap}#executiveDashboard .change{font-size:12px;font-weight:900;margin:3px 0}#executiveDashboard .up{color:#07952d}#executiveDashboard .down{color:#e00012}#executiveDashboard .target{margin:auto 5px 5px;background:#eceeef;border-radius:10px;padding:4px;font-size:8px;font-weight:800}#executiveDashboard .mid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}#executiveDashboard .mid .kpi{min-height:120px}#executiveDashboard .chart{grid-column:span 3;border:1px solid #d9dce0;border-radius:7px;overflow:hidden;background:#fff}#executiveDashboard .panel-head{background:linear-gradient(#ff1823,#cf000b);color:#fff;padding:6px 9px;display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900}#executiveDashboard .panel-head select{border:0;border-radius:4px;padding:4px;font-size:9px}#executiveDashboard .legend{display:flex;justify-content:center;gap:15px;padding:6px;font-size:9px;font-weight:800}#executiveDashboard .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#555;margin-right:4px}#executiveDashboard .dot.red{background:#df0010}#executiveDashboard .bars{height:112px;display:flex;align-items:end;gap:3px;padding:8px 9px;background:repeating-linear-gradient(to top,transparent 0,transparent 26px,#eee 27px)}#executiveDashboard .barpair{height:100%;flex:1;display:flex;align-items:end;justify-content:center;gap:2px}#executiveDashboard .barpair i,#executiveDashboard .barpair b{display:block;width:45%;max-width:12px;background:#555;border-radius:2px 2px 0 0}#executiveDashboard .barpair b{background:#df0010}#executiveDashboard .bottom{display:grid;grid-template-columns:1.15fr 1fr;gap:8px}#executiveDashboard .panel{border:1px solid #d9dce0;border-radius:7px;overflow:hidden;background:#fff;min-width:0}#executiveDashboard .cat-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px}#executiveDashboard .cat-card{border:1px solid #ddd;border-radius:6px;overflow:hidden;min-width:0}#executiveDashboard .cat-card h4{margin:0;background:#171717;color:#fff;text-align:center;padding:6px;font-size:10px}#executiveDashboard .cat-card div{padding:6px;border-bottom:1px solid #eee}#executiveDashboard .cat-card small{display:block;font-size:7px;color:#777;font-weight:800}#executiveDashboard .cat-card b{font-size:10px;white-space:nowrap}#executiveDashboard .cat-card p{font-size:8px;font-weight:800;padding:0 6px}#executiveDashboard .split{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:8px}#executiveDashboard .yearbox{border:1px solid #ddd;border-radius:6px;overflow:hidden;text-align:center}#executiveDashboard .yearbox h4{margin:0;background:#171717;color:#fff;padding:6px;font-size:10px}#executiveDashboard .yearbox.red h4{background:#df0010}#executiveDashboard .metrics{display:grid;grid-template-columns:repeat(3,1fr)}#executiveDashboard .metrics div{padding:8px 3px;font-size:8px;border-right:1px solid #eee}#executiveDashboard .metrics b{display:block;font-size:9px;margin-top:4px;overflow-wrap:anywhere}#executiveDashboard .source-note{text-align:center;color:#999;font-size:8px;padding:4px}@media(max-width:850px){#executiveDashboard .kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#executiveDashboard .mid{grid-template-columns:repeat(3,minmax(0,1fr))}#executiveDashboard .chart{grid-column:span 3}}@media(max-width:600px){#executiveDashboard .dash-head{flex-wrap:wrap}#executiveDashboard .ribbon{order:4;width:100%;text-align:center;margin:0}#executiveDashboard .brand{font-size:15px}#executiveDashboard .dash-tools{margin-left:auto}#executiveDashboard .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#executiveDashboard .kpi{min-height:132px}#executiveDashboard .value{font-size:14px}#executiveDashboard .mid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#executiveDashboard .chart{grid-column:span 2}#executiveDashboard .bottom{grid-template-columns:1fr}#executiveDashboard .cat-list{grid-template-columns:1fr}}'+
+  '</style><div class="kpi-layout">'+
+  '<header class="dash-head"><div class="puma">◢ PUMA</div><div class="divider-red"></div><div class="brand">BUYAKA<small>Yönetici Uygulaması 2.0</small></div><div class="ribbon"><span>KPI ÖZETİ · GERÇEK EXCEL VERİSİ</span></div><div class="dash-tools"><select id="dashRange"><option value="1-1">01 – 01 Aralık</option><option value="1-7">01 – 07 Aralık</option><option value="1-15">01 – 15 Aralık</option><option value="1-31">01 – 31 Aralık</option></select><button id="dashReload">↻</button></div></header>'+
+  '<section class="kpi-grid">'+cards+'</section><section class="mid">'+lower+
+  '<article class="chart"><div class="panel-head"><span>CİRO – GÜNLÜK 2025 VE 2026</span><select id="dashChartRange"><option value="1-31">01 – 31 Aralık</option><option value="1-7">01 – 07 Aralık</option><option value="1-15">01 – 15 Aralık</option></select></div><div class="legend"><span><i class="dot"></i>2025</span><span><i class="dot red"></i>2026</span></div><div class="bars" id="dashBars"></div></article></section>'+
+  '<section class="bottom"><article class="panel"><div class="panel-head"><span>KATEGORİ KARŞILAŞTIRMASI</span><select id="dashCat"><option value="all">Tüm kategoriler</option><option>FTW</option><option>APP</option><option>ACC</option></select></div><div class="legend"><span><i class="dot"></i>2025</span><span><i class="dot red"></i>2026</span></div><div class="cat-list" id="dashCats">'+catHTML+'</div></article>'+
+  '<article class="panel"><div class="panel-head"><span>FTW / APP / ACC</span><select id="dashSplit"><option value="all">Tüm kategoriler</option><option>FTW</option><option>APP</option><option>ACC</option></select></div><div class="split" id="dashSplitBody"><div class="yearbox"><h4>2025</h4><div class="metrics"><div>Ciro<b>'+money(data[0].v25)+'</b></div><div>Adet<b>'+fmt(data[7].v25)+'</b></div><div>Ciro Payı<b>%100</b></div></div></div><div class="yearbox red"><h4>2026</h4><div class="metrics"><div>Ciro<b>'+money(data[0].v26)+'</b></div><div>Adet<b>'+fmt(data[7].v26)+'</b></div><div>Ciro Payı<b>%100</b></div></div></div></div></article></section>'+
+  '<div class="source-note">Kaynak: Mağaza Datası.xlsx · 2025 Aralık / 2026 Aralık / 2025-2026 Karşılaştırma</div></div>';
+  const draw=range=>{const [a,b]=range.split("-").map(Number),days=Array.from({length:b-a+1},(_,i)=>a+i),max=Math.max(1,...d25.filter(x=>x.day>=a&&x.day<=b).map(x=>x.rev),...d26.filter(x=>x.day>=a&&x.day<=b).map(x=>x.rev));document.getElementById("dashBars").innerHTML=days.map(day=>{const x=d25.find(z=>z.day===day)?.rev||0,y=d26.find(z=>z.day===day)?.rev||0;return '<div class="barpair" title="'+day+' Aralık · 2025 '+money(x)+' · 2026 '+money(y)+'"><i style="height:'+(x/max*100)+'%"></i><b style="height:'+(y/max*100)+'%"></b></div>';}).join("");};
+  draw("1-31");document.getElementById("dashChartRange").addEventListener("change",e=>draw(e.target.value));document.getElementById("dashReload").addEventListener("click",()=>renderDecemberComparisonDashboard());
+  document.getElementById("dashCat").addEventListener("change",e=>document.querySelectorAll("#dashCats .cat-card").forEach(el=>el.style.display=e.target.value==="all"||el.querySelector("h4").textContent===e.target.value?"":"none"));
+  document.getElementById("dashSplit").addEventListener("change",e=>document.querySelectorAll("#dashSplitBody .yearbox").forEach(el=>el.style.opacity=e.target.value==="all"?"1":".45"));
+ }catch(e){root.innerHTML='<article class="card"><h3>KPI özeti yüklenemedi</h3><p class="notice">'+esc(e?.message||e)+'</p><button onclick="renderDecemberComparisonDashboard()" style="background:#e31b36;color:white;border:0;padding:10px 14px;border-radius:7px;font-weight:800">Yeniden dene</button></article>';}
 }
-
 function filterMonthlyKPI(value){
  const root=document.getElementById("monthlyKpiTables");if(!root)return;
  root.innerHTML=monthlyKpiTableHTML(value);
