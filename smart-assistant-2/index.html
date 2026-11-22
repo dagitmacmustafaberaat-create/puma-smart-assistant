@@ -1042,6 +1042,7 @@ async function renderDecemberComparisonDashboard(){
  #executiveDashboard .bars{padding:8px 2px 19px!important}
  #executiveDashboard .barpair i,#executiveDashboard .barpair b{width:46%!important;max-width:46%!important}
  #executiveDashboard .barpair span{font-size:6px!important}
+}
 
 /* Restore BUYAKA original black / white / blue palette */
 #executiveDashboard{background:#05080e!important;color:#fff!important}
@@ -1076,9 +1077,17 @@ async function renderDecemberComparisonDashboard(){
 #executiveDashboard .split-year-head{background:#26384d!important;color:#fff!important}
 #executiveDashboard .split-year.active .split-year-head{background:linear-gradient(105deg,#087fd0,#07539b)!important;color:#fff!important}
 #executiveDashboard .split-metric,#executiveDashboard .split-share{border-color:#293d53!important}
-#executiveDashboard .source-note{color:#8295aa!important}
+#executiveDashboard .source-note{color:#fff!important}
+#executiveDashboard .kpi-year span,#executiveDashboard .kpi-target span,#executiveDashboard .small-kpi-values small,#executiveDashboard .axis-labels,#executiveDashboard .legend,#executiveDashboard .cat-row span,#executiveDashboard .cat-foot,#executiveDashboard .split-title span,#executiveDashboard .split-metric span,#executiveDashboard .split-share span{color:#fff!important}
+#executiveDashboard .kpi-year b,#executiveDashboard .kpi-target b,#executiveDashboard .small-kpi-values b,#executiveDashboard .cat-row b,#executiveDashboard .cat-foot b,#executiveDashboard .split-metric b,#executiveDashboard .split-share b,#executiveDashboard #dashDay25,#executiveDashboard #dashDay26{color:#fff!important}
+#executiveDashboard .kpi-layout,#executiveDashboard .kpi-card,#executiveDashboard .small-kpi,#executiveDashboard .chart,#executiveDashboard .bottom>.panel,#executiveDashboard .cat-card,#executiveDashboard .split-year{background:#080f19!important;color:#fff!important}
+#executiveDashboard .kpi-target,#executiveDashboard #dashDayFocus{background:#14263a!important;color:#fff!important}
+#executiveDashboard .panel-head,#executiveDashboard .kpi-card-head,#executiveDashboard .small-kpi-head,#executiveDashboard .ribbon,#executiveDashboard .cat-card-title,#executiveDashboard .split-title{color:#55baff!important}
+#executiveDashboard .panel-head,#executiveDashboard .kpi-card-head,#executiveDashboard .small-kpi-head{background:#102b45!important}
+#executiveDashboard .split-year-head{background:#17324d!important;color:#fff!important}
+#executiveDashboard .split-year.active .split-year-head{background:#07539b!important;color:#fff!important}
 
-}`+
+`+
   '</style><div class="kpi-layout">'+
   '<header class="dash-head"><div class="dash-tools"><span style="font-size:9px;color:#aabbd0;font-weight:800">KÜMÜLATİF: 1–'+String(lastDay).padStart(2,"0")+' ARALIK</span><select id="dashRange"><option value="1-7">01 – 07 Aralık</option><option value="1-15">01 – 15 Aralık</option><option value="1-31" selected>01 – 31 Aralık</option></select><button id="dashReload" aria-label="Verileri yenile">↻</button></div></header>'+
   '<section class="kpi-grid">'+cards+'</section><section class="mid">'+lower+'</section>'+
