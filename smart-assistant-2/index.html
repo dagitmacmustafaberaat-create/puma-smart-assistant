@@ -870,210 +870,143 @@ const monthlyTable=(item)=>{
 
 async function renderDecemberComparisonDashboard(){
  const root=document.getElementById("executiveDashboard");if(!root)return;
- const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n)||0);
- const money=n=>fmt(n)+" TL",pct=n=>"%"+fmt(n,1);
- const norm=v=>String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"");
- const num=v=>{
-  if(v===null||v===undefined||v==="")return 0;
-  if(typeof v==="number")return Number.isFinite(v)?v:0;
-  let s=String(v).trim().replace(/[^0-9,.-]/g,"");if(!s)return 0;
-  const c=s.lastIndexOf(","),d=s.lastIndexOf(".");
-  if(c>=0&&d>=0){if(c>d)s=s.replace(/\./g,"").replace(",",".");else s=s.replace(/,/g,"");}
-  else if(c>=0){s=s.length-c-1<=2?s.replace(",","."):s.replace(/,/g,"");}
-  else if(d>=0){const a=s.split(".");if(a.length>2||a.slice(1).every(x=>x.length===3))s=s.replace(/\./g,"");}
-  const n=Number(s);return Number.isFinite(n)?n:0;
- };
- const dayOf=v=>{
-  const s=String(v??"").trim();
-  let m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
-  if(m&&+m[1]===12)return +m[2];
-  m=s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
-  if(m)return +m[1]===12?+m[2]:+m[1];
-  m=s.match(/^(\d{1,2})\s+Dec/i);if(m)return +m[1];
-  return 0;
- };
- const sheet=(book,name)=>(book?.sheets||[]).find(s=>norm(s.name)===norm(name));
- const col=(headers,name)=>headers.findIndex(h=>norm(h)===norm(name));
- const readRows=(sh,year)=>{
-  if(!sh)throw new Error(year+" Aralık sayfası bulunamadı.");
-  const h=sh.headers||[];
-  const ix={date:col(h,"Tarih"),target:col(h,"Target"),actual:col(h,"Actual"),tr:col(h,"Transaction"),multi:col(h,"Transactions with more than 1 unit"),units:col(h,"Units"),vis:col(h,"Visitors"),upt:col(h,"UPT"),cr:col(h,"CR"),atv:col(h,"ATV"),multis:col(h,"MULTIS"),ftw:col(h,"FTW"),ftwUnits:col(h,"FTW units"),ftwShare:col(h,"% FTW"),app:col(h,"APP"),appUnits:col(h,"APP units"),appShare:col(h,"% APP"),acc:col(h,"ACC"),accUnits:col(h,"ACC units"),accShare:col(h,"% ACC"),lySales:col(h,"ACTUAL Last Year Sales"),lyUnits:col(h,"UNIT Last Year Sales")};
-  if(ix.date<0||ix.actual<0||ix.tr<0||ix.units<0)throw new Error(year+" Aralık sayfasındaki başlıklar beklenen formatta değil.");
-  return (sh.rows||[]).map(r=>{
-   const day=dayOf(r[ix.date]);if(day<1||day>31)return null;
-   const v=k=>ix[k]>=0?num(r[ix[k]]):0;
-   return {day,dow:String(r[1]||new Date(year,11,day).toLocaleDateString("tr-TR",{weekday:"long"})),target:v("target"),actual:v("actual"),tr:v("tr"),multi:v("multi"),units:v("units"),vis:v("vis"),upt:v("upt"),cr:v("cr"),atv:v("atv"),multis:v("multis"),ftw:v("ftw"),ftwUnits:v("ftwUnits"),ftwShare:v("ftwShare"),app:v("app"),appUnits:v("appUnits"),appShare:v("appShare"),acc:v("acc"),accUnits:v("accUnits"),accShare:v("accShare"),lySales:v("lySales"),lyUnits:v("lyUnits")};
-  }).filter(Boolean).sort((a,b)=>a.day-b.day);
- };
- try{
-  root.innerHTML='<div class="card"><p>Mağaza Datası.xlsx okunuyor…</p></div>';
-  if(typeof window.BUYAKA_FETCH_EXCEL_SOURCE!=="function")throw new Error("Ortak Excel kaynağına erişim fonksiyonu bulunamadı.");
-  const book=await Promise.race([window.BUYAKA_FETCH_EXCEL_SOURCE("Mağaza Datası.xlsx"),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Mağaza Datası.xlsx bağlantısı 20 saniye içinde yanıt vermedi. Excel Veri Merkezi / Supabase bağlantısını kontrol et.")),20000))]);
-  if(!book)throw new Error("Mağaza Datası.xlsx ortak veritabanında bulunamadı. Excel Veri Merkezi’nden dosyayı yeniden yükle.");
-  const rows25=readRows(sheet(book,"2025 Aralık"),2025);
-  const rows26=readRows(sheet(book,"2026 Aralık"),2026);
-  const entered=rows26.filter(x=>x.actual>0);
-  // Compare equal calendar-day ranges: only 2025 dates with matching 2026 actuals.
-  const enteredDays=[...new Set(entered.map(x=>x.day))].sort((a,b)=>a-b);
-  const comparableDays=new Set(enteredDays);
-  const comparisonRows25=rows25.filter(x=>comparableDays.has(x.day));
-  const comparisonLabel=enteredDays.length ? "01–"+String(Math.max(...enteredDays)).padStart(2,"0")+" Aralık ("+enteredDays.length+" veri girilmiş gün)" : "2026 verisi bekleniyor";
-  const sum=(a,k)=>a.reduce((n,x)=>n+(Number(x[k])||0),0);
-  const agg=a=>{
-   const actual=sum(a,"actual"),tr=sum(a,"tr"),multi=sum(a,"multi"),units=sum(a,"units"),vis=sum(a,"vis");
-   return {actual,tr,multi,units,vis,upt:tr?units/tr:0,cr:vis?tr/vis*100:0,atv:tr?actual/tr:0,asp:units?actual/units:0,multis:tr?multi/tr*100:0,target:sum(a,"target")};
-  };
-  const a25=agg(comparisonRows25),a26=agg(entered);
-  const kpiSheet=sheet(book,"2025-2026 Karşılaştırma");
-  const targetMap={};
-  (kpiSheet?.rows||[]).forEach(r=>{const key=norm(r[0]);if(key)targetMap[key]={t25:num(r[1]),t26:num(r[4])};});
-  const specs=[
-   ["CİRO","actual","money","ciro"],["UPT","upt","decimal","upt"],["CR","cr","percent","cr"],["ATV","atv","money","atv"],["MULTIS","multis","percent","multis"],["ASP","asp","money","asp"],["FATURA","tr","count","fatura"],["ÜRÜN ADEDİ","units","count","urunadedi"],["TRAFİK","vis","count","trafik"]
-  ];
-  const getTarget=(name,year)=>{
-   const aliases={ciro:"ciro",upt:"upt",cr:"cr",atv:"atv",multis:"multis",asp:"asp"};
-   const t=targetMap[aliases[name]];return t?(year===2025?t.t25:t.t26):0;
-  };
-  const display=(v,type)=>type==="money"?money(v):type==="percent"?pct(v):type==="decimal"?fmt(v,2):fmt(v);
-  const diffPct=(x,y)=>y?(x-y)/y*100:0;
-  const cardHtml=specs.map(([label,key,type,targetKey])=>{
-   const old=a25[key],now=a26[key],has=entered.length>0,change=diffPct(now,old),target=getTarget(targetKey,2026);
-   return '<article class="exec-kpi"><small>'+label+'</small><strong>2025 · '+display(old,type)+'</strong><div class="compare">2026 · '+(has?display(now,type):"Veri bekleniyor")+'</div><div class="delta '+(change>=0?"positive":"negative")+'">'+(has?(change>0?"+":"")+pct(change):"2026 gerçekleşme bekleniyor")+'</div><div class="compare">2026 hedef: '+(target?display(target,type):"—")+'</div></article>';
-  }).join("");
-  const categories=[
-   {code:"FTW",label:"AYAKKABI",rev:"ftw",units:"ftwUnits"},
-   {code:"APP",label:"TEKSTİL",rev:"app",units:"appUnits"},
-   {code:"ACC",label:"AKSESUAR",rev:"acc",units:"accUnits"}
-  ].map(c=>{
-   const old=sum(comparisonRows25,c.rev),now=sum(entered,c.rev),oldUnits=sum(comparisonRows25,c.units),nowUnits=sum(entered,c.units);
-   return {...c,old,now,oldUnits,nowUnits,oldShare:a25.actual?old/a25.actual*100:0,nowShare:a26.actual?now/a26.actual*100:0,oldAsp:oldUnits?old/oldUnits:0,nowAsp:nowUnits?now/nowUnits:0};
-  });
-  const chartMetrics=[
-   {id:"revenue",label:"Ciro",type:"money",get:x=>x.actual,sum:true},
-   {id:"invoices",label:"Fatura",type:"count",get:x=>x.tr,sum:true},
-   {id:"units",label:"Ürün adedi",type:"count",get:x=>x.units,sum:true},
-   {id:"traffic",label:"Trafik",type:"count",get:x=>x.vis,sum:true},
-   {id:"upt",label:"UPT",type:"decimal",get:x=>x.tr?x.units/x.tr:0,ratio:true},
-   {id:"cr",label:"CR",type:"percent",get:x=>x.vis?x.tr/x.vis*100:0,ratio:true},
-   {id:"atv",label:"ATV",type:"money",get:x=>x.tr?x.actual/x.tr:0,ratio:true},
-   {id:"asp",label:"ASP",type:"money",get:x=>x.units?x.actual/x.units:0,ratio:true},
-   {id:"multis",label:"MULTIS",type:"percent",get:x=>x.tr?x.multi/x.tr*100:0,ratio:true},
-   {id:"ftw",label:"FTW ciro",type:"money",get:x=>x.ftw,sum:true},
-   {id:"app",label:"APP ciro",type:"money",get:x=>x.app,sum:true},
-   {id:"acc",label:"ACC ciro",type:"money",get:x=>x.acc,sum:true}
-  ];
-  let selected="revenue",mode="daily";
-  const metricValue=(m,rows,day)=>{
-   const chosen=rows.filter(x=>mode==="cumulative"?x.day<=day:x.day===day);
-   if(!chosen.length)return null;
-   if(m.sum)return sum(chosen,m.id==="revenue"?"actual":m.id==="invoices"?"tr":m.id==="units"?"units":m.id==="traffic"?"vis":m.id);
-   const total=agg(chosen);return m.id==="upt"?total.upt:m.id==="cr"?total.cr:m.id==="atv"?total.atv:m.id==="asp"?total.asp:total.multis;
-  };
-  const chartHtml='<div class="daily-compare-panel"><div class="daily-compare-top"><h3>Günlük karşılaştırma</h3><div class="daily-mode-tabs"><button type="button" data-daily-mode="daily" class="active">Günlük</button><button type="button" data-daily-mode="cumulative">Kümülatif</button></div></div><div class="daily-metric-tabs">'+chartMetrics.map(m=>'<button type="button" data-daily-metric="'+m.id+'" class="'+(m.id===selected?'active':'')+'">'+m.label+'</button>').join("")+'</div><div class="daily-legend"><span><i></i>2025</span><span><i class="y26"></i>2026</span></div><div id="dailyChartTitle" style="font-weight:800;color:#152b4b;font-size:14px;margin-top:10px"></div><div class="daily-chart-scroll"><div id="dailyChartSvg"></div></div></div>';
-  let categoryFilter="all";
-  const catHtml=()=>'<div class="category-filter-row" style="display:flex;justify-content:flex-end;margin:0 0 12px"><label style="font-size:11px;font-weight:800;display:flex;align-items:center;gap:8px">KATEGORİ <select id="decCategoryFilter" style="border:1px solid #ddd;border-radius:8px;padding:9px 12px;background:#fff;font:inherit"><option value="all">Tüm kategoriler</option><option value="FTW">FTW · Ayakkabı</option><option value="APP">APP · Tekstil</option><option value="ACC">ACC · Aksesuar</option></select></label></div><div id="decCategoryCards" class="exec-category"></div><div id="decCategoryBars" class="card" style="margin-top:12px;padding:18px"></div>';
-
-  const targetRows=specs.map(([label,key,type,targetKey])=>{
-   const old=a25[key],now=a26[key],t25=key==="actual"?a25.target:getTarget(targetKey,2025),t26=key==="actual"?a26.target:getTarget(targetKey,2026),has=entered.length>0;
-   return '<tr><th>'+label+'</th><td>'+(t25?display(t25,type):"—")+'</td><td>'+display(old,type)+'</td><td>'+(t25?pct(old/t25*100):"—")+'</td><td>'+(t26?display(t26,type):"—")+'</td><td>'+(has?display(now,type):"—")+'</td><td>'+(has&&t26?pct(now/t26*100):"—")+'</td><td>'+(has?(diffPct(now,old)>0?"+":"")+pct(diffPct(now,old)):"—")+'</td></tr>';
-  }).join("");
-  const dailyRows=Array.from({length:31},(_,i)=>{
-   const day=i+1,x=rows25.find(r=>r.day===day),y=entered.find(r=>r.day===day),old=x?.actual||0,now=y?.actual||0,delta=now-old,change=old?delta/old*100:null;
-   return '<tr><th>'+String(day).padStart(2,"0")+'.12</th><td>'+new Date(2026,11,day).toLocaleDateString("tr-TR",{weekday:"long"})+'</td><td>'+money(old)+'</td><td>'+(y?money(now):"—")+'</td><td>'+(y?(delta>0?"+":"")+money(delta):"—")+'</td><td>'+(y?(change>0?"+":"")+pct(change):"—")+'</td></tr>';
-  }).join("");
-  const decCardParts=cardHtml.match(/<article class="exec-kpi">[\s\S]*?<\/article>/g)||[];
-  const decKpiGrid=decCardParts.slice(0,6).join("")+decCardParts.slice(6).join("")+'<div class="dec-chart-tile"><div class="dec-red-heading">CİRO · GÜNLÜK 2025 VE 2026</div><div id="dailyMetricChart">'+chartHtml+'</div></div>';
-  root.innerHTML=`<style>.dec-dashboard{color:#171717}.dec-dashboard .dec-hero{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#171717;color:#fff;padding:19px 24px;border-radius:12px;margin-bottom:16px;position:relative;overflow:hidden}.dec-dashboard .dec-hero:after{content:"";position:absolute;right:0;top:0;width:38%;height:100%;background:linear-gradient(110deg,transparent,#e31b36 70%);opacity:.95}.dec-dashboard .dec-hero>*{position:relative;z-index:1}.dec-dashboard .dec-hero .eyebrow{color:#ff8795}.dec-dashboard .dec-hero h2{margin:4px 0;font-size:21px}.dec-dashboard .dec-hero p{margin:0;color:#ddd;font-size:11px}.dec-dashboard .dec-section{margin:0 0 16px}.dec-dashboard .dec-section-head{margin:0 0 10px}.dec-dashboard .dec-section-head h2{font-size:16px;margin:3px 0}.dec-dashboard .dec-kpi-layout{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.dec-dashboard .exec-kpi{padding:0 10px 11px;border:1px solid #ddd;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 3px 9px #00000010;text-align:center;min-width:0}.dec-dashboard .exec-kpi>small{display:block;margin:0 -10px 9px;padding:8px 4px;background:#e31b36;color:#fff;font-size:12px;font-weight:900;letter-spacing:.35px}.dec-dashboard .exec-kpi>strong{display:block;font-size:13px;margin:7px 0;color:#171717}.dec-dashboard .exec-kpi .compare{font-size:12px;font-weight:750;color:#222;margin:7px 0;padding:6px 2px;border-top:1px solid #eee}.dec-dashboard .exec-kpi .delta{font-size:17px;font-weight:950;margin:7px 0}.dec-dashboard .dec-chart-tile{grid-column:span 3;border:1px solid #ddd;border-radius:10px;background:#fff;overflow:hidden;box-shadow:0 3px 9px #00000010;min-width:0}.dec-dashboard .dec-red-heading{background:#e31b36;color:#fff;font-size:13px;font-weight:900;padding:9px 12px}.dec-dashboard .dec-chart-tile #dailyMetricChart{padding:10px}.dec-dashboard .dec-chart-tile .daily-compare-panel{border:0;padding:0;box-shadow:none}.dec-dashboard .dec-chart-tile .daily-chart-scroll{overflow-x:auto}.dec-dashboard .dec-chart-tile .daily-chart-scroll svg{min-width:760px}.dec-dashboard .exec-section{background:#fff;border:1px solid #e4e4e4;border-radius:11px;padding:14px;margin:0 0 14px}.dec-dashboard .exec-section .report-kicker{color:#e31b36}.dec-dashboard .exec-section .exec-kpi{box-shadow:none}.dec-dashboard .dec-target-table th,.dec-dashboard .dec-target-table td{padding:11px 9px;border-bottom:1px solid #eee;text-align:center;white-space:nowrap}.dec-dashboard .dec-target-table tbody th{text-align:left;background:#fafafa}.dec-dashboard #decCategoryCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.dec-dashboard #decCategoryBars{margin-top:10px}.dec-dashboard .dec-date-filters input{background:#fff}@media(max-width:1050px){.dec-dashboard .dec-kpi-layout{grid-template-columns:repeat(3,minmax(0,1fr))}.dec-dashboard .dec-chart-tile{grid-column:span 3}}@media(max-width:650px){.dec-dashboard .dec-hero{padding:16px;align-items:flex-start}.dec-dashboard .dec-hero h2{font-size:17px}.dec-dashboard .dec-kpi-layout{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.dec-dashboard .dec-chart-tile{grid-column:span 2}.dec-dashboard #decCategoryCards{grid-template-columns:1fr}.dec-dashboard .exec-section{padding:10px}.dec-dashboard .exec-kpi>strong{font-size:12px}.dec-dashboard .exec-kpi .delta{font-size:15px}}
-/* December KPI dashboard — Excel-connected visual layout */
-.dec-dashboard .dec-section{background:#fff;border:1px solid #e7e7e5;border-radius:13px;padding:18px;margin:0 0 16px;box-shadow:0 5px 18px rgba(0,0,0,.035)}
-.dec-dashboard .dec-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 0 14px;padding-bottom:11px;border-bottom:1px solid #ededeb}
-.dec-dashboard .dec-section-head h2{font-size:17px;letter-spacing:-.35px;margin:3px 0 0;color:#171717}
-.dec-dashboard .dec-kpi-layout{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.dec-dashboard .exec-kpi{min-height:150px;padding:0 14px 13px;border:1px solid #e5e5e3;border-radius:11px;background:linear-gradient(180deg,#fff 0%,#fcfcfb 100%);box-shadow:0 3px 12px rgba(0,0,0,.045);text-align:left;display:flex;flex-direction:column;justify-content:flex-start}
-.dec-dashboard .exec-kpi>small{margin:0 -14px 10px;padding:9px 13px;background:#e31b36;color:#fff;font-size:11px;font-weight:900;letter-spacing:.8px;text-align:left}
-.dec-dashboard .exec-kpi>strong{font-size:19px;line-height:1.25;margin:3px 0 6px;color:#171717;letter-spacing:-.45px}
-.dec-dashboard .exec-kpi .compare{font-size:12px;line-height:1.35;font-weight:700;color:#555;margin:0;padding:6px 0;border-top:1px solid #efefed}
-.dec-dashboard .exec-kpi .delta{font-size:16px;font-weight:950;margin:7px 0 5px}
-.dec-dashboard .exec-kpi .compare:last-child{margin-top:auto;padding-top:8px;color:#777;font-size:11px}
-.dec-dashboard .dec-chart-tile{grid-column:1/-1;border:1px solid #e5e5e3;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.045);min-width:0}
-.dec-dashboard .dec-red-heading{background:#e31b36;color:#fff;font-size:12px;font-weight:900;letter-spacing:.65px;padding:11px 14px}
-.dec-dashboard .dec-chart-tile #dailyMetricChart{padding:14px}
-.dec-dashboard .dec-chart-tile .daily-compare-panel{border:0;padding:0;box-shadow:none}
-.dec-dashboard .dec-chart-tile .daily-compare-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.dec-dashboard .dec-chart-tile .daily-compare-top h3{font-size:15px;color:#171717}
-.dec-dashboard .dec-chart-tile .daily-metric-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
-.dec-dashboard .dec-chart-tile .daily-metric-tabs button,.dec-dashboard .dec-chart-tile .daily-mode-tabs button{border:1px solid #e3e3e0;border-radius:7px;background:#fff;color:#555;padding:7px 10px;font-size:10px;font-weight:800}
-.dec-dashboard .dec-chart-tile .daily-metric-tabs button.active,.dec-dashboard .dec-chart-tile .daily-mode-tabs button.active{background:#e31b36;border-color:#e31b36;color:#fff}
-.dec-dashboard .dec-chart-tile .daily-legend{display:flex;gap:16px;font-size:10px;color:#666}
-.dec-dashboard .dec-chart-tile .daily-legend i{background:#64748b}
-.dec-dashboard .dec-chart-tile .daily-legend .y26{background:#e31b36}
-.dec-dashboard .dec-chart-tile .daily-chart-scroll{overflow-x:auto;border:1px solid #eee;border-radius:9px;background:#fff}
-.dec-dashboard .dec-chart-tile .daily-chart-scroll svg{display:block;width:100%;min-width:900px;height:auto}
-.dec-dashboard #decCategoryCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.dec-dashboard #decCategoryCards .exec-cat{margin:0!important;border-radius:11px!important;box-shadow:0 3px 12px rgba(0,0,0,.04)}
-.dec-dashboard #decCategoryBars{border:1px solid #e7e7e5!important;border-radius:11px!important;box-shadow:none!important}
-.dec-dashboard .dec-target-table{background:#fff}
-.dec-dashboard .dec-target-table thead th{font-size:10px;letter-spacing:.2px}
-.dec-dashboard .dec-target-table tbody tr:nth-child(even){background:#fafaf9}
-.dec-dashboard .dec-target-table tbody tr:hover{background:#fff2f4}
-.dec-dashboard .dec-date-filters{align-items:end}
-.dec-dashboard .dec-date-filters input{min-width:150px}
-@media(max-width:1000px){.dec-dashboard .dec-kpi-layout{grid-template-columns:repeat(2,minmax(0,1fr))}.dec-dashboard #decCategoryCards{grid-template-columns:1fr}}
-@media(max-width:650px){.dec-dashboard .dec-section{padding:12px}.dec-dashboard .dec-section-head{align-items:flex-start;flex-direction:column}.dec-dashboard .dec-kpi-layout{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.dec-dashboard .exec-kpi{min-height:145px;padding:0 10px 10px}.dec-dashboard .exec-kpi>small{margin:0 -10px 8px;padding:8px 10px;font-size:10px}.dec-dashboard .exec-kpi>strong{font-size:15px}.dec-dashboard .exec-kpi .compare{font-size:10px}.dec-dashboard .exec-kpi .delta{font-size:14px}.dec-dashboard .dec-chart-tile{grid-column:1/-1}.dec-dashboard .dec-chart-tile #dailyMetricChart{padding:9px}.dec-dashboard .dec-date-filters{display:grid!important;grid-template-columns:1fr 1fr}.dec-dashboard .dec-date-filters button{grid-column:1/-1}.dec-dashboard .dec-date-filters input{min-width:0;width:100%}}
-</style><div class="exec-page-view dec-dashboard"><header class="dec-hero"><div><div class="eyebrow">BUYAKA · STORE INTELLIGENCE</div><h2>ARALIK 2025 – ARALIK 2026</h2><p>KPI ÖZETİ · GERÇEK EXCEL VERİSİ</p></div></header><section class="dec-section"><div class="dec-section-head"><span class="report-kicker">AYLIK PERFORMANS</span><h2>Aylık performans göstergeleri</h2></div><div class="dec-kpi-layout">${decKpiGrid}</div></section><section class="dec-section"><div class="dec-section-head"><span class="report-kicker">KATEGORİ KARŞILAŞTIRMASI</span><h2>FTW / APP / ACC</h2></div>${catHtml()}</section><section class="dec-section"><div class="dec-section-head"><span class="report-kicker">KPI HEDEF / GERÇEKLEŞEN</span><h2>Hedef ve gerçekleşen tablosu</h2></div><div style="overflow-x:auto;background:#fff;border:1px solid #e7e7e7;border-radius:10px"><table class="dec-target-table" style="width:100%;min-width:920px;border-collapse:collapse;font-size:12px"><thead><tr style="background:#171717;color:#fff">${["KPI","2025 Hedef","2025 Gerçekleşen","2025 HGO","2026 Hedef","2026 Gerçekleşen","2026 HGO","Değişim"].map(h=>'<th style="padding:12px 10px;text-align:center;white-space:nowrap">'+h+'</th>').join("")}</tr></thead><tbody>${targetRows}</tbody></table></div></section><section class="dec-section"><div class="dec-section-head"><span class="report-kicker">GÜNLÜK DETAY · CİRO</span><h2>Ciro – günlük 2025 ve 2026</h2></div><div class="dec-date-filters" style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 12px;padding:13px;background:#fff;border:1px solid #e7e7e7;border-radius:10px"><label style="font-size:11px;font-weight:800;display:grid;gap:5px">BAŞLANGIÇ TARİHİ<input id="decDateFrom" type="date" min="2025-12-01" max="2025-12-31" value="2025-12-01" style="padding:9px;border:1px solid #ddd;border-radius:7px;font:inherit"></label><label style="font-size:11px;font-weight:800;display:grid;gap:5px">BİTİŞ TARİHİ<input id="decDateTo" type="date" min="2025-12-01" max="2025-12-31" value="2025-12-31" style="padding:9px;border:1px solid #ddd;border-radius:7px;font:inherit"></label><button id="decDateReset" type="button" style="align-self:end;padding:10px 13px;border:0;border-radius:7px;background:#171717;color:#fff;font-weight:800">TARİHİ SIFIRLA</button></div><div style="overflow-x:auto;background:#fff;border:1px solid #e7e7e7;border-radius:10px"><table style="width:100%;min-width:680px;border-collapse:collapse;font-size:12px"><thead><tr style="background:#171717;color:#fff">${["Tarih","Gün (2026)","2025","2026","Fark","Değişim %"].map(h=>'<th style="padding:12px 10px;text-align:center;white-space:nowrap">'+h+'</th>').join("")}</tr></thead><tbody id="decDailyRows">${dailyRows}</tbody></table></div></section></div>`;
-  const categoryCards=document.getElementById("decCategoryCards"),categoryBars=document.getElementById("decCategoryBars");
-  const renderCategoryComparison=()=>{
-   const shown=categories.filter(c=>categoryFilter==="all"||c.code===categoryFilter);
-   categoryCards.innerHTML=shown.map(c=>'<div class="exec-cat" style="background:#fff;padding:16px;border:1px solid #e7e7e7;border-radius:12px;margin-bottom:10px"><h4 style="margin:0 0 12px">'+c.code+' · '+c.label+'</h4><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px"><div style="background:#fafafa;border-radius:9px;padding:13px"><small style="display:block;color:#777;font-weight:800">2025 · CİRO</small><strong style="font-size:19px">'+money(c.old)+'</strong><small style="display:block;color:#777;margin-top:7px">ADET · '+fmt(c.oldUnits)+'</small><small style="display:block;color:#777">CİRO PAYI · '+pct(c.oldShare)+'</small></div><div style="background:#fff5f6;border:1px solid #f3d5da;border-radius:9px;padding:13px"><small style="display:block;color:#777;font-weight:800">2026 · CİRO</small><strong style="font-size:19px">'+(entered.length?money(c.now):"—")+'</strong><small style="display:block;color:#777;margin-top:7px">ADET · '+(entered.length?fmt(c.nowUnits):"—")+'</small><small style="display:block;color:#777">CİRO PAYI · '+(entered.length?pct(c.nowShare):"—")+'</small></div></div></div>').join("");
-   const max=Math.max(1,...shown.flatMap(c=>[c.old,c.now,c.oldUnits,c.nowUnits,c.oldShare,c.nowShare]));
-   const bar=(label,v,color)=>'<div style="display:grid;grid-template-columns:92px minmax(0,1fr) 85px;gap:8px;align-items:center;margin:8px 0"><b style="font-size:10px">'+label+'</b><div style="height:12px;background:#eee;border-radius:20px;overflow:hidden"><span style="display:block;height:100%;width:'+Math.max(0,Math.min(100,v/max*100))+'%;background:'+color+';border-radius:20px"></span></div><strong style="font-size:10px;text-align:right">'+fmt(v,v<100?1:0)+'</strong></div>';
-   categoryBars.innerHTML='<h3 style="margin:0 0 5px">Yatay kategori karşılaştırması</h3>'+shown.map(c=>'<div style="padding:10px 0;border-top:1px solid #eee"><b style="font-size:12px">'+c.code+'</b>'+['CİRO','ADET','CİRO PAYI'].map((k,i)=>{const old=[c.old,c.oldUnits,c.oldShare][i],now=[c.now,c.nowUnits,c.nowShare][i],scale=Math.max(1,old,now);return '<div style="margin-top:8px"><small style="font-size:9px;color:#777;font-weight:800">'+k+'</small>'+['2025','2026'].map((yr,j)=>{const v=j?now:old;return '<div style="display:grid;grid-template-columns:42px minmax(0,1fr) 88px;gap:7px;align-items:center;margin:5px 0"><span style="font-size:10px;color:#666">'+yr+'</span><div style="height:11px;background:#eee;border-radius:20px;overflow:hidden"><span style="display:block;width:'+Math.max(0,Math.min(100,v/scale*100))+'%;height:100%;background:'+(j?'#e31b36':'#64748b')+'"></span></div><b style="font-size:10px;text-align:right">'+(i===0?money(v):i===1?fmt(v):pct(v))+'</b></div>';}).join('')+'</div>';}).join('')+'</div>').join('');
-  };
-  document.getElementById("decCategoryFilter")?.addEventListener("change",e=>{categoryFilter=e.target.value;renderCategoryComparison();});
-  renderCategoryComparison();
-  const renderDailyRows=()=>{
-   const from=Number((document.getElementById("decDateFrom")?.value||"2025-12-01").slice(-2)),to=Number((document.getElementById("decDateTo")?.value||"2025-12-31").slice(-2));
-   const lo=Math.min(from,to),hi=Math.max(from,to);
-   document.getElementById("decDailyRows").innerHTML=Array.from({length:31},(_,i)=>i+1).filter(day=>day>=lo&&day<=hi).map(day=>{const x=rows25.find(r=>r.day===day),y=entered.find(r=>r.day===day),old=x?.actual||0,now=y?.actual||0,delta=now-old,change=old?delta/old*100:null;return '<tr><th style="text-align:center;padding:10px">'+String(day).padStart(2,"0")+'.12</th><td style="text-align:center;padding:10px">'+new Date(2026,11,day).toLocaleDateString("tr-TR",{weekday:"long"})+'</td><td style="text-align:center;padding:10px">'+money(old)+'</td><td style="text-align:center;padding:10px">'+(y?money(now):"—")+'</td><td style="text-align:center;padding:10px">'+(y?(delta>0?"+":"")+money(delta):"—")+'</td><td style="text-align:center;padding:10px">'+(y?(change>0?"+":"")+pct(change):"—")+'</td></tr>';}).join('');
-  };
-  ["decDateFrom","decDateTo"].forEach(id=>document.getElementById(id)?.addEventListener("change",renderDailyRows));
-  document.getElementById("decDateReset")?.addEventListener("click",()=>{document.getElementById("decDateFrom").value="2025-12-01";document.getElementById("decDateTo").value="2025-12-31";renderDailyRows();});
-  const targetTable=document.querySelector(".dec-target-table");
-  if(targetTable)targetTable.querySelectorAll("tbody td,tbody th").forEach(cell=>{cell.style.textAlign=cell.tagName==="TH"?"left":"center";cell.style.padding="11px 10px";});
-  const chartHost=document.getElementById("dailyMetricChart");
-  const renderChart=()=>{
-   const m=chartMetrics.find(x=>x.id===selected)||chartMetrics[0],all=[...rows25,...entered],values=[];
-   for(let day=1;day<=31;day++){values.push(metricValue(m,comparisonRows25,day),metricValue(m,entered,day));}
-   const nums=values.filter(v=>v!==null&&Number.isFinite(v)),max=Math.max(1,...nums),w=1800,left=56,right=18,top=58,bottom=42,ph=282,pw=w-left-right,step=pw/31,bw=Math.min(20,step*.34),y=v=>top+ph-(v/max)*ph;
-   const label=v=>m.type==="money"?fmt(v,0):fmt(v,m.type==="decimal"?2:m.type==="percent"?2:0)+(m.type==="percent"?"%":"");
-   let svg='<svg viewBox="0 0 '+w+' 400" role="img" aria-label="'+m.label+' 2025 ve 2026 karşılaştırması">';
-   for(let j=0;j<=4;j++){const v=max*j/4,yy=y(v);svg+='<line x1="'+left+'" y1="'+yy+'" x2="'+(w-right)+'" y2="'+yy+'" stroke="#cbd5e1"/><text x="'+(left-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="12" font-weight="700" fill="#222222">'+label(v)+'</text>';}
-   for(let day=1;day<=31;day++){
-    const x=left+(day-1)*step+step/2,old=metricValue(m,rows25,day),now=metricValue(m,entered,day),dow=new Date(2026,11,day).getDay();
-    if(dow===0||dow===6)svg+='<rect x="'+(left+(day-1)*step)+'" y="'+top+'" width="'+step+'" height="'+ph+'" fill="#f1f4f8"/>';
-    if(old!==null){const yy=y(old),h=top+ph-yy,bx=x-bw-1;svg+='<rect x="'+bx+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#64748b"><title>2025 '+day+' Aralık: '+label(old)+'</title></rect><text x="'+(bx+bw/2)+'" y="'+(yy-5)+'" transform="rotate(-90 '+(bx+bw/2)+' '+(yy-5)+')" text-anchor="end" font-size="13" font-weight="800" fill="#111111">'+label(old)+'</text>';}
-    if(now!==null){const yy=y(now),h=top+ph-yy,bx=x+1;svg+='<rect x="'+bx+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#e31b36"><title>2026 '+day+' Aralık: '+label(now)+'</title></rect><text x="'+(bx+bw/2)+'" y="'+(yy-5)+'" transform="rotate(-90 '+(bx+bw/2)+' '+(yy-5)+')" text-anchor="end" font-size="9" font-weight="700" fill="#111111">'+label(now)+'</text>';}
-    svg+='<text x="'+x+'" y="'+(top+ph+18)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#222222">'+day+'</text>';
-   }
-   svg+='</svg>';
-   const oldSum=agg(comparisonRows25),newSum=agg(entered),vOld=m.id==="revenue"?oldSum.actual:m.id==="invoices"?oldSum.tr:m.id==="units"?oldSum.units:m.id==="traffic"?oldSum.vis:m.id==="upt"?oldSum.upt:m.id==="cr"?oldSum.cr:m.id==="atv"?oldSum.atv:m.id==="asp"?oldSum.asp:m.id==="multis"?oldSum.multis:sum(comparisonRows25,m.id);
-   const vNew=m.id==="revenue"?newSum.actual:m.id==="invoices"?newSum.tr:m.id==="units"?newSum.units:m.id==="traffic"?newSum.vis:m.id==="upt"?newSum.upt:m.id==="cr"?newSum.cr:m.id==="atv"?newSum.atv:m.id==="asp"?newSum.asp:m.id==="multis"?newSum.multis:sum(entered,m.id);
-   chartHost.querySelector("#dailyChartTitle").textContent=m.label+" · "+(mode==="daily"?"günlük":"kümülatif")+" karşılaştırma";
-   
-   chartHost.querySelector("#dailyChartSvg").innerHTML=svg;
-   chartHost.querySelectorAll("[data-daily-metric]").forEach(b=>b.classList.toggle("active",b.dataset.dailyMetric===selected));
-   chartHost.querySelectorAll("[data-daily-mode]").forEach(b=>b.classList.toggle("active",b.dataset.dailyMode===mode));
-  };
-  chartHost.querySelectorAll("[data-daily-metric]").forEach(b=>b.addEventListener("click",()=>{selected=b.dataset.dailyMetric;renderChart();}));
-  chartHost.querySelectorAll("[data-daily-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.dailyMode;renderChart();}));
-  renderChart();
-  document.getElementById("refreshDecemberDashboard")?.addEventListener("click",()=>{Object.keys(window).filter(k=>k==="__unused").forEach(()=>{});renderDecemberComparisonDashboard();});
- }catch(e){
-  console.error("Aralık dashboard Excel bağlantı hatası:",e);
-  root.innerHTML='<div class="card"><h3>Mağaza Datası.xlsx okunamadı</h3><p class="notice">'+String(e.message||e).replace(/</g,"&lt;")+'</p><p>Excel Veri Merkezi’nde dosyanın 2025 Aralık ve 2026 Aralık sayfalarının bulunduğunu ve kaydedildiğini kontrol et.</p><button type="button" onclick="renderDecemberComparisonDashboard()">YENİDEN DENE</button></div>';
- }
+ const metrics=[
+  {id:"revenue",name:"CİRO",sub:"NET SATIŞ",unit:"TL"},
+  {id:"upt",name:"UPT",sub:"FATURA BAŞINA ÜRÜN",unit:""},
+  {id:"cr",name:"CR",sub:"DÖNÜŞÜM ORANI",unit:"%"},
+  {id:"atv",name:"ATV",sub:"ORTALAMA FİŞ",unit:"TL"},
+  {id:"multis",name:"MULTIS",sub:"ÇOKLU ÜRÜN ORANI",unit:"%"},
+  {id:"asp",name:"ASP",sub:"ORTALAMA ÜRÜN FİYATI",unit:"TL"},
+  {id:"invoices",name:"FATURA",sub:"TOPLAM İŞLEM",unit:"ADET"},
+  {id:"units",name:"ÜRÜN ADEDİ",sub:"TOPLAM SATILAN",unit:"ADET"},
+  {id:"traffic",name:"TRAFİK",sub:"MAĞAZA ZİYARETİ",unit:"KİŞİ"}
+ ];
+ const fmt=n=>new Intl.NumberFormat("tr-TR").format(n);
+ root.innerHTML=`
+ <style>
+ #executiveDashboard{color:#171717;font-family:Arial,Helvetica,sans-serif}
+ #executiveDashboard *{box-sizing:border-box}
+ .ov-wrap{display:grid;gap:18px}
+ .ov-intro{background:#171717;color:#fff;border-radius:13px;padding:21px 24px;display:flex;justify-content:space-between;align-items:center;gap:15px;position:relative;overflow:hidden}
+ .ov-intro:after{content:"";position:absolute;width:210px;height:210px;border:26px solid rgba(255,255,255,.045);border-radius:50%;right:13%;top:-120px}
+ .ov-kicker{font-size:10px;font-weight:900;letter-spacing:2px;color:#ff4355}
+ .ov-intro h2{font-size:23px;line-height:1.2;margin:7px 0 5px;font-weight:900;letter-spacing:-.5px}
+ .ov-intro p{font-size:11px;color:#c9c9c9;margin:0;line-height:1.6}
+ .ov-period{border:1px solid #555;border-radius:8px;padding:10px 13px;font-size:10px;font-weight:900;letter-spacing:.8px;white-space:nowrap;z-index:1}
+ .ov-section{display:grid;gap:11px}
+ .ov-head{display:flex;align-items:end;justify-content:space-between;gap:12px}
+ .ov-head h3{font-size:15px;margin:0;font-weight:900;letter-spacing:.1px}
+ .ov-head p{font-size:10px;color:#888;margin:4px 0 0}
+ .ov-tag{font-size:9px;font-weight:900;letter-spacing:1px;color:#e31b35}
+ .ov-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ .ov-kpi{border:1px solid #e6e6e6;border-radius:10px;background:#fff;overflow:hidden;min-width:0;box-shadow:0 2px 7px rgba(0,0,0,.025)}
+ .ov-kpi-top{background:#e31b35;color:#fff;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+ .ov-kpi-top strong{font-size:11px;font-weight:900;letter-spacing:.8px}
+ .ov-kpi-top span{font-size:8px;opacity:.86;font-weight:800;letter-spacing:.7px}
+ .ov-kpi-body{padding:12px 13px 13px}
+ .ov-kpi-values{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .ov-kpi-values small{display:block;font-size:8px;color:#888;font-weight:900;letter-spacing:.7px;margin-bottom:5px}
+ .ov-kpi-values b{font-size:19px;letter-spacing:-.5px;display:block;white-space:nowrap}
+ .ov-kpi-values .new b{color:#e31b35}
+ .ov-kpi-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;margin-top:11px;padding-top:9px;gap:8px}
+ .ov-kpi-foot span{font-size:9px;color:#888;font-weight:800}
+ .ov-pending{font-size:8px!important;color:#777!important;background:#f4f4f4;border-radius:20px;padding:5px 8px;letter-spacing:.4px}
+ .ov-panel{background:#fff;border:1px solid #e7e7e7;border-radius:11px;padding:16px;min-width:0}
+ .ov-chart-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+ .ov-tabs{display:flex;gap:5px;flex-wrap:wrap}
+ .ov-tabs button{border:1px solid #e2e2e2;background:#fff;color:#555;border-radius:6px;padding:7px 10px;font-size:9px;font-weight:900;cursor:pointer}
+ .ov-tabs button.active{background:#171717;border-color:#171717;color:#fff}
+ .ov-mode{display:flex;gap:4px;background:#f3f3f3;padding:3px;border-radius:7px}
+ .ov-mode button{border:0;background:transparent;border-radius:5px;padding:7px 10px;font-size:9px;font-weight:900;color:#666;cursor:pointer}
+ .ov-mode button.active{background:#fff;color:#171717;box-shadow:0 1px 4px #00000014}
+ .ov-chart-area{border:1px solid #eee;border-radius:8px;background:linear-gradient(180deg,#fff,#fcfcfc);padding:10px;min-height:220px}
+ .ov-chart-area svg{display:block;width:100%;height:auto;min-height:190px}
+ .ov-chart-foot{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
+ .ov-legend{display:flex;gap:16px;align-items:center;font-size:9px;color:#666;font-weight:800}
+ .ov-legend i{display:inline-block;width:16px;height:3px;background:#999;margin-right:6px;vertical-align:middle;border-radius:3px}
+ .ov-legend i.red{background:#e31b35}
+ .ov-note{font-size:9px;color:#999}
+ .ov-cat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ .ov-cat{border:1px solid #e6e6e6;border-radius:9px;overflow:hidden;background:#fff}
+ .ov-cat-head{padding:11px 13px;background:#171717;color:#fff;display:flex;justify-content:space-between;align-items:center}
+ .ov-cat-head b{font-size:12px;letter-spacing:.7px}
+ .ov-cat-head span{font-size:8px;color:#ccc;font-weight:800}
+ .ov-cat-body{padding:12px}
+ .ov-cat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .ov-cat-row div{background:#f7f7f7;padding:10px;border-radius:7px}
+ .ov-cat-row small{display:block;font-size:8px;color:#888;font-weight:900;margin-bottom:5px}
+ .ov-cat-row b{font-size:16px}
+ .ov-cat-row .new{background:#fff3f4}
+ .ov-cat-row .new b{color:#e31b35}
+ .ov-cat-foot{border-top:1px solid #eee;margin-top:10px;padding-top:9px;display:flex;justify-content:space-between;font-size:9px;color:#888;font-weight:800}
+ .ov-table-wrap{overflow-x:auto}
+ .ov-table{border-collapse:collapse;width:100%;min-width:650px;font-size:10px}
+ .ov-table th{background:#171717;color:#fff;text-align:right;padding:11px 10px;font-size:8px;letter-spacing:.5px;white-space:nowrap}
+ .ov-table th:first-child,.ov-table td:first-child{text-align:left}
+ .ov-table td{padding:11px 10px;border-bottom:1px solid #eee;text-align:right;white-space:nowrap;font-weight:700}
+ .ov-table td:first-child{font-weight:900}
+ .ov-table tr:last-child td{border-bottom:0}
+ .ov-table .new-col{color:#e31b35}
+ .ov-filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+ .ov-filters label{font-size:9px;color:#777;font-weight:900;display:flex;align-items:center;gap:6px}
+ .ov-filters input,.ov-filters select{border:1px solid #ddd;border-radius:6px;padding:7px 8px;background:#fff;font:inherit;color:#222}
+ .ov-daily-empty{padding:23px;text-align:center;color:#999;font-size:10px}
+ @media(max-width:850px){.ov-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.ov-cat-grid{grid-template-columns:1fr}}
+ @media(max-width:540px){.ov-intro{padding:17px;align-items:flex-start;flex-direction:column}.ov-intro h2{font-size:19px}.ov-period{white-space:normal}.ov-kpis{grid-template-columns:1fr 1fr;gap:7px}.ov-kpi-top{padding:9px}.ov-kpi-body{padding:10px}.ov-kpi-values b{font-size:16px}.ov-kpi-values{gap:5px}.ov-panel{padding:11px}.ov-head{align-items:flex-start;flex-direction:column}}
+ </style>
+ <div class="ov-wrap">
+  <section class="ov-intro">
+   <div><div class="ov-kicker">PUMA / BUYAKA STORE INTELLIGENCE</div><h2>STORE PERFORMANCE OVERVIEW</h2><p>Aralık 2025 ve Aralık 2026 · Aynı takvim günleri üzerinden performans karşılaştırması</p></div>
+   <div class="ov-period">DECEMBER PERFORMANCE<br>2025 ↔ 2026</div>
+  </section>
+  <section class="ov-section">
+   <div class="ov-head"><div><h3>MAĞAZA KPI PERFORMANSI</h3><p>Dokuz temel performans göstergesi · 2025 / 2026 karşılaştırması</p></div><span class="ov-tag">01 / KPI OVERVIEW</span></div>
+   <div class="ov-kpis" id="ovKpiGrid"></div>
+  </section>
+  <section class="ov-section">
+   <div class="ov-head"><div><h3>GÜNLÜK PERFORMANS KARŞILAŞTIRMASI</h3><p>Seçilen KPI için günlük veya kümülatif trend</p></div><span class="ov-tag">02 / DAILY TREND</span></div>
+   <div class="ov-panel">
+    <div class="ov-chart-tools"><div class="ov-tabs" id="ovMetricTabs"></div><div class="ov-mode"><button class="active" data-ov-mode="daily">GÜNLÜK</button><button data-ov-mode="cumulative">KÜMÜLATİF</button></div></div>
+    <div class="ov-chart-area"><div id="ovChartTitle" style="font-size:11px;font-weight:900;margin:2px 0 8px">CİRO · GÜNLÜK KARŞILAŞTIRMA</div>
+     <svg viewBox="0 0 900 220" role="img" aria-label="2025 ve 2026 günlük performans karşılaştırma grafik yerleşimi">
+      <g stroke="#ededed" stroke-width="1"><path d="M52 25H875 M52 65H875 M52 105H875 M52 145H875 M52 185H875"/></g>
+      <g fill="#999" font-size="9"><text x="8" y="28">100</text><text x="16" y="68">75</text><text x="16" y="108">50</text><text x="16" y="148">25</text><text x="25" y="188">0</text><text x="52" y="210">1 ARA</text><text x="250" y="210">8 ARA</text><text x="450" y="210">15 ARA</text><text x="650" y="210">22 ARA</text><text x="835" y="210">31 ARA</text></g>
+      <path d="M52 140 C100 130 125 92 165 110 S235 150 270 105 S340 85 375 115 S445 135 480 90 S550 65 585 100 S655 125 690 80 S760 62 795 95 S850 110 875 75" fill="none" stroke="#aaa" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 7"/>
+      <path d="M52 160 C100 150 125 125 165 138 S235 165 270 130 S340 112 375 145 S445 152 480 120 S550 95 585 132 S655 145 690 112 S760 92 795 125 S850 138 875 108" fill="none" stroke="#e31b35" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 7"/>
+     </svg>
+     <div class="ov-chart-foot"><div class="ov-legend"><span><i></i>2025</span><span><i class="red"></i>2026</span></div><span class="ov-note">Grafik çizgileri yalnızca tasarım yerleşimini gösterir; gerçek veri değildir.</span></div>
+    </div>
+   </div>
+  </section>
+  <section class="ov-section">
+   <div class="ov-head"><div><h3>KATEGORİ KARŞILAŞTIRMASI</h3><p>Her kategori kendi içinde · Ciro ve adet performansı</p></div><span class="ov-tag">03 / CATEGORY MIX</span></div>
+   <div class="ov-cat-grid" id="ovCategoryGrid"></div>
+  </section>
+  <section class="ov-section">
+   <div class="ov-head"><div><h3>KPI HEDEF / GERÇEKLEŞEN</h3><p>2025 ve 2026 hedefleri ile gerçekleşen sonuçların karşılaştırması</p></div><span class="ov-tag">04 / TARGET VS ACTUAL</span></div>
+   <div class="ov-panel ov-table-wrap"><table class="ov-table"><thead><tr><th>KPI</th><th>2025 HEDEF</th><th>2025 GERÇEKLEŞEN</th><th>2025 HGO</th><th>2026 HEDEF</th><th>2026 GERÇEKLEŞEN</th><th>2026 HGO</th></tr></thead><tbody id="ovTargetRows"></tbody></table></div>
+  </section>
+  <section class="ov-section">
+   <div class="ov-head"><div><h3>GÜNLÜK CİRO KARŞILAŞTIRMASI</h3><p>Takvim tarihi bazında 2025 / 2026 net satış karşılaştırması</p></div><span class="ov-tag">05 / DAILY SALES</span></div>
+   <div class="ov-panel">
+    <div class="ov-filters" style="margin-bottom:12px"><label>BAŞLANGIÇ <input type="date" id="ovDateFrom" value="2026-12-01"></label><label>BİTİŞ <input type="date" id="ovDateTo" value="2026-12-31"></label><label>GÖRÜNÜM <select id="ovDailyView"><option value="daily">Günlük</option><option value="cumulative">Kümülatif</option></select></label></div>
+    <div class="ov-table-wrap"><table class="ov-table"><thead><tr><th>TARİH</th><th>2025 CİRO</th><th>2026 CİRO</th><th>FARK</th><th>DEĞİŞİM %</th></tr></thead><tbody id="ovDailyRows"></tbody></table></div>
+    <div class="ov-daily-empty">Günlük veriler Excel bağlantısı kurulduğunda bu tabloda tarih filtresiyle görüntülenecek.</div>
+   </div>
+  </section>
+  <div style="text-align:center;padding:5px 0 12px;color:#aaa;font-size:8px;letter-spacing:1.2px;font-weight:900">BUYAKA STORE INTELLIGENCE · PUMA MANAGEMENT DASHBOARD</div>
+ </div>`;
+ const kpiGrid=document.getElementById("ovKpiGrid");
+ kpiGrid.innerHTML=metrics.map(m=>'<article class="ov-kpi"><div class="ov-kpi-top"><strong>'+m.name+'</strong><span>'+m.sub+'</span></div><div class="ov-kpi-body"><div class="ov-kpi-values"><div><small>2025 GERÇEKLEŞEN</small><b>—</b></div><div class="new"><small>2026 GERÇEKLEŞEN</small><b>—</b></div></div><div class="ov-kpi-foot"><span>DEĞİŞİM · —</span><span class="ov-pending">VERİ BEKLİYOR</span></div></div></article>').join("");
+ document.getElementById("ovCategoryGrid").innerHTML=["FTW · AYAKKABI","APP · TEKSTİL","ACC · AKSESUAR"].map(n=>'<article class="ov-cat"><div class="ov-cat-head"><b>'+n+'</b><span>KATEGORİ PERFORMANSI</span></div><div class="ov-cat-body"><div class="ov-cat-row"><div><small>2025 CİRO</small><b>—</b></div><div class="new"><small>2026 CİRO</small><b>—</b></div><div><small>2025 ADET</small><b>—</b></div><div class="new"><small>2026 ADET</small><b>—</b></div></div><div class="ov-cat-foot"><span>CİRO DEĞİŞİMİ · —</span><span>ADET DEĞİŞİMİ · —</span></div></div></article>').join("");
+ const targetMetrics=["Ciro","UPT","CR","ATV","MULTIS","ASP","Fatura","Ürün Adedi","Trafik"];
+ document.getElementById("ovTargetRows").innerHTML=targetMetrics.map(n=>'<tr><td>'+n+'</td><td>—</td><td>—</td><td>—</td><td class="new-col">—</td><td class="new-col">—</td><td class="new-col">—</td></tr>').join("");
+ document.getElementById("ovDailyRows").innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;padding:20px">Excel veri bağlantısı sonraki aşamada kurulacak.</td></tr>';
+ const tabs=document.getElementById("ovMetricTabs");
+ tabs.innerHTML=metrics.map((m,i)=>'<button type="button" class="'+(i===0?"active":"")+'" data-ov-metric="'+m.id+'">'+m.name+'</button>').join("");
+ tabs.querySelectorAll("[data-ov-metric]").forEach(btn=>btn.addEventListener("click",()=>{tabs.querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("ovChartTitle").textContent=btn.textContent+" · "+(document.querySelector("[data-ov-mode].active")?.textContent||"GÜNLÜK")+" KARŞILAŞTIRMA";}));
+ document.querySelectorAll("[data-ov-mode]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-ov-mode]").forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("ovChartTitle").textContent=(tabs.querySelector(".active")?.textContent||"CİRO")+" · "+btn.textContent+" KARŞILAŞTIRMA";}));
 }
-
 
 function filterMonthlyKPI(value){
  const root=document.getElementById("monthlyKpiTables");if(!root)return;
