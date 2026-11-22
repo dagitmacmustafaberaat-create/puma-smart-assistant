@@ -852,119 +852,147 @@ const monthlyTable=(item)=>{
 }
 
 
-function renderDecemberComparisonDashboard(){
+async function renderDecemberComparisonDashboard(){
  const root=document.getElementById("executiveDashboard");if(!root)return;
-
-function renderDailyComparisonChart(days){
- const metrics=[
-  {id:"revenue",label:"Ciro",unit:"money",get:x=>x.actual,sum:true},
-  {id:"invoices",label:"Fatura",unit:"count",get:x=>x.tr,sum:true},
-  {id:"units",label:"Ürün adedi",unit:"count",get:x=>x.units,sum:true},
-  {id:"traffic",label:"Trafik",unit:"count",get:x=>x.vis,sum:true},
-  {id:"upt",label:"UPT",unit:"decimal",get:x=>x.upt,calc:a=>a.units/a.tr},
-  {id:"cr",label:"CR",unit:"percent",get:x=>x.cr,calc:a=>a.vis?a.tr/a.vis*100:0},
-  {id:"atv",label:"ATV",unit:"money",get:x=>x.atv,calc:a=>a.tr?a.actual/a.tr:0},
-  {id:"asp",label:"ASP",unit:"money",get:x=>x.units?x.actual/x.units:0,calc:a=>a.units?a.actual/a.units:0},
-  {id:"multis",label:"MULTIS",unit:"percent",get:x=>x.multis,calc:a=>a.tr?a.multi/a.tr*100:0},
-  {id:"ftw",label:"FTW ciro",unit:"money",get:x=>x.ftw,sum:true},
-  {id:"app",label:"APP ciro",unit:"money",get:x=>x.app,sum:true},
-  {id:"acc",label:"ACC ciro",unit:"money",get:x=>x.acc,sum:true}
- ];
- let selected="revenue",mode="daily";
- const host=document.getElementById("dailyMetricChart");
- if(!host)return;
- const fmt=(v,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(v);
- const short=v=>{if(v>=1000000)return fmt(v/1000000,1)+" M";if(v>=1000)return fmt(v/1000,0)+" B";return fmt(v,0);};
- const money=v=>fmt(v,0)+" TL";
- const metric=()=>metrics.find(m=>m.id===selected)||metrics[0];
- const valuesFor=m=>{
-  let run={actual:0,tr:0,multi:0,units:0,vis:0,ftw:0,app:0,acc:0};
-  return days.map(x=>{
-   run.actual+=x.actual;run.tr+=x.tr;run.multi+=x.multi;run.units+=x.units;run.vis+=x.vis;run.ftw+=x.ftw;run.app+=x.app;run.acc+=x.acc;
-   return mode==="daily"?m.get(x):(m.sum?m.get(x)+(days.slice(0,x.day-1).reduce((n,z)=>n+m.get(z),0)):m.calc(run));
+ const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n)||0);
+ const money=n=>fmt(n)+" TL",pct=n=>"%"+fmt(n,1);
+ const norm=v=>String(v??"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]/g,"");
+ const num=v=>{
+  if(v===null||v===undefined||v==="")return 0;
+  if(typeof v==="number")return Number.isFinite(v)?v:0;
+  let s=String(v).trim().replace(/[^0-9,.-]/g,"");if(!s)return 0;
+  const c=s.lastIndexOf(","),d=s.lastIndexOf(".");
+  if(c>=0&&d>=0){if(c>d)s=s.replace(/\./g,"").replace(",",".");else s=s.replace(/,/g,"");}
+  else if(c>=0){s=s.length-c-1<=2?s.replace(",","."):s.replace(/,/g,"");}
+  else if(d>=0){const a=s.split(".");if(a.length>2||a.slice(1).every(x=>x.length===3))s=s.replace(/\./g,"");}
+  const n=Number(s);return Number.isFinite(n)?n:0;
+ };
+ const dayOf=v=>{
+  const s=String(v??"").trim();
+  let m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if(m&&+m[1]===12)return +m[2];
+  m=s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
+  if(m)return +m[1]===12?+m[2]:+m[1];
+  m=s.match(/^(\d{1,2})\s+Dec/i);if(m)return +m[1];
+  return 0;
+ };
+ const sheet=(book,name)=>(book?.sheets||[]).find(s=>norm(s.name)===norm(name));
+ const col=(headers,name)=>headers.findIndex(h=>norm(h)===norm(name));
+ const readRows=(sh,year)=>{
+  if(!sh)throw new Error(year+" Aralık sayfası bulunamadı.");
+  const h=sh.headers||[];
+  const ix={date:col(h,"Tarih"),target:col(h,"Target"),actual:col(h,"Actual"),tr:col(h,"Transaction"),multi:col(h,"Transactions with more than 1 unit"),units:col(h,"Units"),vis:col(h,"Visitors"),upt:col(h,"UPT"),cr:col(h,"CR"),atv:col(h,"ATV"),multis:col(h,"MULTIS"),ftw:col(h,"FTW"),ftwUnits:col(h,"FTW units"),ftwShare:col(h,"% FTW"),app:col(h,"APP"),appUnits:col(h,"APP units"),appShare:col(h,"% APP"),acc:col(h,"ACC"),accUnits:col(h,"ACC units"),accShare:col(h,"% ACC"),lySales:col(h,"ACTUAL Last Year Sales"),lyUnits:col(h,"UNIT Last Year Sales")};
+  if(ix.date<0||ix.actual<0||ix.tr<0||ix.units<0)throw new Error(year+" Aralık sayfasındaki başlıklar beklenen formatta değil.");
+  return (sh.rows||[]).map(r=>{
+   const day=dayOf(r[ix.date]);if(day<1||day>31)return null;
+   const v=k=>ix[k]>=0?num(r[ix[k]]):0;
+   return {day,dow:String(r[1]||new Date(year,11,day).toLocaleDateString("tr-TR",{weekday:"long"})),target:v("target"),actual:v("actual"),tr:v("tr"),multi:v("multi"),units:v("units"),vis:v("vis"),upt:v("upt"),cr:v("cr"),atv:v("atv"),multis:v("multis"),ftw:v("ftw"),ftwUnits:v("ftwUnits"),ftwShare:v("ftwShare"),app:v("app"),appUnits:v("appUnits"),appShare:v("appShare"),acc:v("acc"),accUnits:v("accUnits"),accShare:v("accShare"),lySales:v("lySales"),lyUnits:v("lyUnits")};
+  }).filter(Boolean).sort((a,b)=>a.day-b.day);
+ };
+ try{
+  root.innerHTML='<div class="card"><p>Mağaza Datası.xlsx okunuyor…</p></div>';
+  if(typeof window.BUYAKA_FETCH_EXCEL_SOURCE!=="function")throw new Error("Ortak Excel kaynağına erişim fonksiyonu bulunamadı.");
+  const book=await window.BUYAKA_FETCH_EXCEL_SOURCE("Mağaza Datası.xlsx");
+  if(!book)throw new Error("Mağaza Datası.xlsx ortak veritabanında bulunamadı. Excel Veri Merkezi’nden dosyayı yeniden yükle.");
+  const rows25=readRows(sheet(book,"2025 Aralık"),2025);
+  const rows26=readRows(sheet(book,"2026 Aralık"),2026);
+  const entered=rows26.filter(x=>x.actual>0);
+  const sum=(a,k)=>a.reduce((n,x)=>n+(Number(x[k])||0),0);
+  const agg=a=>{
+   const actual=sum(a,"actual"),tr=sum(a,"tr"),multi=sum(a,"multi"),units=sum(a,"units"),vis=sum(a,"vis");
+   return {actual,tr,multi,units,vis,upt:tr?units/tr:0,cr:vis?tr/vis*100:0,atv:tr?actual/tr:0,asp:units?actual/units:0,multis:tr?multi/tr*100:0,target:sum(a,"target")};
+  };
+  const a25=agg(rows25),a26=agg(entered);
+  const kpiSheet=sheet(book,"2025-2026 Karşılaştırma");
+  const targetMap={};
+  (kpiSheet?.rows||[]).forEach(r=>{const key=norm(r[0]);if(key)targetMap[key]={t25:num(r[1]),t26:num(r[4])};});
+  const specs=[
+   ["CİRO","actual","money","ciro"],["UPT","upt","decimal","upt"],["CR","cr","percent","cr"],["ATV","atv","money","atv"],["MULTIS","multis","percent","multis"],["ASP","asp","money","asp"],["FATURA","tr","count","fatura"],["ÜRÜN ADEDİ","units","count","urunadedi"],["TRAFİK","vis","count","trafik"]
+  ];
+  const getTarget=(name,year)=>{
+   const aliases={ciro:"ciro",upt:"upt",cr:"cr",atv:"atv",multis:"multis",asp:"asp"};
+   const t=targetMap[aliases[name]];return t?(year===2025?t.t25:t.t26):0;
+  };
+  const display=(v,type)=>type==="money"?money(v):type==="percent"?pct(v):type==="decimal"?fmt(v,2):fmt(v);
+  const diffPct=(x,y)=>y?(x-y)/y*100:0;
+  const cardHtml=specs.map(([label,key,type,targetKey])=>{
+   const old=a25[key],now=a26[key],has=entered.length>0,change=diffPct(now,old),target=getTarget(targetKey,2026);
+   return '<article class="exec-kpi"><small>'+label+'</small><strong>2025 · '+display(old,type)+'</strong><div class="compare">2026 · '+(has?display(now,type):"Veri bekleniyor")+'</div><div class="delta '+(change>=0?"positive":"negative")+'">'+(has?(change>0?"+":"")+pct(change):"2026 gerçekleşme bekleniyor")+'</div><div class="compare">2026 hedef: '+(target?display(target,type):"—")+'</div></article>';
+  }).join("");
+  const categories=[
+   {code:"FTW",label:"AYAKKABI",rev:"ftw",units:"ftwUnits"},
+   {code:"APP",label:"TEKSTİL",rev:"app",units:"appUnits"},
+   {code:"ACC",label:"AKSESUAR",rev:"acc",units:"accUnits"}
+  ].map(c=>{
+   const old=sum(rows25,c.rev),now=sum(entered,c.rev),oldUnits=sum(rows25,c.units),nowUnits=sum(entered,c.units);
+   return {...c,old,now,oldUnits,nowUnits,oldShare:a25.actual?old/a25.actual*100:0,nowShare:a26.actual?now/a26.actual*100:0,oldAsp:oldUnits?old/oldUnits:0,nowAsp:nowUnits?now/nowUnits:0};
   });
- };
- const render=()=>{
-  const m=metric(),vals=valuesFor(m),max=Math.max(1,...vals.filter(Number.isFinite)),chartW=1200,left=54,right=18,top=18,bottom=42,plotW=chartW-left-right,plotH=330,step=plotW/31,barW=Math.min(15,step*.34);
-  const y=v=>top+plotH-(v/max)*plotH;
-  let svg='<svg viewBox="0 0 '+chartW+' 410" role="img" aria-label="'+m.label+' günlük 2025 ve 2026 karşılaştırması">';
-  for(let i=1;i<=31;i++){const dow=new Date(2026,11,i).getDay();if(dow===0||dow===6){const x=left+(i-1)*step;svg+='<rect x="'+x.toFixed(1)+'" y="'+top+'" width="'+step.toFixed(1)+'" height="'+plotH+'" fill="#e7edf5"/>';}}
-  for(let j=0;j<=4;j++){const v=max*j/4,yy=y(v);svg+='<line x1="'+left+'" y1="'+yy.toFixed(1)+'" x2="'+(chartW-right)+'" y2="'+yy.toFixed(1)+'" stroke="#cbd5e1" stroke-width="1"/><text x="'+(left-9)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#334b6b">'+short(v)+'</text>';}
-  vals.forEach((v,i)=>{const x=left+i*step+step/2;const yy=y(v),h=top+plotH-yy;const shown=m.unit==="money"?fmt(v,0):fmt(v,m.unit==="decimal"?2:m.unit==="percent"?2:0)+(m.unit==="percent"?"%":"");svg+='<rect x="'+(x-barW/2).toFixed(1)+'" y="'+yy.toFixed(1)+'" width="'+barW.toFixed(1)+'" height="'+Math.max(0,h).toFixed(1)+'" rx="0" fill="#64748b"><title>2025 · '+(i+1)+' Aralık: '+(m.unit==="money"?money(v):shown)+'</title></rect>';svg+='<text x="'+x.toFixed(1)+'" y="'+Math.max(11,yy-5).toFixed(1)+'" text-anchor="middle" font-size="8" font-weight="700" fill="#334155">'+shown+'</text>';svg+='<text x="'+x.toFixed(1)+'" y="'+(top+plotH+20)+'" text-anchor="middle" font-size="10" fill="#263e60">'+(i+1)+'</text>';});
-  svg+='<line x1="'+left+'" y1="'+(top+plotH)+'" x2="'+(chartW-right)+'" y2="'+(top+plotH)+'" stroke="#cbd5e1"/><text x="'+left+'" y="400" font-size="10" fill="#53647d">Aralık günleri</text></svg>';
-  const peak=vals.indexOf(Math.max(...vals)),low=vals.indexOf(Math.min(...vals.filter(v=>v>0)));
-  const valueText=v=>m.unit==="money"?money(v):fmt(v,m.unit==="decimal"?2:m.unit==="percent"?2:0)+(m.unit==="percent"?"%":"");
-  host.querySelector("#dailyChartTitle").textContent=m.label+" · "+(mode==="daily"?"günlük":"kümülatif")+" karşılaştırma";
-  host.querySelector("#dailyChartNote").textContent="2025 en yüksek gün: "+String(peak+1).padStart(2,"0")+" Ara ("+valueText(vals[peak])+"). 2026: henüz gerçekleşme verisi girilmedi.";
-  host.querySelector("#dailyChartSvg").innerHTML=svg;
-  host.querySelectorAll("[data-daily-metric]").forEach(b=>{b.classList.toggle("active",b.dataset.dailyMetric===selected);b.setAttribute("aria-pressed",String(b.dataset.dailyMetric===selected));});
-  host.querySelectorAll("[data-daily-mode]").forEach(b=>{b.classList.toggle("active",b.dataset.dailyMode===mode);b.setAttribute("aria-pressed",String(b.dataset.dailyMode===mode));});
- };
- host.innerHTML='<div class="daily-compare-panel"><div class="daily-compare-top"><h3>Günlük karşılaştırma</h3><div class="daily-mode-tabs"><button type="button" data-daily-mode="daily" class="active">Günlük</button><button type="button" data-daily-mode="cumulative">Kümülatif</button></div></div><div class="daily-metric-tabs">'+metrics.map(m=>'<button type="button" data-daily-metric="'+m.id+'" class="'+(m.id===selected?'active':'')+'">'+m.label+'</button>').join("")+'</div><div class="daily-compare-controls"><div class="daily-legend"><span><i></i>2025</span><span><i class="y26"></i>2026</span><span><i class="weekend"></i>Hafta sonu (2026 takvimi)</span></div></div><div id="dailyChartTitle" style="font-weight:800;color:#152b4b;font-size:14px"></div><div id="dailyChartNote" class="daily-chart-note"></div><div class="daily-chart-scroll"><div id="dailyChartSvg"></div></div><div class="daily-chart-empty">2026 Aralık gerçekleşme verisi henüz girilmediği için 2026 serisi boş gösterilir; veri girildiğinde aynı grafikte karşılaştırılır.</div></div>';
- host.querySelectorAll("[data-daily-metric]").forEach(b=>b.addEventListener("click",()=>{selected=b.dataset.dailyMetric;render();}));
- host.querySelectorAll("[data-daily-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.dailyMode;render();}));
- render();
+  const chartMetrics=[
+   {id:"revenue",label:"Ciro",type:"money",get:x=>x.actual,sum:true},
+   {id:"invoices",label:"Fatura",type:"count",get:x=>x.tr,sum:true},
+   {id:"units",label:"Ürün adedi",type:"count",get:x=>x.units,sum:true},
+   {id:"traffic",label:"Trafik",type:"count",get:x=>x.vis,sum:true},
+   {id:"upt",label:"UPT",type:"decimal",get:x=>x.tr?x.units/x.tr:0,ratio:true},
+   {id:"cr",label:"CR",type:"percent",get:x=>x.vis?x.tr/x.vis*100:0,ratio:true},
+   {id:"atv",label:"ATV",type:"money",get:x=>x.tr?x.actual/x.tr:0,ratio:true},
+   {id:"asp",label:"ASP",type:"money",get:x=>x.units?x.actual/x.units:0,ratio:true},
+   {id:"multis",label:"MULTIS",type:"percent",get:x=>x.tr?x.multi/x.tr*100:0,ratio:true},
+   {id:"ftw",label:"FTW ciro",type:"money",get:x=>x.ftw,sum:true},
+   {id:"app",label:"APP ciro",type:"money",get:x=>x.app,sum:true},
+   {id:"acc",label:"ACC ciro",type:"money",get:x=>x.acc,sum:true}
+  ];
+  let selected="revenue",mode="daily";
+  const metricValue=(m,rows,day)=>{
+   const chosen=rows.filter(x=>mode==="cumulative"?x.day<=day:x.day===day);
+   if(!chosen.length)return null;
+   if(m.sum)return sum(chosen,m.id==="revenue"?"actual":m.id==="invoices"?"tr":m.id==="units"?"units":m.id==="traffic"?"vis":m.id);
+   const total=agg(chosen);return m.id==="upt"?total.upt:m.id==="cr"?total.cr:m.id==="atv"?total.atv:m.id==="asp"?total.asp:total.multis;
+  };
+  const chartHtml='<div class="daily-compare-panel"><div class="daily-compare-top"><h3>Günlük karşılaştırma</h3><div class="daily-mode-tabs"><button type="button" data-daily-mode="daily" class="active">Günlük</button><button type="button" data-daily-mode="cumulative">Kümülatif</button></div></div><div class="daily-metric-tabs">'+chartMetrics.map(m=>'<button type="button" data-daily-metric="'+m.id+'" class="'+(m.id===selected?'active':'')+'">'+m.label+'</button>').join("")+'</div><div class="daily-legend"><span><i></i>2025</span><span><i class="y26"></i>2026</span></div><div id="dailyChartTitle" style="font-weight:800;color:#152b4b;font-size:14px;margin-top:10px"></div><div id="dailyChartNote" class="daily-chart-note"></div><div class="daily-chart-scroll"><div id="dailyChartSvg"></div></div></div>';
+  const catHtml=categories.map(c=>'<article class="exec-cat" style="background:#fff;padding:16px"><h4>'+c.code+' · '+c.label+'</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><small>2025 CİRO</small><strong>'+money(c.old)+'</strong></div><div><small>2026 CİRO</small><strong>'+(entered.length?money(c.now):"—")+'</strong></div><div><small>2025 ADET</small><strong>'+fmt(c.oldUnits)+'</strong></div><div><small>2026 ADET</small><strong>'+(entered.length?fmt(c.nowUnits):"—")+'</strong></div></div><p>2025 ciro payı: '+pct(c.oldShare)+' · 2026: '+(entered.length?pct(c.nowShare):"—")+'</p><p>2025 ASP: '+money(c.oldAsp)+' · 2026 ASP: '+(entered.length?money(c.nowAsp):"—")+'</p></article>').join("");
+  const targetRows=specs.map(([label,key,type,targetKey])=>{
+   const old=a25[key],now=a26[key],t25=getTarget(targetKey,2025),t26=getTarget(targetKey,2026),has=entered.length>0;
+   return '<tr><th>'+label+'</th><td>'+(t25?display(t25,type):"—")+'</td><td>'+display(old,type)+'</td><td>'+(t25?pct(old/t25*100):"—")+'</td><td>'+(t26?display(t26,type):"—")+'</td><td>'+(has?display(now,type):"—")+'</td><td>'+(has&&t26?pct(now/t26*100):"—")+'</td><td>'+(has?(diffPct(now,old)>0?"+":"")+pct(diffPct(now,old)):"—")+'</td></tr>';
+  }).join("");
+  const dailyRows=Array.from({length:31},(_,i)=>{
+   const day=i+1,x=rows25.find(r=>r.day===day),y=entered.find(r=>r.day===day),old=x?.actual||0,now=y?.actual||0,delta=now-old,change=old?delta/old*100:null;
+   return '<tr><th>'+String(day).padStart(2,"0")+'.12</th><td>'+new Date(2026,11,day).toLocaleDateString("tr-TR",{weekday:"long"})+'</td><td>'+money(old)+'</td><td>'+(y?money(now):"—")+'</td><td>'+(y?(delta>0?"+":"")+money(delta):"—")+'</td><td>'+(y?(change>0?"+":"")+pct(change):"—")+'</td></tr>';
+  }).join("");
+  root.innerHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h2>Aralık 2025 – Aralık 2026 KPI Karşılaştırma Dashboard</h2><p>Kaynak: Excel Veri Merkezi · Mağaza Datası.xlsx. Veriler dosyanın 2025 Aralık ve 2026 Aralık sayfalarından okunur.</p><div style="margin-top:10px;font-weight:700">2026 gerçekleşen gün: <b>'+entered.length+' / 31</b>　·　Son Excel güncellemesi: <b>'+(book.updated_at?new Date(book.updated_at).toLocaleString("tr-TR"):"—")+'</b> <button id="refreshDecemberDashboard" type="button" style="margin-left:10px;background:#171717;color:#fff;border:0;border-radius:7px;padding:8px 12px;font-weight:800">↻ VERİYİ YENİLE</button></div></div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KPI ÖZETİ · GERÇEK EXCEL VERİSİ</span><h2>Aylık performans göstergeleri</h2></div></div><div class="exec-grid">'+cardHtml+'</div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">GÜNLÜK KPI KARŞILAŞTIRMASI</span><h2>2025 / 2026 günlük grafik</h2></div></div><div id="dailyMetricChart">'+chartHtml+'</div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KATEGORİ KARŞILAŞTIRMASI</span><h2>FTW / APP / ACC</h2></div></div><div class="exec-category">'+catHtml+'</div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KPI HEDEF / GERÇEKLEŞEN</span><h2>Hedef ve gerçekleşen tablosu</h2></div></div><div style="overflow-x:auto;background:#fff;border:1px solid #e7e7e7;border-radius:12px"><table style="width:100%;min-width:920px;border-collapse:collapse;font-size:12px"><thead><tr style="background:#171717;color:#fff">'+["KPI","2025 Hedef","2025 Gerçekleşen","2025 HGO","2026 Hedef","2026 Gerçekleşen","2026 HGO","Değişim"].map(h=>'<th style="padding:12px 10px;text-align:right;white-space:nowrap">'+h+'</th>').join("")+'</tr></thead><tbody>'+targetRows+'</tbody></table></div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">GÜNLÜK DETAY · CİRO</span><h2>Ciro – günlük 2025 ve 2026</h2></div></div><div style="overflow-x:auto;background:#fff;border:1px solid #e7e7e7;border-radius:12px"><table style="width:100%;min-width:680px;border-collapse:collapse;font-size:12px"><thead><tr style="background:#171717;color:#fff">'+["Tarih","Gün (2026)","2025","2026","Fark","Değişim %"].map(h=>'<th style="padding:12px 10px;text-align:right;white-space:nowrap">'+h+'</th>').join("")+'</tr></thead><tbody>'+dailyRows+'</tbody></table></div></section></div>';
+  const chartHost=document.getElementById("dailyMetricChart");
+  const renderChart=()=>{
+   const m=chartMetrics.find(x=>x.id===selected)||chartMetrics[0],all=[...rows25,...entered],values=[];
+   for(let day=1;day<=31;day++){values.push(metricValue(m,rows25,day),metricValue(m,entered,day));}
+   const nums=values.filter(v=>v!==null&&Number.isFinite(v)),max=Math.max(1,...nums),w=1200,left=56,right=18,top=20,bottom=42,ph=320,pw=w-left-right,step=pw/31,bw=Math.min(8,step*.22),y=v=>top+ph-(v/max)*ph;
+   const label=v=>m.type==="money"?fmt(v,0):fmt(v,m.type==="decimal"?2:m.type==="percent"?2:0)+(m.type==="percent"?"%":"");
+   let svg='<svg viewBox="0 0 '+w+' 400" role="img" aria-label="'+m.label+' 2025 ve 2026 karşılaştırması">';
+   for(let j=0;j<=4;j++){const v=max*j/4,yy=y(v);svg+='<line x1="'+left+'" y1="'+yy+'" x2="'+(w-right)+'" y2="'+yy+'" stroke="#cbd5e1"/><text x="'+(left-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="10" fill="#334155">'+label(v)+'</text>';}
+   for(let day=1;day<=31;day++){
+    const x=left+(day-1)*step+step/2,old=metricValue(m,rows25,day),now=metricValue(m,entered,day),dow=new Date(2026,11,day).getDay();
+    if(dow===0||dow===6)svg+='<rect x="'+(left+(day-1)*step)+'" y="'+top+'" width="'+step+'" height="'+ph+'" fill="#f1f4f8"/>';
+    if(old!==null){const yy=y(old),h=top+ph-yy;svg+='<rect x="'+(x-bw-1)+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#64748b"><title>2025 '+day+' Aralık: '+label(old)+'</title></rect>';}
+    if(now!==null){const yy=y(now),h=top+ph-yy;svg+='<rect x="'+(x+1)+'" y="'+yy+'" width="'+bw+'" height="'+Math.max(0,h)+'" fill="#e31b36"><title>2026 '+day+' Aralık: '+label(now)+'</title></rect>';}
+    svg+='<text x="'+x+'" y="'+(top+ph+18)+'" text-anchor="middle" font-size="9" fill="#334155">'+day+'</text>';
+   }
+   svg+='</svg>';
+   const oldSum=agg(rows25),newSum=agg(entered),vOld=m.id==="revenue"?oldSum.actual:m.id==="invoices"?oldSum.tr:m.id==="units"?oldSum.units:m.id==="traffic"?oldSum.vis:m.id==="upt"?oldSum.upt:m.id==="cr"?oldSum.cr:m.id==="atv"?oldSum.atv:m.id==="asp"?oldSum.asp:m.id==="multis"?oldSum.multis:sum(rows25,m.id);
+   const vNew=m.id==="revenue"?newSum.actual:m.id==="invoices"?newSum.tr:m.id==="units"?newSum.units:m.id==="traffic"?newSum.vis:m.id==="upt"?newSum.upt:m.id==="cr"?newSum.cr:m.id==="atv"?newSum.atv:m.id==="asp"?newSum.asp:m.id==="multis"?newSum.multis:sum(entered,m.id);
+   chartHost.querySelector("#dailyChartTitle").textContent=m.label+" · "+(mode==="daily"?"günlük":"kümülatif")+" karşılaştırma";
+   chartHost.querySelector("#dailyChartNote").textContent="2025 toplam: "+label(vOld)+" · 2026 toplam: "+(entered.length?label(vNew):"veri bekleniyor")+" · 2026 girilen gün: "+entered.length;
+   chartHost.querySelector("#dailyChartSvg").innerHTML=svg;
+   chartHost.querySelectorAll("[data-daily-metric]").forEach(b=>b.classList.toggle("active",b.dataset.dailyMetric===selected));
+   chartHost.querySelectorAll("[data-daily-mode]").forEach(b=>b.classList.toggle("active",b.dataset.dailyMode===mode));
+  };
+  chartHost.querySelectorAll("[data-daily-metric]").forEach(b=>b.addEventListener("click",()=>{selected=b.dataset.dailyMetric;renderChart();}));
+  chartHost.querySelectorAll("[data-daily-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.dailyMode;renderChart();}));
+  renderChart();
+  document.getElementById("refreshDecemberDashboard")?.addEventListener("click",()=>{Object.keys(window).filter(k=>k==="__unused").forEach(()=>{});renderDecemberComparisonDashboard();});
+ }catch(e){
+  console.error("Aralık dashboard Excel bağlantı hatası:",e);
+  root.innerHTML='<div class="card"><h3>Mağaza Datası.xlsx okunamadı</h3><p class="notice">'+String(e.message||e).replace(/</g,"&lt;")+'</p><p>Excel Veri Merkezi’nde dosyanın 2025 Aralık ve 2026 Aralık sayfalarının bulunduğunu ve kaydedildiğini kontrol et.</p><button type="button" onclick="renderDecemberComparisonDashboard()">YENİDEN DENE</button></div>';
+ }
 }
 
- const raw=["1|Pazartesi|54384|12.37|26|-26.92|61112|61112|9|6|19|174|2|0|2.11|5.20|6790.20|66.67|15279|4|25.00|45833|15|75.00|0|0|0","2|Salı|47186|-47.88|24|-62.50|24591|24591|5|2|9|182|3|0|1.80|2.70|4918.23|40.00|3408|1|13.86|20002|7|81.34|1181|1|4.80","3|Çarşamba|37649|55.54|15|40.00|58560|58560|13|5|21|195|5|0|1.62|6.70|4504.58|38.46|16247|4|27.74|39181|16|66.91|3132|1|5.35","4|Perşembe|58628|-48.31|29|-65.52|30302|30302|9|1|10|192|5|0|1.11|4.70|3366.87|11.11|19887|6|65.63|9053|3|29.88|1362|1|4.49","5|Cuma|72386|-7.20|29|-27.59|67175|67175|15|4|21|191|8|0|1.40|7.90|4478.32|26.67|25128|6|37.41|31649|9|47.11|10398|6|15.48","6|Cumartesi|91740|37.58|41|-2.44|126211|126211|28|9|40|498|12|0|1.43|5.60|4507.54|32.14|48710|12|38.59|74303|25|58.87|3198|3|2.53","7|Pazar|185712|-16.78|80|-42.50|154543|154543|36|12|46|654|16|0|1.28|5.50|4292.87|33.33|103000|28|66.65|49727|16|32.18|1817|2|1.18","8|Pazartesi|51941|-48.39|23|-56.52|26805|26805|7|3|10|205|17|0|1.43|3.40|3829.32|42.86|13648|4|50.91|8539|3|31.86|4619|3|17.23","9|Salı|88306|-15.25|34|-23.53|75004|74838|16|7|26|228|20|0|1.63|7.00|4677.35|43.75|43457|11|58.07|28896|13|38.61|2485|2|3.32","10|Çarşamba|26355|-22.94|13|-30.77|20308|20308|8|1|9|182|20|0|1.13|4.40|2538.52|12.50|16701|6|82.24|3607|3|17.76|0|0|0","11|Perşembe|58024|7.83|33|-33.33|62568|62568|8|3|22|179|22|0|2.75|4.50|7820.96|37.50|21469|6|34.31|40036|15|63.99|1063|1|1.70","12|Cuma|31624|113.65|18|0|67567|67567|12|7|18|219|24|0|1.50|5.50|5630.57|58.33|35826|9|53.02|31741|9|46.98|0|0|0","13|Cumartesi|87412|-26.41|41|-46.34|150000|64323|18|3|22|456|26|-57|1.22|3.90|3573.47|16.67|26622|9|41.39|32619|12|50.71|5082|1|7.90","14|Pazar|166428|-19.18|74|-51.35|200000|134511|26|5|36|604|31|-33|1.38|4.30|5173.51|19.23|56637|12|42.11|65846|19|48.95|12029|5|8.94","15|Pazartesi|47941|-34.96|18|-50.00|90000|31180|4|2|9|150|31|-65|2.25|2.70|7795.08|50.00|11271|2|36.15|19909|7|63.85|0|0|0","16|Salı|38228|114.87|19|31.58|90000|82140|16|6|25|182|34|-9|1.56|8.80|5133.77|37.50|46392|12|56.48|35748|13|43.52|0|0|0","17|Çarşamba|50274|-6.17|23|-47.83|90000|47172|12|3|12|145|36|-48|1.00|8.30|3930.96|25.00|16475|3|34.93|30697|9|65.07|0|0|0","18|Perşembe|49574|24.95|21|-23.81|90000|61945|8|4|16|177|37|-31|2.00|4.50|7743.09|50.00|42344|9|68.36|19601|7|31.64|0|0|0","19|Cuma|46469|-36.03|23|-52.17|100000|29724|9|2|11|180|38|-70|1.22|5.00|3302.65|22.22|15075|4|50.72|11048|4|37.17|3601|3|12.12","20|Cumartesi|76085|14.57|36|-25.00|150000|87173|23|4|27|404|41|-42|1.17|5.70|3790.15|17.39|35748|10|41.01|49790|16|57.12|1636|1|1.88","21|Pazar|121661|1.48|56|-35.71|200000|123463|27|6|36|522|45|-38|1.33|5.20|4572.69|22.22|55450|14|44.91|68013|22|55.09|0|0|0","22|Pazartesi|39234|181.81|18|88.89|90000|110565|20|8|34|181|48|23|1.70|11.00|5528.25|40.00|33354|7|30.17|77211|27|69.83|0|0|0","23|Salı|23964|114.72|14|7.14|90000|51453|8|4|15|170|50|-43|1.88|4.70|6431.68|50.00|7280|1|14.15|43051|13|83.67|1122|1|2.18","24|Çarşamba|36864|5.79|17|-29.41|90000|39000|14|1|12|163|51|-57|0.86|8.60|2785.68|7.14|12862|0|32.98|25048|11|64.23|1090|1|2.80","25|Perşembe|31385|45.24|14|28.57|90000|45584|11|5|18|160|53|-49|1.64|6.90|4143.96|45.45|2599|1|5.70|42984|17|94.30|0|0|0","26|Cuma|41284|3.36|23|-30.43|125000|42671|12|3|16|220|54|-66|1.33|5.50|3555.91|25.00|28218|7|66.13|10819|6|25.35|3634|3|8.52","27|Cumartesi|168821|-18.43|63|-31.75|200000|137700|30|9|43|572|58|-31|1.43|5.20|4589.99|30.00|59104|15|42.92|77505|27|56.29|1090|1|0.79","28|Pazar|156200|-49.11|71|-63.38|300000|79498|20|4|26|636|61|-74|1.30|3.10|3974.88|20.00|30686|7|38.60|47453|18|59.69|1359|1|1.71","29|Pazartesi|85859|-51.00|43|-69.77|90000|42070|9|4|13|235|62|-53|1.44|3.80|4674.41|44.44|11953|2|28.41|28117|9|66.83|1999|2|4.75","30|Salı|44182|36.51|23|13.04|90000|60313|17|6|26|237|64|-33|1.53|7.20|3547.80|35.29|25468|8|42.23|34844|18|57.77|0|0|0","31|Çarşamba|114223|-35.25|55|-58.18|90000|73958|17|4|23|250|66|-18|1.35|6.80|4350.49|23.53|32407|9|43.82|40488|13|54.74|1063|1|1.44"];
- const days=raw.map(line=>{const a=line.split("|");return {day:+a[0],dow:a[1],lySales:+a[2],lyPct:+a[3],lyUnits:+a[4],lyUnitPct:+a[5],target:+a[6],actual:+a[7],tr:+a[8],multi:+a[9],units:+a[10],vis:+a[11],completed:+a[12],budget:+a[13],upt:+a[14],cr:+a[15],atv:+a[16],multis:+a[17],ftw:+a[18],ftwUnits:+a[19],ftwShare:+a[20],app:+a[21],appUnits:+a[22],appShare:+a[23],acc:+a[24],accUnits:+a[25],accShare:+a[26]};});
- const fmt=(n,d=0)=>new Intl.NumberFormat("tr-TR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(n);
- const money=n=>fmt(n)+" TL",pct=n=>"%"+fmt(n,2);
- const dash="—";
- const kpis=[
-  ["CİRO",3189746,2119020.39,0,0,"money"],
-  ["UPT",1.8,1.44,1.8,0,"decimal"],
-  ["CR",7,5.34,7,0,"percent"],
-  ["ATV",4600,4537.52,5100,0,"money"],
-  ["MULTIS",45,30.62,45,0,"percent"],
-  ["ASP",2800,3158,3000,0,"money"]
- ];
- const f=(v,t)=>t==="money"?money(v):t==="percent"?pct(v):fmt(v,2);
- const metricCards=kpis.map(([name,t25,a25,t26,a26,type])=>'<article class="exec-kpi"><small>'+name+'</small><strong>2025 · '+f(a25,type)+'</strong><div class="compare">2025 hedef: '+(t25?f(t25,type):dash)+' · HGO: '+(t25?pct(a25/t25*100):dash)+'</div><div class="compare" style="margin-top:7px">2026 hedef: '+(t26?f(t26,type):'<span style="color:#a36b12">Girilmemiş</span>')+'</div><div class="delta" style="color:#9a6b16">2026 gerçekleşme: Veri bekleniyor</div></article>').join("");
- const kpiRows=kpis.map(([name,t25,a25,t26,a26,type])=>'<tr><th>'+name+'</th><td>'+f(t25,type)+'</td><td>'+f(a25,type)+'</td><td>'+pct(t25?a25/t25*100:0)+'</td><td>'+(t26?f(t26,type):'<b>Hedef girilmemiş</b>')+'</td><td>Veri bekleniyor</td></tr>').join("");
- const dailyRows=days.map(x=>'<tr><th>'+String(x.day).padStart(2,"0")+'.12 · '+x.dow+'</th><td>'+new Date(2026,11,x.day).toLocaleDateString("tr-TR",{weekday:"long"})+'</td><td>'+money(x.target)+'</td><td>'+money(x.actual)+'</td><td><b>0 · bekleniyor</b></td><td>'+fmt(x.tr)+'</td><td>—</td><td>'+fmt(x.multi)+'</td><td>—</td><td>'+fmt(x.units)+'</td><td>0*</td><td>'+fmt(x.vis)+'</td><td>—</td><td>'+fmt(x.upt,2)+'</td><td>—</td><td>'+pct(x.cr)+'</td><td>—</td><td>'+money(x.atv)+'</td><td>—</td><td>'+pct(x.multis)+'</td><td>—</td><td>'+pct(x.completed)+'</td><td>'+pct(x.budget)+'</td><td>'+money(x.lySales)+'</td><td>'+pct(x.lyPct)+'</td><td>'+fmt(x.lyUnits)+'</td><td>'+pct(x.lyUnitPct)+'</td><td>'+money(x.actual)+'</td><td>'+fmt(x.units)+'</td><td>'+fmt(x.vis)+'</td></tr>').join("");
- const catRows=days.map(x=>'<tr><th>'+String(x.day).padStart(2,"0")+'.12</th><td>'+money(x.ftw)+'</td><td>'+fmt(x.ftwUnits)+'</td><td>'+pct(x.ftwShare)+'</td><td>0*</td><td>—</td><td>—</td><td>'+money(x.app)+'</td><td>'+fmt(x.appUnits)+'</td><td>'+pct(x.appShare)+'</td><td>0*</td><td>—</td><td>—</td><td>'+money(x.acc)+'</td><td>'+fmt(x.accUnits)+'</td><td>'+pct(x.accShare)+'</td><td>0*</td><td>—</td><td>—</td></tr>').join("");
- const catTotals=[
-  ["FTW · AYAKKABI",912704,229,43.07,3985.61],
-  ["APP · TEKSTİL",1143357,402,53.96,2844.17],
-  ["ACC · AKSESUAR",62960,40,2.97,1574]
- ];
- const catCards=catTotals.map(x=>'<article class="exec-cat"><h4>'+x[0]+'</h4><strong>'+money(x[1])+'</strong><p>2025 ürün adedi: '+fmt(x[2])+'</p><p>Ciro payı: '+pct(x[3])+'</p><p>Kategori ASP: '+money(x[4])+'</p><p style="color:#9a6b16">2026 gerçekleşmesi: Veri bekleniyor</p></article>').join("");
- const wd=days.filter(x=>!["Cumartesi","Pazar"].includes(x.dow)),we=days.filter(x=>["Cumartesi","Pazar"].includes(x.dow));
- const avg=a=>a.length?a.reduce((n,x)=>n+x.actual,0)/a.length:0;
- const multiPct=143/467*100,upt=671/467,cr=467/8743*100,atv=2119020.39/467,asp=2119020.39/671;
- const volumeCards=[["FATURA",467],["ÜRÜN ADEDİ",671],["TRAFİK",8743]];
- const volumeHtml=volumeCards.map(([name,value])=>'<article class="exec-kpi"><small>'+name+'</small><strong>2025 · '+fmt(value)+'</strong><div class="compare">2025 gerçekleşen</div><div class="delta" style="color:#9a6b16">2026 gerçekleşme: Veri bekleniyor</div></article>').join("");
- const cardsHtml=metricCards+volumeHtml;
- const enteredDays=0;
- root.innerHTML='<div class="exec-page-view"><section class="exec-hero"><div><div class="eyebrow">STORE INTELLIGENCE / BUYAKA</div><h2>Aralık 2025 – Aralık 2026 KPI Karşılaştırma Dashboard</h2><p>Aynı takvim tarihi esas alınarak karşılaştırılır; 2026 günlük veri girildikçe otomatik güncellenir.</p><div style="margin-top:10px;font-weight:700">2026 veri girilen gün: <b>'+enteredDays+' / 31</b>　·　Karşılaştırma: <b>Aralık 2025 ↔ Aralık 2026</b></div><p style="margin-top:8px;color:#9a6b16">2026 gerçekleşen veriler henüz girilmedi. Şu an 2025 referans değerleri gösteriliyor.</p></div></section><section class="exec-section"><div class="exec-section-head"><div><span class="report-kicker">KPI ÖZETİ · 2025 GERÇEKLEŞEN / 2026</span><h2>Aylık performans göstergeleri</h2><p>Her KPI ayrı kartta; 2026 hedefi ve gerçekleşmesi ayrı ayrı gösterilir.</p></div></div><div class="exec-grid">'+cardsHtml+'</div></section><section id="dailyMetricChart"></section></div>';
- renderDailyComparisonChart(days);
- const categoryHost=document.getElementById("dailyMetricChart");
- const categoryData=[
-  {name:"FTW",label:"AYAKKABI",sales:912704,units:229,share:43.07,asp:3986},
-  {name:"APP",label:"TEKSTİL",sales:1143357,units:402,share:53.96,asp:2844},
-  {name:"ACC",label:"AKSESUAR",sales:62960,units:40,share:2.97,asp:1574}
- ];
- const categoryFmt=v=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(v);
- categoryHost.insertAdjacentHTML("beforeend",'<section class="exec-section" id="categoryComparison"><div class="exec-section-head"><div><span class="report-kicker">KATEGORİ KARŞILAŞTIRMASI · 2025 / 2026</span><h2>FTW / APP / ACC</h2><p>Günlük karşılaştırma grafiğinin hemen altında kategori cirosu, adet, ciro payı ve ASP.</p></div></div><div class="exec-category">'+categoryData.map(cat=>'<article class="exec-cat" style="background:#fff;padding:16px"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h4 style="font-size:13px;margin:0">'+cat.name+' · '+cat.label+'</h4><span style="font-size:10px;color:#9a6b16;font-weight:800">2026 · —</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px"><div><small style="display:block;color:#888;font-size:9px;font-weight:800">2025 CİRO</small><strong style="font-size:19px">'+categoryFmt(cat.sales)+' ₺</strong></div><div><small style="display:block;color:#888;font-size:9px;font-weight:800">2025 ADET</small><strong style="font-size:19px">'+categoryFmt(cat.units)+'</strong></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:11px"><b>Ciro payı</b><strong>%'+String(cat.share).replace(".",",")+'</strong></div><div style="height:11px;background:#ececec;border-radius:20px;overflow:hidden;margin-top:6px"><div style="height:100%;width:'+cat.share+'%;background:#e31b36;border-radius:20px"></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:13px;font-size:11px"><span style="color:#777">Kategori ASP</span><b>'+categoryFmt(cat.asp)+' ₺</b></div><div style="margin-top:9px;padding-top:9px;border-top:1px solid #eee;color:#9a6b16;font-size:11px;font-weight:750">2026 gerçekleşme: Veri bekleniyor</div></article>').join("")+'</div></section>');
- const kpiComparisonRows=[
-  ["Ciro","3.189.746 ₺","2.119.020 ₺","%66,4","–","–","–","–"],
-  ["UPT","1,80","1,44","%80,0","1,80","–","–","–"],
-  ["CR","%7,00","%5,34","%76,3","%7,00","–","–","–"],
-  ["ATV","4.600,00 ₺","4.537,52 ₺","%98,6","5.100,00 ₺","–","–","–"],
-  ["MULTIS","%45,0","%30,6","%68,0","%45,0","–","–","–"],
-  ["ASP","2.800 ₺","3.158 ₺","%112,8","3.000 ₺","–","–","–"],
-  ["Fatura","–","467","–","–","–","–","–"],
-  ["Ürün adedi","–","671","–","–","–","–","–"],
-  ["Trafik","–","8.743","–","–","–","–","–"]
- ];
- categoryHost.insertAdjacentHTML("beforeend",'<section class="exec-section" id="kpiTargetActual"><div class="exec-section-head"><div><span class="report-kicker">KPI HEDEF / GERÇEKLEŞEN · 2025 / 2026</span><h2>KPI tablosu – hedef ve gerçekleşen</h2><p>2025 hedef ve gerçekleşmeleri ile 2026 hedefleri ve güncel gerçekleşme durumu.</p></div></div><div style="overflow-x:auto;background:#fff;border:1px solid #e7e7e7;border-radius:12px"><table style="width:100%;min-width:920px;border-collapse:collapse;font-size:12px"><thead><tr style="background:#171717;color:#fff">'+["KPI","2025 Hedef","2025 Gerçekleşen","2025 Hedef Gerç.","2026 Hedef","2026 Gerçekleşen","2026 Hedef Gerç.","2026 / 2025"].map(h=>'<th style="padding:12px 10px;text-align:right;white-space:nowrap">'+h+'</th>').join("")+'</tr></thead><tbody>'+kpiComparisonRows.map((row,i)=>'<tr style="border-bottom:1px solid #eee;'+(i<6?'font-weight:650':'')+'">'+row.map((v,j)=>'<td style="padding:11px 10px;text-align:right;white-space:nowrap;'+(j===0?'text-align:left;font-weight:800;':'')+(j===2?'color:#171717;font-weight:800;':'')+(j>=5?'color:#999;':'')+'">'+v+'</td>').join("")+'</tr>').join("")+'</tbody></table></div></section>');
- const dailyRevenue=[
-  ["01 Ara","Salı",61112],["02 Ara","Çarşamba",24591],["03 Ara","Perşembe",58560],["04 Ara","Cuma",30302],["05 Ara","Cumartesi",67175],["06 Ara","Pazar",126211],["07 Ara","Pazartesi",154543],["08 Ara","Salı",26805],["09 Ara","Çarşamba",74838],["10 Ara","Perşembe",20308],["11 Ara","Cuma",62568],["12 Ara","Cumartesi",67567],["13 Ara","Pazar",64323],["14 Ara","Pazartesi",134511],["15 Ara","Salı",31180],["16 Ara","Çarşamba",82140],["17 Ara","Perşembe",47172],["18 Ara","Cuma",61945],["19 Ara","Cumartesi",29724],["20 Ara","Pazar",87173],["21 Ara","Pazartesi",123463],["22 Ara","Salı",110565],["23 Ara","Çarşamba",51453],["24 Ara","Perşembe",39000],["25 Ara","Cuma",45584],["26 Ara","Cumartesi",42671],["27 Ara","Pazar",137700],["28 Ara","Pazartesi",79498],["29 Ara","Salı",42070],["30 Ara","Çarşamba",60313],["31 Ara","Perşembe",73958]
- ];
- const dailyMoney=v=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}).format(v)+" ₺";
- categoryHost.insertAdjacentHTML("beforeend",'<section class="exec-section" id="dailyRevenueDetail"><div class="exec-section-head"><div><span class="report-kicker">GÜNLÜK DETAY · CİRO</span><h2>Ciro – günlük 2025 ve 2026 değerleri</h2><p>Her tarih aynı takvim günü üzerinden karşılaştırılır. 2026 verisi girildikçe fark ve değişim otomatik hesaplanır.</p></div></div><div style="overflow-x:auto;background:#fff;border:1px solid #e7e7e7;border-radius:12px"><table style="width:100%;min-width:680px;border-collapse:collapse;font-size:12px"><thead><tr style="background:#171717;color:#fff">'+["Tarih","Gün (2026)","2025","2026","Fark","Değişim %"].map(h=>'<th style="padding:12px 10px;text-align:right;white-space:nowrap">'+h+'</th>').join("")+'</tr></thead><tbody>'+dailyRevenue.map((row,i)=>'<tr style="border-bottom:1px solid #eee;background:'+((i%2)?"#fafafa":"#fff")+'">'+[row[0],row[1],dailyMoney(row[2]),"–","–","–"].map((v,j)=>'<td style="padding:10px;text-align:right;white-space:nowrap;'+(j===0?'text-align:left;font-weight:800;':'')+(j===2?'font-weight:750;':'')+(j>=3?'color:#999;':'')+'">'+v+'</td>').join("")+'</tr>').join("")+'</tbody></table></div></section>');
-}
 
 function filterMonthlyKPI(value){
  const root=document.getElementById("monthlyKpiTables");if(!root)return;
