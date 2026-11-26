@@ -5370,3 +5370,21 @@ body button:is(.active,[aria-selected="true"],[aria-pressed="true"]){
   border-color:#a9d7ff!important;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 0 14px rgba(101,173,255,.2)!important;
 }
+
+/* SON DÜZELTME: daha önceki kırmızı menü kurallarını da geçersiz kıl */
+body :is(button, #mainMenu .menu-button){
+  color:#f7fbff!important;
+  background:linear-gradient(135deg,rgba(49,91,135,.98),rgba(8,27,51,.99))!important;
+  border-color:rgba(143,200,255,.68)!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+body :is(button:hover, button:focus-visible, #mainMenu .menu-button:hover, #mainMenu .menu-button:focus-visible){
+  color:#fff!important;
+  background:linear-gradient(135deg,#4d91ca,#12395f)!important;
+  border-color:#b4dcff!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.42),0 0 15px rgba(101,173,255,.3)!important;
+}
+body :is(button.active, button[aria-selected="true"], button[aria-pressed="true"]){
+  background:linear-gradient(135deg,#397fbd,#12385f)!important;
+  border-color:#b4dcff!important;
+}
