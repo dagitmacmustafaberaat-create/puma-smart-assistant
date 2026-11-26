@@ -774,7 +774,20 @@
         if (typeof window.renderStoreTracking === "function") {
           window.renderStoreTracking();
         } else if (root) {
-          root.innerHTML = '<p style="padding:18px;color:#fff">Mağaza Takip modülü yüklenemedi. Sayfayı yenileyip tekrar deneyin.</p>';
+          root.innerHTML = '<p style="padding:18px;color:#fff">Mağaza Takip bileşeni yeniden yükleniyor…</p>';
+          const retry = document.createElement("script");
+          retry.src = "./store-tracking.js?v=20261126-retry1";
+          retry.onload = function () {
+            if (typeof window.renderStoreTracking === "function") {
+              window.renderStoreTracking();
+            } else {
+              root.innerHTML = '<p style="padding:18px;color:#fff">Mağaza Takip dosyası açıldı ancak başlatılamadı. Lütfen tekrar deneyin.</p>';
+            }
+          };
+          retry.onerror = function () {
+            root.innerHTML = '<p style="padding:18px;color:#fff">Mağaza Takip dosyası sunucudan yüklenemedi. Dağıtım dosyası kontrol edilmeli.</p>';
+          };
+          document.body.appendChild(retry);
         }
       };
       window.closeStoreTracking = function () {
