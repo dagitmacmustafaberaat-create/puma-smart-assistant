@@ -138,30 +138,41 @@ button{color:inherit}
 @media(max-width:700px){.sidebar{background:#0b1321!important}.nav{background:transparent!important}}
 
 
-/* Dashboard: BUYAKA uygulamasının siyah / kırmızı / kırık beyaz teması */
-.stockdash{--sd-bg:var(--paper,#f7f7f5);--sd-card:var(--white,#fff);--sd-ink:var(--ink,#171717);--sd-muted:var(--muted,#777);--sd-line:var(--line,#e9e9e6);color:var(--sd-ink);background:var(--sd-bg);border-color:var(--sd-line)}
-.stockdash h3,.stockdash h4,.stockdash-kpi strong{color:var(--ink,#171717)!important}
-.stockdash-sub,.stockdash-note,.stockdash-kpi small,.stockdash-kpi span{color:var(--muted,#777)}
-.stockdash-source{color:var(--red,#e31b36);background:#fff0f2}
-.stockdash-cat{background:#fff;color:var(--ink,#171717);border-color:var(--line,#e9e9e6)}
-.stockdash-cat[aria-pressed=true]{background:var(--red,#e31b36);border-color:var(--red,#e31b36);color:#fff}
-.stockdash-kpi,.stockdash-panel{background:#fff;border-color:var(--line,#e9e9e6)}
-.stockdash-kpi{border-left-color:var(--red,#e31b36)}
-.stockdash-bar{background:#f0f0ed}.stockdash-bar i{background:var(--red,#e31b36)!important}
-.stockdash-value{color:var(--ink,#171717)}
-.stockdash input,.stockdash select{border-color:var(--line,#e9e9e6);background:#fff;color:var(--ink,#171717)}
-.stockdash-tablewrap{border-color:var(--line,#e9e9e6);background:#fff}
-.stockdash table{color:var(--ink,#171717)}
-.stockdash th{background:#f7f7f5;color:#555;border-bottom-color:var(--line,#e9e9e6)}
-.stockdash th button{color:inherit}
-.stockdash td{color:#222;border-bottom-color:#f1f1ee}
-.stockdash-tag{border-color:#f0aab4;background:#fff0f2;color:var(--red,#e31b36)}
-.stockdash-t0,.stockdash-t1{background:#fff0f2;color:var(--red,#e31b36);border-color:#f0aab4}
-.stockdash-t2{background:#eaf6f0;color:var(--green,#16845b);border-color:#cce9dc}
-.stockdash-t3,.stockdash-t4{background:#f7f7f5;color:#555;border-color:var(--line,#e9e9e6)}
-.stockdash-more{border-color:var(--red,#e31b36);background:#fff;color:var(--red,#e31b36)}
-.stockdash-more:hover{background:#fff0f2}
-
+/* Dashboard: koyu uygulama temasından bağımsız, okunabilir PUMA yüzeyi */
+.stockdash{
+ --sd-bg:#f7f7f5;--sd-card:#fff;--sd-ink:#171717;--sd-muted:#666;--sd-line:#e5e5e1;
+ color:#171717!important;background:#f7f7f5!important;border:1px solid #e5e5e1!important;
+}
+.stockdash h3,.stockdash h4,.stockdash strong,.stockdash b,.stockdash label,
+.stockdash .stockdash-name,.stockdash .stockdash-value,.stockdash td,
+.stockdash .stockdash-sub,.stockdash .stockdash-note,.stockdash .stockdash-kpi small,
+.stockdash .stockdash-kpi span{color:#171717!important}
+.stockdash .stockdash-sub,.stockdash .stockdash-note,.stockdash .stockdash-kpi small,
+.stockdash .stockdash-kpi span{color:#666!important}
+.stockdash .stockdash-source{color:#e31b36!important;background:#fff0f2!important}
+.stockdash .stockdash-cat{background:#fff!important;color:#171717!important;border-color:#e5e5e1!important}
+.stockdash .stockdash-cat *{color:#171717!important}
+.stockdash .stockdash-cat[aria-pressed=true]{background:#e31b36!important;border-color:#e31b36!important;color:#fff!important}
+.stockdash .stockdash-cat[aria-pressed=true] *{color:#fff!important}
+.stockdash .stockdash-kpi,.stockdash .stockdash-panel{background:#fff!important;border-color:#e5e5e1!important;color:#171717!important}
+.stockdash .stockdash-kpi{border-left-color:#e31b36!important}
+.stockdash .stockdash-bar{background:#f0f0ed!important}
+.stockdash .stockdash-bar i{background:#e31b36!important}
+.stockdash .stockdash-value{color:#171717!important}
+.stockdash input,.stockdash select{border:1px solid #d9d9d4!important;background:#fff!important;color:#171717!important}
+.stockdash input::placeholder{color:#888!important}
+.stockdash .stockdash-tablewrap{border-color:#e5e5e1!important;background:#fff!important}
+.stockdash table{color:#171717!important;background:#fff!important}
+.stockdash th{background:#f1f1ee!important;color:#444!important;border-bottom-color:#e5e5e1!important}
+.stockdash th button{color:#444!important}
+.stockdash td{background:#fff!important;color:#222!important;border-bottom-color:#eee!important}
+.stockdash .stockdash-tag{border-color:#f0aab4!important;background:#fff0f2!important;color:#e31b36!important}
+.stockdash .stockdash-t0,.stockdash .stockdash-t1{background:#fff0f2!important;color:#c51c35!important;border-color:#f0aab4!important}
+.stockdash .stockdash-t2{background:#eaf6f0!important;color:#176b49!important;border-color:#cce9dc!important}
+.stockdash .stockdash-t3,.stockdash .stockdash-t4{background:#f1f1ee!important;color:#555!important;border-color:#e5e5e1!important}
+.stockdash .stockdash-more{border:1px solid #e31b36!important;background:#fff!important;color:#e31b36!important}
+.stockdash .stockdash-more:hover{background:#fff0f2!important}
+.stockdash .stockdash-empty{color:#666!important}
 </style></head>
 <body>
 <div class="shell">
