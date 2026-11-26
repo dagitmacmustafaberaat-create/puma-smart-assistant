@@ -12,30 +12,28 @@ function parse(wb){
  var out={2025:[],2026:[]},cats={FTW:{},APP:{},ACC:{}},targets={};
  wb.SheetNames.forEach(function(name){
   var rows=window.XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:true}),hi=-1;
-  for(var i=0;i<Math.min(rows.length,30);i++)if(rows[i].some(function(v){return norm(v)==="tarih";})){hi=i;break;}
+  for(var i=0;i<Math.min(rows.length,40);i++)if(rows[i].some(function(v){return norm(v)==="tarih";})){hi=i;break;}
   if(hi<0)return;
   var h=rows[hi].map(norm);
-  function col(words){for(var j=0;j<h.length;j++)if(words.some(function(w){return h[j]===w||h[j].indexOf(w)>=0;}))return j;return -1;}
-  var ix={date:col(["tarih"]),revenue:col(["ciro","satis tutari","net satis"]),invoice:col(["fatura","fis sayisi"]),units:col(["urun adedi","adet","miktar"]),traffic:col(["trafik","ziyaretci"])};
+  function exact(v){return h.indexOf(norm(v));}
+  var ix={date:exact("tarih"),lyRevenue:exact("actual last year sales"),lyUnits:exact("unit last year sales"),lyTraffic:exact("ly traffic"),target:exact("target"),actual:exact("actual"),invoice:exact("transaction"),units:exact("units"),traffic:exact("visitors"),ftw:exact("ftw"),app:exact("app"),acc:exact("acc")};
+  rows.forEach(function(r){if(norm(r[0])==="target"&&ix.target>=0)targets.revenue=n(r[ix.target]);});
   rows.slice(hi+1).forEach(function(r){
    var dt=date(r[ix.date>=0?ix.date:0]);if(!dt||(dt.y!==2025&&dt.y!==2026))return;
-   var item={day:dt.d,month:dt.m,revenue:ix.revenue>=0?n(r[ix.revenue]):0,invoice:ix.invoice>=0?n(r[ix.invoice]):0,units:ix.units>=0?n(r[ix.units]):0,traffic:ix.traffic>=0?n(r[ix.traffic]):0};
-   // Yıl bazlı sütunlar aynı tabloda bulunuyorsa ilgili yılı seç.
-   ["revenue","invoice","units","traffic"].forEach(function(k){var base={revenue:["ciro","satis tutari"],invoice:["fatura"],units:["adet","urun"],traffic:["trafik"]}[k],a=-1,b=-1;h.forEach(function(v,j){if(base.some(function(w){return v.indexOf(w)>=0;})){if(v.indexOf("2025")>=0)a=j;if(v.indexOf("2026")>=0)b=j;}});if(a>=0&&b>=0)item[k]=n(r[dt.y===2025?a:b]);});
-   out[dt.y].push(item);
+   if(dt.y===2025){out[2025].push({day:dt.d,month:dt.m,revenue:ix.lyRevenue>=0?n(r[ix.lyRevenue]):0,invoice:null,units:ix.lyUnits>=0?n(r[ix.lyUnits]):0,traffic:ix.lyTraffic>=0?n(r[ix.lyTraffic]):0});return;}
+   var rev=ix.actual>=0?n(r[ix.actual]):0,inv=ix.invoice>=0?n(r[ix.invoice]):0,units=ix.units>=0?n(r[ix.units]):0,traffic=ix.traffic>=0?n(r[ix.traffic]):0;
+   if(!(rev||inv||units||traffic))return;
+   out[2026].push({day:dt.d,month:dt.m,revenue:rev,invoice:inv,units:units,traffic:traffic});
+   [["FTW",ix.ftw],["APP",ix.app],["ACC",ix.acc]].forEach(function(p){if(p[1]>=0){var v=n(r[p[1]]);if(v)cats[p[0]][2026]=(cats[p[0]][2026]||0)+v;}});
   });
-  // Hedef satırları
-  rows.forEach(function(r){var label=norm(r[0]);if(label.indexOf("hedef")>=0){if(label.indexOf("ciro")>=0)targets.revenue=n(r[1]);if(label.indexOf("fatura")>=0)targets.invoice=n(r[1]);if(label.indexOf("urun")>=0)targets.units=n(r[1]);}});
  });
  Object.keys(out).forEach(function(y){out[y].sort(function(a,b){return a.month-b.month||a.day-b.day;});});
- // Kategori tablosu: sayfalarda kategori adları ve yıl tutarlarını başlıklardan yakala.
- wb.SheetNames.forEach(function(name){var rows=window.XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:true});rows.forEach(function(r){["FTW","APP","ACC"].forEach(function(c){var j=r.findIndex(function(v){return String(v).toUpperCase().trim()===c;});if(j>=0){var a=n(r[j+1]),b=n(r[j+2]);if(a)cats[c][2025]=a;if(b)cats[c][2026]=b;}});});});
  return {rows:out,cats:cats,targets:targets};
 }
 function sum(rows){return rows.reduce(function(t,r){["revenue","invoice","units","traffic"].forEach(function(k){t[k]+=r[k];});return t;},{revenue:0,invoice:0,units:0,traffic:0});}
-function derive(t){return {revenue:t.revenue,invoice:t.invoice,units:t.units,traffic:t.traffic,upt:t.invoice?t.units/t.invoice:0,cr:t.traffic?t.invoice/t.traffic*100:0,atv:t.invoice?t.revenue/t.invoice:0,asp:t.units?t.revenue/t.units:0};}
+function derive(t){return {revenue:t.revenue,invoice:t.invoice,units:t.units,traffic:t.traffic,upt:t.invoice===null?null:(t.invoice?t.units/t.invoice:0),cr:t.invoice===null?null:(t.traffic?t.invoice/t.traffic*100:0),atv:t.invoice===null?null:(t.invoice?t.revenue/t.invoice:0),asp:t.units?t.revenue/t.units:0};}
 function pct(a,b){return a?(b-a)/a*100:null;}
-function disp(k,v){return ["revenue","atv","asp"].indexOf(k)>=0?money(v):k==="cr"?"%"+f(v,1):k==="upt"?f(v,2):f(v);}
+function disp(k,v){if(v===null||v===undefined)return "VERİ YOK";return ["revenue","atv","asp"].indexOf(k)>=0?money(v):k==="cr"?"%"+f(v,1):k==="upt"?f(v,2):f(v);}
 function ch(p){return p===null?"VERİ YOK":(p>=0?"▲ +":"▼ ")+f(Math.abs(p),1)+"%";}
 function cls(p){return p===null?"neutral":p>=0?"up":"down";}
 function card(label,k,icon,a,b){var p=pct(a[k],b[k]);return '<article class="st-kpi"><div class="st-kpi-head"><i>'+icon+'</i><b>'+label+'</b></div><div class="st-year"><small>2025</small><strong>'+disp(k,a[k])+'</strong></div><div class="st-year"><small>2026</small><strong>'+disp(k,b[k])+'</strong></div><div class="st-change '+cls(p)+'">'+ch(p)+'</div></article>';}
@@ -61,8 +59,8 @@ function render(wb){
  var r25=data.rows[2025].filter(function(r){return r.month===month&&r.day<=last;}),r26=entered;
  var a=derive(sum(r25)),b=derive(sum(r26));
  var cards=[["CİRO","revenue","▤"],["FATURA","invoice","▧"],["ÜRÜN ADEDİ","units","▣"],["TRAFİK","traffic","♟"],["UPT","upt","↗"],["CR","cr","◎"],["ATV","atv","◆"],["ASP","asp","🛒"]].map(function(x){return card(x[0],x[1],x[2],a,b);}).join("");
- var cats=["FTW","APP","ACC"].map(function(c){var x=data.cats[c],p=pct(x[2025]||0,x[2026]||0);return '<div class="st-cat"><h3>'+c+'</h3><div><small>2025</small><b>'+money(x[2025]||0)+'</b></div><div><small>2026</small><b>'+money(x[2026]||0)+'</b></div><div class="st-change '+cls(p)+'">'+ch(p)+'</div></div>';}).join("");
- var defs=[["CİRO","revenue","TL"],["FATURA","invoice","Adet"],["ÜRÜN ADEDİ","units","Adet"]];
+ var cats=["FTW","APP","ACC"].map(function(c){var x=data.cats[c];return '<div class="st-cat"><h3>'+c+'</h3><div><small>2025</small><b>VERİ YOK</b></div><div><small>2026</small><b>'+(x[2026]?money(x[2026]):"VERİ YOK")+'</b></div><div class="st-change neutral">2025 kategori verisi yok</div></div>';}).join("");
+ var defs=[["CİRO","revenue","TL"]];
  var targets=defs.map(function(x){var goal=data.targets[x[1]]||0,actual=b[x[1]],p=goal?actual/goal*100:0;return '<div class="st-target"><b>'+x[0]+'</b><p>Hedef: '+(goal?f(goal)+' '+x[2]:"Excel hedefi bulunamadı")+'<br>Gerçekleşen: '+f(actual)+' '+x[2]+'</p><div class="st-barrow"><div class="st-bar"><span class="'+(p>=100?"ok":"")+'" style="width:'+Math.min(100,p)+'%"></span></div><strong>'+(goal?"%"+f(p,1):"—")+'</strong></div></div>';}).join("");
  var months=["","Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
  $("storeTrackingDashboard").innerHTML='<div class="st-dashboard"><header class="st-top"><div class="st-brand"><div class="st-logo">PUMA</div><div class="st-sep"></div><div><h1>MAĞAZA PERFORMANS ÖZETİ</h1><p>'+months[month].toLocaleUpperCase("tr-TR")+' 2025 – '+months[month].toLocaleUpperCase("tr-TR")+' 2026</p></div></div><div class="st-period">▦ &nbsp;01 – '+(last||31)+' '+months[month]+'</div></header><section class="st-kpis">'+cards+'</section><div class="st-mid"><section class="st-panel"><h2 class="st-title"><i>↗</i> GÜNLÜK CİRO KARŞILAŞTIRMASI <span class="st-legend"><em>2025</em><em>2026</em></span></h2>'+chart(r25,r26)+'</section><section class="st-panel"><h2 class="st-title"><i>▥</i> KATEGORİ KARŞILAŞTIRMASI</h2><div class="st-cats">'+cats+'</div></section></div><div class="st-bottom"><section class="st-panel"><h2 class="st-title"><i>◎</i> HEDEF / GERÇEKLEŞEN</h2><div class="st-targets">'+targets+'</div></section><section class="st-panel"><h2 class="st-title"><i>🏆</i> MAĞAZA LİDERLERİ</h2><div class="st-leaders"><div>ATV ŞAMPİYONU<small>Personel verisi</small><b>Excel kaynağında yok</b></div><div>CR ŞAMPİYONU<small>Personel verisi</small><b>Excel kaynağında yok</b></div></div></section></div><footer class="st-foot"><b>FOREVER. FASTER.</b><span>ⓘ 2026 verileri girilen '+last+' gün için 2025’in aynı tarihleriyle karşılaştırılmıştır.</span></footer></div>';
