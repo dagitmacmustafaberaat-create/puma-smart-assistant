@@ -608,7 +608,7 @@
     <script src="script.js?v=20261113-store-status-forecast-stack-v1"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="store-management.js?v=20261109-period-aware-comment-v3"></script>
-    <script src="store-tracking.js?v=20261126-v4"></script>
+    <script src="store-tracking.js?v=20261126-v5"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261113-november-calendar-v2"></script>
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
@@ -776,7 +776,7 @@
         } else if (root) {
           root.innerHTML = '<p style="padding:18px;color:#fff">Mağaza Takip bileşeni yeniden yükleniyor…</p>';
           const retry = document.createElement("script");
-          retry.src = "./store-tracking.js?v=20261126-retry1";
+          retry.src = "./store-tracking.js?v=20261126-retry2";
           retry.onload = function () {
             if (typeof window.renderStoreTracking === "function") {
               window.renderStoreTracking();
