@@ -352,3 +352,8 @@ body :is(p,span,label,small,strong,b,li,td,th,div){
   background:linear-gradient(145deg,rgba(27,65,108,.97),rgba(10,31,58,.98))!important;
   border-color:#68adff!important;
 }
+
+
+/* Final text hierarchy for navy theme */
+body :is(p,span,label,small,strong,b,li,td,th){color:#fff!important}
+body :is(h1,h2,h3,h4,h5,h6,.logo,.subtitle){color:#68adff!important}
