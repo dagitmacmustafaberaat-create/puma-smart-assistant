@@ -89,7 +89,7 @@
             <span class="module-copy"><strong>Ürün Sorgulama</strong><small>Ürün kodu veya adıyla ara</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
-          <button class="menu-button module-card store-tracking-menu-card" type="button" onclick="showStoreTracking()"><span class="module-sticker" aria-hidden="true">📈</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17M8 15l4-5 3 3 5-7"></path></svg></span><span class="module-copy"><strong>MAĞAZA TAKİP</strong><small>2025 / 2026 KPI karşılaştırması</small></span><span class="module-arrow" aria-hidden="true">↗</span></button>
+          <button class="menu-button module-card store-tracking-menu-card" type="button" onclick="window.showStoreTracking()"><span class="module-sticker" aria-hidden="true">📈</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17M8 15l4-5 3 3 5-7"></path></svg></span><span class="module-copy"><strong>MAĞAZA TAKİP</strong><small>2025 / 2026 KPI karşılaştırması</small></span><span class="module-arrow" aria-hidden="true">↗</span></button>
           <button class="menu-button module-card service-plan-menu-card" type="button" onclick="showServicePlan()">
             <span class="module-sticker" aria-hidden="true">📊</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10M4 12h16M7 16v3M17 16v3M7 8h.01M17 8h.01M4 16h16"></path></svg></span>
             <span class="module-copy"><strong>SERVİS PLANI</strong><small>Şifre ve servis planına erişim</small></span>
@@ -608,7 +608,7 @@
     <script src="script.js?v=20261113-store-status-forecast-stack-v1"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="store-management.js?v=20261109-period-aware-comment-v3"></script>
-    <script src="store-tracking.js?v=20261126-v3"></script>
+    <script src="store-tracking.js?v=20261126-v4"></script>
     <script src="performance-league.js?v=20261102-excel-source"></script>
     <script src="education.js?v=20261113-november-calendar-v2"></script>
     <script src="top5-analysis.js?v=20261106-business-unit-filter-v1"></script>
@@ -757,6 +757,34 @@
         if (area) area.style.display = "none";
         showMainMenu();
       }
+    </script>
+    <script>
+      // Mağaza Takip gezinmesi: harici modül yüklenmese bile sayfa alanı açılabilsin.
+      window.showStoreTracking = function () {
+        const area = document.getElementById("storeTrackingArea");
+        const menu = document.getElementById("mainMenu");
+        if (!area || !menu) { console.error("Mağaza Takip HTML alanı bulunamadı."); return; }
+        document.querySelectorAll("body > main, body > section[id]").forEach(function (node) {
+          if (node !== area) node.style.display = "none";
+        });
+        menu.style.display = "none";
+        area.style.display = "block";
+        window.scrollTo(0, 0);
+        const root = document.getElementById("storeTrackingDashboard");
+        if (typeof window.renderStoreTracking === "function") {
+          window.renderStoreTracking();
+        } else if (root) {
+          root.innerHTML = '<p style="padding:18px;color:#fff">Mağaza Takip modülü yüklenemedi. Sayfayı yenileyip tekrar deneyin.</p>';
+        }
+      };
+      window.closeStoreTracking = function () {
+        const area = document.getElementById("storeTrackingArea");
+        if (area) area.style.display = "none";
+        if (typeof window.showMainMenu === "function") window.showMainMenu();
+        const menu = document.getElementById("mainMenu");
+        if (menu) menu.style.display = "flex";
+        window.scrollTo(0, 0);
+      };
     </script>
     <script>
       if ("serviceWorker" in navigator) {
