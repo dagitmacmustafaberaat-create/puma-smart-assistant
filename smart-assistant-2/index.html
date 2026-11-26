@@ -138,41 +138,42 @@ button{color:inherit}
 @media(max-width:700px){.sidebar{background:#0b1321!important}.nav{background:transparent!important}}
 
 
-/* Dashboard: koyu uygulama temasından bağımsız, okunabilir PUMA yüzeyi */
+/* Dashboard renkleri — mevcut Excel dashboard yerleşimi korunur */
 .stockdash{
- --sd-bg:#f7f7f5;--sd-card:#fff;--sd-ink:#171717;--sd-muted:#666;--sd-line:#e5e5e1;
- color:#171717!important;background:#f7f7f5!important;border:1px solid #e5e5e1!important;
+ --sd-bg:#0b1424;--sd-card:#111f33;--sd-ink:#f4f7ff;--sd-muted:#b7c5da;--sd-line:#2b4161;
+ color:#f4f7ff!important;background:#0b1424!important;border:1px solid #2b4161!important;
 }
-.stockdash h3,.stockdash h4,.stockdash strong,.stockdash b,.stockdash label,
-.stockdash .stockdash-name,.stockdash .stockdash-value,.stockdash td,
-.stockdash .stockdash-sub,.stockdash .stockdash-note,.stockdash .stockdash-kpi small,
-.stockdash .stockdash-kpi span{color:#171717!important}
-.stockdash .stockdash-sub,.stockdash .stockdash-note,.stockdash .stockdash-kpi small,
-.stockdash .stockdash-kpi span{color:#666!important}
-.stockdash .stockdash-source{color:#e31b36!important;background:#fff0f2!important}
-.stockdash .stockdash-cat{background:#fff!important;color:#171717!important;border-color:#e5e5e1!important}
-.stockdash .stockdash-cat *{color:#171717!important}
-.stockdash .stockdash-cat[aria-pressed=true]{background:#e31b36!important;border-color:#e31b36!important;color:#fff!important}
+.stockdash *{box-sizing:border-box}
+.stockdash h3,.stockdash h4,.stockdash .stockdash-kpi strong,
+.stockdash .stockdash-panel h4{color:#69adff!important}
+.stockdash .stockdash-sub,.stockdash .stockdash-note,
+.stockdash .stockdash-kpi small,.stockdash .stockdash-kpi span,
+.stockdash .stockdash-name,.stockdash .stockdash-value,
+.stockdash label,.stockdash td{color:#f4f7ff!important}
+.stockdash .stockdash-source{color:#8fc2ff!important;background:#172f50!important;border:1px solid #294b75!important}
+.stockdash .stockdash-cat{background:#14243b!important;color:#f4f7ff!important;border:1px solid #2b4161!important}
+.stockdash .stockdash-cat *{color:#f4f7ff!important}
+.stockdash .stockdash-cat[aria-pressed=true]{background:#1d4f85!important;border-color:#69adff!important;color:#fff!important}
 .stockdash .stockdash-cat[aria-pressed=true] *{color:#fff!important}
-.stockdash .stockdash-kpi,.stockdash .stockdash-panel{background:#fff!important;border-color:#e5e5e1!important;color:#171717!important}
-.stockdash .stockdash-kpi{border-left-color:#e31b36!important}
-.stockdash .stockdash-bar{background:#f0f0ed!important}
-.stockdash .stockdash-bar i{background:#e31b36!important}
-.stockdash .stockdash-value{color:#171717!important}
-.stockdash input,.stockdash select{border:1px solid #d9d9d4!important;background:#fff!important;color:#171717!important}
-.stockdash input::placeholder{color:#888!important}
-.stockdash .stockdash-tablewrap{border-color:#e5e5e1!important;background:#fff!important}
-.stockdash table{color:#171717!important;background:#fff!important}
-.stockdash th{background:#f1f1ee!important;color:#444!important;border-bottom-color:#e5e5e1!important}
-.stockdash th button{color:#444!important}
-.stockdash td{background:#fff!important;color:#222!important;border-bottom-color:#eee!important}
-.stockdash .stockdash-tag{border-color:#f0aab4!important;background:#fff0f2!important;color:#e31b36!important}
-.stockdash .stockdash-t0,.stockdash .stockdash-t1{background:#fff0f2!important;color:#c51c35!important;border-color:#f0aab4!important}
-.stockdash .stockdash-t2{background:#eaf6f0!important;color:#176b49!important;border-color:#cce9dc!important}
-.stockdash .stockdash-t3,.stockdash .stockdash-t4{background:#f1f1ee!important;color:#555!important;border-color:#e5e5e1!important}
-.stockdash .stockdash-more{border:1px solid #e31b36!important;background:#fff!important;color:#e31b36!important}
-.stockdash .stockdash-more:hover{background:#fff0f2!important}
-.stockdash .stockdash-empty{color:#666!important}
+.stockdash .stockdash-kpi,.stockdash .stockdash-panel{background:#111f33!important;border:1px solid #2b4161!important;color:#f4f7ff!important}
+.stockdash .stockdash-kpi{border-left:3px solid #398be0!important}
+.stockdash .stockdash-bar{background:#263a56!important}
+.stockdash .stockdash-bar i{background:#398be0!important}
+.stockdash input,.stockdash select{border:1px solid #385273!important;background:#0d192b!important;color:#f4f7ff!important}
+.stockdash input::placeholder{color:#9aacc5!important}
+.stockdash .stockdash-tablewrap{border-color:#2b4161!important;background:#0d192b!important}
+.stockdash table{color:#f4f7ff!important;background:#0d192b!important}
+.stockdash th{background:#1a2c45!important;color:#83bcff!important;border-bottom:1px solid #385273!important}
+.stockdash th button{color:#83bcff!important}
+.stockdash td{background:#0f1c2f!important;color:#f4f7ff!important;border-bottom:1px solid #263a56!important}
+.stockdash tr:nth-child(even) td{background:#122139!important}
+.stockdash .stockdash-tag{border:1px solid #385273!important;background:#1a2c45!important;color:#dceaff!important}
+.stockdash .stockdash-t0,.stockdash .stockdash-t1{background:#482637!important;color:#ffb6c4!important;border-color:#82445b!important}
+.stockdash .stockdash-t2{background:#173c3a!important;color:#a5e4d3!important;border-color:#28665c!important}
+.stockdash .stockdash-t3,.stockdash .stockdash-t4{background:#26344a!important;color:#d7e5f7!important;border-color:#405775!important}
+.stockdash .stockdash-more{border:1px solid #69adff!important;background:#17365a!important;color:#fff!important}
+.stockdash .stockdash-more:hover{background:#214c7c!important}
+.stockdash .stockdash-empty{color:#d2deef!important}
 </style></head>
 <body>
 <div class="shell">
