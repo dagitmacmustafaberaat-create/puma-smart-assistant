@@ -7,25 +7,24 @@ function f(v,d){return Number(v||0).toLocaleString("tr-TR",{minimumFractionDigit
 function money(v){return f(v)+" TL";}
 function norm(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").trim();}
 function date(v){if(typeof v==="number"&&v>20000&&v<80000){var x=new Date(Date.UTC(1899,11,30)+v*86400000);return {d:x.getUTCDate(),m:x.getUTCMonth()+1,y:x.getUTCFullYear()};}var z=String(v||"").match(/(\d{1,2})[./-](\d{1,2})[./-](20\d{2})/);return z?{d:+z[1],m:+z[2],y:+z[3]}:null;}
-function load(){if(cache)return Promise.resolve(cache);if(!window.XLSX)return Promise.reject(Error("Excel okuyucu yüklenemedi."));return fetch("https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/2025-2026%20kar%C5%9F%C4%B1la%C5%9Ft%C4%B1rma.xlsx",{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("Excel dosyası açılamadı: "+r.status);return r.arrayBuffer();}).then(function(b){cache=window.XLSX.read(b,{type:"array"});return cache;});}
+function load(){if(cache)return Promise.resolve(cache);if(!window.XLSX)return Promise.reject(Error("Excel okuyucu yüklenemedi."));return fetch("https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/2025-2026%20Kar%C5%9F%C4%B1la%C5%9Ft%C4%B1rma%20Yeni.xlsx",{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("Excel dosyası açılamadı: "+r.status);return r.arrayBuffer();}).then(function(b){cache=window.XLSX.read(b,{type:"array"});return cache;});}
 function parse(wb){
- var out={2025:[],2026:[]},cats={FTW:{},APP:{},ACC:{}},targets={};
+ var out={2025:[],2026:[]},cats={FTW:{2025:0,2026:0},APP:{2025:0,2026:0},ACC:{2025:0,2026:0}},targets={};
  wb.SheetNames.forEach(function(name){
-  var rows=window.XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:true}),hi=-1;
-  for(var i=0;i<Math.min(rows.length,40);i++)if(rows[i].some(function(v){return norm(v)==="tarih";})){hi=i;break;}
-  if(hi<0)return;
-  var h=rows[hi].map(norm);
-  function exact(v){return h.indexOf(norm(v));}
-  var ix={date:exact("tarih"),lyRevenue:exact("actual last year sales"),lyUnits:exact("unit last year sales"),lyTraffic:exact("ly traffic"),target:exact("target"),actual:exact("actual"),invoice:exact("transaction"),units:exact("units"),traffic:exact("visitors"),ftw:exact("ftw"),app:exact("app"),acc:exact("acc")};
-  rows.forEach(function(r){if(norm(r[0])==="target"&&ix.target>=0)targets.revenue=n(r[ix.target]);});
-  rows.slice(hi+1).forEach(function(r){
-   var dt=date(r[ix.date>=0?ix.date:0]);if(!dt||(dt.y!==2025&&dt.y!==2026))return;
-   // Her 2026 tarih satırındaki LY sütunları, 2025'in aynı gününe ait karşılaştırma verisidir.
-   if(dt.y===2026)out[2025].push({day:dt.d,month:dt.m,revenue:ix.lyRevenue>=0?n(r[ix.lyRevenue]):0,invoice:null,units:ix.lyUnits>=0?n(r[ix.lyUnits]):0,traffic:ix.lyTraffic>=0?n(r[ix.lyTraffic]):0});
-   var rev=ix.actual>=0?n(r[ix.actual]):0,inv=ix.invoice>=0?n(r[ix.invoice]):0,units=ix.units>=0?n(r[ix.units]):0,traffic=ix.traffic>=0?n(r[ix.traffic]):0;
-   if(dt.y!==2026||!(rev||inv||units||traffic))return;
-   out[2026].push({day:dt.d,month:dt.m,revenue:rev,invoice:inv,units:units,traffic:traffic});
-   [["FTW",ix.ftw],["APP",ix.app],["ACC",ix.acc]].forEach(function(p){if(p[1]>=0){var v=n(r[p[1]]);if(v)cats[p[0]][2026]=(cats[p[0]][2026]||0)+v;}});
+  var rows=window.XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:"",raw:true}),headers=[];
+  for(var hi=0;hi<rows.length;hi++){var h=rows[hi].map(norm);if(h.indexOf("tarih")>=0&&h.indexOf("actual")>=0&&h.indexOf("transaction")>=0&&h.indexOf("units")>=0)headers.push({row:hi,h:h});}
+  headers.forEach(function(block,bi){
+   var h=block.h,start=block.row+1,end=bi+1<headers.length?headers[bi+1].row:rows.length;
+   function ix(names){for(var j=0;j<names.length;j++){var k=h.indexOf(norm(names[j]));if(k>=0)return k;}return -1;}
+   var c={date:ix(["tarih"]),target:ix(["target"]),actual:ix(["actual"]),invoice:ix(["transaction"]),units:ix(["units"]),traffic:ix(["visitors"]),ftw:ix(["ftw"]),app:ix(["app"]),acc:ix(["acc"])};
+   for(var ri=start;ri<end;ri++){
+    var r=rows[ri],dt=date(r[c.date>=0?c.date:0]);if(!dt||(dt.y!==2025&&dt.y!==2026))continue;
+    var rev=c.actual>=0?n(r[c.actual]):0,inv=c.invoice>=0?n(r[c.invoice]):0,units=c.units>=0?n(r[c.units]):0,traffic=c.traffic>=0?n(r[c.traffic]):0;
+    if(!(rev||inv||units||traffic))continue;
+    out[dt.y].push({day:dt.d,month:dt.m,revenue:rev,invoice:inv,units:units,traffic:traffic});
+    if(dt.y===2026&&c.target>=0&&n(r[c.target])&&!targets.revenue)targets.revenue=n(r[c.target]);
+    [["FTW",c.ftw],["APP",c.app],["ACC",c.acc]].forEach(function(p){if(p[1]>=0){var v=n(r[p[1]]);if(v)cats[p[0]][dt.y]+=v;}});
+   }
   });
  });
  Object.keys(out).forEach(function(y){out[y].sort(function(a,b){return a.month-b.month||a.day-b.day;});});
@@ -60,7 +59,7 @@ function render(wb){
  var r25=data.rows[2025].filter(function(r){return r.month===month&&r.day<=last;}),r26=entered;
  var s25=sum(r25);s25.invoice=null;var a=derive(s25),b=derive(sum(r26));
  var cards=[["CİRO","revenue","▤"],["FATURA","invoice","▧"],["ÜRÜN ADEDİ","units","▣"],["TRAFİK","traffic","♟"],["UPT","upt","↗"],["CR","cr","◎"],["ATV","atv","◆"],["ASP","asp","🛒"]].map(function(x){return card(x[0],x[1],x[2],a,b);}).join("");
- var cats=["FTW","APP","ACC"].map(function(c){var x=data.cats[c];return '<div class="st-cat"><h3>'+c+'</h3><div><small>2025</small><b>VERİ YOK</b></div><div><small>2026</small><b>'+(x[2026]?money(x[2026]):"VERİ YOK")+'</b></div><div class="st-change neutral">2025 kategori verisi yok</div></div>';}).join("");
+ var cats=["FTW","APP","ACC"].map(function(c){var x=data.cats[c],p=pct(x[2025],x[2026]);return '<div class="st-cat"><h3>'+c+'</h3><div><small>2025</small><b>'+(x[2025]?money(x[2025]):"VERİ YOK")+'</b></div><div><small>2026</small><b>'+(x[2026]?money(x[2026]):"VERİ YOK")+'</b></div><div class="st-change '+cls(p)+'">'+ch(p)+'</div></div>';}).join("");
  var defs=[["CİRO","revenue","TL"]];
  var targets=defs.map(function(x){var goal=data.targets[x[1]]||0,actual=b[x[1]],p=goal?actual/goal*100:0;return '<div class="st-target"><b>'+x[0]+'</b><p>Hedef: '+(goal?f(goal)+' '+x[2]:"Excel hedefi bulunamadı")+'<br>Gerçekleşen: '+f(actual)+' '+x[2]+'</p><div class="st-barrow"><div class="st-bar"><span class="'+(p>=100?"ok":"")+'" style="width:'+Math.min(100,p)+'%"></span></div><strong>'+(goal?"%"+f(p,1):"—")+'</strong></div></div>';}).join("");
  var months=["","Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
