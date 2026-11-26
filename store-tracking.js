@@ -59,7 +59,6 @@ function render(wb){
  var r25=data.rows[2025].filter(function(r){return r.month===month&&r.day<=last;}),r26=entered;
  var s25=sum(r25);var a=derive(s25),b=derive(sum(r26));
  var cards=[["CİRO","revenue","▤"],["FATURA","invoice","▧"],["ÜRÜN ADEDİ","units","▣"],["TRAFİK","traffic","♟"],["UPT","upt","↗"],["CR","cr","◎"],["ATV","atv","◆"],["ASP","asp","🛒"]].map(function(x){return card(x[0],x[1],x[2],a,b);}).join("");
- var cats=["FTW","APP","ACC"].map(function(c){var x=data.cats[c],p=pct(x[2025],x[2026]);return '<div class="st-cat"><h3>'+c+'</h3><div><small>2025</small><b>'+(x[2025]?money(x[2025]):"VERİ YOK")+'</b></div><div><small>2026</small><b>'+(x[2026]?money(x[2026]):"VERİ YOK")+'</b></div><div class="st-change '+cls(p)+'">'+ch(p)+'</div></div>';}).join("");
  var byDay25={},byDay26={};r25.forEach(function(r){byDay25[r.day]=r;});r26.forEach(function(r){byDay26[r.day]=r;});
  function catVal(v){return v===null||v===undefined?"VERİ YOK":money(v);}
  function catChange(x,y){return x===null||x===undefined||y===null||y===undefined||x===0?"—":ch(pct(x,y));}
