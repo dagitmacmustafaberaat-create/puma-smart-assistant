@@ -20,9 +20,10 @@ function parse(wb){
   rows.forEach(function(r){if(norm(r[0])==="target"&&ix.target>=0)targets.revenue=n(r[ix.target]);});
   rows.slice(hi+1).forEach(function(r){
    var dt=date(r[ix.date>=0?ix.date:0]);if(!dt||(dt.y!==2025&&dt.y!==2026))return;
-   if(dt.y===2025){out[2025].push({day:dt.d,month:dt.m,revenue:ix.lyRevenue>=0?n(r[ix.lyRevenue]):0,invoice:null,units:ix.lyUnits>=0?n(r[ix.lyUnits]):0,traffic:ix.lyTraffic>=0?n(r[ix.lyTraffic]):0});return;}
+   // Her 2026 tarih satırındaki LY sütunları, 2025'in aynı gününe ait karşılaştırma verisidir.
+   if(dt.y===2026)out[2025].push({day:dt.d,month:dt.m,revenue:ix.lyRevenue>=0?n(r[ix.lyRevenue]):0,invoice:null,units:ix.lyUnits>=0?n(r[ix.lyUnits]):0,traffic:ix.lyTraffic>=0?n(r[ix.lyTraffic]):0});
    var rev=ix.actual>=0?n(r[ix.actual]):0,inv=ix.invoice>=0?n(r[ix.invoice]):0,units=ix.units>=0?n(r[ix.units]):0,traffic=ix.traffic>=0?n(r[ix.traffic]):0;
-   if(!(rev||inv||units||traffic))return;
+   if(dt.y!==2026||!(rev||inv||units||traffic))return;
    out[2026].push({day:dt.d,month:dt.m,revenue:rev,invoice:inv,units:units,traffic:traffic});
    [["FTW",ix.ftw],["APP",ix.app],["ACC",ix.acc]].forEach(function(p){if(p[1]>=0){var v=n(r[p[1]]);if(v)cats[p[0]][2026]=(cats[p[0]][2026]||0)+v;}});
   });
