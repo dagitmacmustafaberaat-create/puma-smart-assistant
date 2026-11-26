@@ -3,7 +3,7 @@ const DATA_URL="./data/stock-sales-dashboard.json.gz.b64";
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 const nf=new Intl.NumberFormat("tr-TR",{maximumFractionDigits:0}),nf1=new Intl.NumberFormat("tr-TR",{maximumFractionDigits:1}),money=v=>"₺ "+nf.format(v||0),num=v=>nf.format(v||0),dec=v=>nf1.format(v||0);
 function status(r){if(r.stock<=0)return "Stok yok";if(r.days<15)return "Düşük";if(r.days<=60)return "Dengeli";if(r.days<=120)return "Yüksek";return "Fazla";}
-const categories=[{k:"ALL",n:"Tümü",d:"FTW + APP + ACC",c:"#374151"},{k:"FTW",n:"FTW",d:"Ayakkabı (Footwear)",c:"#1d4ed8"},{k:"APP",n:"APP",d:"Tekstil (Apparel)",c:"#b45309"},{k:"ACC",n:"ACC",d:"Aksesuar (Accessories)",c:"#0f766e"}];
+const categories=[{k:"ALL",n:"Tümü",d:"FTW + APP + ACC",c:"#171717"},{k:"FTW",n:"FTW",d:"Ayakkabı (Footwear)",c:"#e31b36"},{k:"APP",n:"APP",d:"Tekstil (Apparel)",c:"#171717"},{k:"ACC",n:"ACC",d:"Aksesuar (Accessories)",c:"#777777"}];
 async function loadData(){
  const response=await fetch(DATA_URL,{cache:"no-store"});if(!response.ok)throw new Error("Dashboard veri dosyasına ulaşılamadı ("+response.status+").");
  const b64=(await response.text()).trim(),binary=atob(b64),bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
