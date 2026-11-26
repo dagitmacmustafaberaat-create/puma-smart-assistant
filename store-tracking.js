@@ -66,7 +66,7 @@ function render(wb){
  var catRows="";
  for(var day=1;day<=last;day++){
   var x=byDay25[day]||{},y=byDay26[day]||{};
-  ["ftw","app","acc"].forEach(function(k){var v25=x[k],v26=y[k];catRows+='<tr><td>'+day+' '+months[month]+'</td><td>'+k.toUpperCase()+'</td><td>'+catVal(v25)+'</td><td>'+catVal(v26)+'</td><td>'+catChange(v25,v26)+'</td></tr>';});
+  ["ftw","app","acc"].forEach(function(k){var v25=x[k],v26=y[k];catRows+='<tr><td>'+day+'</td><td>'+k.toUpperCase()+'</td><td>'+catVal(v25)+'</td><td>'+catVal(v26)+'</td><td>'+catChange(v25,v26)+'</td></tr>';});
  }
  var defs=[["CİRO","revenue","TL"]];
  var targets=defs.map(function(x){var goal=data.targets[x[1]]||0,actual=b[x[1]],p=goal?actual/goal*100:0;return '<div class="st-target"><b>'+x[0]+'</b><p>Hedef: '+(goal?f(goal)+' '+x[2]:"Excel hedefi bulunamadı")+'<br>Gerçekleşen: '+f(actual)+' '+x[2]+'</p><div class="st-barrow"><div class="st-bar"><span class="'+(p>=100?"ok":"")+'" style="width:'+Math.min(100,p)+'%"></span></div><strong>'+(goal?"%"+f(p,1):"—")+'</strong></div></div>';}).join("");
