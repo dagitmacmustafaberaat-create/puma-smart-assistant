@@ -329,3 +329,26 @@ body {
 /* Otomatik Hesaplanan Formül Alanları */
 .sd-calculated {
     background: rgba(0, 23
+
+/* BUYAKA navy color treatment — original background image and layout are preserved */
+body{
+  background:
+    linear-gradient(rgba(5,20,46,.76),rgba(4,16,38,.88)),
+    url("puma-bg.jpg") center center / cover fixed!important;
+  color:#fff!important;
+}
+body :is(h1,h2,h3,h4,h5,h6,.logo,.section-title,.module-title,.dashboard-title){
+  color:#68adff!important;
+}
+body :is(p,span,label,small,strong,b,li,td,th,div){
+  color:inherit;
+}
+.menu-button{
+  background:linear-gradient(145deg,rgba(17,43,76,.94),rgba(7,22,44,.97))!important;
+  border-color:rgba(104,173,255,.34)!important;
+  color:#fff!important;
+}
+.menu-button:hover{
+  background:linear-gradient(145deg,rgba(27,65,108,.97),rgba(10,31,58,.98))!important;
+  border-color:#68adff!important;
+}
