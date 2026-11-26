@@ -5269,3 +5269,71 @@ body {
   #performanceSections .forecast-group .metric-label{font-size:12px!important}
   #performanceSections .forecast-group .metric-value{font-size:24px!important}
 }
+
+
+/* BUYAKA NAVY THEME — preserve original Puma wallpaper image and composition */
+:root{
+  --puma-black:#07152b;
+  --puma-panel:rgba(9,25,49,.90);
+  --puma-border:rgba(77,157,238,.38);
+  --puma-muted:#c6d5e8;
+}
+body{
+  background-color:#07152b!important;
+  background-image:
+    radial-gradient(ellipse at 18% 18%,rgba(42,112,190,.24),transparent 44%),
+    linear-gradient(135deg,rgba(5,17,37,.72),rgba(4,14,31,.86)),
+    url("puma-wallpaper.png")!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-attachment:fixed!important;
+  color:#fff!important;
+}
+body :is(p,span,label,small,strong,b,li,td,th,dt,dd,figcaption,legend,output){
+  color:#fff;
+}
+body :is(h1,h2,h3,h4,h5,h6,.dashboard-eyebrow,.dashboard-kicker,.personnel-hub-kicker){
+  color:#65adff!important;
+}
+/* Uygulama içi yüzeyler lacivert; görseller, yerleşim ve bileşen boyutları değişmez. */
+body :is(.menu-button,.module-card,.personnel-hub-card,.store-status-panel,
+.metric-card,.kpi-row-card,.comparison-card,.product-card,
+.education-heading,.today-training,.calendar-day,.education-footer,
+.topic-card,.calendar-topic,.pmx-tab,.pmx-panel,.pmx-hero,
+.store-kpi-compare-card,.store-compare-card){
+  background:linear-gradient(145deg,rgba(17,43,76,.94),rgba(7,22,44,.97))!important;
+  border-color:rgba(91,158,224,.34)!important;
+  color:#fff!important;
+}
+body :is(.menu-button:hover,.module-card:hover,.personnel-hub-card:hover,.topic-card:hover,.calendar-topic:hover){
+  background:linear-gradient(145deg,rgba(27,65,108,.97),rgba(10,31,58,.98))!important;
+  border-color:#65adff!important;
+}
+body :is(.module-icon,.personnel-hub-icon,.pmx-count,.data-source-tag){
+  background:rgba(62,135,210,.18)!important;
+  border-color:rgba(101,173,255,.42)!important;
+}
+body :is(.module-icon svg,.module-arrow,.personnel-hub-arrow,.personnel-hub-count strong,.personnel-hub-count span){
+  color:#65adff!important;
+  stroke:#65adff!important;
+}
+body :is(.module-copy strong,.module-copy small,.metric-label,.store-status-subtitle,
+.performance-group-heading p,.kpi-values span,.comparison-values span){
+  color:#fff!important;
+}
+body :is(.metric-card-featured,.store-kpi-compare-card,.store-compare-card){
+  border-color:rgba(101,173,255,.42)!important;
+}
+body :is(.metric-card-featured .metric-value,.store-kpi-compare-card h4,.store-compare-card h4,
+.kpi-row-card h4,.comparison-card h4,.performance-group-heading h3){
+  color:#65adff!important;
+}
+body :is(input,select,textarea){
+  background:#0b1d36!important;
+  color:#fff!important;
+  border-color:#41658e!important;
+}
+body :is(input,select,textarea)::placeholder{color:#b8cbe2!important}
+@media(max-width:760px){
+ body{background-size:100% 100%,100% 100%,100% auto!important;background-position:center center,center center,center top!important;background-repeat:no-repeat,no-repeat,no-repeat!important;background-attachment:scroll!important}
+}
