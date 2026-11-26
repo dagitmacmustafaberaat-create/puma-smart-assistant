@@ -58,7 +58,7 @@ function render(wb){
  addStyles();var data=parse(wb),all26=data.rows[2026],first=all26[0]||data.rows[2025][0];if(!first)throw Error("Excel sayfalarında günlük tarih satırı bulunamadı.");
  var month=first.month,entered=all26.filter(function(r){return r.month===month&&(r.revenue||r.invoice||r.units||r.traffic);}),last=entered.reduce(function(m,r){return Math.max(m,r.day);},0);
  var r25=data.rows[2025].filter(function(r){return r.month===month&&r.day<=last;}),r26=entered;
- var a=derive(sum(r25)),b=derive(sum(r26));
+ var s25=sum(r25);s25.invoice=null;var a=derive(s25),b=derive(sum(r26));
  var cards=[["CİRO","revenue","▤"],["FATURA","invoice","▧"],["ÜRÜN ADEDİ","units","▣"],["TRAFİK","traffic","♟"],["UPT","upt","↗"],["CR","cr","◎"],["ATV","atv","◆"],["ASP","asp","🛒"]].map(function(x){return card(x[0],x[1],x[2],a,b);}).join("");
  var cats=["FTW","APP","ACC"].map(function(c){var x=data.cats[c];return '<div class="st-cat"><h3>'+c+'</h3><div><small>2025</small><b>VERİ YOK</b></div><div><small>2026</small><b>'+(x[2026]?money(x[2026]):"VERİ YOK")+'</b></div><div class="st-change neutral">2025 kategori verisi yok</div></div>';}).join("");
  var defs=[["CİRO","revenue","TL"]];
