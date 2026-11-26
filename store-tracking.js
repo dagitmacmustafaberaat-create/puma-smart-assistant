@@ -1,1 +1,105 @@
-(()=>{const $=id=>document.getElementById(id);window.showStoreTracking=function(){const area=$('storeTrackingArea');const menu=$('mainMenu');if(!area||!menu){console.error('Mağaza Takip alanı veya ana menü bulunamadı');return;}document.querySelectorAll('body > main,body > section[id]').forEach(e=>{e.style.display='none';});area.style.display='block';window.scrollTo(0,0);window.renderStoreTracking();};window.closeStoreTracking=function(){const area=$('storeTrackingArea');if(area)area.style.display='none';if(typeof window.showMainMenu==='function')window.showMainMenu();else{$('mainMenu').style.display='flex';}window.scrollTo(0,0);};let cache=null;async function load(){if(cache)return cache;const url='https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/2025-2026%20kar%C5%9F%C4%B1la%C5%9Ft%C4%B1rma.xlsx';if(!window.XLSX)throw Error('Excel okuyucu yüklenemedi');const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw Error('Excel dosyasına ulaşılamadı');const wb=XLSX.read(await res.arrayBuffer(),{type:'array'});cache=wb;return wb}const fmt=n=>Number(n||0).toLocaleString('tr-TR',{maximumFractionDigits:2});function renderRows(rows){const body=rows.map(r=>'<tr>'+r.map(v=>'<td>'+v+'</td>').join('')+'</tr>').join('');return '<div class="st-table-wrap"><table class="st-table">'+body+'</table></div>'}function renderDashboard(wb){let sheets=wb.SheetNames.map(n=>({name:n,rows:XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:''})}));let all=sheets.flatMap(s=>s.rows.map((r,i)=>({sheet:s.name,row:i,values:r})));let yearRows=all.filter(x=>x.values.some(v=>String(v).includes('01.12.2025')));let dateRows=all.filter(x=>x.values.some(v=>String(v).includes('01.12.2026')));let sheet2025=yearRows[0]?.sheet||sheets[0]?.name;let sheet2026=dateRows[0]?.sheet||sheets[1]?.name||sheets[0]?.name;const rows25=sheets.find(s=>s.name===sheet2025)?.rows||[],rows26=sheets.find(s=>s.name===sheet2026)?.rows||[];const findHeader=rows=>rows.findIndex(r=>r.some(v=>String(v).trim()==='Tarih'));const h25=findHeader(rows25),h26=findHeader(rows26);const getDay=(rows,h)=>rows.slice(h+1).filter(r=>/^\\d{2}\\.12\\.202[56]/.test(String(r[0]).trim()));const d25=getDay(rows25,h25),d26=getDay(rows26,h26);const populated=d26.filter(r=>Number(String(r[8]||'').replace(/\\./g,'').replace(',','.'))>0||Number(String(r[11]||'').replace(/\\./g,'').replace(',','.'))>0);const days=populated.length;const sum=(arr,i)=>arr.reduce((a,r)=>a+(Number(String(r[i]??0).replace(/\\./g,'').replace(',','.'))||0),0);const avg=(arr,i)=>arr.length?sum(arr,i)/arr.length:0;const metrics=[['CİRO',7,8,'sum'],['FATURA',8,9,'sum'],['ÜRÜN ADEDİ',10,11,'sum'],['TRAFİK',11,12,'sum'],['UPT',16,17,'avg'],['CR',17,18,'avg'],['ATV',18,19,'avg'],['MULTIS',19,20,'avg']];const a25=d25.slice(0,days),a26=d26.slice(0,days);let cards=metrics.map(([name,col25,col26,mode])=>{let x=mode==='sum'?sum(a25,col25):avg(a25,col25),y=mode==='sum'?sum(a26,col26):avg(a26,col26);let delta=x?((y-x)/x*100):0;return '<article class="st-metric"><small>'+name+'</small><div class="st-values"><span>2025 <b>'+fmt(x)+'</b></span><span>2026 <b>'+fmt(y)+'</b></span></div><strong class="'+(y>=x?'up':'down')+'">'+(x?'%'+fmt(delta):'—')+'</strong></article>'}).join('');let daily='<tr><th>TARİH</th><th>2025 CİRO</th><th>2026 CİRO</th><th>DEĞİŞİM</th></tr>'+Array.from({length:days},(_,i)=>{let x=Number(String(a25[i]?.[7]||0).replace(/\\./g,'').replace(',','.'))||0,y=Number(String(a26[i]?.[8]||0).replace(/\\./g,'').replace(',','.'))||0;return '<tr><td>'+(i+1)+'.12</td><td>'+fmt(x)+'</td><td>'+fmt(y)+'</td><td class="'+(y>=x?'up':'down')+'">'+(x?fmt((y-x)/x*100)+'%':'—')+'</td></tr>'}).join('');return '<header class="st-hero"><p>BUYAKA PUMA • PERFORMANCE TRACKING</p><h1>MAĞAZA TAKİP</h1><span>ARALIK 2025 / ARALIK 2026 KARŞILAŞTIRMASI</span></header><div class="st-period">2026 veri girilen gün: <b>'+days+' / 31</b> · 2025 karşılaştırma dönemi: 1–'+days+' Aralık</div><div class="st-grid">'+cards+'</div><h2 class="st-section-title">GÜNLÜK CİRO KARŞILAŞTIRMASI</h2>'+renderRows(daily.split('</tr>').filter(Boolean).map(x=>[x.replace(/^<tr>/,'').replace(/<\\/t[dh]>/g,'').split(/<t[dh]>/).filter(Boolean).join(' | ')]))+'<p class="st-note">Karşılaştırma, 2026’da gerçekleşen veri bulunan gün sayısına göre 2025’in aynı günleriyle yapılır. Henüz girilmemiş günler hesaba katılmaz.</p>'}window.renderStoreTracking=async function(){const root=$('storeTrackingDashboard');root.innerHTML='<p class="st-loading">Excel verileri okunuyor…</p>';try{const wb=await load();root.innerHTML=renderDashboard(wb)}catch(e){root.innerHTML='<p class="st-loading">Veri yüklenemedi: '+e.message+'</p>'}}})();
+(function () {
+  "use strict";
+  function byId(id) { return document.getElementById(id); }
+  var workbookCache = null;
+  function number(value) {
+    if (typeof value === "number") return value;
+    var s = String(value == null ? "" : value).trim();
+    if (!s) return 0;
+    s = s.replace(/\./g, "").replace(",", ".");
+    var n = Number(s);
+    return isFinite(n) ? n : 0;
+  }
+  function fmt(value) {
+    return Number(value || 0).toLocaleString("tr-TR", { maximumFractionDigits: 2 });
+  }
+  function getWorkbook() {
+    if (workbookCache) return Promise.resolve(workbookCache);
+    if (!window.XLSX) return Promise.reject(new Error("Excel okuyucu yüklenemedi (XLSX)."));
+    var url = "https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/2025-2026%20kar%C5%9F%C4%B1la%C5%9Ft%C4%B1rma.xlsx";
+    return fetch(url, { cache: "no-store" }).then(function (response) {
+      if (!response.ok) throw new Error("Excel dosyasına ulaşılamadı (HTTP " + response.status + ").");
+      return response.arrayBuffer();
+    }).then(function (buffer) {
+      workbookCache = window.XLSX.read(buffer, { type: "array" });
+      return workbookCache;
+    });
+  }
+  function renderWorkbook(wb) {
+    var sheets = wb.SheetNames.map(function (name) {
+      return { name: name, rows: window.XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1, defval: "" }) };
+    });
+    var sheet25 = null, sheet26 = null;
+    sheets.forEach(function (sheet) {
+      sheet.rows.forEach(function (row) {
+        row.forEach(function (cell) {
+          var value = String(cell);
+          if (!sheet25 && value.indexOf("01.12.2025") !== -1) sheet25 = sheet;
+          if (!sheet26 && value.indexOf("01.12.2026") !== -1) sheet26 = sheet;
+        });
+      });
+    });
+    sheet25 = sheet25 || sheets[0];
+    sheet26 = sheet26 || sheets[1] || sheets[0];
+    function dailyRows(sheet, year) {
+      var header = -1;
+      for (var i = 0; i < sheet.rows.length; i++) {
+        if (sheet.rows[i].some(function (v) { return String(v).trim() === "Tarih"; })) { header = i; break; }
+      }
+      if (header < 0) return [];
+      return sheet.rows.slice(header + 1).filter(function (row) {
+        return new RegExp("^\\d{2}\\.12\\." + year).test(String(row[0] || "").trim());
+      });
+    }
+    var days25 = dailyRows(sheet25, "2025");
+    var days26 = dailyRows(sheet26, "2026");
+    var entered = days26.filter(function (row) { return number(row[8]) > 0 || number(row[11]) > 0; });
+    var count = entered.length;
+    var rows25 = days25.slice(0, count), rows26 = days26.slice(0, count);
+    function sum(rows, col) { return rows.reduce(function (total, row) { return total + number(row[col]); }, 0); }
+    var metrics = [
+      ["CİRO", 7, 8], ["FATURA", 8, 9], ["ÜRÜN ADEDİ", 10, 11], ["TRAFİK", 11, 12]
+    ];
+    var cards = metrics.map(function (metric) {
+      var oldValue = sum(rows25, metric[1]), newValue = sum(rows26, metric[2]);
+      var change = oldValue ? (newValue - oldValue) / oldValue * 100 : null;
+      return '<article class="st-metric"><small>' + metric[0] + '</small><div class="st-values"><span>2025 <b>' + fmt(oldValue) + '</b></span><span>2026 <b>' + fmt(newValue) + '</b></span></div><strong class="' + (newValue >= oldValue ? "up" : "down") + '">' + (change === null ? "—" : (change > 0 ? "+" : "") + "%" + fmt(change)) + '</strong></article>';
+    }).join("");
+    var daily = '<div class="st-table-wrap"><table class="st-table"><thead><tr><th>TARİH</th><th>2025 CİRO</th><th>2026 CİRO</th><th>DEĞİŞİM</th></tr></thead><tbody>';
+    for (var d = 0; d < count; d++) {
+      var oldSales = number(rows25[d] && rows25[d][7]), newSales = number(rows26[d] && rows26[d][8]);
+      var delta = oldSales ? ((newSales - oldSales) / oldSales * 100) : null;
+      daily += "<tr><td>" + (d + 1) + ".12</td><td>" + fmt(oldSales) + "</td><td>" + fmt(newSales) + '</td><td class="' + (newSales >= oldSales ? "up" : "down") + '">' + (delta === null ? "—" : fmt(delta) + "%") + "</td></tr>";
+    }
+    daily += "</tbody></table></div>";
+    return '<header class="st-hero"><p>BUYAKA PUMA • PERFORMANCE TRACKING</p><h1>MAĞAZA TAKİP</h1><span>ARALIK 2025 / ARALIK 2026 KARŞILAŞTIRMASI</span></header><div class="st-period">2026 veri girilen gün: <b>' + count + ' / 31</b> · 2025 karşılaştırma dönemi: 1–' + count + ' Aralık</div><div class="st-grid">' + cards + '</div><h2 class="st-section-title">GÜNLÜK CİRO KARŞILAŞTIRMASI</h2>' + daily + '<p class="st-note">2026’da veri girilen günler, 2025’in aynı tarihleriyle karşılaştırılır.</p>';
+  }
+  window.renderStoreTracking = function () {
+    var root = byId("storeTrackingDashboard");
+    if (!root) { console.error("storeTrackingDashboard alanı bulunamadı."); return; }
+    root.innerHTML = '<p class="st-loading">Excel verileri okunuyor…</p>';
+    getWorkbook().then(function (wb) {
+      root.innerHTML = renderWorkbook(wb);
+    }).catch(function (error) {
+      console.error("Mağaza Takip başlatma hatası:", error);
+      root.innerHTML = '<p class="st-loading">Veri yüklenemedi: ' + String(error.message || error) + '</p>';
+    });
+  };
+  window.showStoreTracking = function () {
+    var area = byId("storeTrackingArea"), menu = byId("mainMenu");
+    if (!area || !menu) return;
+    document.querySelectorAll("body > main, body > section[id]").forEach(function (node) { if (node !== area) node.style.display = "none"; });
+    menu.style.display = "none";
+    area.style.display = "block";
+    window.scrollTo(0, 0);
+    window.renderStoreTracking();
+  };
+  window.closeStoreTracking = function () {
+    var area = byId("storeTrackingArea");
+    if (area) area.style.display = "none";
+    if (typeof window.showMainMenu === "function") window.showMainMenu();
+    var menu = byId("mainMenu");
+    if (menu) menu.style.display = "flex";
+    window.scrollTo(0, 0);
+  };
+})();
