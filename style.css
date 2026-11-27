@@ -801,15 +801,15 @@ select:focus-visible {
 :root {
     --glass-red: #ff263f;
     --glass-line: rgba(255, 255, 255, 0.28);
-    --glass-surface: rgba(14, 17, 23, 0.66);
-    --glass-surface-strong: rgba(10, 12, 17, 0.82);
+    --glass-surface: rgba(18, 18, 18, 0.66);
+    --glass-surface-strong: rgba(10, 10, 10, 0.82);
     --glass-shadow: 0 16px 42px rgba(0, 0, 0, 0.34);
 }
 
 body {
     background-image:
         radial-gradient(ellipse at 18% 18%, rgba(213, 0, 28, 0.19), transparent 42%),
-        linear-gradient(135deg, rgba(2, 4, 9, 0.62), rgba(3, 4, 8, 0.78)),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.78)),
         url("Karanlıkta Kızıl Puma Hareketi.png");
     background-position: center center;
     background-size: cover;
@@ -902,7 +902,7 @@ button,
     color: #fff;
     border: 1px solid rgba(255,255,255,0.28);
     border-radius: 13px;
-    background: rgba(10, 13, 19, 0.74);
+    background: rgba(12, 12, 12, 0.74);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     backdrop-filter: blur(14px) saturate(140%);
     box-shadow: 0 12px 30px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.11);
@@ -918,20 +918,20 @@ button,
 .size-select:focus,
 #sizeFilter:focus {
     border-color: rgba(255, 38, 63, 0.95);
-    background: rgba(10, 13, 19, 0.88);
+    background: rgba(12, 12, 12, 0.88);
     box-shadow: 0 0 0 3px rgba(213,0,28,0.18), 0 12px 30px rgba(0,0,0,0.28);
 }
 
 .size-select option,
 #sizeFilter option {
-    background: #10131a;
+    background: #111111;
     color: #fff;
 }
 
 .selected-size,
 .selected-size-label {
     border: 1px solid rgba(255,255,255,0.24);
-    background: linear-gradient(135deg, rgba(255,255,255,0.11), rgba(12,14,20,0.72), rgba(213,0,28,0.14));
+    background: linear-gradient(135deg, rgba(255,255,255,0.11), rgba(14,14,14,0.72), rgba(213,0,28,0.14));
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     box-shadow: 0 10px 28px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.12);
@@ -943,7 +943,7 @@ button,
     border: 1px solid rgba(255,255,255,0.22);
     border-left: 3px solid var(--glass-red);
     border-radius: 16px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(12,15,21,0.74) 54%, rgba(213,0,28,0.10));
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(14,14,14,0.74) 54%, rgba(213,0,28,0.10));
     -webkit-backdrop-filter: blur(16px) saturate(135%);
     backdrop-filter: blur(16px) saturate(135%);
     box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.12);
@@ -996,7 +996,7 @@ button,
 .calendar-day,
 .education-footer {
     border: 1px solid rgba(255,255,255,0.22);
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(10,13,19,0.74) 58%, rgba(213,0,28,0.09));
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(12,12,12,0.74) 58%, rgba(213,0,28,0.09));
     -webkit-backdrop-filter: blur(16px) saturate(135%);
     backdrop-filter: blur(16px) saturate(135%);
     box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.12);
@@ -1014,7 +1014,7 @@ button,
 .calendar-topic {
     color: #fff;
     border: 1px solid rgba(255,255,255,0.24);
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(10,13,19,0.66) 60%, rgba(213,0,28,0.12));
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(12,12,12,0.66) 60%, rgba(213,0,28,0.12));
     -webkit-backdrop-filter: blur(13px) saturate(140%);
     backdrop-filter: blur(13px) saturate(140%);
     box-shadow: 0 10px 28px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.10);
@@ -1025,7 +1025,7 @@ button,
 .calendar-topic:hover,
 .calendar-topic:focus-visible {
     border-color: rgba(255,255,255,0.56);
-    background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(12,14,20,0.75) 55%, rgba(213,0,28,0.23));
+    background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(14,14,14,0.75) 55%, rgba(213,0,28,0.23));
     box-shadow: 0 14px 34px rgba(0,0,0,0.32), 0 0 18px rgba(213,0,28,0.13);
 }
 
@@ -5365,4 +5365,27 @@ body :is(input,select,textarea)::placeholder{color:#b8cbe2!important}
 /* Premium generated Puma wallpaper */
 @media (max-width: 760px) {
   body { background-attachment: scroll !important; background-position: center top; }
+}
+
+
+/* ANA EKRAN: Puma görseli tüm viewport'u kaplar; lacivert tonlar kullanılmaz. */
+html, body { min-height: 100%; }
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  background-color: #050505 !important;
+  background-image:
+    linear-gradient(135deg, rgba(0,0,0,.28), rgba(0,0,0,.52)),
+    url("Karanlıkta Kızıl Puma Hareketi.png") !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+@media (max-width: 760px) {
+  body {
+    background-position: center center !important;
+    background-size: cover !important;
+    background-attachment: scroll !important;
+  }
 }
