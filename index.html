@@ -79,11 +79,22 @@
     overflow-y:auto;overflow-x:hidden;background:#090909;border-right:1px solid rgba(213,0,28,.42);
     box-shadow:8px 0 28px rgba(0,0,0,.24)
   }
-  #appSideNav .app-sidebar-brand-image{
-    display:block;flex:0 0 auto;width:100%;max-width:220px;height:auto;max-height:150px;
-    object-fit:contain;object-position:center;margin:auto auto 0;padding-top:10px;
-    border-top:1px solid rgba(213,0,28,.5)
+  /* Sol menünün altına yalnızca mevcut Puma arka planındaki logo alanı kırpılarak alınır. */
+  #appSideNav:after{
+    content:"";display:block;flex:0 0 42px;width:100%;max-width:116px;margin:auto auto 0;
+    background-image:url("Karanlıkta Kızıl Puma Hareketi.png");
+    background-repeat:no-repeat;background-size:230% auto;background-position:center 72%;
+    border-top:1px solid rgba(213,0,28,.45)
   }
+  /* Kampanya görseli sol menüde değil, ana ekranın sağındaki boş alanda gösterilir. */
+  #mainMenu .app-right-campaign-image{
+    position:fixed;z-index:0;left:calc(var(--app-sidebar-width) + 24px);right:24px;top:50%;
+    transform:translateY(-50%);width: min(46vw,560px);max-width:calc(100vw - var(--app-sidebar-width) - 48px);
+    max-height:54vh;height:auto;object-fit:contain;object-position:center;pointer-events:none
+  }
+  #mainMenu .quick-access-section{position:relative;z-index:1}
+  body.app-module-open #mainMenu .app-right-campaign-image{display:none}
+
   #appSideNav:before{
     content:"STORE INTELLIGENCE";position:absolute;top:28px;left:16px;right:16px;
     padding:0 10px 20px;border-bottom:1px solid rgba(213,0,28,.35);color:#fff;font-size:17px;
@@ -128,9 +139,16 @@
       overflow-y:hidden;overflow-x:hidden;overscroll-behavior:none
     }
     #appSideNav:before{top:15px;left:7px;right:7px;padding:0 2px 9px;font-size:10px;letter-spacing:.7px;text-align:center}
-    #appSideNav .app-sidebar-brand-image{
-      flex:0 0 auto;width:100%;max-width:102px;max-height:70px;margin:8px auto 0;padding-top:6px
+    #appSideNav:after{
+      flex-basis:34px;width:100%;max-width:94px;margin:8px auto 0;
+      background-size:260% auto;background-position:center 72%
     }
+    #mainMenu .app-right-campaign-image{
+      left:calc(var(--app-sidebar-width) + 8px);right:8px;top:50%;
+      width:calc(100vw - var(--app-sidebar-width) - 16px);max-width:none;
+      max-height:43vh;transform:translateY(-50%)
+    }
+
     #appSideNav button{
       flex:0 0 auto;flex-direction:column;align-items:center;justify-content:center;gap:4px;
       min-height:clamp(48px,7.2dvh,58px);padding:5px 3px;text-align:center;font-size:8.5px;line-height:1.15
@@ -153,7 +171,7 @@
       <button type="button" onclick="appNavigateTo(window.showStockTurnover,this)"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
       <button type="button" onclick="appNavigateTo(showPersonnelManagement,this)"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
       <button type="button" onclick="appNavigateTo(window.showStoreManagement,this)"><span class="app-side-icon">▦</span><span>Excel Veri Merkezi</span></button>
-      <img class="app-sidebar-brand-image" src="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/122624149268055.Y3JvcCwzMTcwLDI0ODAsMTY0LDA.jpg" alt="PUMA Forever Faster kampanya görseli">
+      
     </aside>
     <script>
       function appNavigateTo(openPage, selectedButton) {
@@ -184,6 +202,7 @@
     
 
     <main id="mainMenu" class="menu home-dashboard">
+      <img class="app-right-campaign-image" src="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/122624149268055.Y3JvcCwzMTcwLDI0ODAsMTY0LDA.jpg" alt="PUMA Forever Faster kampanya görseli" aria-hidden="true">
       <section class="quick-access-section" aria-labelledby="quickAccessTitle">
         <div class="module-card-grid">
           
