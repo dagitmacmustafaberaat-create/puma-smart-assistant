@@ -87,10 +87,12 @@
     border-top:1px solid rgba(213,0,28,.45)
   }
   /* Kampanya görseli sol menüde değil, ana ekranın sağındaki boş alanda gösterilir. */
+  #mainMenu.home-dashboard{background:#000!important;min-height:100vh}
   #mainMenu .app-right-campaign-image{
-    position:fixed;z-index:0;left:calc(var(--app-sidebar-width) + 24px);right:24px;top:50%;
-    transform:translateY(-50%);width: min(46vw,560px);max-width:calc(100vw - var(--app-sidebar-width) - 48px);
-    max-height:54vh;height:auto;object-fit:contain;object-position:center;pointer-events:none
+    position:fixed;z-index:0;left:calc(var(--app-sidebar-width) + 18px);right:22px;top:50%;
+    transform:translateY(-50%);width: min(58vw,820px);max-width:calc(100vw - var(--app-sidebar-width) - 40px);
+    max-height:76vh;height:auto;object-fit:contain;object-position:center;pointer-events:none;
+    background:#000;mix-blend-mode:normal
   }
   #mainMenu .quick-access-section{position:relative;z-index:1}
   body.app-module-open #mainMenu .app-right-campaign-image{display:none}
@@ -143,10 +145,11 @@
       flex-basis:34px;width:100%;max-width:94px;margin:8px auto 0;
       background-size:260% auto;background-position:center 72%
     }
+    #mainMenu.home-dashboard{background:#000!important}
     #mainMenu .app-right-campaign-image{
       left:calc(var(--app-sidebar-width) + 8px);right:8px;top:50%;
       width:calc(100vw - var(--app-sidebar-width) - 16px);max-width:none;
-      max-height:43vh;transform:translateY(-50%)
+      max-height:68vh;transform:translateY(-50%);background:#000
     }
 
     #appSideNav button{
@@ -202,7 +205,7 @@
     
 
     <main id="mainMenu" class="menu home-dashboard">
-      <img class="app-right-campaign-image" src="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/122624149268055.Y3JvcCwzMTcwLDI0ODAsMTY0LDA.jpg" alt="PUMA Forever Faster kampanya görseli" aria-hidden="true">
+      <img class="app-right-campaign-image" src="https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/Puma%20Forever%20Faster_%20Bolt%27un%20%C4%B0konik%20Pozu%20%281%29.png" alt="PUMA Forever Faster kampanya görseli" aria-hidden="true">
       <section class="quick-access-section" aria-labelledby="quickAccessTitle">
         <div class="module-card-grid">
           
