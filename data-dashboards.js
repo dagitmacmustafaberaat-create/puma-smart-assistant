@@ -23,18 +23,18 @@ function header(title,sub){return '<div class="pdx"><button class="pdx-back" onc
 function overview(){
 var s=sh("Uygulama Verileri.xlsx","2025 2026 Karşılaştırma"),R=37;
 if(!s)return '<div class="pr-dashboard">Karşılaştırma tablosu bulunamadı.</div>';
-var v=function(col,row){return n(s,row||R,col);},money=function(x){return x==null?"—":tl(x);},pctv=function(x){return x==null?"—":"%"+f(x*100,1);},ratio=function(x){return x==null?"—":f(x,2);};
+var v=function(col,row){return n(s,row||R,col);},actual26=function(col){var z=v(col);return z===0?null:z;},money=function(x){return x==null?"—":tl(x);},pctv=function(x){return x==null?"—":"%"+f(x*100,1);},ratio=function(x){return x==null?"—":f(x,2);};
 var metrics=[
 ["HEDEF",3,4,"tl"],["CİRO",5,6,"tl",7,8],["HEDEF GERÇEKLEŞME",0,0,"pct"],["FATURA",9,10,"num",11,12],["ADET",13,14,"num",15,16],["TRAFİK",17,18,"num",19,20],["UPT",21,22,"ratio",23,24],["CR (DÖNÜŞÜM)",25,26,"pct",27,28],["ATV",29,30,"tl",31,32],["ASP",33,34,"tl",35,36],["FTW TL (AYAKKABI)",38,39,"tl",40,41],["FTW ADET (AYAKKABI)",42,43,"num",44,45],["APP TL (TEKSTİL)",46,47,"tl",48,49],["APP ADET (TEKSTİL)",50,51,"num",52,53],["ACC TL (AKSESUAR)",54,55,"tl",56,57],["ACC ADET (AKSESUAR)",58,59,"num",60,61]
 ];
 var show=function(x,k){if(x==null)return "—";return k==="tl"?money(x):k==="pct"?pctv(x):k==="ratio"?ratio(x):f(x);};
 var growth=function(a,b){return a==null||b==null||a===0?null:(b-a)/Math.abs(a);};
 var cards=[
-["CİRO",v(5),v(6),"tl"],
-["HEDEF GERÇEKLEŞME",v(3)&&v(5)!=null?v(5)/v(3):null,v(4)&&v(6)!=null?v(6)/v(4):null,"pct"],
-["CR DÖNÜŞÜM",v(25),v(26),"pct"],["UPT",v(21),v(22),"ratio"],["ATV",v(29),v(30),"tl"]
-].map(function(x){var g=growth(x[1],x[2]);return '<article class="pr-kpi"><b>'+x[0]+'</b><div><span><small>2025</small><strong>'+show(x[1],x[3])+'</strong></span><span><small>2026</small><strong>'+show(x[2],x[3])+'</strong></span></div><em class="'+(g==null?"pr-neutral":g>=0?"pr-up":"pr-down")+'">'+(g==null?"2026 verisi bekleniyor":(g>=0?"▲ ":"▼ ")+pct(g))+'</em></article>';}).join("");
-var rows=metrics.map(function(m){var a,b,d,g;if(m[0]==="HEDEF GERÇEKLEŞME"){a=v(3)&&v(5)!=null?v(5)/v(3):null;b=v(4)&&v(6)!=null?v(6)/v(4):null;g=growth(a,b);}else{a=v(m[1]);b=v(m[2]);d=m[4]?v(m[4]):null;g=m[5]?v(m[5]):null;}return '<tr><td><b>'+m[0]+'</b></td><td>'+show(a,m[3])+'</td><td>'+show(b,m[3])+'</td><td>'+show(d,m[3])+'</td><td class="'+(g==null?"pr-neutral":g>=0?"pr-up":"pr-down")+'">'+(g==null?"—":pct(g))+'</td><td>'+(b==null?"Veri bekleniyor":g==null?"—":g>=0?"Artış":"Azalış")+'</td></tr>';}).join("");
+["CİRO",v(5),actual26(6),"tl"],
+["HEDEF GERÇEKLEŞME",v(3)&&v(5)!=null?v(5)/v(3):null,actual26(4)&&actual26(6)!=null?actual26(6)/actual26(4):null,"pct"],
+["CR DÖNÜŞÜM",v(25),actual26(26),"pct"],["UPT",v(21),actual26(22),"ratio"],["ATV",v(29),actual26(30),"tl"]
+].map(function(x){var g=growth(x[1],x[2]);return '<article class="pr-kpi"><b>'+x[0]+'</b><div><span><small>2025</small><strong>'+show(x[1],x[3])+'</strong></span><span><small>2026</small><strong>'+show(x[2],x[3])+'</strong></span></div><em class="'+(g==null?"pr-neutral":g>=0?"pr-up":"pr-down")+'">'+(g==null?"2026 verisi bekleniyor":(g>=0?"▲ ":"▼ ")+pct(g*100))+'</em></article>';}).join("");
+var rows=metrics.map(function(m){var a,b,d,g;if(m[0]==="HEDEF GERÇEKLEŞME"){a=v(3)&&v(5)!=null?v(5)/v(3):null;b=actual26(4)&&actual26(6)!=null?actual26(6)/actual26(4):null;g=growth(a,b);}else{a=v(m[1]);b=v(m[2]);if(b===0)b=null;d=m[4]?v(m[4]):null;g=m[5]?v(m[5]):null;if(b==null){d=null;g=null;}}return '<tr><td><b>'+m[0]+'</b></td><td>'+show(a,m[3])+'</td><td>'+show(b,m[3])+'</td><td>'+show(d,m[3])+'</td><td class="'+(g==null?"pr-neutral":g>=0?"pr-up":"pr-down")+'">'+(g==null?"—":pct(g*100))+'</td><td>'+(b==null?"Veri bekleniyor":g==null?"—":g>=0?"Artış":"Azalış")+'</td></tr>';}).join("");
 var opts=[["revenue","Ciro",5,6,"tl"],["target","Hedef",3,4,"tl"],["invoice","Fatura",9,10,"num"],["units","Adet",13,14,"num"],["traffic","Trafik",17,18,"num"],["upt","UPT",21,22,"ratio"],["cr","CR",25,26,"pct"],["atv","ATV",29,30,"tl"],["asp","ASP",33,34,"tl"]];
 var sel=opts.find(function(x){return x[0]===refMetric;})||opts[0],days=[];
 for(var r=5;r<=35;r++){var dt=cell(s,r,1);if(dt)days.push({date:String(dt).slice(0,10),day:cell(s,r,2),a:v(sel[2],r),b:v(sel[3],r)});}
