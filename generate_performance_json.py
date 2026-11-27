@@ -3,8 +3,15 @@ from datetime import date, datetime, time
 from pathlib import Path
 from openpyxl import load_workbook
 
-SOURCE = Path("Kasım 2026 Data.xlsx")
-OUTPUT = Path("performance-data.json")
+ROOT = Path(__file__).resolve().parent
+SOURCES = [
+    "Uygulama Verileri.xlsx",
+    "Aylık Satış Verileri.xlsx",
+    "Mağaza Datası.xlsx",
+    "2025-2026 Karşılaştırma Yeni.xlsx",
+]
+OUTPUT = ROOT / "performance-data.json"
+
 
 def clean(value):
     if value is None:
@@ -15,17 +22,10 @@ def clean(value):
         return value
     return str(value)
 
-def main():
-    if not SOURCE.exists():
-        raise FileNotFoundError(f"Excel dosyası bulunamadı: {SOURCE}")
 
-    # data_only=True reads Excel's last saved formula results without editing formulas.
-    workbook = load_workbook(SOURCE, data_only=True, read_only=False)
-    result = {
-        "source": SOURCE.name,
-        "sheets": []
-    }
-
+def export_workbook(path):
+    workbook = load_workbook(path, data_only=True, read_only=True)
+    result = {"source": path.name, "sheets": []}
     for sheet in workbook.worksheets:
         rows = []
         for row_idx, row in enumerate(sheet.iter_rows(), start=1):
@@ -41,16 +41,30 @@ def main():
                     })
             if cells:
                 rows.append({"row": row_idx, "cells": cells})
-
         result["sheets"].append({
             "name": sheet.title,
             "max_row": sheet.max_row,
             "max_column": sheet.max_column,
             "rows": rows
         })
+    workbook.close()
+    return result
 
-    OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"{OUTPUT} oluşturuldu. Sayfa sayısı: {len(result['sheets'])}")
+
+def main():
+    missing = [name for name in SOURCES if not (ROOT / name).exists()]
+    if missing:
+        raise FileNotFoundError("Eksik Excel kaynakları: " + ", ".join(missing))
+
+    payload = {
+        "generated_at": datetime.now().astimezone().isoformat(),
+        "sources": [export_workbook(ROOT / name) for name in SOURCES]
+    }
+    OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print("performance-data.json oluşturuldu.")
+    for source in payload["sources"]:
+        print(f"- {source['source']}: {len(source['sheets'])} sayfa")
+
 
 if __name__ == "__main__":
     main()
