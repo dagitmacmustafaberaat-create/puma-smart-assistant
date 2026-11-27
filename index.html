@@ -74,7 +74,7 @@
   #appSideNav{position:fixed;z-index:10050;inset:0 auto 0 0;width:228px;box-sizing:border-box;display:flex;flex-direction:column;gap:9px;padding:24px 14px;overflow-y:auto;background:linear-gradient(180deg,#101010 0%,#1c1c1c 100%);border-right:3px solid #d5001c;box-shadow:8px 0 28px rgba(0,0,0,.24)}
   #appSideNav .app-side-brand{padding:8px 10px 20px;margin-bottom:7px;color:#fff;font-size:18px;font-weight:950;font-style:italic;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.14)}
   #appSideNav .app-side-brand span{display:block;margin-top:5px;color:#aaa;font-size:9px;font-style:normal;letter-spacing:2px}
-  #appSideNav button{display:flex;align-items:center;gap:11px;width:100%;min-height:49px;padding:10px 12px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:#242424;color:#f5f5f5;text-align:left;font:800 12px/1.3 inherit;letter-spacing:.15px;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
+  #appSideNav button{display:flex;align-items:center;gap:11px;width:100%;min-height:49px;padding:10px 12px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:#242424;color:#f5f5f5;text-align:left;font-family:inherit;font-size:12px;font-weight:800;line-height:1.3;letter-spacing:.15px;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
   #appSideNav button:hover,#appSideNav button:focus-visible{background:#d5001c;border-color:#d5001c;outline:none;transform:translateX(2px)}
   #appSideNav button[aria-current="page"]{background:#d5001c;border-color:#d5001c;color:#fff;box-shadow:0 6px 16px rgba(213,0,28,.2)}
   #appSideNav .app-side-icon{flex:0 0 22px;font-size:18px;text-align:center}
@@ -89,15 +89,23 @@
 <body>
     <aside id="appSideNav" aria-label="Uygulama menüsü">
       <div class="app-side-brand">PUMA<span>BUYAKA SMART ASSISTANT</span></div>
-      <button type="button" onclick="showProductSearch()"><span class="app-side-icon">⌕</span><span>Ürün Sorgulama</span></button>
-      <button type="button" onclick="showStoreStatus()"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
-      <button type="button" onclick="window.showStoreTracking()"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
-      <button type="button" onclick="window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='ytd';}if(window.renderStoreManagement)window.renderStoreManagement();"><span class="app-side-icon">▤</span><span>Yıllık Veriler</span></button>
-      <button type="button" onclick="window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='wtd';}if(window.renderStoreManagement)window.renderStoreManagement();"><span class="app-side-icon">▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
-      <button type="button" onclick="window.showStockTurnover()"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
-      <button type="button" onclick="showPersonnelManagement()"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
-      <button type="button" onclick="window.showStoreManagement()"><span class="app-side-icon">▦</span><span>Excel Veri Merkezi</span></button>
+      <button type="button" onclick="appNavigateTo(showProductSearch)"><span class="app-side-icon">⌕</span><span>Ürün Sorgulama</span></button>
+      <button type="button" onclick="appNavigateTo(showStoreStatus)"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
+      <button type="button" onclick="appNavigateTo(window.showStoreTracking)"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='ytd';}if(window.renderStoreManagement)window.renderStoreManagement();})"><span class="app-side-icon">▤</span><span>Yıllık Veriler</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='wtd';}if(window.renderStoreManagement)window.renderStoreManagement();})"><span class="app-side-icon">▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
+      <button type="button" onclick="appNavigateTo(window.showStockTurnover)"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
+      <button type="button" onclick="appNavigateTo(showPersonnelManagement)"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
+      <button type="button" onclick="appNavigateTo(window.showStoreManagement)"><span class="app-side-icon">▦</span><span>Excel Veri Merkezi</span></button>
     </aside>
+    <script>
+      function appNavigateTo(openPage) {
+        document.querySelectorAll("body > main, body > section[id]").forEach(function(node) {
+          node.style.display = "none";
+        });
+        if (typeof openPage === "function") openPage();
+      }
+    </script>
 
 
 
