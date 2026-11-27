@@ -147,9 +147,10 @@
     }
     #mainMenu.home-dashboard{background:#000!important}
     #mainMenu .app-right-campaign-image{
-      inset:0 0 0 var(--app-sidebar-width);width:calc(100vw - var(--app-sidebar-width));
-      height:100vh;height:100dvh;max-width:none;max-height:none;transform:none;
-      object-fit:cover;object-position:center;background:#000
+      position:fixed;inset:0 0 0 var(--app-sidebar-width);
+      width:calc(100vw - var(--app-sidebar-width));height:100vh;height:100dvh;
+      max-width:none;max-height:none;margin:0;transform:none;
+      object-fit:contain;object-position:center center;background:#000
     }
 
     #appSideNav button{
