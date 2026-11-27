@@ -305,38 +305,43 @@ function closeStoreStatus() {
 }
 
 function showMainMenu() {
-    // Ana ekrana dön: tam ekran modül görünümünü kapat ve sol menüyü geri getir.
+    // Ana ekranı eksiksiz geri yükle; açık kalmış tüm modül panellerini kapat.
     document.body.classList.remove("app-module-open");
+
     const sideNav = document.getElementById("appSideNav");
-    if (sideNav) sideNav.classList.remove("is-hidden");
+    if (sideNav) {
+        sideNav.classList.remove("is-hidden");
+        sideNav.style.setProperty("display", "flex", "important");
+        sideNav.querySelectorAll("button").forEach(function(button) {
+            button.removeAttribute("aria-current");
+        });
+    }
+
+    const pageIds = [
+        "weeklyChampionsArea", "storeTrackingArea", "storeStatusArea",
+        "storeManagementArea", "productSearchArea", "sizeSearchArea",
+        "educationArea", "dailyTasksArea", "vmStandardsArea", "servicePlanArea",
+        "fastPerakendeArea", "sdKarneArea", "shiftProgramArea",
+        "performanceLeagueArea", "top5AnalysisArea", "stockTurnoverArea",
+        "personnelManagementArea"
+    ];
+    pageIds.forEach(function(id) {
+        const area = document.getElementById(id);
+        if (area) area.style.display = "none";
+    });
+
     const mainMenu = document.getElementById("mainMenu");
-    const weeklyChampionsArea = document.getElementById("weeklyChampionsArea");
-    if (weeklyChampionsArea) weeklyChampionsArea.style.display = "none";
-    const storeStatusArea = document.getElementById("storeStatusArea");
-    if (storeStatusArea) storeStatusArea.style.display = "none";
-    const storeManagementArea = document.getElementById("storeManagementArea");
-    if (storeManagementArea) storeManagementArea.style.display = "none";
-    const productSearchArea = document.getElementById("productSearchArea");
-    const sizeSearchArea = document.getElementById("sizeSearchArea");
-    const educationArea = document.getElementById("educationArea");
-    const dailyTasksArea = document.getElementById("dailyTasksArea");
-    const vmStandardsArea = document.getElementById("vmStandardsArea");
+    if (mainMenu) {
+        mainMenu.style.display = "flex";
+        mainMenu.scrollTop = 0;
+    }
+
     const results = document.getElementById("results");
     const sizeResults = document.getElementById("sizeResults");
-    if (mainMenu) mainMenu.style.display = "flex";
-    if (productSearchArea) productSearchArea.style.display = "none";
-    if (sizeSearchArea) sizeSearchArea.style.display = "none";
-    if (educationArea) educationArea.style.display = "none";
-    if (dailyTasksArea) dailyTasksArea.style.display = "none";
-    if (vmStandardsArea) vmStandardsArea.style.display = "none";
-    const servicePlanArea = document.getElementById("servicePlanArea");
-    if (servicePlanArea) servicePlanArea.style.display = "none";
-    const fastPerakendeArea = document.getElementById("fastPerakendeArea");
-    if (fastPerakendeArea) fastPerakendeArea.style.display = "none";
-    const sdKarneArea = document.getElementById("sdKarneArea");
-    if (sdKarneArea) sdKarneArea.style.display = "none";
     if (results) results.innerHTML = "";
     if (sizeResults) sizeResults.innerHTML = "";
+
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 // ÜRÜN SORGULAMA
