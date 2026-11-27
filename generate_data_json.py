@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent
-EXCEL_FILE = ROOT / "Güncel Stok.xlsx"
+EXCEL_FILE = ROOT / "Stok.xlsx"
 JSON_FILE = ROOT / "data.json"
 
 
