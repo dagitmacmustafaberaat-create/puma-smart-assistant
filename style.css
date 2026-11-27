@@ -5415,3 +5415,9 @@ html, body {
     background-attachment: scroll !important;
   }
 }
+
+/* Global typography: Tahoma across the application, preserving icon fonts. */
+body,
+body *:not(svg):not(svg *):not(i):not([class*="icon"]):not([class*="fa"]) {
+  font-family: Tahoma, Arial, sans-serif !important;
+}
