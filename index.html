@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>STORE INTELLIGENCE</title>
+    <title>BUYAKA PUMA SMART ASSISTANT</title>
 
     <link rel="stylesheet" href="style.css?v=20261126-home-buttons-blue-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#d5001c">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="STORE INTELLIGENCE">
+    <meta name="apple-mobile-web-app-title" content="PUMA Assistant">
     <meta name="mobile-web-app-capable" content="yes">
     <style>
       #mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
@@ -176,27 +176,7 @@
     }
     #mainMenu .quick-access-section { padding-top: 18px; }
   }
-
-  #mainMenu .si-nav-items{display:flex;flex-direction:column;gap:7px;overflow-y:auto;min-height:0;padding-right:2px}
-  #mainMenu .si-nav-items button{display:flex;align-items:center;gap:12px;width:100%;min-height:47px;padding:10px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#d8d8d8;text-align:left;font-size:12px;font-weight:800;line-height:1.3;cursor:pointer;box-shadow:none}
-  #mainMenu .si-nav-items button span:first-child{flex:0 0 22px;color:#ed1c2e;font-size:19px;text-align:center}
-  #mainMenu .si-nav-items button:hover,#mainMenu .si-nav-items button.active{background:#292929;border-color:#444;color:#fff}
-  #mainMenu .si-nav-items button.active{border-left:3px solid #d5001c}
-  #mainMenu .home-side-brand{font-style:normal;font-size:17px;letter-spacing:2px}
-  #mainMenu .home-side-brand span{font-size:10px;letter-spacing:3px;color:#ed1c2e;font-weight:900}
-  #mainMenu.home-dashboard{padding-left:270px!important}
-  #mainMenu .home-side-nav{width:244px;gap:12px}
-  @media(max-width:760px){
-    #mainMenu.home-dashboard{padding:154px 12px 22px!important}
-    #mainMenu .home-side-nav{height:140px;display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:8px 10px}
-    #mainMenu .home-side-brand{padding:0 5px 5px;font-size:14px}
-    #mainMenu .home-side-brand span{display:inline;margin-left:8px;font-size:9px}
-    #mainMenu .si-nav-items{flex-direction:row;overflow-x:auto;overflow-y:hidden;gap:6px;padding-bottom:4px}
-    #mainMenu .si-nav-items button{flex:0 0 auto;width:auto;min-height:42px;padding:8px 10px;font-size:10px;white-space:nowrap}
-    #mainMenu .si-nav-items button span:first-child{font-size:15px}
-  }
-
-  </style>
+</style>
 </head>
 
 <body>
@@ -206,17 +186,10 @@
 
     <main id="mainMenu" class="menu home-dashboard">
     <aside class="home-side-nav" aria-label="Ana menü">
-      <div class="home-side-brand">STORE<span>INTELLIGENCE</span></div>
-      <nav class="si-nav-items" aria-label="STORE INTELLIGENCE bölümleri">
-        <button type="button" class="active" onclick="siOpen('overview')"><span>▦</span><span>Genel Bakış</span></button>
-        <button type="button" onclick="siOpen('weekly')"><span>▥</span><span>Haftalık Veriler</span></button>
-        <button type="button" onclick="siOpen('annual')"><span>▤</span><span>Yıllık Veriler</span></button>
-        <button type="button" onclick="siOpen('sales')"><span>▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
-        <button type="button" onclick="siOpen('coach')"><span>✦</span><span>Akıllı Mağaza Koçu</span></button>
-        <button type="button" onclick="siOpen('opportunities')"><span>◈</span><span>Satış Fırsatları</span></button>
-        <button type="button" onclick="siOpen('personnel')"><span>♙</span><span>Personel Koçluğu</span></button>
-        <button type="button" onclick="siOpen('excel')"><span>▦</span><span>Excel Veri Merkezi</span></button>
-      </nav>
+      <div class="home-side-brand">PUMA<span>BUYAKA SMART ASSISTANT</span></div>
+      <button type="button" aria-current="page" onclick="if(typeof showMainMenu==='function')showMainMenu();window.scrollTo(0,0);">
+        <span aria-hidden="true">⌂</span><span>ANA EKRAN</span>
+      </button>
     </aside>
 
 
@@ -288,13 +261,13 @@
 
 
 
-      <footer class="dashboard-footer"><span>STORE INTELLIGENCE</span></footer>
+      <footer class="dashboard-footer"><span>BUYAKA PUMA STORE</span></footer>
     </main>
 
 
     <section id="weeklyChampionsArea" class="weekly-champions-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeWeeklyChampions()">← Ana Menü</button>
-      <header class="wc-hero"><p>STORE INTELLIGENCE • PERFORMANCE AWARDS</p><h1>HAFTANIN ENLERİ</h1><span>HAFTALIK ŞAMPİYONLUK KARTLARI</span></header>
+      <header class="wc-hero"><p>BUYAKA PUMA • PERFORMANCE AWARDS</p><h1>HAFTANIN ENLERİ</h1><span>HAFTALIK ŞAMPİYONLUK KARTLARI</span></header>
       <nav class="wc-tabs" aria-label="Haftanın enleri kategorileri">
         <button type="button" class="wc-tab active" data-wc-tab="revenue" onclick="setWeeklyChampionsTab('revenue')">CİRO ŞAMPİYONU</button>
         <button type="button" class="wc-tab" data-wc-tab="upt" onclick="setWeeklyChampionsTab('upt')">UPT ŞAMPİYONU</button>
@@ -451,7 +424,7 @@
     </style>
   <button class="back-button" type="button" onclick="closePersonnelManagement()">← Ana Menü</button>
   <header class="pmx-hero">
-    <div><p class="pmx-kicker">STORE INTELLIGENCE · TEAM PERFORMANCE</p><h1>PERSONEL YÖNETİM MERKEZİ</h1></div>
+    <div><p class="pmx-kicker">BUYAKA PUMA · TEAM PERFORMANCE</p><h1>PERSONEL YÖNETİM MERKEZİ</h1></div>
     <div class="pmx-hero-side"><div class="pmx-count"><strong>05</strong><span>PERSONEL</span></div><button class="pmx-refresh" type="button" onclick="window.loadPersonnelManagementData(true)">↻ VERİLERİ YENİLE</button></div>
   </header>
   <nav class="pmx-tabs" role="tablist" aria-label="Personel yönetim sekmeleri">
@@ -476,7 +449,7 @@
     <div id="pmxLeagueData"><div class="pmx-empty">Performance League verileri yükleniyor…</div></div>
   </section>
   <section class="pmx-panel" data-pmx-panel="weekly" role="tabpanel">
-    <header class="pmx-panel-title"><div><small>STORE INTELLIGENCE · PERFORMANCE AWARDS</small><h2>Haftanın Enleri</h2></div></header>
+    <header class="pmx-panel-title"><div><small>BUYAKA PUMA · PERFORMANCE AWARDS</small><h2>Haftanın Enleri</h2></div></header>
     <div id="pmxWeeklyData"><div class="pmx-empty">Şampiyonlar hazırlanıyor…</div></div>
   </section>
   <section class="pmx-panel" data-pmx-panel="education" role="tabpanel">
@@ -491,7 +464,7 @@
 </section>
     <section id="storeManagementArea" class="store-management-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeStoreManagement()">← Ana Menü</button>
-      <header class="sm-hero"><p>STORE INTELLIGENCE • STORE INTELLIGENCE</p><h1>MAĞAZA YÖNETİMİ</h1><span>RAPOR VERİLERİ YÜKLENİYOR…</span></header>
+      <header class="sm-hero"><p>BUYAKA PUMA • STORE INTELLIGENCE</p><h1>MAĞAZA YÖNETİMİ</h1><span>RAPOR VERİLERİ YÜKLENİYOR…</span></header>
       <div class="sm-controls">
         <label>RAPOR TARİHİ<select id="smDate" onchange="renderStoreManagement()"><option value="2026-11-02">2 Kasım 2026 · W44</option></select></label>
         <label>PERFORMANS DÖNEMİ<select id="smPeriod" onchange="renderStoreManagement()"><option value="wtd">HAFTALIK · WTD</option><option value="mtd">AYLIK · MTD</option><option value="ytd" selected>YILLIK · YTD</option></select></label>
@@ -567,11 +540,11 @@
     </div><section id="educationArea" class="education-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeEducationCenter()">← Ana Menü</button>
       <header class="education-heading">
-        <p class="education-eyebrow">STORE INTELLIGENCE • PERSONEL GELİŞİMİ</p>
+        <p class="education-eyebrow">BUYAKA PUMA • PERSONEL GELİŞİMİ</p>
         <h1>2026 EĞİTİM TAKVİMİ</h1>
       </header>
       <section class="training-library-section">
-        <div class="training-library-heading"><p class="education-eyebrow">STORE INTELLIGENCE • EĞİTİM KÜTÜPHANESİ</p><h2>Eğitim Dokümanları</h2><span>İçeriği açmak için konuya dokun.</span></div>
+        <div class="training-library-heading"><p class="education-eyebrow">BUYAKA PUMA • EĞİTİM KÜTÜPHANESİ</p><h2>Eğitim Dokümanları</h2><span>İçeriği açmak için konuya dokun.</span></div>
         <div id="trainingLibrary" class="training-library-grid"></div>
       </section>
       <section class="education-date-panel">
@@ -600,7 +573,7 @@
     <section id="shiftProgramArea" class="shift-program-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeShiftProgram()">← Ana Menü</button>
       <header class="shift-program-heading">
-        <p class="education-eyebrow">STORE INTELLIGENCE • TEAM PERFORMANCE</p>
+        <p class="education-eyebrow">BUYAKA PUMA • TEAM PERFORMANCE</p>
         <h1>Haftalık Çalışma Programı</h1>
         <p>Ana ekrandan haftayı seç, tüm ekibin vardiyalarını görüntüle.</p>
       </header>
@@ -662,7 +635,7 @@
     <section id="top5AnalysisArea" class="top5-analysis-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeTop5Analysis()">← Ana Menü</button>
       <header class="top5-hero">
-        <p class="education-eyebrow">STORE INTELLIGENCE • PRODUCT PERFORMANCE</p>
+        <p class="education-eyebrow">BUYAKA PUMA • PRODUCT PERFORMANCE</p>
         <h1>SATIŞ &amp; ENVANTER ANALİZİ</h1>
       </header>
       <div class="top5-toolbar"><span id="top5DataStatus" role="status">Satış ve stok raporları yükleniyor…</span><button type="button" onclick="loadTop5Analysis()">EXCEL VERİSİNİ YENİLE ↻</button></div>
@@ -704,7 +677,7 @@
     <section id="stockTurnoverArea" class="stock-turnover-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeStockTurnover()">← Ana Menü</button>
       <header class="sto-hero">
-        <p>STORE INTELLIGENCE • STOCK INTELLIGENCE</p>
+        <p>BUYAKA PUMA • STOCK INTELLIGENCE</p>
         <h1>STOK DEVİR ANALİZİ</h1>
         <span>GÜN • HAFTA • AY</span>
       </header>
@@ -730,7 +703,7 @@
     <section id="fastPerakendeArea" class="work-module fast-perakende-area" style="display:none;">
       <button class="back-button" type="button" onclick="closeFastPerakende()">← Ana Menü</button>
       <header class="work-module-heading">
-        <p class="education-eyebrow">STORE INTELLIGENCE • ŞİRKET SİSTEMİ</p>
+        <p class="education-eyebrow">BUYAKA PUMA • ŞİRKET SİSTEMİ</p>
         <h1>Fast Perakende</h1>
         <p>Şirketin Fast Perakende web sitesine buradan erişebilirsin.</p>
       </header>
@@ -953,43 +926,6 @@
       }
     </script>
 
-
-<script>
-(function(){
- window.siOpen=function(section){
-  document.querySelectorAll('#mainMenu .si-nav-items button').forEach(b=>b.classList.remove('active'));
-  const btn=Array.from(document.querySelectorAll('#mainMenu .si-nav-items button')).find(b=>b.getAttribute('onclick')?.includes("'"+section+"'"));
-  if(btn)btn.classList.add('active');
-  const period=(value)=>{const el=document.getElementById('smPeriod');if(el){el.value=value;}};
-  if(section==='overview'){window.showStoreManagement?.();period('mtd');window.renderStoreManagement?.();return;}
-  if(section==='weekly'){window.showStoreManagement?.();period('wtd');window.renderStoreManagement?.();return;}
-  if(section==='annual'){window.showStoreManagement?.();period('ytd');window.renderStoreManagement?.();return;}
-  if(section==='sales'){window.showStoreTracking?.();return;}
-  if(section==='coach'){window.showStoreManagement?.();period('mtd');if(typeof window.setStoreTab==='function')window.setStoreTab('comment');else window.renderStoreManagement?.();return;}
-  if(section==='opportunities'){if(typeof window.showTop5Analysis==='function')window.showTop5Analysis();else{window.showStoreManagement?.();window.setStoreTab?.('top20');}return;}
-  if(section==='personnel'){window.showPersonnelManagement?.();return;}
-  if(section==='excel'){
-    const main=document.getElementById('mainMenu');if(main)main.style.display='none';
-    let panel=document.getElementById('siExcelCenter');
-    if(!panel){
-      panel=document.createElement('section');panel.id='siExcelCenter';
-      panel.style.cssText='position:fixed;inset:0;z-index:10002;overflow:auto;box-sizing:border-box;padding:28px 18px;background:#080808;color:#fff';
-      panel.innerHTML='<div style="max-width:900px;margin:30px auto;padding:28px;background:#111;border:1px solid #333;border-left:4px solid #d5001c;border-radius:14px"><button type="button" onclick="document.getElementById(\'siExcelCenter\').remove();showMainMenu()" style="float:right;background:#222;color:#fff;border:1px solid #555;padding:9px 13px;border-radius:8px">← Ana Menü</button><p style="color:#ed1c2e;font-weight:900;letter-spacing:2px">STORE INTELLIGENCE</p><h1>EXCEL VERİ MERKEZİ</h1><p>Uygulamaya bağlı Excel kaynakları ve mevcut veri eşleştirmeleri korunur. Tek işlemle bağlı raporları yenileyebilirsiniz.</p><button id="siExcelRefresh" type="button" style="margin-top:14px;padding:14px 20px;border:0;border-radius:9px;background:#d5001c;color:#fff;font-weight:900;cursor:pointer">BAĞLI EXCEL VERİLERİNİ YENİLE</button><p id="siExcelStatus" role="status">Excel kaynakları güncellenmeye hazır.</p></div>';
-      document.body.appendChild(panel);
-      document.getElementById('siExcelRefresh').addEventListener('click',async function(){
-        const status=document.getElementById('siExcelStatus');this.disabled=true;this.textContent='VERİLER YENİLENİYOR…';if(status)status.textContent='Bağlı Excel kaynakları yenileniyor…';
-        const jobs=['loadSDKarneData','loadLeagueData','loadTop5Analysis','loadStockTurnover'];
-        const tasks=jobs.filter(k=>typeof window[k]==='function').map(k=>Promise.resolve().then(()=>window[k]()));
-        const results=await Promise.allSettled(tasks);const failed=results.filter(x=>x.status==='rejected').length;
-        this.disabled=false;this.textContent='BAĞLI EXCEL VERİLERİNİ YENİLE';
-        if(status)status.textContent=failed?'Yenileme tamamlandı; bazı kaynaklar için hata oluştu.':'Bağlı Excel kaynakları yenileme işlemi tamamlandı.';
-      });
-    }
-    return;
-  }
- };
-})();
-</script>
 </body>
 
 </html>
