@@ -70,25 +70,28 @@
 \n    
 
 <style id="product-search-only-home">
-  body { padding-left:244px; box-sizing:border-box; }
+  body{padding-left:244px;box-sizing:border-box}
   #appSideNav{position:fixed;z-index:10050;inset:0 auto 0 0;width:228px;box-sizing:border-box;display:flex;flex-direction:column;gap:9px;padding:24px 14px;overflow-y:auto;background:linear-gradient(180deg,#101010 0%,#1c1c1c 100%);border-right:3px solid #d5001c;box-shadow:8px 0 28px rgba(0,0,0,.24)}
-  #appSideNav .app-side-brand{padding:8px 10px 20px;margin-bottom:7px;color:#fff;font-size:18px;font-weight:950;font-style:italic;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.14)}
-  #appSideNav .app-side-brand span{display:block;margin-top:5px;color:#aaa;font-size:9px;font-style:normal;letter-spacing:2px}
-  #appSideNav button{display:flex;align-items:center;gap:11px;width:100%;min-height:49px;padding:10px 12px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:#242424;color:#f5f5f5;text-align:left;font-family:inherit;font-size:12px;font-weight:800;line-height:1.3;letter-spacing:.15px;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
-  #appSideNav button:hover,#appSideNav button:focus-visible{background:#d5001c;border-color:#d5001c;outline:none;transform:translateX(2px)}
-  #appSideNav button[aria-current="page"]{background:#d5001c;border-color:#d5001c;color:#fff;box-shadow:0 6px 16px rgba(213,0,28,.2)}
+  #appSideNav button{display:flex;align-items:center;gap:11px;width:100%;min-height:49px;padding:10px 12px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:#242424;color:#f5f5f5;text-align:left;font-family:inherit;font-size:12px;font-weight:800;line-height:1.3;letter-spacing:.15px;cursor:pointer;transition:background .18s,border-color .18s}
+  #appSideNav button:hover,#appSideNav button:focus-visible{background:#d5001c;border-color:#d5001c;outline:none}
   #appSideNav .app-side-icon{flex:0 0 22px;font-size:18px;text-align:center}
   #mainMenu.home-dashboard{box-sizing:border-box;min-height:100vh;padding:0 22px 30px!important}
   #mainMenu .module-card-grid{display:none!important}
   #mainMenu .quick-access-section{max-width:1100px;margin:0 auto;padding-top:clamp(34px,8vh,90px)}
   #mainMenu .quick-access-heading{justify-content:center;text-align:center}
-  @media(max-width:760px){body{padding:78px 0 0!important}#appSideNav{inset:0 0 auto 0;width:100%;height:72px;flex-direction:row;align-items:center;gap:7px;padding:7px 9px;overflow-x:auto;overflow-y:hidden;border-right:0;border-bottom:3px solid #d5001c}#appSideNav .app-side-brand{display:none}#appSideNav button{flex:0 0 auto;width:auto;min-height:48px;max-width:190px;padding:8px 11px}#appSideNav button:hover,#appSideNav button:focus-visible{transform:none}#mainMenu.home-dashboard{padding:0 14px 24px!important}#mainMenu .quick-access-section{padding-top:24px}}
+  @media(max-width:760px){
+    body{padding:0 0 0 148px!important;box-sizing:border-box}
+    #appSideNav{inset:0 auto 0 0;width:140px;height:100dvh;flex-direction:column;align-items:stretch;gap:7px;padding:12px 8px;overflow-x:hidden;overflow-y:auto;border-right:3px solid #d5001c;border-bottom:0}
+    #appSideNav button{flex:0 0 auto;flex-direction:column;justify-content:center;gap:3px;width:100%;min-height:58px;padding:7px 5px;text-align:center;font-size:10px;line-height:1.15;white-space:normal;overflow-wrap:anywhere}
+    #appSideNav .app-side-icon{flex:0 0 auto;font-size:18px;line-height:1.1}
+    #mainMenu.home-dashboard{padding:0 10px 20px!important}
+    #mainMenu .quick-access-section{padding-top:24px}
+  }
 </style>
 </head>
 
 <body>
     <aside id="appSideNav" aria-label="Uygulama menüsü">
-      <div class="app-side-brand">PUMA<span>BUYAKA SMART ASSISTANT</span></div>
       <button type="button" onclick="appNavigateTo(showProductSearch)"><span class="app-side-icon">⌕</span><span>Ürün Sorgulama</span></button>
       <button type="button" onclick="appNavigateTo(showStoreStatus)"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
       <button type="button" onclick="appNavigateTo(window.showStoreTracking)"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
@@ -125,11 +128,7 @@
           </div>
         </div>
         <div class="module-card-grid">
-          <button class="menu-button module-card" type="button" onclick="showProductSearch()">
-            <span class="module-sticker" aria-hidden="true">🔎</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></span>
-            <span class="module-copy"><strong>Ürün Sorgulama</strong><small>Ürün kodu veya adıyla ara</small></span>
-            <span class="module-arrow" aria-hidden="true">↗</span>
-          </button>
+          
           <button class="menu-button module-card store-tracking-menu-card" type="button" onclick="window.showStoreTracking()"><span class="module-sticker" aria-hidden="true">📈</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h17M8 15l4-5 3 3 5-7"></path></svg></span><span class="module-copy"><strong>MAĞAZA TAKİP</strong><small>2025 / 2026 KPI karşılaştırması</small></span><span class="module-arrow" aria-hidden="true">↗</span></button>
           <button class="menu-button module-card service-plan-menu-card" type="button" onclick="showServicePlan()">
             <span class="module-sticker" aria-hidden="true">📊</span><span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10M4 12h16M7 16v3M17 16v3M7 8h.01M17 8h.01M4 16h16"></path></svg></span>
@@ -163,20 +162,7 @@
             <span class="module-copy"><strong>Çalışma Programı</strong><small>Haftalık vardiya ve izin planı</small></span>
             <span class="module-arrow" aria-hidden="true">↗</span>
           </button>
-          <div class="company-links-widget company-links-menu-card">
-            <button class="menu-button module-card company-links-trigger" type="button" aria-haspopup="true" aria-controls="companyLinksMenu" aria-expanded="false" onclick="const menu=document.getElementById('companyLinksMenu');const open=menu.hidden;menu.hidden=!open;this.setAttribute('aria-expanded',String(open));">
-              <span class="module-sticker" aria-hidden="true">🔗</span>
-              <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7"></path><path d="M14 11a5 5 0 0 0-7.1 0l-3 3A5 5 0 0 0 11 21.1l1.7-1.7"></path></svg></span>
-              <span class="module-copy"><strong>FAST PERAKENDE</strong><small>Şirket bağlantıları ve portallar</small></span>
-              <span class="module-arrow" aria-hidden="true">↗</span>
-            </button>
-            <nav id="companyLinksMenu" class="company-links-menu" aria-label="Şirket bağlantıları" hidden>
-              <a href="https://fastperakende.com/league.html" target="_blank" rel="noopener noreferrer">Fast League <span aria-hidden="true">↗</span></a>
-              <a href="http://www.fastperakende.com/" target="_blank" rel="noopener noreferrer">Biz Kimiz <span aria-hidden="true">↗</span></a>
-              <a href="https://www.fastspor.com/" target="_blank" rel="noopener noreferrer">İnternet Sitesi <span aria-hidden="true">↗</span></a>
-              
-            </nav>
-          </div>
+          
         </div>
       </section>
 
@@ -185,7 +171,6 @@
 
 
 
-      <footer class="dashboard-footer"><span>BUYAKA PUMA STORE</span></footer>
     </main>
 
 
