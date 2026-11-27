@@ -67,7 +67,22 @@
   </style>
 
     <style id="store-tracking-styles">.store-tracking-area{max-width:1180px;margin:0 auto;padding:20px 16px 48px;color:#fff}.st-hero{padding:26px;border-radius:18px;background:linear-gradient(125deg,#101820,#263c52);border:1px solid #75baff}.st-hero p{color:#a9d7ff;font-size:11px;letter-spacing:2px;font-weight:800}.st-hero h1{margin:5px 0;font-size:clamp(26px,5vw,42px);font-weight:900}.st-hero span,.st-period,.st-note{color:#cbd5df}.st-period{margin:16px 0;padding:14px;border-radius:12px;background:#172638}.st-period b{color:#a9d7ff}.st-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.st-metric{padding:17px;border-radius:14px;background:linear-gradient(145deg,#172638,#0b1725);border:1px solid #385775}.st-metric small{font-weight:900;letter-spacing:1px;color:#a9d7ff}.st-values{display:grid;gap:7px;margin:14px 0}.st-values span{display:flex;justify-content:space-between;color:#d7e2ec;font-size:12px}.st-metric>strong{font-size:18px}.st-metric .up,.up{color:#58d68d}.st-metric .down,.down{color:#ff6878}.st-section-title{margin:25px 0 12px;font-size:17px}.st-table-wrap{overflow:auto}.st-table{width:100%;border-collapse:collapse;background:#101c29}.st-table td,.st-table th{padding:10px;border:1px solid #34495e;text-align:right;white-space:nowrap}.st-table th{color:#a9d7ff}.st-note{font-size:12px;margin-top:15px}@media(max-width:760px){.st-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.st-hero{padding:20px}}@media(max-width:390px){.st-grid{grid-template-columns:1fr}}</style>
-\n</head>
+\n    <style id="product-search-only-home">
+      /* Bu dağıtımda ana menüde yalnızca Ürün Sorgulama bırakılır. */
+      .store-tracking-menu-card,
+      .service-plan-menu-card,
+      .company-links-widget,
+      #storeTrackingArea,
+      #servicePlanArea,
+      #fastPerakendeArea { display: none !important; }
+      #mainMenu.home-dashboard .module-card-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+</head>
 
 <body>
 
