@@ -75,17 +75,17 @@
   body{padding:0!important;box-sizing:border-box}
   #appSideNav{
     position:fixed;z-index:10050;inset:0 auto 0 0;width:var(--app-sidebar-width);height:100vh;
-    box-sizing:border-box;display:flex;flex-direction:column;gap:7px;padding:28px 16px;
+    box-sizing:border-box;display:flex;flex-direction:column;gap:7px;padding:126px 16px 28px;
     overflow-y:auto;overflow-x:hidden;background:#0b1728;border-right:1px solid #26364c;
     box-shadow:8px 0 28px rgba(0,0,0,.24)
   }
   #appSideNav:before{
-    content:"STORE INTELLIGENCE";display:block;padding:0 10px 22px;margin-bottom:15px;
-    border-bottom:1px solid #26364c;color:#fff;font-size:17px;font-weight:900;
-    letter-spacing:1.3px;line-height:1.3
+    content:"STORE INTELLIGENCE";position:absolute;top:28px;left:16px;right:16px;
+    padding:0 10px 20px;border-bottom:1px solid #26364c;color:#fff;font-size:17px;
+    font-weight:900;letter-spacing:1.3px;line-height:1.3
   }
   #appSideNav:after{
-    content:"YÖNETİM";display:block;order:-1;padding:0 10px 7px;color:#9fb1c8;
+    content:"YÖNETİM";position:absolute;top:91px;left:26px;color:#9fb1c8;
     font-size:10px;font-weight:900;letter-spacing:1.6px
   }
   #appSideNav button{
@@ -113,9 +113,9 @@
   #mainMenu .quick-access-heading{justify-content:center;text-align:center}
   @media(max-width:760px){
     :root{--app-sidebar-width:116px}
-    #appSideNav{height:100dvh;gap:5px;padding:17px 7px;background:#0b1728}
-    #appSideNav:before{padding:0 2px 16px;margin-bottom:8px;font-size:10px;letter-spacing:.7px;text-align:center}
-    #appSideNav:after{padding:0 2px 5px;font-size:9px;text-align:center}
+    #appSideNav{height:100dvh;gap:5px;padding:84px 7px 17px;background:#0b1728}
+    #appSideNav:before{top:17px;left:7px;right:7px;padding:0 2px 12px;font-size:10px;letter-spacing:.7px;text-align:center}
+    #appSideNav:after{top:66px;left:0;right:0;padding:0;font-size:9px;text-align:center}
     #appSideNav button{
       flex-direction:column;align-items:center;justify-content:center;gap:5px;
       min-height:62px;padding:7px 3px;text-align:center;font-size:9px;line-height:1.2
@@ -130,17 +130,17 @@
 
 <body>
     <aside id="appSideNav" aria-label="Uygulama menüsü">
-      <button type="button" onclick="appNavigateTo(showProductSearch)"><span class="app-side-icon">⌕</span><span>Ürün Sorgulama</span></button>
-      <button type="button" onclick="appNavigateTo(showStoreStatus)"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
-      <button type="button" onclick="appNavigateTo(window.showStoreTracking)"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
-      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='ytd';}if(window.renderStoreManagement)window.renderStoreManagement();})"><span class="app-side-icon">▤</span><span>Yıllık Veriler</span></button>
-      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='wtd';}if(window.renderStoreManagement)window.renderStoreManagement();})"><span class="app-side-icon">▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
-      <button type="button" onclick="appNavigateTo(window.showStockTurnover)"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
-      <button type="button" onclick="appNavigateTo(showPersonnelManagement)"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
-      <button type="button" onclick="appNavigateTo(window.showStoreManagement)"><span class="app-side-icon">▦</span><span>Excel Veri Merkezi</span></button>
+      <button type="button" onclick="appNavigateTo(showProductSearch,this)"><span class="app-side-icon">⌕</span><span>Ürün Sorgulama</span></button>
+      <button type="button" onclick="appNavigateTo(showStoreStatus,this)"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
+      <button type="button" onclick="appNavigateTo(window.showStoreTracking,this)"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='ytd';}if(window.renderStoreManagement)window.renderStoreManagement();},this)"><span class="app-side-icon">▤</span><span>Yıllık Veriler</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='wtd';}if(window.renderStoreManagement)window.renderStoreManagement();},this)"><span class="app-side-icon">▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
+      <button type="button" onclick="appNavigateTo(window.showStockTurnover,this)"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
+      <button type="button" onclick="appNavigateTo(showPersonnelManagement,this)"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
+      <button type="button" onclick="appNavigateTo(window.showStoreManagement,this)"><span class="app-side-icon">▦</span><span>Excel Veri Merkezi</span></button>
     </aside>
     <script>
-      function appNavigateTo(openPage) {
+      function appNavigateTo(openPage, selectedButton) {
         ["mainMenu","weeklyChampionsArea","storeTrackingArea","storeStatusArea","storeManagementArea",
          "productSearchArea","sizeSearchArea","educationArea","shiftProgramArea","sdKarneArea",
          "performanceLeagueArea","top5AnalysisArea","stockTurnoverArea","personnelManagementArea",
@@ -154,9 +154,7 @@
         if (sideNav) {
           sideNav.classList.remove("is-hidden");
           sideNav.querySelectorAll("button").forEach(function(button){button.removeAttribute("aria-current");});
-          if (typeof event !== "undefined" && event && event.currentTarget) {
-            event.currentTarget.setAttribute("aria-current","page");
-          }
+          if (selectedButton) selectedButton.setAttribute("aria-current","page");
         }
       }
     </script>
