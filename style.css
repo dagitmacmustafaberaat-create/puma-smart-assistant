@@ -5382,13 +5382,36 @@ body {
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
 }
+/* YÜKLÜ PWA / TELEFON: arka planı uygulama penceresine göre ortala ve tam kadrajla. */
+html, body {
+  width: 100%;
+  min-height: 100%;
+}
 @media (max-width: 760px) {
+  html, body {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    background-color: #050505 !important;
+  }
   body {
-    /* Mobilde görseli kırpma: Puma logosunun tamamı kadrajda kalsın. */
-    background-position: center top !important;
-    background-size: 100% auto !important;
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.38)),
+      url("Karanlıkta Kızıl Puma Hareketi.png") !important;
+    background-position: center center !important;
+    background-size: contain !important;
     background-repeat: no-repeat !important;
     background-attachment: scroll !important;
-    background-color: #050505 !important;
+  }
+}
+@media (display-mode: standalone) and (max-width: 760px) {
+  html, body {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+  body {
+    background-position: center center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
   }
 }
