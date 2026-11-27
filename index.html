@@ -206,7 +206,17 @@
     #appSideNav button span:last-child{width:auto!important;text-align:left!important}
     #appSideNav .app-side-icon{width:22px!important;flex:0 0 22px!important;font-size:18px!important}
     #appSideNav:after{width:100%!important;max-width:100px!important;margin:12px auto 0!important}
-    #mainMenu .app-right-campaign-image{object-position:72% center!important}
+    /* Dikey telefonda cover, geniş görselin sağ ve solunu keser.
+       Tam görseli önde göster; aynı görsel arkada ekranı doldursun. */
+    #mainMenu.home-dashboard{
+      background-color:#000!important;
+      background-image:linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),
+        url("https://raw.githubusercontent.com/dagitmacmustafaberaat-create/puma-smart-assistant/main/Puma%20Forever%20Faster_%20Bolt%27un%20%C4%B0konik%20Pozu%20%281%29.png")!important;
+      background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important
+    }
+    #mainMenu .app-right-campaign-image{
+      object-fit:contain!important;object-position:center!important;background:transparent!important
+    }
   }
 </style>
 </head>
