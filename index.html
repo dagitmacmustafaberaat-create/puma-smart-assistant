@@ -89,10 +89,10 @@
   /* Kampanya görseli sol menüde değil, ana ekranın sağındaki boş alanda gösterilir. */
   #mainMenu.home-dashboard{background:#000!important;min-height:100vh}
   #mainMenu .app-right-campaign-image{
-    position:fixed;z-index:0;left:calc(var(--app-sidebar-width) + 18px);right:22px;top:50%;
-    transform:translateY(-50%);width: min(58vw,820px);max-width:calc(100vw - var(--app-sidebar-width) - 40px);
-    max-height:76vh;height:auto;object-fit:contain;object-position:center;pointer-events:none;
-    background:#000;mix-blend-mode:normal
+    position:fixed;z-index:0;inset:0 0 0 var(--app-sidebar-width);
+    width:calc(100vw - var(--app-sidebar-width));height:100vh;height:100dvh;
+    max-width:none;max-height:none;transform:none;object-fit:cover;object-position:center;
+    pointer-events:none;background:#000;mix-blend-mode:normal
   }
   #mainMenu .quick-access-section{position:relative;z-index:1}
   body.app-module-open #mainMenu .app-right-campaign-image{display:none}
@@ -147,9 +147,9 @@
     }
     #mainMenu.home-dashboard{background:#000!important}
     #mainMenu .app-right-campaign-image{
-      left:calc(var(--app-sidebar-width) + 8px);right:8px;top:50%;
-      width:calc(100vw - var(--app-sidebar-width) - 16px);max-width:none;
-      max-height:68vh;transform:translateY(-50%);background:#000
+      inset:0 0 0 var(--app-sidebar-width);width:calc(100vw - var(--app-sidebar-width));
+      height:100vh;height:100dvh;max-width:none;max-height:none;transform:none;
+      object-fit:cover;object-position:center;background:#000
     }
 
     #appSideNav button{
