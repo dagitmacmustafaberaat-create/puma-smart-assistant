@@ -5,8 +5,11 @@ on:
     branches:
       - main
     paths:
-      - "Güncel Stok.xlsx"
-      - "Kasım 2026 Data.xlsx"
+      - "Stok.xlsx"
+      - "Uygulama Verileri.xlsx"
+      - "Aylık Satış Verileri.xlsx"
+      - "Mağaza Datası.xlsx"
+      - "2025-2026 Karşılaştırma Yeni.xlsx"
       - "generate_data_json.py"
       - "generate_performance_json.py"
       - ".github/workflows/update-stock-json.yml"
@@ -29,7 +32,7 @@ jobs:
         run: pip install pandas openpyxl
       - name: Generate stock data JSON
         run: python generate_data_json.py
-      - name: Generate store performance JSON
+      - name: Generate all application table data JSON
         run: python generate_performance_json.py
       - name: Commit generated JSON files
         run: |
@@ -39,6 +42,6 @@ jobs:
             exit 0
           fi
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update stock and store performance data from Excel"
+          git config user.email "41898282+actions@users.noreply.github.com"
+          git commit -m "Refresh application data from Excel sources"
           git push
