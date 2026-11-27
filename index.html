@@ -222,12 +222,12 @@
     <div id="appMenuBackdrop" onclick="closeAppMenu()" aria-hidden="true"></div>
     <aside id="appSideNav" aria-label="Uygulama menüsü">
       <button type="button" onclick="appNavigateTo(showProductSearch,this)"><span class="app-side-icon">⌕</span><span>Ürün Sorgulama</span></button>
-      <button type="button" onclick="appNavigateTo(showStoreStatus,this)"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
-      <button type="button" onclick="appNavigateTo(window.showStoreTracking,this)"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showDataDashboard('overview');},this)"><span class="app-side-icon">▦</span><span>Genel Bakış</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showDataDashboard('weekly');},this)"><span class="app-side-icon">▥</span><span>Haftalık Karşılaştırma</span></button>
       <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='ytd';}if(window.renderStoreManagement)window.renderStoreManagement();},this)"><span class="app-side-icon">▤</span><span>Yıllık Veriler</span></button>
-      <button type="button" onclick="appNavigateTo(function(){window.showStoreManagement();const p=document.getElementById('smPeriod');if(p){p.value='wtd';}if(window.renderStoreManagement)window.renderStoreManagement();},this)"><span class="app-side-icon">▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
-      <button type="button" onclick="appNavigateTo(window.showStockTurnover,this)"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
-      <button type="button" onclick="appNavigateTo(showPersonnelManagement,this)"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showDataDashboard('monthly');},this)"><span class="app-side-icon">▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showDataDashboard('stock');},this)"><span class="app-side-icon">◈</span><span>Stok Denetimi</span></button>
+      <button type="button" onclick="appNavigateTo(function(){window.showDataDashboard('personnel');},this)"><span class="app-side-icon">♙</span><span>Personel Koçluğu</span></button>
       <button type="button" onclick="appNavigateTo(window.showStoreManagement,this)"><span class="app-side-icon">▦</span><span>Excel Veri Merkezi</span></button>
       
     </aside>
@@ -256,7 +256,7 @@
         ["mainMenu","weeklyChampionsArea","storeTrackingArea","storeStatusArea","storeManagementArea",
          "productSearchArea","sizeSearchArea","educationArea","shiftProgramArea","sdKarneArea",
          "performanceLeagueArea","top5AnalysisArea","stockTurnoverArea","personnelManagementArea",
-         "servicePlanArea","fastPerakendeArea","dailyTasksArea","vmStandardsArea"].forEach(function(id) {
+         "servicePlanArea","fastPerakendeArea","dailyTasksArea","vmStandardsArea","dataDashboardArea"].forEach(function(id) {
           const node = document.getElementById(id);
           if (node) node.style.display = "none";
         });
@@ -823,6 +823,7 @@
     <script src="shift-program.js?v=20261113-w47-schedule-v1"></script>
     <script src="sd-karne.js?v=20261113-dynamic-header-detect-v3"></script>
     <script src="personnel-management.js?v=20261113-personnel-hub-v2"></script>
+    <script src="data-dashboards.js?v=20261127-december-excel-dashboards-v1"></script>
 
     <script>
       function showPersonnelManagement() {
