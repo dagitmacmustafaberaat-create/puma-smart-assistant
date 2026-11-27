@@ -109,6 +109,7 @@
   }
   /* Modül açıldığında sol menü kapanır ve içerik tam ekranı kullanır. */
   body.app-module-open #appSideNav{display:none!important}
+  body:not(.app-module-open) #appSideNav{display:flex!important}
   body.app-module-open > #mainMenu,
   body.app-module-open > main[id],
   body.app-module-open > section[id],
