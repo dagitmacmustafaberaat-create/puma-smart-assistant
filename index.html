@@ -969,12 +969,22 @@
   if(section==='opportunities'){if(typeof window.showTop5Analysis==='function')window.showTop5Analysis();else{window.showStoreManagement?.();window.setStoreTab?.('top20');}return;}
   if(section==='personnel'){window.showPersonnelManagement?.();return;}
   if(section==='excel'){
-    window.showMainMenu?.();
-    const jobs=['loadSDKarneData','loadLeagueData','loadTop5Analysis','loadStockTurnover'];
-    const tasks=jobs.filter(k=>typeof window[k]==='function').map(k=>Promise.resolve().then(()=>window[k]()));
-    Promise.allSettled(tasks).then(()=>{const status=document.getElementById('siExcelStatus');if(status)status.textContent='Bağlı Excel kaynakları yenileme işlemi tamamlandı.';});
+    const main=document.getElementById('mainMenu');if(main)main.style.display='none';
     let panel=document.getElementById('siExcelCenter');
-    if(!panel){panel=document.createElement('section');panel.id='siExcelCenter';panel.style.cssText='max-width:900px;margin:35px auto;padding:28px;background:#111;color:#fff;border:1px solid #333;border-left:4px solid #d5001c;border-radius:14px';panel.innerHTML='<button type="button" onclick="document.getElementById(\'siExcelCenter\').remove();showMainMenu()" style="float:right;background:#222;color:#fff;border:1px solid #555;padding:9px 13px;border-radius:8px">← Ana Menü</button><h1>EXCEL VERİ MERKEZİ</h1><p>Uygulamaya bağlı Excel kaynakları mevcut veri bağlantıları üzerinden güncellenir. Entegre dosyalar ve veri eşleştirmeleri korunur.</p><p id="siExcelStatus">Excel kaynakları yenileniyor…</p>';document.body.appendChild(panel);}
+    if(!panel){
+      panel=document.createElement('section');panel.id='siExcelCenter';
+      panel.style.cssText='position:fixed;inset:0;z-index:10002;overflow:auto;box-sizing:border-box;padding:28px 18px;background:#080808;color:#fff';
+      panel.innerHTML='<div style="max-width:900px;margin:30px auto;padding:28px;background:#111;border:1px solid #333;border-left:4px solid #d5001c;border-radius:14px"><button type="button" onclick="document.getElementById(\'siExcelCenter\').remove();showMainMenu()" style="float:right;background:#222;color:#fff;border:1px solid #555;padding:9px 13px;border-radius:8px">← Ana Menü</button><p style="color:#ed1c2e;font-weight:900;letter-spacing:2px">STORE INTELLIGENCE</p><h1>EXCEL VERİ MERKEZİ</h1><p>Uygulamaya bağlı Excel kaynakları ve mevcut veri eşleştirmeleri korunur. Tek işlemle bağlı raporları yenileyebilirsiniz.</p><button id="siExcelRefresh" type="button" style="margin-top:14px;padding:14px 20px;border:0;border-radius:9px;background:#d5001c;color:#fff;font-weight:900;cursor:pointer">BAĞLI EXCEL VERİLERİNİ YENİLE</button><p id="siExcelStatus" role="status">Excel kaynakları güncellenmeye hazır.</p></div>';
+      document.body.appendChild(panel);
+      document.getElementById('siExcelRefresh').addEventListener('click',async function(){
+        const status=document.getElementById('siExcelStatus');this.disabled=true;this.textContent='VERİLER YENİLENİYOR…';if(status)status.textContent='Bağlı Excel kaynakları yenileniyor…';
+        const jobs=['loadSDKarneData','loadLeagueData','loadTop5Analysis','loadStockTurnover'];
+        const tasks=jobs.filter(k=>typeof window[k]==='function').map(k=>Promise.resolve().then(()=>window[k]()));
+        const results=await Promise.allSettled(tasks);const failed=results.filter(x=>x.status==='rejected').length;
+        this.disabled=false;this.textContent='BAĞLI EXCEL VERİLERİNİ YENİLE';
+        if(status)status.textContent=failed?'Yenileme tamamlandı; bazı kaynaklar için hata oluştu.':'Bağlı Excel kaynakları yenileme işlemi tamamlandı.';
+      });
+    }
     return;
   }
  };
