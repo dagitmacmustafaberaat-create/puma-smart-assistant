@@ -67,21 +67,116 @@
   </style>
 
     <style id="store-tracking-styles">.store-tracking-area{max-width:1180px;margin:0 auto;padding:20px 16px 48px;color:#fff}.st-hero{padding:26px;border-radius:18px;background:linear-gradient(125deg,#101820,#263c52);border:1px solid #75baff}.st-hero p{color:#a9d7ff;font-size:11px;letter-spacing:2px;font-weight:800}.st-hero h1{margin:5px 0;font-size:clamp(26px,5vw,42px);font-weight:900}.st-hero span,.st-period,.st-note{color:#cbd5df}.st-period{margin:16px 0;padding:14px;border-radius:12px;background:#172638}.st-period b{color:#a9d7ff}.st-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.st-metric{padding:17px;border-radius:14px;background:linear-gradient(145deg,#172638,#0b1725);border:1px solid #385775}.st-metric small{font-weight:900;letter-spacing:1px;color:#a9d7ff}.st-values{display:grid;gap:7px;margin:14px 0}.st-values span{display:flex;justify-content:space-between;color:#d7e2ec;font-size:12px}.st-metric>strong{font-size:18px}.st-metric .up,.up{color:#58d68d}.st-metric .down,.down{color:#ff6878}.st-section-title{margin:25px 0 12px;font-size:17px}.st-table-wrap{overflow:auto}.st-table{width:100%;border-collapse:collapse;background:#101c29}.st-table td,.st-table th{padding:10px;border:1px solid #34495e;text-align:right;white-space:nowrap}.st-table th{color:#a9d7ff}.st-note{font-size:12px;margin-top:15px}@media(max-width:760px){.st-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.st-hero{padding:20px}}@media(max-width:390px){.st-grid{grid-template-columns:1fr}}</style>
-\n    <style id="product-search-only-home">
-      /* Bu dağıtımda ana menüde yalnızca Ürün Sorgulama bırakılır. */
-      .store-tracking-menu-card,
-      .service-plan-menu-card,
-      .company-links-widget,
-      #storeTrackingArea,
-      #servicePlanArea,
-      #fastPerakendeArea { display: none !important; }
-      #mainMenu.home-dashboard .module-card-grid {
-        grid-template-columns: minmax(0, 1fr) !important;
-        max-width: 520px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-    </style>
+\n    
+
+<style id="product-search-only-home">
+  /* Ana menüde yalnızca Ürün Sorgulama kısayolu görünür. */
+  #mainMenu .module-card-grid > *:not(button[onclick*="showProductSearch"]) {
+    display: none !important;
+  }
+  #mainMenu .module-card-grid {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 520px) !important;
+    justify-content: center !important;
+    width: 100%;
+    margin: 0 auto;
+  }
+  #mainMenu.home-dashboard {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-left: 246px !important;
+  }
+  #mainMenu .home-side-nav {
+    position: fixed;
+    z-index: 10001;
+    inset: 0 auto 0 0;
+    width: 220px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 26px 16px;
+    background: linear-gradient(180deg,#111 0%,#1b1b1b 100%);
+    border-right: 3px solid #d5001c;
+    box-shadow: 8px 0 28px rgba(0,0,0,.22);
+  }
+  #mainMenu .home-side-brand {
+    padding: 8px 10px 22px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 950;
+    font-style: italic;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255,255,255,.14);
+  }
+  #mainMenu .home-side-brand span {
+    display: block;
+    margin-top: 5px;
+    color: #aaa;
+    font-size: 9px;
+    font-style: normal;
+    letter-spacing: 2px;
+  }
+  #mainMenu .home-side-nav button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 54px;
+    padding: 12px 14px;
+    border: 1px solid rgba(213,0,28,.8);
+    border-radius: 10px;
+    background: #d5001c;
+    color: #fff;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    cursor: pointer;
+    box-shadow: 0 7px 18px rgba(213,0,28,.2);
+  }
+  #mainMenu .home-side-nav button span:first-child {
+    font-size: 19px;
+  }
+  #mainMenu .quick-access-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: clamp(28px,7vh,76px);
+  }
+  #mainMenu .quick-access-heading { justify-content: center; text-align: center; }
+  #mainMenu .module-card-grid > button[onclick*="showProductSearch"] {
+    min-height: 116px;
+    border: 1px solid rgba(213,0,28,.38);
+    border-left: 5px solid #d5001c;
+    border-radius: 14px;
+  }
+  @media(max-width:760px) {
+    #mainMenu.home-dashboard { padding: 88px 14px 24px !important; }
+    #mainMenu .home-side-nav {
+      inset: 0 0 auto 0;
+      width: 100%;
+      height: 70px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-right: 0;
+      border-bottom: 3px solid #d5001c;
+    }
+    #mainMenu .home-side-brand {
+      padding: 0;
+      border: 0;
+      font-size: 15px;
+    }
+    #mainMenu .home-side-brand span { font-size: 8px; }
+    #mainMenu .home-side-nav button {
+      width: auto;
+      min-height: 44px;
+      padding: 9px 12px;
+    }
+    #mainMenu .quick-access-section { padding-top: 18px; }
+  }
+</style>
 </head>
 
 <body>
@@ -90,6 +185,13 @@
     
 
     <main id="mainMenu" class="menu home-dashboard">
+    <aside class="home-side-nav" aria-label="Ana menü">
+      <div class="home-side-brand">PUMA<span>BUYAKA SMART ASSISTANT</span></div>
+      <button type="button" aria-current="page" onclick="if(typeof showMainMenu==='function')showMainMenu();window.scrollTo(0,0);">
+        <span aria-hidden="true">⌂</span><span>ANA EKRAN</span>
+      </button>
+    </aside>
+
 
       <section class="quick-access-section" aria-labelledby="quickAccessTitle">
         <div class="quick-access-heading">
