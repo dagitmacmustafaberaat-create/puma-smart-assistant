@@ -70,20 +70,49 @@
 \n    
 
 <style id="product-search-only-home">
-  body{padding-left:244px;box-sizing:border-box}
-  #appSideNav{position:fixed;z-index:10050;inset:0 auto 0 0;width:228px;box-sizing:border-box;display:flex;flex-direction:column;gap:9px;padding:24px 14px;overflow-y:auto;background:linear-gradient(180deg,#101010 0%,#1c1c1c 100%);border-right:3px solid #d5001c;box-shadow:8px 0 28px rgba(0,0,0,.24)}
-  #appSideNav button{display:flex;align-items:center;gap:11px;width:100%;min-height:49px;padding:10px 12px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:#242424;color:#f5f5f5;text-align:left;font-family:inherit;font-size:12px;font-weight:800;line-height:1.3;letter-spacing:.15px;cursor:pointer;transition:background .18s,border-color .18s}
-  #appSideNav button:hover,#appSideNav button:focus-visible{background:#d5001c;border-color:#d5001c;outline:none}
-  #appSideNav .app-side-icon{flex:0 0 22px;font-size:18px;text-align:center}
+  /* Sol menü görselin üstünde, şeffaf katman olarak durur; sayfa arka planını daraltmaz. */
+  body{padding:0!important;box-sizing:border-box}
+  #appSideNav{
+    position:fixed;z-index:10050;inset:0 auto 0 0;width:244px;box-sizing:border-box;
+    display:flex;flex-direction:column;gap:5px;padding:30px 18px;
+    overflow-y:auto;overflow-x:hidden;
+    background:linear-gradient(90deg,rgba(8,8,8,.48),rgba(8,8,8,.16));
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+    border:0;box-shadow:5px 0 24px rgba(0,0,0,.12)
+  }
+  #appSideNav button{
+    display:flex;align-items:center;gap:12px;width:100%;min-height:46px;
+    padding:10px 8px;border:0;border-left:2px solid transparent;border-radius:0;
+    background:transparent;color:#fff;text-align:left;font-family:inherit;
+    font-size:12px;font-weight:750;line-height:1.35;letter-spacing:.15px;
+    cursor:pointer;text-shadow:0 1px 5px rgba(0,0,0,.8);
+    transition:color .18s,background .18s,border-color .18s
+  }
+  #appSideNav button:hover,#appSideNav button:focus-visible{
+    color:#fff;background:rgba(0,0,0,.25);border-left-color:#d5001c;outline:none
+  }
+  #appSideNav .app-side-icon{
+    flex:0 0 22px;font-size:18px;text-align:center;color:#ff5268;
+    background:none;border:0;border-radius:0;box-shadow:none
+  }
   #mainMenu.home-dashboard{box-sizing:border-box;min-height:100vh;padding:0 22px 30px!important}
   #mainMenu .module-card-grid{display:none!important}
   #mainMenu .quick-access-section{max-width:1100px;margin:0 auto;padding-top:clamp(34px,8vh,90px)}
   #mainMenu .quick-access-heading{justify-content:center;text-align:center}
   @media(max-width:760px){
-    body{padding:0 0 0 148px!important;box-sizing:border-box}
-    #appSideNav{inset:0 auto 0 0;width:140px;height:100dvh;flex-direction:column;align-items:stretch;gap:7px;padding:12px 8px;overflow-x:hidden;overflow-y:auto;border-right:3px solid #d5001c;border-bottom:0}
-    #appSideNav button{flex:0 0 auto;flex-direction:column;justify-content:center;gap:3px;width:100%;min-height:58px;padding:7px 5px;text-align:center;font-size:10px;line-height:1.15;white-space:normal;overflow-wrap:anywhere}
-    #appSideNav .app-side-icon{flex:0 0 auto;font-size:18px;line-height:1.1}
+    #appSideNav{
+      width:126px;height:100dvh;gap:4px;padding:16px 8px;
+      background:linear-gradient(90deg,rgba(5,5,5,.42),rgba(5,5,5,.12));
+      border:0;box-shadow:3px 0 16px rgba(0,0,0,.1)
+    }
+    #appSideNav button{
+      flex:0 0 auto;flex-direction:column;justify-content:center;gap:3px;
+      width:100%;min-height:57px;padding:7px 3px;
+      border:0;border-left:2px solid transparent;border-radius:0;
+      text-align:center;font-size:9px;line-height:1.2;white-space:normal;
+      overflow-wrap:anywhere
+    }
+    #appSideNav .app-side-icon{flex:0 0 auto;font-size:17px;line-height:1.1}
     #mainMenu.home-dashboard{padding:0 10px 20px!important}
     #mainMenu .quick-access-section{padding-top:24px}
   }
