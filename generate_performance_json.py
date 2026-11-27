@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parent
 SOURCES = [
     "Uygulama Verileri.xlsx",
     "Aylık Satış Verileri.xlsx",
+    "Stok.xlsx",
     "Mağaza Datası.xlsx",
     "2025-2026 Karşılaştırma Yeni.xlsx",
 ]
@@ -52,13 +53,30 @@ def export_workbook(path):
 
 
 def main():
-    missing = [name for name in SOURCES if not (ROOT / name).exists()]
-    if missing:
-        raise FileNotFoundError("Eksik Excel kaynakları: " + ", ".join(missing))
+    previous = {}
+    if OUTPUT.exists():
+        try:
+            previous_payload = json.loads(OUTPUT.read_text(encoding="utf-8"))
+            previous = {item.get("source"): item for item in previous_payload.get("sources", [])}
+        except (OSError, json.JSONDecodeError, AttributeError):
+            previous = {}
+
+    available = [name for name in SOURCES if (ROOT / name).exists()]
+    required = ["Uygulama Verileri.xlsx", "Aylık Satış Verileri.xlsx"]
+    missing_required = [name for name in required if name not in available]
+    if missing_required:
+        raise FileNotFoundError("Zorunlu Excel kaynakları eksik: " + ", ".join(missing_required))
+
+    exported = {name: export_workbook(ROOT / name) for name in available}
+    # Optional historical workbooks stay available from the last valid export
+    # until the user uploads their refreshed source workbook.
+    for name in SOURCES:
+        if name not in exported and name in previous:
+            exported[name] = previous[name]
 
     payload = {
         "generated_at": datetime.now().astimezone().isoformat(),
-        "sources": [export_workbook(ROOT / name) for name in SOURCES]
+        "sources": list(exported.values())
     }
     OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print("performance-data.json oluşturuldu.")
