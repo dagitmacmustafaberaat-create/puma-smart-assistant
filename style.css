@@ -5384,8 +5384,11 @@ body {
 }
 @media (max-width: 760px) {
   body {
-    background-position: center center !important;
-    background-size: cover !important;
+    /* Mobilde görseli kırpma: Puma logosunun tamamı kadrajda kalsın. */
+    background-position: center top !important;
+    background-size: 100% auto !important;
+    background-repeat: no-repeat !important;
     background-attachment: scroll !important;
+    background-color: #050505 !important;
   }
 }
