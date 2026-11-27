@@ -305,7 +305,8 @@ function closeStoreStatus() {
 }
 
 function showMainMenu() {
-    // Ana Menüye dönüldüğünde sol gezinme menüsünü yeniden göster.
+    // Ana ekrana dön: tam ekran modül görünümünü kapat ve sol menüyü geri getir.
+    document.body.classList.remove("app-module-open");
     const sideNav = document.getElementById("appSideNav");
     if (sideNav) sideNav.classList.remove("is-hidden");
     const mainMenu = document.getElementById("mainMenu");
