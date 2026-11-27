@@ -92,7 +92,7 @@ return header("STOK ANALİZİ","STOK.xlsx · BEDEN BAZLI")+ '<section class="pdx
 }
 function workbookView(){
 var file="G%C3%9CNCEL%20UYGULAMA%20TABLOLARI.xlsx";
-var src="https://view.officeapps.live.com/op/embed.aspx?src="+encodeURIComponent(BASE+file);
+var publicFile="https://puma-smart-assistant.vercel.app/"+file;var src="https://view.officeapps.live.com/op/embed.aspx?src="+encodeURIComponent(publicFile);
 return '<main class="pdx-dashboard" style="min-height:100dvh;background:#fff;color:#171717"><header style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#111;color:#fff"><strong style="font-size:14px;letter-spacing:.6px">PUMA · EXCEL DASHBOARD</strong><button onclick="window.closeDataDashboard()" style="border:0;border-radius:8px;background:#d5001c;color:#fff;padding:10px 14px;font-weight:800">← ANA MENÜ</button></header><iframe title="Güncel Uygulama Tabloları Excel Dashboard" src="'+src+'" style="display:block;width:100%;height:calc(100dvh - 52px);min-height:600px;border:0;background:#fff" allowfullscreen></iframe></main>';
 }
 function render(){styles();referenceStyles();var r=root();r.style.display="block";r.innerHTML=mode==="stock"?stockView():workbookView();}
