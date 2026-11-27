@@ -5418,6 +5418,20 @@ html, body {
 
 /* Global typography: Tahoma across the application, preserving icon fonts. */
 body,
-body *:not(svg):not(svg *):not(i):not([class*="icon"]):not([class*="fa"]) {
+body *:not(svg):not(svg *):not(i):not([class*="fa"]) {
+  font-family: Tahoma, Arial, sans-serif !important;
+}
+
+/* Menü ve tüm modül içerikleri: dinamik açılan metin alanları da Tahoma kullanır. */
+.menu,
+.menu *,
+#appSideNav,
+#appSideNav *,
+section,
+section *,
+main,
+main *,
+[role="dialog"],
+[role="dialog"] * {
   font-family: Tahoma, Arial, sans-serif !important;
 }
