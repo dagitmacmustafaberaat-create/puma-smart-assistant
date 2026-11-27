@@ -100,8 +100,12 @@
     </aside>
     <script>
       function appNavigateTo(openPage) {
-        document.querySelectorAll("body > main, body > section[id]").forEach(function(node) {
-          node.style.display = "none";
+        ["mainMenu","weeklyChampionsArea","storeTrackingArea","storeStatusArea","storeManagementArea",
+         "productSearchArea","sizeSearchArea","educationArea","shiftProgramArea","sdKarneArea",
+         "performanceLeagueArea","top5AnalysisArea","stockTurnoverArea","personnelManagementArea",
+         "servicePlanArea","fastPerakendeArea","dailyTasksArea","vmStandardsArea"].forEach(function(id) {
+          const node = document.getElementById(id);
+          if (node) node.style.display = "none";
         });
         if (typeof openPage === "function") openPage();
       }
