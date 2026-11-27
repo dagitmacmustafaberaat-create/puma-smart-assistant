@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BUYAKA PUMA SMART ASSISTANT</title>
+    <title>STORE INTELLIGENCE</title>
 
     <link rel="stylesheet" href="style.css?v=20261126-home-buttons-blue-v1">
     <link rel="manifest" href="./manifest.json?v=20261018-bg-icon">
@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#d5001c">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="PUMA Assistant">
+    <meta name="apple-mobile-web-app-title" content="STORE INTELLIGENCE">
     <meta name="mobile-web-app-capable" content="yes">
     <style>
       #mainMenu.home-dashboard .module-card-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
@@ -176,7 +176,27 @@
     }
     #mainMenu .quick-access-section { padding-top: 18px; }
   }
-</style>
+
+  #mainMenu .si-nav-items{display:flex;flex-direction:column;gap:7px;overflow-y:auto;min-height:0;padding-right:2px}
+  #mainMenu .si-nav-items button{display:flex;align-items:center;gap:12px;width:100%;min-height:47px;padding:10px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#d8d8d8;text-align:left;font-size:12px;font-weight:800;line-height:1.3;cursor:pointer;box-shadow:none}
+  #mainMenu .si-nav-items button span:first-child{flex:0 0 22px;color:#ed1c2e;font-size:19px;text-align:center}
+  #mainMenu .si-nav-items button:hover,#mainMenu .si-nav-items button.active{background:#292929;border-color:#444;color:#fff}
+  #mainMenu .si-nav-items button.active{border-left:3px solid #d5001c}
+  #mainMenu .home-side-brand{font-style:normal;font-size:17px;letter-spacing:2px}
+  #mainMenu .home-side-brand span{font-size:10px;letter-spacing:3px;color:#ed1c2e;font-weight:900}
+  #mainMenu.home-dashboard{padding-left:270px!important}
+  #mainMenu .home-side-nav{width:244px;gap:12px}
+  @media(max-width:760px){
+    #mainMenu.home-dashboard{padding:154px 12px 22px!important}
+    #mainMenu .home-side-nav{height:140px;display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:8px 10px}
+    #mainMenu .home-side-brand{padding:0 5px 5px;font-size:14px}
+    #mainMenu .home-side-brand span{display:inline;margin-left:8px;font-size:9px}
+    #mainMenu .si-nav-items{flex-direction:row;overflow-x:auto;overflow-y:hidden;gap:6px;padding-bottom:4px}
+    #mainMenu .si-nav-items button{flex:0 0 auto;width:auto;min-height:42px;padding:8px 10px;font-size:10px;white-space:nowrap}
+    #mainMenu .si-nav-items button span:first-child{font-size:15px}
+  }
+
+  </style>
 </head>
 
 <body>
@@ -186,10 +206,17 @@
 
     <main id="mainMenu" class="menu home-dashboard">
     <aside class="home-side-nav" aria-label="Ana menü">
-      <div class="home-side-brand">PUMA<span>BUYAKA SMART ASSISTANT</span></div>
-      <button type="button" aria-current="page" onclick="if(typeof showMainMenu==='function')showMainMenu();window.scrollTo(0,0);">
-        <span aria-hidden="true">⌂</span><span>ANA EKRAN</span>
-      </button>
+      <div class="home-side-brand">STORE<span>INTELLIGENCE</span></div>
+      <nav class="si-nav-items" aria-label="STORE INTELLIGENCE bölümleri">
+        <button type="button" class="active" onclick="siOpen('overview')"><span>▦</span><span>Genel Bakış</span></button>
+        <button type="button" onclick="siOpen('weekly')"><span>▥</span><span>Haftalık Veriler</span></button>
+        <button type="button" onclick="siOpen('annual')"><span>▤</span><span>Yıllık Veriler</span></button>
+        <button type="button" onclick="siOpen('sales')"><span>▣</span><span>Haftalık &amp; Aylık Satış Raporları</span></button>
+        <button type="button" onclick="siOpen('coach')"><span>✦</span><span>Akıllı Mağaza Koçu</span></button>
+        <button type="button" onclick="siOpen('opportunities')"><span>◈</span><span>Satış Fırsatları</span></button>
+        <button type="button" onclick="siOpen('personnel')"><span>♙</span><span>Personel Koçluğu</span></button>
+        <button type="button" onclick="siOpen('excel')"><span>▦</span><span>Excel Veri Merkezi</span></button>
+      </nav>
     </aside>
 
 
@@ -261,7 +288,7 @@
 
 
 
-      <footer class="dashboard-footer"><span>BUYAKA PUMA STORE</span></footer>
+      <footer class="dashboard-footer"><span>STORE INTELLIGENCE</span></footer>
     </main>
 
 
@@ -926,6 +953,33 @@
       }
     </script>
 
+
+<script>
+(function(){
+ window.siOpen=function(section){
+  document.querySelectorAll('#mainMenu .si-nav-items button').forEach(b=>b.classList.remove('active'));
+  const btn=Array.from(document.querySelectorAll('#mainMenu .si-nav-items button')).find(b=>b.getAttribute('onclick')?.includes("'"+section+"'"));
+  if(btn)btn.classList.add('active');
+  const period=(value)=>{const el=document.getElementById('smPeriod');if(el){el.value=value;}};
+  if(section==='overview'){window.showStoreManagement?.();period('mtd');window.renderStoreManagement?.();return;}
+  if(section==='weekly'){window.showStoreManagement?.();period('wtd');window.renderStoreManagement?.();return;}
+  if(section==='annual'){window.showStoreManagement?.();period('ytd');window.renderStoreManagement?.();return;}
+  if(section==='sales'){window.showStoreTracking?.();return;}
+  if(section==='coach'){window.showStoreManagement?.();period('mtd');if(typeof window.setStoreTab==='function')window.setStoreTab('comment');else window.renderStoreManagement?.();return;}
+  if(section==='opportunities'){if(typeof window.showTop5Analysis==='function')window.showTop5Analysis();else{window.showStoreManagement?.();window.setStoreTab?.('top20');}return;}
+  if(section==='personnel'){window.showPersonnelManagement?.();return;}
+  if(section==='excel'){
+    window.showMainMenu?.();
+    const jobs=['loadSDKarneData','loadLeagueData','loadTop5Analysis','loadStockTurnover'];
+    const tasks=jobs.filter(k=>typeof window[k]==='function').map(k=>Promise.resolve().then(()=>window[k]()));
+    Promise.allSettled(tasks).then(()=>{const status=document.getElementById('siExcelStatus');if(status)status.textContent='Bağlı Excel kaynakları yenileme işlemi tamamlandı.';});
+    let panel=document.getElementById('siExcelCenter');
+    if(!panel){panel=document.createElement('section');panel.id='siExcelCenter';panel.style.cssText='max-width:900px;margin:35px auto;padding:28px;background:#111;color:#fff;border:1px solid #333;border-left:4px solid #d5001c;border-radius:14px';panel.innerHTML='<button type="button" onclick="document.getElementById(\'siExcelCenter\').remove();showMainMenu()" style="float:right;background:#222;color:#fff;border:1px solid #555;padding:9px 13px;border-radius:8px">← Ana Menü</button><h1>EXCEL VERİ MERKEZİ</h1><p>Uygulamaya bağlı Excel kaynakları mevcut veri bağlantıları üzerinden güncellenir. Entegre dosyalar ve veri eşleştirmeleri korunur.</p><p id="siExcelStatus">Excel kaynakları yenileniyor…</p>';document.body.appendChild(panel);}
+    return;
+  }
+ };
+})();
+</script>
 </body>
 
 </html>
