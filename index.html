@@ -88,6 +88,7 @@
     cursor:pointer;text-shadow:0 1px 5px rgba(0,0,0,.8);
     transition:color .18s,background .18s,border-color .18s
   }
+  #appSideNav.is-hidden{display:none!important}
   #appSideNav button:hover,#appSideNav button:focus-visible{
     color:#fff;background:rgba(0,0,0,.25);border-left-color:#d5001c;outline:none
   }
@@ -105,14 +106,16 @@
       background:linear-gradient(90deg,rgba(5,5,5,.42),rgba(5,5,5,.12));
       border:0;box-shadow:3px 0 16px rgba(0,0,0,.1)
     }
+    #appSideNav{align-items:center}
     #appSideNav button{
-      flex:0 0 auto;flex-direction:column;justify-content:center;gap:3px;
+      flex:0 0 auto;flex-direction:column;align-items:center;justify-content:center;gap:4px;
       width:100%;min-height:57px;padding:7px 3px;
       border:0;border-left:2px solid transparent;border-radius:0;
       text-align:center;font-size:9px;line-height:1.2;white-space:normal;
       overflow-wrap:anywhere
     }
-    #appSideNav .app-side-icon{flex:0 0 auto;font-size:17px;line-height:1.1}
+    #appSideNav button span:last-child{display:block;width:100%;text-align:center}
+    #appSideNav .app-side-icon{display:block;flex:0 0 auto;width:100%;font-size:17px;line-height:1.1;text-align:center}
     #mainMenu.home-dashboard{padding:0 10px 20px!important}
     #mainMenu .quick-access-section{padding-top:24px}
   }
@@ -140,6 +143,9 @@
           if (node) node.style.display = "none";
         });
         if (typeof openPage === "function") openPage();
+        // Sayfa açıldıktan sonra sol menüyü gizle; içerik alanındaki tıklamaları engellemesin.
+        const sideNav = document.getElementById("appSideNav");
+        if (sideNav) sideNav.classList.add("is-hidden");
       }
     </script>
 
