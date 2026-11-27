@@ -305,6 +305,9 @@ function closeStoreStatus() {
 }
 
 function showMainMenu() {
+    // Ana Menüye dönüldüğünde sol gezinme menüsünü yeniden göster.
+    const sideNav = document.getElementById("appSideNav");
+    if (sideNav) sideNav.classList.remove("is-hidden");
     const mainMenu = document.getElementById("mainMenu");
     const weeklyChampionsArea = document.getElementById("weeklyChampionsArea");
     if (weeklyChampionsArea) weeklyChampionsArea.style.display = "none";
