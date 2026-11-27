@@ -107,6 +107,14 @@
     margin-left:var(--app-sidebar-width)!important;width:calc(100% - var(--app-sidebar-width))!important;
     max-width:none!important;box-sizing:border-box
   }
+  /* Modül açıldığında sol menü kapanır ve içerik tam ekranı kullanır. */
+  body.app-module-open #appSideNav{display:none!important}
+  body.app-module-open > #mainMenu,
+  body.app-module-open > main[id],
+  body.app-module-open > section[id],
+  body.app-module-open > div[id]{
+    margin-left:0!important;width:100%!important;max-width:none!important;
+  }
   #mainMenu.home-dashboard{min-height:100vh;padding:0 22px 30px!important}
   #mainMenu .module-card-grid{display:none!important}
   #mainMenu .quick-access-section{max-width:1100px;margin:0 auto;padding-top:clamp(34px,8vh,90px)}
@@ -149,6 +157,7 @@
           if (node) node.style.display = "none";
         });
         if (typeof openPage === "function") openPage();
+        document.body.classList.add("app-module-open");
         // Sol navigasyon tüm modüllerde sabit kalır; seçili alan vurgulanır.
         const sideNav = document.getElementById("appSideNav");
         if (sideNav) {
