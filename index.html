@@ -154,11 +154,13 @@
           if (node) node.style.display = "none";
         });
         if (typeof openPage === "function") openPage();
+
+        // Modül açıldığında sol menüyü zorunlu olarak gizle; içerik tam ekranı kullansın.
         document.body.classList.add("app-module-open");
-        // Sol navigasyon tüm modüllerde sabit kalır; seçili alan vurgulanır.
         const sideNav = document.getElementById("appSideNav");
         if (sideNav) {
-          sideNav.classList.remove("is-hidden");
+          sideNav.classList.add("is-hidden");
+          sideNav.style.setProperty("display", "none", "important");
           sideNav.querySelectorAll("button").forEach(function(button){button.removeAttribute("aria-current");});
           if (selectedButton) selectedButton.setAttribute("aria-current","page");
         }
