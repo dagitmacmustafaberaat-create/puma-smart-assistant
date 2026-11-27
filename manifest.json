@@ -1,7 +1,7 @@
 {
-  "name": "STORE INTELLIGENCE",
-  "short_name": "STORE INTELLIGENCE",
-  "description": "STORE INTELLIGENCE mağaza operasyonları, performans raporları ve ürün sorgulama platformu",
+  "name": "BUYAKA PUMA SMART ASSISTANT",
+  "short_name": "PUMA Assistant",
+  "description": "BUYAKA PUMA mağaza operasyonları ve ürün sorgulama asistanı",
   "lang": "tr-TR",
   "start_url": "./",
   "scope": "./",
