@@ -505,21 +505,22 @@ async function buyakaSaveWorkbook(file,book){
 }
 function buyakaRenderDataCenter(){
  const host=document.getElementById("pageContent");if(!host)return;
- host.innerHTML='<div class="card" style="margin-bottom:14px"><div class="card-title"><h3>BUYAKA Yönetici Veri Merkezi</h3><span class="status ok">ORTAK VERİTABANI</span></div><p class="insight">Bu alana yüklenen Excel dosyaları ortak veritabanına kaydedilir. Aynı dosya yeniden yüklendiğinde eski sürümün yerini alır; rapor ekranları veriyi buradan okur.</p><div class="excel-file-list">'+BUYAKA_DATA_FILES.map(x=>'<span>'+esc(x.label)+'</span>').join("")+'</div><div class="notice">Dosyayı seçip yükle. Yükleme tamamlandığında önizleme ve hücre düzenleme alanı açılır. Değişiklikleri Kaydet dediğinde raporlar yeni tabloyu kullanır.</div></div><div id="buyakaDataFileCards" class="excel-stack">'+BUYAKA_DATA_FILES.map((f,i)=>'<div class="card excel-card" id="buyaka-file-'+i+'"><div class="card-title"><div><h3>'+esc(f.label)+'</h3><span class="excel-meta">'+esc(f.group)+'</span></div><span class="status">EXCEL</span></div><div class="excel-tools"><input type="file" accept=".xlsx,.xls" onchange="buyakaUploadWorkbook(this,'+i+')"></div><div class="excel-state" id="buyaka-state-'+i+'">Henüz bu oturumda yüklenmedi. Dosya seçerek güncelleyebilirsin.</div></div>').join("")+'</div><div id="buyakaEditor" class="card" style="margin-top:14px"><div class="card-title"><h3>Tablo Düzenleme</h3><span class="status">ÖNİZLEME</span></div><p class="insight">Bir Excel yükledikten sonra burada satırları düzenleyebilir ve ortak kaynağa kaydedebilirsin.</p></div>';
- BUYAKA_DATA_FILES.forEach(async(f,i)=>{try{const saved=await buyakaGetWorkbook(f.name);if(saved){const el=document.getElementById("buyaka-state-"+i);if(el)el.innerHTML='<span class="status ok">KAYITLI</span> Son güncelleme: '+new Date(saved.updated_at).toLocaleString("tr-TR")+' · '+saved.workbook.sheets.reduce((n,x)=>n+x.total,0)+' satır';}}catch(e){const el=document.getElementById("buyaka-state-"+i);if(el)el.textContent="Veritabanı okunamadı: "+e.message;}});
+ host.innerHTML='<div class="card" style="margin-bottom:14px"><div class="card-title"><h3>BUYAKA Yönetici Veri Merkezi</h3><span class="status ok">ORTAK VERİTABANI</span></div><p class="insight">Güncellemek istediğin Excel kaynağını seç ve tek dosya ekleme alanından yükle. Dosyalar ortak veritabanına kaydedilir; mevcut rapor bağlantıları ve diğer Excel kaynakları korunur.</p><div class="excel-file-list">'+BUYAKA_DATA_FILES.map(x=>'<span>'+esc(x.label)+'</span>').join("")+'</div><div class="excel-tools"><select id="buyakaUploadTarget" aria-label="Güncellenecek Excel kaynağı">'+BUYAKA_DATA_FILES.map((f,i)=>'<option value="'+i+'">'+esc(f.label)+' · '+esc(f.group)+'</option>').join("")+'</select><input id="buyakaSingleUpload" type="file" accept=".xlsx,.xls" aria-label="Excel dosyası ekle" onchange="buyakaUploadWorkbook(this)"></div><div class="excel-state" id="buyakaUploadStatus">Yüklemek istediğin Excel dosyasını seç. Seçtiğin kaynak güncellenir.</div></div><div id="buyakaEditor" class="card" style="margin-top:14px"><div class="card-title"><h3>Tablo Düzenleme</h3><span class="status">ÖNİZLEME</span></div><p class="insight">Bir Excel yükledikten sonra burada satırları düzenleyebilir ve ortak kaynağa kaydedebilirsin.</p></div>';
+ BUYAKA_DATA_FILES.forEach(async(f)=>{try{const saved=await buyakaGetWorkbook(f.name);if(saved){const status=document.getElementById("buyakaUploadStatus");if(status&&!status.dataset.ready){status.textContent="Kayıtlı Excel kaynakları hazır. Güncellenecek dosyayı yukarıdan seçebilirsin.";status.dataset.ready="1";}}}catch(e){console.warn("Excel kaynağı okunamadı:",f.name,e.message);}});
 }
-async function buyakaUploadWorkbook(input,index){
- const file=BUYAKA_DATA_FILES[index],state=document.getElementById("buyaka-state-"+index);
- if(!input.files||!input.files[0])return;
+async function buyakaUploadWorkbook(input){
+ const index=Number(document.getElementById("buyakaUploadTarget")?.value||0),file=BUYAKA_DATA_FILES[index],state=document.getElementById("buyakaUploadStatus");
+ if(!input.files||!input.files[0]||!file)return;
  try{
   if(!window.XLSX)throw new Error("Excel okuma kütüphanesi hazır değil.");
-  state.textContent="Excel okunuyor ve ortak veritabanına kaydediliyor…";
+  state.textContent=esc(file.label)+" okunuyor ve ortak veritabanına kaydediliyor…";
   const book=buyakaParseWorkbook(file.name,await input.files[0].arrayBuffer());
   if(!book.sheets.length)throw new Error("Dosyada okunabilir sayfa bulunamadı.");
   await buyakaSaveWorkbook(file.name,book);
-  state.innerHTML='<span class="status ok">KAYDEDİLDİ</span> '+book.sheets.length+' sayfa · '+book.sheets.reduce((n,x)=>n+x.total,0)+' satır · '+new Date().toLocaleTimeString("tr-TR");
+  state.innerHTML='<span class="status ok">KAYDEDİLDİ</span> '+esc(file.label)+' · '+book.sheets.length+' sayfa · '+book.sheets.reduce((n,x)=>n+x.total,0)+' satır · '+new Date().toLocaleTimeString("tr-TR");
   buyakaOpenEditor(file.name,book);
  }catch(e){state.innerHTML='<div class="notice">Yükleme başarısız: '+esc(e.message)+'</div>';}
+ finally{input.value="";}
 }
 function buyakaOpenEditor(file,book){
  buyakaEditorFile=file;buyakaEditorBook=JSON.parse(JSON.stringify(book));
